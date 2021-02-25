@@ -90,4 +90,10 @@ public interface Bullone {
 	 * @return L'hash code dell'oggetto bullone.
 	 */
 	public int hashCode();
+	
+	/**
+	 * Restituisce le informazioni sulla classe su cui si sta lavorando
+	 * @return info Le informazioni da restituire.
+	 */
+	public String toString();
 }
