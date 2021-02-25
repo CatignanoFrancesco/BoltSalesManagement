@@ -42,6 +42,12 @@ public interface Bullone {
 	public void setPrezzo(double prezzo);
 	
 	/**
+	 * Restituisce il prezzo del bullone.
+	 * @return prezzo Il prezzo del bullone.
+	 */
+	public double getPrezzo();
+	
+	/**
 	 * Restituisce il materiale con cui è stato costruito il bullone.
 	 * @return materiale Il materiale del bullone.
 	 */
