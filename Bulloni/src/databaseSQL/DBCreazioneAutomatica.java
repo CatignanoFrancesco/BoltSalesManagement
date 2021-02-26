@@ -10,7 +10,9 @@ import java.sql.PreparedStatement;
 /**
  * @author GiannettaGerardo
  * 
- * 
+ * Classe che crea in modo automatizzato il database dei bulloni, utilizzando la classe Connessione.
+ * Inoltre verranno riempite in modo automatizzato anche le tabelle dei bulloni e degli impiegati
+ * per effettuare test più rapidi 
  */
 class DBCreazioneAutomatica {
 
