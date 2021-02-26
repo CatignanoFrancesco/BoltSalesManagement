@@ -4,7 +4,6 @@ package databaseSQL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.SQLTimeoutException;
 import java.sql.PreparedStatement;
 
 
@@ -74,17 +73,13 @@ public class Connessione {
 			if (errMsg.equals("Unknown database '" + DB_NOME + "'")) {
 				
 				try {
-					
-					// aggiungere l'uso di DBCreazioneAutomatica
+					// crea automaticamente il database e ne riempie 3 tabelle con qualche tupla standard
+					DBCreazioneAutomatica.eseguiDBCreazioneAutomatica(connection, URL, USERNAME, PASSWORD, DB_NOME, TIMEZONE);
 					
 				}
 				catch (SQLException t) {
 					System.out.println(t.getMessage());
 					t.printStackTrace();
-				}
-				catch (SQLTimeoutException u) {
-					System.out.println(u.getMessage());
-					u.printStackTrace();
 				}
 			}
 			
