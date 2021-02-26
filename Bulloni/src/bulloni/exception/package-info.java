@@ -5,6 +5,6 @@
  * 
  * Classi contenute:
  * - BulloneException: l'eccezione sollevata;
- * - MsgErrore: classe non instanziabile per i messaggi d'errore relativi alle eccezioni sollevate.
+ * - MsgErrore: classe non istanziabile per i messaggi d'errore relativi alle eccezioni sollevate.
  */
 package bulloni.exception;

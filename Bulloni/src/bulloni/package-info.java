@@ -1,7 +1,7 @@
 /**
  * @author Catignano Francesco
  * 
- * Questo package contiene tutte le classi (astratte e concrete) e le interfacce per modellare il tipo Bullone.
+ * Questo package contiene tutte le classi (astratte e concrete), le interfacce e gli enumerativi per modellare il tipo Bullone.
  * 
  * Contiene:
  * - Innesto: il tipo enumerativo per indicare i tipi di innesti possibili;
