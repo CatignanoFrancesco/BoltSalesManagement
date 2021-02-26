@@ -62,5 +62,18 @@ public class Connessione {
 		
 		return this.connection;
 	}
+	
+	
+	private void closeConnection() {
+		
+		try {
+			connection.close();
+		}
+		catch (SQLException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+		
+	}
 
 }
