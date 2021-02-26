@@ -1,6 +1,8 @@
 package bulloni;
 
 import java.sql.Date;
+import bulloni.exception.BulloneException;
+import bulloni.exception.MsgErrore;
 
 
 /**
@@ -13,12 +15,30 @@ import java.sql.Date;
 public abstract class AbstractBullone implements Bullone {
 	/**
 	 * Esprime la differenza di diametro tra la vite e il dado.
-	 * In questo modo è possibile stabilire una dimensione corretta del diametro del dado
+	 * In questo modo e' possibile stabilire una dimensione corretta del diametro del dado
 	 * a partire dal diametro della vite.
 	 */
 	private static final double DIFF_DIAMETRO_VITE_DADO = 0.01;
+	// INSERIRE COSTANTI PER LA DATA
+	/**
+	 * Peso minimo del bullone espresso in grammi
+	 */
+	private static final double MIN_PESO = 1.5;
+	private static final double MAX_PESO = 15.0;
+	private static final double MIN_PREZZO = 0.5;
+	private static final double MAX_PREZZO = 2.5;
+	/**
+	 * Lunghezza minima della vite espressa in mm.
+	 */
+	private static final double MIN_LUNGHEZZA = 15;
+	private static final double MAX_LUNGHEZZA = 200;
+	/**
+	 * Dimensione minima del diametro della vite di un bullone espressa in mm.
+	 */
+	private static final double MIN_DIAMETRO_VITE = 4;
+	private static final double MAX_DIAMETRO_VITE = 10;
 	
-	private int codice;	// il codice identificativo del bullone
+	private int codice;	// Il codice identificativo del bullone
 	private Date dataProduzione;
 	private String luogoProduzione;
 	private double peso;
@@ -31,24 +51,65 @@ public abstract class AbstractBullone implements Bullone {
 	
 	
 	// COSTRUTTORE
-	public AbstractBullone(int codice, Date dataProduzione, String luogoProduzione, double peso, double prezzo, Materiale materiale, double lunghezza, double diametroVite, Innesto innesto) {
-		this.codice = codice;
-		this.dataProduzione = dataProduzione;
+	/**
+	 * Costruisce un bullone a partire dai parametri forniti in input.
+	 * @param codice Il codice identificativo del bullone.
+	 * @param dataProduzione La data di produzione del bullone.
+	 * @param luogoProduzione Il luogo di produzione del bullone.
+	 * @param peso Il peso del bullone, comprensivo del dado.
+	 * @param prezzo Il prezzo del bullone.
+	 * @param materiale Il materiale di cui il bullone e' fatto.
+	 * @param lunghezza La lunghezza della vite del bullone.
+	 * @param diametroVite Il diametro della vite del bullone.
+	 * @param innesto Il tipo di innesto (a croce, torx...).
+	 * 
+	 * @throws BulloneException L'eccezione sollevata quando non sono rispettate le specifiche semantiche.
+	 */
+	public AbstractBullone(int codice, Date dataProduzione, String luogoProduzione, double peso, double prezzo, Materiale materiale, double lunghezza, double diametroVite, Innesto innesto) throws BulloneException {
+		this.codice = codice;	// Il codice non ha bisogno di controllo, poichè sono ammessi tutti i valori.
+		this.dataProduzione = dataProduzione;	 // Il controllo relativo alla data verra' effettuato in seguito.
 		this.luogoProduzione = luogoProduzione;
-		this.peso = peso;
-		this.prezzo = prezzo;
+		
+		// Se il peso non e' corretto, viene sollevata un'eccezione.
+		if( pesoCorretto(peso) ) {
+			this.peso = peso;
+		} else {
+			throw new BulloneException(MsgErrore.PESO_NON_VALIDO, new BulloneException());
+		}
+		
+		// Se il prezzo non e' corretto viene sollevata un'eccezione.
+		if( prezzoCorretto(prezzo) ) {
+			this.prezzo = prezzo;
+		} else {
+			throw new BulloneException(MsgErrore.PREZZO_NON_VALIDO, new BulloneException());
+		}
+		
 		this.materiale = materiale;
-		this.lunghezza = lunghezza;
-		this.diametroVite = diametroVite;
-		/*
-		 * al diametro della vite è aggiunta la differenza tra il diametro della vite e del dado.
-		 * In questo modo si ottiene una misura del diametro del dado coerente col diametro della vite del bullone.
-		 */
-		this.diametroDado = this.diametroVite + DIFF_DIAMETRO_VITE_DADO;
+		
+		// Se la lunghezza non e' corretta, viene sollevata un'eccezione.
+		if( lunghezzaCorretta(lunghezza) ) {
+			this.lunghezza = lunghezza;
+		} else {
+			throw new BulloneException(MsgErrore.LUNGHEZZA_NON_VALIDA, new BulloneException());
+		}
+		
+		// Se il diametro della vite non e' corretto, viene sollevata un'eccezione, altrimenti vengono inizializzati sia i valori relativi al diametro della vite che al diametro del dado.
+		if( diametroViteCorretto(diametroVite) ) {
+			this.diametroVite = diametroVite;
+			/*
+			 * Al diametro della vite e' aggiunta la differenza tra il diametro della vite e del dado.
+			 * In questo modo si ottiene una misura del diametro del dado coerente col diametro della vite del bullone.
+			 */
+			this.diametroDado = this.diametroVite + DIFF_DIAMETRO_VITE_DADO;
+		} else {
+			throw new BulloneException(MsgErrore.DIAMETRO_VITE_NON_VALIDO, new BulloneException());
+		}
+		
 		this.innesto = innesto;
 	}
 
 	
+	// OPERAZIONI
 	/**{@inheritDoc}
 	 * 
 	 */
@@ -85,8 +146,13 @@ public abstract class AbstractBullone implements Bullone {
 	 * 
 	 */
 	@Override
-	public void setPrezzo(double prezzo) {
-		this.prezzo = prezzo;
+	public void setPrezzo(double prezzo) throws BulloneException {
+		// Se il prezzo non e' corretto viene sollevata un'eccezione.
+		if( prezzoCorretto(prezzo) ) {
+			this.prezzo = prezzo;
+		} else {
+			throw new BulloneException(MsgErrore.PREZZO_NON_VALIDO, new BulloneException());
+		}
 	}
 	
 	/**{@inheritDoc}
@@ -196,6 +262,47 @@ public abstract class AbstractBullone implements Bullone {
 	@Override
 	public String toString() {
 		return "Bullone";
+	}
+	
+	
+	// operazione per il controllo della correttezza della data.
+	
+	/**
+	 * Operazione a servizio del costruttore per controllare se il peso di un bullone rientra nel range prestabilito.
+	 * @param peso Il peso del bullone da controllare.
+	 * @return true se il peso e' corretto, false altrimenti.
+	 */
+	private boolean pesoCorretto(double peso) {
+		return peso>=MIN_PESO && peso<=MAX_PESO;
+	}
+	
+	/**
+	 * Operazione a servizio del costruttore o dell'operazione setPrezzo() per controllare se il prezzo di un bullone
+	 * rientra nel range prestabilito.
+	 * @param prezzo Il prezzo di un bullone da controllare.
+	 * @return true se il prezzo e' corretto, false altrimenti.
+	 */
+	private boolean prezzoCorretto(double prezzo) {
+		return prezzo>=MIN_PREZZO && prezzo>=MAX_PREZZO;
+	}
+	
+	/**
+	 * Operazione a servizio del costruttore per controllare se la lunghezza della vite di un bullone
+	 * rientra nel range prestabilito.
+	 * @param lunghezza La lunghezza di un bullone da controllare.
+	 * @return true se la lunghezza e' corretto, false altrimenti.
+	 */
+	private boolean lunghezzaCorretta(double lunghezza) {
+		return lunghezza>=MIN_LUNGHEZZA && lunghezza>=MAX_LUNGHEZZA;
+	}
+	
+	/**
+	 * Operazione a servizio del costruttore per controllare se il diametro della vite di un bullone rientra nel range prestabilito.
+	 * @param diametroVite Il diametro della vite del bullone da controllare.
+	 * @return true se il diametro e' corretto, false altrimenti.
+	 */
+	private boolean diametroViteCorretto(double diametroVite) {
+		return diametroVite>=MIN_DIAMETRO_VITE && diametroVite<=MAX_DIAMETRO_VITE;
 	}
 
 }

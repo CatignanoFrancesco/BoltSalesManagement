@@ -2,6 +2,8 @@ package bulloni;
 
 import java.sql.Date;	// classe per il tipo di dato Date
 
+import bulloni.exception.BulloneException;
+
 /**
  * Questa interfaccia contiene tutte le operazioni disponibili per tutti i tipi di bulloni.
  * 
@@ -38,8 +40,9 @@ public interface Bullone {
 	/**
 	 * Modifica il prezzo del bullone.
 	 * @param prezzo Il nuovo prezzo del bullone.
+	 * @throws BulloneException L'eccezione sollevata quando il prezzo non rispetta le specifiche semantiche.
 	 */
-	public void setPrezzo(double prezzo);
+	public void setPrezzo(double prezzo) throws BulloneException;
 	
 	/**
 	 * Restituisce il prezzo del bullone.
