@@ -9,7 +9,8 @@ import java.sql.PreparedStatement;
 
 /**
  * @author GiannettaGerardo
- *
+ * Classe statica che mi permette di creare e restituire una connessione di tipo 
+ * Connection ad un database e mi permette di chiudere la connessione creata
  */
 public class Connessione {
 	
@@ -23,8 +24,11 @@ public class Connessione {
 	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 	private static Connection connection;
 	
-	
+	/**
+	 * Il costruttore di Connessione rimane privato
+	 */
 	private Connessione() {}
+	
 	
 	/**
 	 * Metodo che crea una connessione utilizzando gli attributi costanti della classe
@@ -32,6 +36,11 @@ public class Connessione {
 	 */
 	private static Connection getConnection() {
 		
+		/*
+		 * tento di stabilire la connessione ad un preciso database, in caso di fallimento e sollevamento di eccezione,
+		 * controllo se il problema è dato dal database non esistente o meno. Se così fosse, ritento la connessione senza
+		 * connettermi allo specifico database, lo creo e mi riconnetto allo specifico database creato
+		 */
 		try {
 			
 			Class.forName(DRIVER);
@@ -45,7 +54,7 @@ public class Connessione {
 			if (errMsg.equals("Unknown database '" + DB_NOME + "'")) {
 				
 				try {
-					
+					// mi riconnetto senza usare un preciso database
 					connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 					
 				}
@@ -64,6 +73,9 @@ public class Connessione {
 	}
 	
 	
+	/**
+	 * Metodo che chiude la connessione dell'attributo connection
+	 */
 	private void closeConnection() {
 		
 		try {
