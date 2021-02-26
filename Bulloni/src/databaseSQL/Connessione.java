@@ -9,20 +9,39 @@ import java.sql.PreparedStatement;
 
 /**
  * @author GiannettaGerardo
+ * 
  * Classe statica che mi permette di creare e restituire una connessione di tipo 
  * Connection ad un database e mi permette di chiudere la connessione creata
  */
 public class Connessione {
 	
+	/** Nome del Database */
 	private static final String DB_NOME = "Bulloni";
+	
+	/** Username per connettersi al DBMS */
 	private static final String USERNAME = "root";
+	
+	/** Password per connettersi al DBMS */
 	private static final String PASSWORD = "pass";
+	
+	/** Indirizzo del server */
 	private static final String HOST = "localhost";
+	
+	/** Porta del server */
 	private static final int PORTA = 3306;
+	
+	/** Timezone per evitare eventuali errori */
 	private static final String TIMEZONE = "?serverTimezone=UTC";
+	
+	/** URL a cui connettersi */
 	private static final String URL = "jdbc:mysql://" + HOST + ":" + PORTA;
+	
+	/** Driver JDBC */
 	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+	
+	/** Oggetto Connection per effettuare una connessione al database */
 	private static Connection connection;
+	
 	
 	/**
 	 * Il costruttore di Connessione rimane privato
@@ -54,8 +73,8 @@ public class Connessione {
 			if (errMsg.equals("Unknown database '" + DB_NOME + "'")) {
 				
 				try {
-					// mi riconnetto senza usare un preciso database
-					connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+					
+					// aggiungere l'uso di DBCreazioneAutomatica
 					
 				}
 				catch (SQLException t) {
@@ -76,7 +95,7 @@ public class Connessione {
 	/**
 	 * Metodo che chiude la connessione dell'attributo connection
 	 */
-	private void closeConnection() {
+	private static void closeConnection() {
 		
 		try {
 			connection.close();
