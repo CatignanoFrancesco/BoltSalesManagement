@@ -13,15 +13,15 @@ import java.sql.PreparedStatement;
  */
 public class Connessione {
 	
-	private final String DB_NOME = "Bulloni";
-	private final String USERNAME = "root";
-	private final String PASSWORD = "pass";
-	private final String HOST = "localhost";
-	private final int PORTA = 3306;
-	private final String TIMEZONE = "?serverTimezone=UTC";
-	private final String URL = "jdbc:mysql://" + HOST + ":" + PORTA;
-	private final String DRIVER = "com.mysql.cj.jdbc.Driver";
-	private Connection connection;
+	private static final String DB_NOME = "Bulloni";
+	private static final String USERNAME = "root";
+	private static final String PASSWORD = "pass";
+	private static final String HOST = "localhost";
+	private static final int PORTA = 3306;
+	private static final String TIMEZONE = "?serverTimezone=UTC";
+	private static final String URL = "jdbc:mysql://" + HOST + ":" + PORTA;
+	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+	private static Connection connection;
 	
 	
 	private Connessione() {}
@@ -30,12 +30,12 @@ public class Connessione {
 	 * Metodo che crea una connessione utilizzando gli attributi costanti della classe
 	 * @return la connessione creata in formato Connection
 	 */
-	private Connection getConnection() {
+	private static Connection getConnection() {
 		
 		try {
 			
 			Class.forName(DRIVER);
-			this.connection = DriverManager.getConnection(URL + "/" + DB_NOME + TIMEZONE, USERNAME, PASSWORD);
+			connection = DriverManager.getConnection(URL + "/" + DB_NOME + TIMEZONE, USERNAME, PASSWORD);
 			
 		}
 		catch (SQLException e) {
@@ -46,7 +46,7 @@ public class Connessione {
 				
 				try {
 					
-					this.connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+					connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 					
 				}
 				catch (SQLException t) {
@@ -60,7 +60,7 @@ public class Connessione {
 			e.printStackTrace();
 		}
 		
-		return this.connection;
+		return connection;
 	}
 	
 	
