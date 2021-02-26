@@ -4,6 +4,7 @@ package databaseSQL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.SQLTimeoutException;
 import java.sql.PreparedStatement;
 
 
@@ -80,6 +81,10 @@ public class Connessione {
 				catch (SQLException t) {
 					System.out.println(t.getMessage());
 					t.printStackTrace();
+				}
+				catch (SQLTimeoutException u) {
+					System.out.println(u.getMessage());
+					u.printStackTrace();
 				}
 			}
 			
