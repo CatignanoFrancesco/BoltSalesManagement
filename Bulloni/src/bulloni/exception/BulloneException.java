@@ -8,6 +8,9 @@ package bulloni.exception;
  *
  */
 public class BulloneException extends Exception {
+	
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Costruisce un'eccezione senza specificare le informazioni.
 	 */
