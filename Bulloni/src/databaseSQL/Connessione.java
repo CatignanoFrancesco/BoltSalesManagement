@@ -50,7 +50,10 @@ public class Connessione {
 	
 	
 	/**
-	 * Metodo che crea una connessione utilizzando gli attributi costanti della classe
+	 * Metodo che crea una connessione utilizzando gli attributi costanti della classe.
+	 * Se la connessione al server viene effettuata correttamente ma il database al quale
+	 * ci si deve connettere non esiste, il database viene creato automaticamente e ne vengono
+	 * settate 3 tabelle con circa 3 tuple standard per facilitare i test
 	 * @return la connessione creata in formato Connection
 	 */
 	private static Connection getConnection() {
