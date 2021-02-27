@@ -12,7 +12,9 @@ import java.sql.PreparedStatement;
  * 
  * Classe che crea in modo automatizzato il database dei bulloni; sarà utilizzata dalla classe Connessione.
  * Inoltre verranno anche riempite in modo automatizzato le tabelle dei bulloni e degli impiegati
- * per effettuare test più rapidi 
+ * per effettuare test più rapidi.
+ * Questa classe ha visibilità package perché non deve poter essere usata al di fuori di questo package,
+ * essa serve solo per automattizzare il processo di creazione del db, non verrebbe mai usata in un progetto reale
  */
 class DBCreazioneAutomatica {
 

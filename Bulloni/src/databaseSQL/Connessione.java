@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 /**
  * @author GiannettaGerardo
  * 
- * Classe statica che mi permette di creare e restituire una connessione di tipo 
+ * Classe che mi permette di creare e restituire una connessione di tipo 
  * Connection ad un database e mi permette di chiudere la connessione creata
  */
 public class Connessione {
