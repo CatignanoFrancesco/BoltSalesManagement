@@ -84,7 +84,7 @@ class DBCreazioneAutomatica {
 				                                      "nome char(20) not null, " +
 		                                              "cognome char(20) not null, " +
 				                                      "dataNascita date not null, " +
-		                                              "sesso enum(M, F, NB) not null, " +
+		                                              "sesso enum('M', 'F', 'NB') not null, " +
 				                                      "stipendioMensile float not null, " +
 		                                              "bulloniVendibiliAnnualmente int not null, " +
 				                                      "giornateLavorativeAnnuali int not null, " +
@@ -150,11 +150,11 @@ class DBCreazioneAutomatica {
 		PreparedStatement pst = conn.prepareStatement("create table Vendita ( " +
 		                                              "codVendita int not null primary key, " +
 				                                      "impiegato int not null, " +
-		                                              "data date not nuill, " +
+		                                              "data date not null, " +
 				                                      "prezzoVenditaTotale float not null, " +
 		                                              "numeroBulloniTotali int not null, " +
-				                                      "constraint impiegato_fk_vendita foreign key (impiegati) " +
-		                                              "references Impiegato(codice) on delete restrict on update restrict )");
+				                                      "constraint impiegato_fk_vendita foreign key (impiegato) " +
+		                                              "references Impiegato(matricola) on delete restrict on update restrict )");
 		pst.executeUpdate();
 	}
 	
@@ -177,8 +177,8 @@ class DBCreazioneAutomatica {
 				                                      "primary key (codVendita, bullone), " +
 		                                              "constraint codVendita_fk_merce foreign key (codVendita) " +
 				                                      "references Vendita(codVendita) on delete cascade on update cascade, " +
-		                                              "constraint bullone_fk_merce foreign key (bullone) " +
-				                                      "references Bullone(codice) on delete restrict on update restrict )");
+		                                              "constraint grano_fk_merce foreign key (bullone) " +
+				                                      "references Bullone_grano(codice) on delete restrict on update restrict )");
 		pst.executeUpdate();
 	}
 }
