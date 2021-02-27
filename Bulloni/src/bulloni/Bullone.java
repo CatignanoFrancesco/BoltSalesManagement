@@ -1,6 +1,6 @@
 package bulloni;
 
-import java.sql.Date;	// classe per il tipo di dato Date
+import utility.Data;	// classe per il tipo di dato Data
 
 import bulloni.exception.BulloneException;
 
@@ -23,7 +23,7 @@ public interface Bullone {
 	 * Restituisce la data di produzione del bullone.
 	 * @return dataProduzione La data di produzione.
 	 */
-	public Date getDataProduzione();
+	public Data getDataProduzione();
 	
 	/**
 	 * Restituisce il luogo di produzione del bullone.

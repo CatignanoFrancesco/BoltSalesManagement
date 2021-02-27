@@ -1,6 +1,6 @@
 package bulloni;
 
-import java.sql.Date;
+import utility.Data;
 import bulloni.exception.BulloneException;
 import bulloni.exception.MsgErrore;
 
@@ -19,11 +19,15 @@ public abstract class AbstractBullone implements Bullone {
 	 * a partire dal diametro della vite.
 	 */
 	private static final double DIFF_DIAMETRO_VITE_DADO = 0.01;
-	// INSERIRE COSTANTI PER LA DATA
 	/**
-	 * Peso minimo del bullone espresso in grammi
+	 * La data minima accettabile per la produzione di un bullone.
 	 */
-	private static final double MIN_PESO = 1.5;
+	private static final Data MIN_DATA = new Data(01, Data.GENNAIO, 1920);
+	/**
+	 * La data massima accettabile per la produzione di un bullone.
+	 */
+	private static final Data MAX_DATA = new Data(27, Data.FEBBRAIO, 2021);	// sostituire con la data di oggi
+	private static final double MIN_PESO = 1.5;	// Espresso in grammi
 	private static final double MAX_PESO = 15.0;
 	private static final double MIN_PREZZO = 0.5;
 	private static final double MAX_PREZZO = 2.5;
@@ -39,7 +43,7 @@ public abstract class AbstractBullone implements Bullone {
 	private static final double MAX_DIAMETRO_VITE = 10;
 	
 	private int codice;	// Il codice identificativo del bullone
-	private Date dataProduzione;
+	private Data dataProduzione;
 	private String luogoProduzione;
 	private double peso;
 	private double prezzo;
@@ -65,9 +69,16 @@ public abstract class AbstractBullone implements Bullone {
 	 * 
 	 * @throws BulloneException L'eccezione sollevata quando non sono rispettate le specifiche semantiche.
 	 */
-	public AbstractBullone(int codice, Date dataProduzione, String luogoProduzione, double peso, double prezzo, Materiale materiale, double lunghezza, double diametroVite, Innesto innesto) throws BulloneException {
+	public AbstractBullone(int codice, Data dataProduzione, String luogoProduzione, double peso, double prezzo, Materiale materiale, double lunghezza, double diametroVite, Innesto innesto) throws BulloneException {
 		this.codice = codice;	// Il codice non ha bisogno di controllo, poichè sono ammessi tutti i valori.
-		this.dataProduzione = dataProduzione;	 // Il controllo relativo alla data verra' effettuato in seguito.
+		
+		// Se la data non e' corretta, viene sollevata un'eccezione.
+		if( dataCorretta(dataProduzione) ) {
+			this.dataProduzione = (Data) dataProduzione.clone();	 // Viene assegnato un clone per evitare modifiche.
+		} else {
+			throw new BulloneException(MsgErrore.DATA_NON_VALIDA, new BulloneException());
+		}
+		
 		this.luogoProduzione = luogoProduzione;
 		
 		// Se il peso non e' corretto, viene sollevata un'eccezione.
@@ -122,8 +133,8 @@ public abstract class AbstractBullone implements Bullone {
 	 * 
 	 */
 	@Override
-	public Date getDataProduzione() {
-		return this.dataProduzione;
+	public Data getDataProduzione() {
+		return (Data) this.dataProduzione.clone();
 	}
 	
 	/**{@inheritDoc}
@@ -265,7 +276,14 @@ public abstract class AbstractBullone implements Bullone {
 	}
 	
 	
-	// operazione per il controllo della correttezza della data.
+	/**
+	 * Operazione a servizio del costruttore per controllare se la data di produzione di un bullone rientra nel range prestabilito.
+	 * @param data La data da controllare.
+	 * @return true se la data di produzione e' corretta, false altrimenti.
+	 */
+	private boolean dataCorretta(Data data) {
+		return data.compareTo(MIN_DATA)>=0 && data.compareTo(MAX_DATA)<0;
+	}
 	
 	/**
 	 * Operazione a servizio del costruttore per controllare se il peso di un bullone rientra nel range prestabilito.
