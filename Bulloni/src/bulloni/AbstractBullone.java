@@ -25,8 +25,9 @@ public abstract class AbstractBullone implements Bullone {
 	private static final Data MIN_DATA = new Data(01, Data.GENNAIO, 1920);
 	/**
 	 * La data massima accettabile per la produzione di un bullone.
+	 * L'attributo non e' final perchè la data puo' cambiare.
 	 */
-	private static final Data MAX_DATA = new Data(27, Data.FEBBRAIO, 2021);	// sostituire con la data di oggi
+	private static Data MAX_DATA = Data.getDataAttuale();
 	private static final double MIN_PESO = 1.5;	// Espresso in grammi
 	private static final double MAX_PESO = 15.0;
 	private static final double MIN_PREZZO = 0.5;
