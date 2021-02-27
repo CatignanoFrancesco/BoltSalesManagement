@@ -65,6 +65,16 @@ public class Data implements Cloneable, Comparable<Data> {
 		return this.localdate.getDayOfMonth();
 	}
 	
+	/**
+	 * Restituisce un oggetto di tipo data avvalorato con il giorno, il mese e l'anno corrispondenti alla data attuale.
+	 * @return La data attuale.
+	 */
+	public static Data getDataAttuale() {
+		LocalDate ldDataAttuale = LocalDate.now();
+		
+		return new Data(ldDataAttuale.getDayOfMonth(), ldDataAttuale.getMonthValue(), ldDataAttuale.getYear());
+	}
+	
 	
 	/**
 	 * Restituisce la data nel tipo LocalDate.
