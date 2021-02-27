@@ -9,15 +9,15 @@ package databaseSQL;
  */
 public class Query {
 	
-	protected static final String WHERE = " where ";
-	protected static final String SELECT = "select ";
-	protected static final String ALL = "*";
-	protected static final String FROM = " from ";
-	protected static final String UPDATE = "update ";
-	protected static final String SET = " set ";
-	protected static final String INSERT = "insert into ";
-	protected static final String VALUES = " values ";
-	protected static final String DELETE = "delete from ";
+	private static final String WHERE = " where ";
+	private static final String SELECT = "select ";
+	private static final String ALL = "*";
+	private static final String FROM = " from ";
+	private static final String UPDATE = "update ";
+	private static final String SET = " set ";
+	private static final String INSERT = "insert into ";
+	private static final String VALUES = " values ";
+	private static final String DELETE = "delete from ";
 
 	
 	/**
@@ -61,6 +61,24 @@ public class Query {
 	 */
 	public static String getSimpleUpdate(String table, String field, String value) {
 		return UPDATE + table + SET + field + "=" + value;
+	}
+	
+	
+	/**
+	 * Metodo che ritorna una query SQL di tipo UPDATE che dovrebbe agire su una tupla precisa tramite la propria chiave
+	 * 
+	 * @param table tabella del database
+	 * @param field campo della tabella del database
+	 * @param value valore del campo della tabella 
+	 * @param keyField campo chiave
+	 * @param keyValue valore chiave
+	 * @return una query SQL di tipo UPDATE che dovrebbe aggiornare una singola tupla precisa
+	 */
+	public static String getSimpleUpdateByKey(String table, String field, String value, String keyField, String keyValue) {
+		
+		String query = getSimpleUpdate(table, field, value);
+		
+		return query + WHERE + keyField + "=" + keyValue;
 	}
 	
 	
