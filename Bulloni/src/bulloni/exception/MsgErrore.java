@@ -17,6 +17,13 @@ public class MsgErrore {
 	public static final String LUNGHEZZA_NON_VALIDA = CREAZIONE_BULLONE + "valore realtivo alla lunghezza del bullone non consentito!";
 	public static final String DIAMETRO_VITE_NON_VALIDO = CREAZIONE_BULLONE + "valore relativo al diametro della vite non consentito!";
 	
+	/**
+	 * Messaggio d'errore di modifica generico
+	 */
+	private static final String MODIFICA_BULLONE = "Modifica del Bullone: ";
+	
+	public static final String BULLONE_ELIMINATO = MODIFICA_BULLONE + "non e' possibile modificare il bullone perche' e' stato eliminato!";
+	
 	// La classe non è istanziabile, quindi il costruttore è privato
 	private MsgErrore() {}
 }

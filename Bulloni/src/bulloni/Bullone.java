@@ -87,6 +87,18 @@ public interface Bullone {
 	public String getTesta();
 	
 	/**
+	 * Restituisce un valore che rappresenta la possibilita' o meno di modificare un oggetto di questo tipo.
+	 * @return eliminato Lo stato del bullone.
+	 */
+	public boolean isEliminato();
+	
+	/**
+	 * Rende non disponibile l'oggetto bullone ad eventuali modifiche.
+	 * In particolare porta a "true" lo stato dell'attributo "eliminato".
+	 */
+	public void elimina();
+	
+	/**
 	 * Confronta due oggetti e restituisce un valore che indica se sono uguali o meno.
 	 * Il confronto si baserà sul codice del bullone.
 	 * @param obj L'oggetto da confrontare con il bullone.

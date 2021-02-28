@@ -53,6 +53,12 @@ public abstract class AbstractBullone implements Bullone {
 	private double diametroVite;
 	private double diametroDado;
 	private Innesto innesto;	// L'innesto del bullone (a croce, esagonale...)
+	/**
+	 * Questo attributo serve per controllare che il bullone sia disponibile o meno a modifiche (se e' eliminato oppure no).
+	 * Si preferisce all'eliminazione vera e propria dell'oggetto perchè in questo modo sara' comunque possibile accedere
+	 * alle informazioni del bullone senza pero' modificarne il suo stato.
+	 */
+	private boolean eliminato = false;
 	
 	
 	// COSTRUTTORE
@@ -159,12 +165,18 @@ public abstract class AbstractBullone implements Bullone {
 	 */
 	@Override
 	public void setPrezzo(double prezzo) throws BulloneException {
-		// Se il prezzo non e' corretto viene sollevata un'eccezione.
-		if( prezzoCorretto(prezzo) ) {
-			this.prezzo = prezzo;
+		// Se il bullone non e' stato eliminato, si puo' procedere alla modifica, altrimenti viene sollevata un'eccezione.
+		if( eliminato==false ) {
+			// Se il prezzo non e' corretto viene sollevata un'eccezione.
+			if( prezzoCorretto(prezzo) ) {
+				this.prezzo = prezzo;
+			} else {
+				throw new BulloneException(MsgErrore.PREZZO_NON_VALIDO, new BulloneException());
+			}
 		} else {
-			throw new BulloneException(MsgErrore.PREZZO_NON_VALIDO, new BulloneException());
+			throw new BulloneException(MsgErrore.BULLONE_ELIMINATO, new BulloneException());
 		}
+		
 	}
 	
 	/**{@inheritDoc}
@@ -223,6 +235,22 @@ public abstract class AbstractBullone implements Bullone {
 	@Override
 	public String getTesta() {
 		return null;
+	}
+	
+	/**{@inheritDoc}
+	 * 
+	 */
+	@Override
+	public boolean isEliminato() {
+		return this.eliminato;
+	}
+	
+	/**{@inheritDoc}
+	 * 
+	 */
+	@Override
+	public void elimina() {
+		this.eliminato = true;
 	}
 	
 	
