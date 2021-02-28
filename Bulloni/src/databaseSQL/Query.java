@@ -60,7 +60,7 @@ public class Query {
 	 * @return una query SQL di tipo UPDATE
 	 */
 	public static String getSimpleUpdate(String table, String field, String value) {
-		return UPDATE + table + SET + field + "=" + value;
+		return UPDATE + table + SET + field + "=" + "'"+value+"'";
 	}
 	
 	
@@ -78,7 +78,7 @@ public class Query {
 		
 		String query = getSimpleUpdate(table, field, value);
 		
-		return query + WHERE + keyField + "=" + keyValue;
+		return query + WHERE + keyField + "=" + "'"+keyValue+"'";
 	}
 	
 	
@@ -114,7 +114,7 @@ public class Query {
 	 * @return una query SQL di tipo DELETE
 	 */
 	public static String getSimpleDelete(String table, String field, String value) {
-		return DELETE + table + WHERE + field + "=" + value;
+		return DELETE + table + WHERE + field + "=" + "'"+value+"'";
 	}
 	
 

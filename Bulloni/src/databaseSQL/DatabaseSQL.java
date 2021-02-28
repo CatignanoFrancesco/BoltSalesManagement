@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.regex.Pattern;
 
 /**
  * @author GiannettaGerardo
@@ -12,6 +13,12 @@ import java.sql.ResultSet;
  * SELECT, INSERT, UPDATE, DELETE
  */
 public class DatabaseSQL {
+	
+	private static final String selectRegex = "(select )(((\\w+, )*\\w+)|[*])( from )(\\w+, )*\\w+( where .+)?";
+	private static final String insertRegex = "(insert into \\w+ values [(]('\\w+', )*'\\w+'[)])";
+	private static final String updateRegex = "(update \\w+ set \\w+((=)|( = )).+( where .+)?)";
+	private static final String deleteRegex = "(delete from \\w+ where \\w+((=)|( = ))'\\w+')";
+	
 
 	/**
 	 * Il costruttore di Query rimane privato
@@ -42,6 +49,10 @@ public class DatabaseSQL {
 	
 	public static ResultSet select(String query) throws SQLException {
 		
+		if (!Pattern.matches(selectRegex, query)) {
+			// creare eccezione
+		}
+		
 		Connection conn = apriConnessione();
 		PreparedStatement pst = conn.prepareStatement(query);
 		ResultSet rs = pst.executeQuery();
@@ -51,6 +62,10 @@ public class DatabaseSQL {
 	
 	
 	public static void insert(String query) throws SQLException {
+		
+		if (!Pattern.matches(insertRegex, query)) {
+			// creare eccezione
+		}
 		
 		Connection conn = apriConnessione();
 		PreparedStatement pst = conn.prepareStatement(query);
