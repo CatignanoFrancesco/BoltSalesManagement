@@ -330,7 +330,7 @@ public abstract class AbstractBullone implements Bullone {
 	 * @return true se il prezzo e' corretto, false altrimenti.
 	 */
 	private boolean prezzoCorretto(double prezzo) {
-		return prezzo>=MIN_PREZZO && prezzo>=MAX_PREZZO;
+		return prezzo>=MIN_PREZZO && prezzo<=MAX_PREZZO;
 	}
 	
 	/**
@@ -340,7 +340,7 @@ public abstract class AbstractBullone implements Bullone {
 	 * @return true se la lunghezza e' corretto, false altrimenti.
 	 */
 	private boolean lunghezzaCorretta(double lunghezza) {
-		return lunghezza>=MIN_LUNGHEZZA && lunghezza>=MAX_LUNGHEZZA;
+		return lunghezza>=MIN_LUNGHEZZA && lunghezza<=MAX_LUNGHEZZA;
 	}
 	
 	/**
