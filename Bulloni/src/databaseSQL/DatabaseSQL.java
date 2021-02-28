@@ -2,6 +2,8 @@ package databaseSQL;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  * @author GiannettaGerardo
@@ -34,6 +36,26 @@ public class DatabaseSQL {
 	 */
 	public static void chiudiConnessione() {
 		Connessione.closeConnection();
+	}
+	
+	
+	
+	public static ResultSet select(String query) throws SQLException {
+		
+		Connection conn = apriConnessione();
+		PreparedStatement pst = conn.prepareStatement(query);
+		ResultSet rs = pst.executeQuery();
+		return rs;
+	}
+	
+	
+	
+	public static void insert(String query) throws SQLException {
+		
+		Connection conn = apriConnessione();
+		PreparedStatement pst = conn.prepareStatement(query);
+		pst.executeUpdate();
+		chiudiConnessione();
 	}
 
 }
