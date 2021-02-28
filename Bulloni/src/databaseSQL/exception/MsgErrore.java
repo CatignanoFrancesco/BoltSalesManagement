@@ -9,15 +9,20 @@ package databaseSQL.exception;
  */
 public class MsgErrore {
 	
-	private static final String REGEX_NON_RISPETTATA = "";
+	/** intestazione di ogni messaggio d'errore */
+	private static final String REGEX_NON_RISPETTATA = "DatabaseSQLException sollevata:\nla query inserita non è riconducibile ad un comando SQL ";
 	
-	public static final String ERRORE_REGEX_SELECT = REGEX_NON_RISPETTATA + "";
+	/** insieme all'intestazione, indica che la query inserita in input sottoforma di stringa, non era una select */
+	public static final String ERRORE_REGEX_SELECT = REGEX_NON_RISPETTATA + "SELECT";
 	
-	public static final String ERRORE_REGEX_INSERT = REGEX_NON_RISPETTATA + "";
+	/** insieme all'intestazione, indica che la query inserita in input sottoforma di stringa, non era una insert */
+	public static final String ERRORE_REGEX_INSERT = REGEX_NON_RISPETTATA + "INSERT";
+	
+	/** insieme all'intestazione, indica che la query inserita in input sottoforma di stringa, non era un update */
+	public static final String ERRORE_REGEX_UPDATE = REGEX_NON_RISPETTATA + "UPDATE";
 
-	public static final String ERRORE_REGEX_UPDATE = REGEX_NON_RISPETTATA + "";
-
-	public static final String ERRORE_REGEX_DELETE = REGEX_NON_RISPETTATA + "";
+	/** insieme all'intestazione, indica che la query inserita in input sottoforma di stringa, non era una delete */
+	public static final String ERRORE_REGEX_DELETE = REGEX_NON_RISPETTATA + "DELETE";
 	
 
 	/**
