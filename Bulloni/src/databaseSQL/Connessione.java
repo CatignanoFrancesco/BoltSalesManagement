@@ -56,7 +56,7 @@ public class Connessione {
 	 * settate 3 tabelle con circa 3 tuple standard per facilitare i test
 	 * @return la connessione creata in formato Connection
 	 */
-	private static Connection getConnection() {
+	public static Connection getConnection() {
 		
 		/*
 		 * tento di stabilire la connessione ad un preciso database, in caso di fallimento e sollevamento di eccezione,
@@ -98,7 +98,7 @@ public class Connessione {
 	/**
 	 * Metodo che chiude la connessione dell'attributo connection
 	 */
-	private static void closeConnection() {
+	public static void closeConnection() {
 		
 		try {
 			connection.close();
