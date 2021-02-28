@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
  * a tutti i principali metodi; infatti questa classe dovrebbe avvalersi della classe Query,
  * per creare e restituire query sottoforma di stringa, tuttavia le query restituite sono 
  * molto semplici, quindi questa classe implementa anche un controllo su questi parametri
- * di input utilizzando espressioni regolari e sollevando eccezzioni quando tali 
+ * di input utilizzando espressioni regolari e sollevando eccezioni quando tali 
  * espressioni regolari sono violate
  */
 public class DatabaseSQL {
