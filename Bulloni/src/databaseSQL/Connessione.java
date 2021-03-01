@@ -4,6 +4,7 @@ package databaseSQL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import databaseSQL.exception.*;
 
 
 /**
@@ -97,8 +98,11 @@ class Connessione {
 	/**
 	 * Metodo che chiude la connessione dell'attributo connection
 	 */
-	public static void closeConnection() throws SQLException {
+	public static void closeConnection() throws SQLException, DatabaseSQLException {
 		
+		if (connection == null) {
+			throw new DatabaseSQLException(MsgErrore.ERRORE_CHIUSURA_CONN_NULLA, new DatabaseSQLException());
+		}
 		connection.close();
 		
 	}

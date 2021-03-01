@@ -75,7 +75,7 @@ public class DatabaseSQL {
 	 * Metodo che chiude la connessione aperta dal metodo apriConnessione.
 	 * Deve lavorare sullo stesso oggetto Connection di apriConnessione, anche mediante alias
 	 */
-	public static void chiudiConnessione() throws SQLException {
+	public static void chiudiConnessione() throws SQLException, DatabaseSQLException {
 		Connessione.closeConnection();
 	}
 	
