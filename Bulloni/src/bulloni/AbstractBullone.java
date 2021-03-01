@@ -12,7 +12,7 @@ import bulloni.exception.MsgErrore;
  * @author Catignano Francesco
  *
  */
-public abstract class AbstractBullone implements Bullone {
+public abstract class AbstractBullone implements Bullone, Cloneable {
 	/**
 	 * Esprime la differenza di diametro tra la vite e il dado.
 	 * In questo modo e' possibile stabilire una dimensione corretta del diametro del dado
@@ -127,6 +127,7 @@ public abstract class AbstractBullone implements Bullone {
 	}
 
 	
+	
 	// OPERAZIONI
 	/**{@inheritDoc}
 	 * 
@@ -136,6 +137,7 @@ public abstract class AbstractBullone implements Bullone {
 		return this.codice;
 	}
 	
+	
 	/**{@inheritDoc}
 	 * 
 	 */
@@ -143,6 +145,7 @@ public abstract class AbstractBullone implements Bullone {
 	public Data getDataProduzione() {
 		return (Data) this.dataProduzione.clone();
 	}
+	
 	
 	/**{@inheritDoc}
 	 * 
@@ -152,6 +155,7 @@ public abstract class AbstractBullone implements Bullone {
 		return this.luogoProduzione;
 	}
 	
+	
 	/**{@inheritDoc}
 	 * 
 	 */
@@ -159,6 +163,7 @@ public abstract class AbstractBullone implements Bullone {
 	public double getPeso() {
 		return this.peso;
 	}
+	
 	
 	/**{@inheritDoc}
 	 * 
@@ -179,6 +184,7 @@ public abstract class AbstractBullone implements Bullone {
 		
 	}
 	
+	
 	/**{@inheritDoc}
 	 * 
 	 */
@@ -186,6 +192,7 @@ public abstract class AbstractBullone implements Bullone {
 	public double getPrezzo() {
 		return this.prezzo;
 	}
+	
 	
 	/**{@inheritDoc}
 	 * 
@@ -195,6 +202,7 @@ public abstract class AbstractBullone implements Bullone {
 		return this.materiale;
 	}
 	
+	
 	/**{@inheritDoc}
 	 * 
 	 */
@@ -202,6 +210,7 @@ public abstract class AbstractBullone implements Bullone {
 	public double getLunghezza() {
 		return this.lunghezza;
 	}
+	
 	
 	/**{@inheritDoc}
 	 * 
@@ -211,6 +220,7 @@ public abstract class AbstractBullone implements Bullone {
 		return this.diametroVite;
 	}
 	
+	
 	/**{@inheritDoc}
 	 * 
 	 */
@@ -219,6 +229,7 @@ public abstract class AbstractBullone implements Bullone {
 		return this.diametroDado;
 	}
 	
+	
 	/**{@inheritDoc}
 	 * 
 	 */
@@ -226,6 +237,7 @@ public abstract class AbstractBullone implements Bullone {
 	public Innesto getInnesto() {
 		return this.innesto;
 	}
+	
 	
 	/**
 	 * Restituisce il tipo di testa del bullone (piatta, tonda...).
@@ -237,6 +249,7 @@ public abstract class AbstractBullone implements Bullone {
 		return null;
 	}
 	
+	
 	/**{@inheritDoc}
 	 * 
 	 */
@@ -244,6 +257,7 @@ public abstract class AbstractBullone implements Bullone {
 	public boolean isEliminato() {
 		return this.eliminato;
 	}
+	
 	
 	/**{@inheritDoc}
 	 * 
@@ -305,6 +319,24 @@ public abstract class AbstractBullone implements Bullone {
 	}
 	
 	
+	/**{@inheritDoc}
+	 * 
+	 */
+	@Override
+	public Object clone() {
+		Object o = null;
+		
+		try {
+			o = super.clone();
+		}
+		catch(CloneNotSupportedException e) {
+			System.err.println("Clone non supportato!");
+		}
+		
+		return o;
+	}
+	
+	
 	/**
 	 * Operazione a servizio del costruttore per controllare se la data di produzione di un bullone rientra nel range prestabilito.
 	 * @param data La data da controllare.
@@ -314,6 +346,7 @@ public abstract class AbstractBullone implements Bullone {
 		return data.compareTo(MIN_DATA)>=0 && data.compareTo(MAX_DATA)<0;
 	}
 	
+	
 	/**
 	 * Operazione a servizio del costruttore per controllare se il peso di un bullone rientra nel range prestabilito.
 	 * @param peso Il peso del bullone da controllare.
@@ -322,6 +355,7 @@ public abstract class AbstractBullone implements Bullone {
 	private boolean pesoCorretto(double peso) {
 		return peso>=MIN_PESO && peso<=MAX_PESO;
 	}
+	
 	
 	/**
 	 * Operazione a servizio del costruttore o dell'operazione setPrezzo() per controllare se il prezzo di un bullone
@@ -333,6 +367,7 @@ public abstract class AbstractBullone implements Bullone {
 		return prezzo>=MIN_PREZZO && prezzo<=MAX_PREZZO;
 	}
 	
+	
 	/**
 	 * Operazione a servizio del costruttore per controllare se la lunghezza della vite di un bullone
 	 * rientra nel range prestabilito.
@@ -342,6 +377,7 @@ public abstract class AbstractBullone implements Bullone {
 	private boolean lunghezzaCorretta(double lunghezza) {
 		return lunghezza>=MIN_LUNGHEZZA && lunghezza<=MAX_LUNGHEZZA;
 	}
+	
 	
 	/**
 	 * Operazione a servizio del costruttore per controllare se il diametro della vite di un bullone rientra nel range prestabilito.

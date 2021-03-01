@@ -117,4 +117,10 @@ public interface Bullone {
 	 * @return info Le informazioni da restituire.
 	 */
 	public String toString();
+	
+	/**
+	 * Restituisce un clone del bullone.
+	 * @return o Il clone dell'oggetto bullone.
+	 */
+	public Object clone();
 }
