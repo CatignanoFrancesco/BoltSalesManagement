@@ -13,7 +13,7 @@ import java.sql.PreparedStatement;
  * Classe che mi permette di creare e restituire una connessione di tipo 
  * Connection ad un database e mi permette di chiudere la connessione creata
  */
-public class Connessione {
+class Connessione {
 	
 	/** Nome del Database */
 	private static final String DB_NOME = "Bulloni";
