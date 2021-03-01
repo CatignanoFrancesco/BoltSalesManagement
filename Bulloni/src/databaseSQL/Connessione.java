@@ -22,7 +22,7 @@ class Connessione {
 	private static final String USERNAME = "root";
 	
 	/** Password per connettersi al DBMS */
-	private static final String PASSWORD = "NobileArte0090+";
+	private static final String PASSWORD = "pass";
 	
 	/** Indirizzo del server */
 	private static final String HOST = "localhost";
