@@ -24,22 +24,22 @@ class DBCreazioneAutomatica {
 	private DBCreazioneAutomatica() {}
 	
 	
-	public static void eseguiDBCreazioneAutomatica(Connection conn, String url, String user, String pass, String dbName, String timeZone) throws SQLException {
+	public static void eseguiDBCreazioneAutomatica(String url, String user, String pass, String dbName, String timeZone) throws SQLException {
 		
 		// crea il database e lo usa per le operazioni successive
-		createAndUseDB(conn, url, user, pass, dbName, timeZone);
+		createAndUseDB(url, user, pass, dbName, timeZone);
 		
 		// crea la tabella Impiegato nel db e la riempie con 3 tuple standard per test
-		createAndInsertImpiegato(conn);
+		createAndInsertImpiegato();
 		
 		// crea le tabelle Bullone e Bullone_grano nel db e le riempie con 3 tuple standard per test
-		createAndInsertBulloneGrano(conn);
+		createAndInsertBulloneGrano();
 		
 		// crea la tabella Vendita nel db
-		createVendita(conn);
+		createVendita();
 		
 		// crea la tabella MerceVenduta nel db
-		createMerceVenduta(conn);
+		createMerceVenduta();
 	}
 	
 	
@@ -58,16 +58,17 @@ class DBCreazioneAutomatica {
 	 * @throws SQLException
 	 * @throws SQLTimeoutException
 	 */
-	private static void createAndUseDB(Connection conn, String url, String user, String pass, String dbName, String timeZone) throws SQLException {
+	private static void createAndUseDB(String url, String user, String pass, String dbName, String timeZone) throws SQLException {
 		
-		conn = DriverManager.getConnection(url, user, pass);
+		Connessione.connection = DriverManager.getConnection(url, user, pass);
+		//conn = DriverManager.getConnection(url, user, pass);
 		
-		PreparedStatement pst = conn.prepareStatement("create database " + dbName);
+		PreparedStatement pst = Connessione.connection.prepareStatement("create database " + dbName);
 		pst.executeUpdate();
 		
-		conn.close();
+		Connessione.connection.close();
 		
-		conn = DriverManager.getConnection(url + "/" + dbName + timeZone, user, pass);
+		Connessione.connection = DriverManager.getConnection(url + "/" + dbName + timeZone, user, pass);
 		
 	}
 	
@@ -79,9 +80,9 @@ class DBCreazioneAutomatica {
 	 * @throws SQLException
 	 * @throws SQLTimeoutException
 	 */
-	private static void createAndInsertImpiegato(Connection conn) throws SQLException {
+	private static void createAndInsertImpiegato() throws SQLException {
 		
-		PreparedStatement pst = conn.prepareStatement("create table Impiegato ( " +
+		PreparedStatement pst = Connessione.connection.prepareStatement("create table Impiegato ( " +
 		                                              "matricola int not null primary key, " +
 				                                      "nome char(20) not null, " +
 		                                              "cognome char(20) not null, " +
@@ -93,12 +94,12 @@ class DBCreazioneAutomatica {
 		                                              "eliminato enum('T', 'F') not null default 'F' )");
 		pst.executeUpdate();
 		
-		pst = conn.prepareStatement("insert into Impiegato values (0, 'Gerardo', 'Giannetta', '2000-05-19', 'M', 1500, 0, 190, 'F'), " +
+		pst = Connessione.connection.prepareStatement("insert into Impiegato values (0, 'Gerardo', 'Giannetta', '2000-05-19', 'M', 1500, 0, 190, 'F'), " +
 		                                                         "(1, 'Francesco', 'Catignano', '2000-02-03', 'M', 1400, 0, 230, 'F'), " +
 				                                                 "(2, 'Flavio', 'Francolino', '2000-11-23', 'M', 1700, 0, 300, 'F')");
 		pst.executeUpdate();
 		
-		pst = conn.prepareStatement("update Impiegato set bulloniVendibiliAnnualmente = 500 * giornateLavorativeAnnuali");
+		pst = Connessione.connection.prepareStatement("update Impiegato set bulloniVendibiliAnnualmente = 500 * giornateLavorativeAnnuali");
 		pst.executeUpdate();
 	}
 	
@@ -110,9 +111,9 @@ class DBCreazioneAutomatica {
 	 * @throws SQLException
 	 * @throws SQLTimeoutException
 	 */
-	private static void createAndInsertBulloneGrano(Connection conn) throws SQLException {
+	private static void createAndInsertBulloneGrano() throws SQLException {
 		
-		PreparedStatement pst = conn.prepareStatement("create table Bullone ( " +
+		PreparedStatement pst = Connessione.connection.prepareStatement("create table Bullone ( " +
 		                                              "codice int not null primary key, " +
 				                                      "dataProduzione date not null, " +
 		                                              "luogoProduzione varchar(50) not null, " +
@@ -124,18 +125,18 @@ class DBCreazioneAutomatica {
 		                                              "eliminato enum('T', 'F') not null default 'F' )");
 		pst.executeUpdate();
 		
-		pst = conn.prepareStatement("create table Bullone_grano ( " + 
+		pst = Connessione.connection.prepareStatement("create table Bullone_grano ( " + 
 		                            "codice int not null primary key, " + 
 				                    "constraint codice_fk_grano foreign key (codice) " + 
 		                            "references Bullone(codice) on delete cascade on update cascade )");
 		pst.executeUpdate();
 		
-		pst = conn.prepareStatement("insert into Bullone values (0, '2012-05-30', 'Genova', 0.07, 2, 0.5, 'esagonale', 'acciaio', 'F'), " +
+		pst = Connessione.connection.prepareStatement("insert into Bullone values (0, '2012-05-30', 'Genova', 0.07, 2, 0.5, 'esagonale', 'acciaio', 'F'), " +
 		                                                       "(1, '2019-02-28', 'Bari', 0.1, 3, 1, 'croce', 'bronzo', 'F'), " +
 				                                               "(2, '2018-09-09', 'Bari', 0.1, 3, 1, 'torx', 'titanio', 'F')");
 		pst.executeUpdate();
 		
-		pst = conn.prepareStatement("insert into Bullone_grano values (0), (1), (2)");
+		pst = Connessione.connection.prepareStatement("insert into Bullone_grano values (0), (1), (2)");
 		pst.executeUpdate();
 	}
 	
@@ -147,9 +148,9 @@ class DBCreazioneAutomatica {
 	 * @throws SQLException
 	 * @throws SQLTimeoutException
 	 */
-	private static void createVendita(Connection conn) throws SQLException {
+	private static void createVendita() throws SQLException {
 		
-		PreparedStatement pst = conn.prepareStatement("create table Vendita ( " +
+		PreparedStatement pst = Connessione.connection.prepareStatement("create table Vendita ( " +
 		                                              "codVendita int not null primary key, " +
 				                                      "impiegato int not null, " +
 		                                              "data date not null, " +
@@ -168,9 +169,9 @@ class DBCreazioneAutomatica {
 	 * @throws SQLException
 	 * @throws SQLTimeoutException
 	 */
-	private static void createMerceVenduta(Connection conn) throws SQLException {
+	private static void createMerceVenduta() throws SQLException {
 	
-		PreparedStatement pst = conn.prepareStatement("create table MerceVenduta ( " +
+		PreparedStatement pst = Connessione.connection.prepareStatement("create table MerceVenduta ( " +
 		                                              "codVendita int not null, " +
 				                                      "bullone int not null, " +
 		                                              "numeroBulloni int not null, " +

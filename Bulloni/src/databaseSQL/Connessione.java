@@ -21,7 +21,7 @@ class Connessione {
 	private static final String USERNAME = "root";
 	
 	/** Password per connettersi al DBMS */
-	private static final String PASSWORD = "pass";
+	private static final String PASSWORD = "NobileArte0090+";
 	
 	/** Indirizzo del server */
 	private static final String HOST = "localhost";
@@ -39,7 +39,7 @@ class Connessione {
 	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 	
 	/** Oggetto Connection per effettuare una connessione al database */
-	private static Connection connection;
+	protected static Connection connection;
 	
 	
 	/**
@@ -76,7 +76,7 @@ class Connessione {
 				
 				try {
 					// crea automaticamente il database e ne riempie 3 tabelle con qualche tupla standard
-					DBCreazioneAutomatica.eseguiDBCreazioneAutomatica(connection, URL, USERNAME, PASSWORD, DB_NOME, TIMEZONE);
+					DBCreazioneAutomatica.eseguiDBCreazioneAutomatica(URL, USERNAME, PASSWORD, DB_NOME, TIMEZONE);
 					
 				}
 				catch (SQLException t) {
@@ -97,15 +97,9 @@ class Connessione {
 	/**
 	 * Metodo che chiude la connessione dell'attributo connection
 	 */
-	public static void closeConnection() {
+	public static void closeConnection() throws SQLException {
 		
-		try {
-			connection.close();
-		}
-		catch (SQLException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
+		connection.close();
 		
 	}
 
