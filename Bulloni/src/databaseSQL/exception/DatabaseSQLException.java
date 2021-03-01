@@ -6,6 +6,8 @@ package databaseSQL.exception;
  * Classe che rappresenta l'eccezione che potrebbe sollevarsi nella classe DatabaseSQL
  */
 public class DatabaseSQLException extends Exception {
+	
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * costruttore senza parametri
