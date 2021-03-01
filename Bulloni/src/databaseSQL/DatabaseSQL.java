@@ -39,7 +39,7 @@ public class DatabaseSQL {
 	/** Questa espressione regolare accetta stringa del tipo:
 	 * insert into tabella values ('qualcosa')
 	 * insert into tabella values ('qualcosa', 'numero') */
-	private static final String insertRegex = "(insert into \\w+ values [(]('\\w+', )*'\\w+'[)])";
+	private static final String insertRegex = "(insert into \\w+ values [(]('((\\w)|(\\p{Graph}))+', )*'\\w+'[)])";
 	
 	/** Questa espressione regolare accetta stringa del tipo:
 	 * update tabella set campo='numero'
