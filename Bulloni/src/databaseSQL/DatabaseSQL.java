@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.regex.Pattern;
+import databaseSQL.exception.*;
 
 /**
  * @author GiannettaGerardo
@@ -79,11 +80,26 @@ public class DatabaseSQL {
 	}
 	
 	
-	
-	public static ResultSet select(String query) throws SQLException {
+	/**
+	 * Metodo che permette di eseguire un comando SELECT su di un database SQL.
+	 * Controlla prima di tutto che sia stata inserita, come parametro di input, 
+	 * una query di tipo SELECT, per quanto possibile; successivamente apre
+	 * una connessione tramite il metodo apriConnessione, poi esegue 
+	 * la query e ne restituisce il ResultSet; è indispensabile che la connessione
+	 * venga chiusa (tramite metodo chiudiConnessione) successivamente dalla 
+	 * classe che utilizzerà questo metodo
+	 * 
+	 * @param query stringa che deve rappresentare il comando SELECT
+	 * @return ResultSet contenente il risultato del comando SELECT eseguito
+	 * @throws SQLException
+	 * @throws DatabaseSQLException
+	 */
+	public static ResultSet select(String query) throws SQLException, DatabaseSQLException {
 		
+		/* se la regex non è rispettata dalla query passata in input, solleva un eccezione di tipo 
+		 * DatabaseSQLException con un messaggio personalizzato per il tipo di errore specifico */
 		if (!Pattern.matches(selectRegex, query)) {
-			// creare eccezione
+			throw new DatabaseSQLException(MsgErrore.ERRORE_REGEX_SELECT, new DatabaseSQLException());
 		}
 		
 		Connection conn = apriConnessione();
@@ -93,11 +109,23 @@ public class DatabaseSQL {
 	}
 	
 	
-	
-	public static void insert(String query) throws SQLException {
+	/**
+	 * Metodo che permette di eseguire un comando INSERT su di un database SQL.
+	 * Controlla prima di tutto che sia stata inserita, come parametro di input, 
+	 * una query di tipo INSERT, per quanto possibile; successivamente apre
+	 * una connessione tramite il metodo apriConnessione, poi esegue il comando
+	 * e chiude la connessione tramite metodo chiudiConnessione
+	 * 
+	 * @param query stringa che deve rappresentare il comando INSERT
+	 * @throws SQLException
+	 * @throws DatabaseSQLException
+	 */
+	public static void insert(String query) throws SQLException, DatabaseSQLException {
 		
+		/* se la regex non è rispettata dalla query passata in input, solleva un eccezione di tipo 
+		 * DatabaseSQLException con un messaggio personalizzato per il tipo di errore specifico */
 		if (!Pattern.matches(insertRegex, query)) {
-			// creare eccezione
+			throw new DatabaseSQLException(MsgErrore.ERRORE_REGEX_INSERT, new DatabaseSQLException());
 		}
 		
 		Connection conn = apriConnessione();
@@ -107,11 +135,23 @@ public class DatabaseSQL {
 	}
 	
 	
-	
-	public static void update(String query) throws SQLException {
+	/**
+	 * Metodo che permette di eseguire un comando UPDATE su di un database SQL.
+	 * Controlla prima di tutto che sia stata inserita, come parametro di input, 
+	 * una query di tipo UPDATE, per quanto possibile; successivamente apre
+	 * una connessione tramite il metodo apriConnessione, poi esegue il comando
+	 * e chiude la connessione tramite metodo chiudiConnessione
+	 * 
+	 * @param query stringa che deve rappresentare il comando UPDATE
+	 * @throws SQLException
+	 * @throws DatabaseSQLException
+	 */
+	public static void update(String query) throws SQLException, DatabaseSQLException {
 		
+		/* se la regex non è rispettata dalla query passata in input, solleva un eccezione di tipo 
+		 * DatabaseSQLException con un messaggio personalizzato per il tipo di errore specifico */
 		if (!Pattern.matches(updateRegex, query)) {
-			// creare eccezione
+			throw new DatabaseSQLException(MsgErrore.ERRORE_REGEX_UPDATE, new DatabaseSQLException());
 		}
 		
 		Connection conn = apriConnessione();
@@ -121,11 +161,23 @@ public class DatabaseSQL {
 	}
 	
 	
-	
-	public static void delete(String query) throws SQLException {
+	/**
+	 * Metodo che permette di eseguire un comando DELETE su di un database SQL.
+	 * Controlla prima di tutto che sia stata inserita, come parametro di input, 
+	 * una query di tipo DELETE, per quanto possibile; successivamente apre
+	 * una connessione tramite il metodo apriConnessione, poi esegue il comando
+	 * e chiude la connessione tramite metodo chiudiConnessione
+	 * 
+	 * @param query stringa che deve rappresentare il comando DELETE
+	 * @throws SQLException
+	 * @throws DatabaseSQLException
+	 */
+	public static void delete(String query) throws SQLException, DatabaseSQLException {
 		
+		/* se la regex non è rispettata dalla query passata in input, solleva un eccezione di tipo 
+		 * DatabaseSQLException con un messaggio personalizzato per il tipo di errore specifico */
 		if (!Pattern.matches(deleteRegex, query)) {
-			// creare eccezione
+			throw new DatabaseSQLException(MsgErrore.ERRORE_REGEX_DELETE, new DatabaseSQLException());
 		}
 		
 		Connection conn = apriConnessione();
