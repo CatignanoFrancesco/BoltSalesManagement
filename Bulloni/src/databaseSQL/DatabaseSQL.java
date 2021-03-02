@@ -66,7 +66,7 @@ public class DatabaseSQL {
 	 * 
 	 * @return un oggetto Connection già creato e inizializzato
 	 */
-	private static Connection apriConnessione() {
+	private static Connection apriConnessione() throws DatabaseSQLException {
 		return Connessione.getConnection();
 	}
 	

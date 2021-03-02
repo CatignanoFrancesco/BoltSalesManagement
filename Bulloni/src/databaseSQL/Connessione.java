@@ -55,8 +55,27 @@ class Connessione {
 	 * ci si deve connettere non esiste, il database viene creato automaticamente e ne vengono
 	 * settate 3 tabelle con circa 3 tuple standard per facilitare i test
 	 * @return la connessione creata in formato Connection
+	 * @throws DatabaseSQLException 
 	 */
-	public static Connection getConnection() {
+	public static Connection getConnection() throws DatabaseSQLException {
+		
+		/*
+		 * se l'oggetto connection è null, questo metodo non avrà alcun problema e non servono ulteriori pre-controlli;
+		 * se l'oggetto connection non è null, bisogna controllare prima che la connessione sia stata già chiusa
+		 * correttamente prima di essere riaperta, nel caso non fosse così, si solleva un'eccezione
+		 */
+		if (connection != null) {
+			try {
+				
+				if (!connection.isClosed())
+					throw new DatabaseSQLException(MsgErrore.ERRORE_APERTURA_CONN_APERTA, new DatabaseSQLException());
+				
+			}
+			catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+			
 		
 		/*
 		 * tento di stabilire la connessione ad un preciso database, in caso di fallimento e sollevamento di eccezione,
@@ -82,13 +101,11 @@ class Connessione {
 				}
 				catch (SQLException t) {
 					System.out.println(t.getMessage());
-					t.printStackTrace();
 				}
 			}
 			
 		} catch (ClassNotFoundException e) {
 			System.out.println(e.getMessage());
-			e.printStackTrace();
 		}
 		
 		return connection;
@@ -102,6 +119,9 @@ class Connessione {
 		
 		if (connection == null) {
 			throw new DatabaseSQLException(MsgErrore.ERRORE_CHIUSURA_CONN_NULLA, new DatabaseSQLException());
+		}
+		if (connection.isClosed()) {
+			throw new DatabaseSQLException(MsgErrore.ERRORE_CHIUSURA_CONN_CHIUSA, new DatabaseSQLException());
 		}
 		connection.close();
 		

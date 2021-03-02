@@ -27,8 +27,14 @@ public class MsgErrore {
 	/** insieme alla sua intestazione, indica che la query inserita in input sottoforma di stringa, non era una delete */
 	public static final String ERRORE_REGEX_DELETE = REGEX_NON_RISPETTATA + "DELETE.";
 	
-	/** insieme alla sua intestazione, indica che la connessione che si tenta di chiudere con il metodo chiudConnessione, non è stata aperta prima */
-	public static final String ERRORE_CHIUSURA_CONN_NULLA = ERRORE_CONNESSIONE + "La connessione che si tenta di chiudere non è ancora stata aperta.";
+	/** insieme alla sua intestazione, indica che la connessione che si tenta di chiudere non esiste ancora come oggetto */
+	public static final String ERRORE_CHIUSURA_CONN_NULLA = ERRORE_CONNESSIONE + "La connessione che si tenta di chiudere non esiste ancora.";
+	
+	/** insieme alla sua intestazione, indica che la connessione che si tenta di chiudere non è stata aperta prima */
+	public static final String ERRORE_CHIUSURA_CONN_CHIUSA = ERRORE_CONNESSIONE + "La connessione che si tenta di chiudere non è ancora stata aperta.";
+	
+	/** insieme alla sua intestazione, indica che la connessione che si tenta di aprire è già aperta */
+	public static final String ERRORE_APERTURA_CONN_APERTA = ERRORE_CONNESSIONE + "La connessione che si tenta di aprire è già aperta.";
 	
 
 	/**
