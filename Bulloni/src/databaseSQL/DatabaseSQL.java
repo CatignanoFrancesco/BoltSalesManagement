@@ -51,7 +51,7 @@ public class DatabaseSQL {
 	/** Questa espressione regolare accetta stringa del tipo:
 	 * delete from tabella where campo='qualcosa'
 	 * delete from tabella where campo = 'numero' */
-	private static final String deleteRegex = "(delete from \\w+ where \\w+((=)|( = ))'\\w+')";
+	private static final String deleteRegex = "(delete from \\w+ where \\w+((=)|( = ))'((\\w)|(\\p{Graph}))+')";
 	
 
 	/**
