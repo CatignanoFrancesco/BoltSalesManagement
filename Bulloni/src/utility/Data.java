@@ -28,7 +28,7 @@ public class Data implements Cloneable, Comparable<Data> {
 	private LocalDate localdate;
 	
 	
-	// COSTRUTTORE
+	// COSTRUTTORI
 	/**
 	 * Costruisce il tipo data partendo da un giorno del mese, un mese e un anno.
 	 * @param giornoDelMese Il giorno del mese.
@@ -40,6 +40,17 @@ public class Data implements Cloneable, Comparable<Data> {
 	}
 	
 	
+	/**
+	 * Costruisce il tipo data partendo da un tipo java.sql.Date.
+	 * Utile quando si vuole creare una data, partendo da un risultato di una query in un DB.
+	 * @param data La data presa in input.
+	 */
+	public Data(Date data) {
+		this.localdate = new Date(data.getTime()).toLocalDate();
+	}
+	
+	
+	
 	// OPERAZIONI
 	/**
 	 * Questo metodo restituisce l'anno.
@@ -49,6 +60,7 @@ public class Data implements Cloneable, Comparable<Data> {
 		return this.localdate.getYear();
 	}
 	
+	
 	/**
 	 * Questo metodo restituisce il mese.
 	 * @return Il mese.
@@ -57,6 +69,7 @@ public class Data implements Cloneable, Comparable<Data> {
 		return this.localdate.getMonthValue();
 	}
 	
+	
 	/**
 	 * Questo metodo restituisce il giorno del mese.
 	 * @return Il giorno del mese.
@@ -64,6 +77,7 @@ public class Data implements Cloneable, Comparable<Data> {
 	public int getGiorno() {
 		return this.localdate.getDayOfMonth();
 	}
+	
 	
 	/**
 	 * Restituisce un oggetto di tipo data avvalorato con il giorno, il mese e l'anno corrispondenti alla data attuale.
@@ -84,6 +98,7 @@ public class Data implements Cloneable, Comparable<Data> {
 		return this.localdate;
 	}
 	
+	
 	/**
 	 * Restituisce la data nel tipo java.sql.Date. È utile soprattutto quando bisogna memorizzare la data in un Database.
 	 * @return La data nel tipo java.sql.Date
@@ -91,6 +106,7 @@ public class Data implements Cloneable, Comparable<Data> {
 	public Date toSqlDate() {
 		return Date.valueOf(localdate);
 	}
+	
 	
 	/**
 	 * Restituisce la data sotto forma di stringa seguendo il pattern dd/MM/yyyy.
@@ -112,12 +128,13 @@ public class Data implements Cloneable, Comparable<Data> {
 		this.localdate = LocalDate.of(anno, mese, giornoDelMese);
 	}
 	
+	
 	/**
 	 * Permette di modificare la data nel tipo localdate, partendo da una data nel tipo java.sql.Date
 	 * @param data La data da impostare
 	 */
-	public void setFromSql(java.sql.Date data) {
-		this.localdate = new java.sql.Date(data.getTime()).toLocalDate();
+	public void setFromSql(Date data) {
+		this.localdate = new Date(data.getTime()).toLocalDate();
 	}
 	
 	
