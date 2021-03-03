@@ -2,6 +2,7 @@ package vendita;
 
 import java.util.Set;
 import utility.Data;
+import vendita.exception.*;
 
 /**
  * @author GiannettaGerardo
@@ -10,7 +11,7 @@ import utility.Data;
  *
  * Classe astratta rappresentante una vendita di merce generica, effettuata da un certo responsabile vendita
  */
-public abstract class AbstractVendita<T, E> implements Vendita<T, E> {
+public abstract class AbstractVendita<T, E> implements Vendita<T, E>, Cloneable{
 
 	/** Codice univoco della vendita */
 	private int codVendita;
@@ -31,7 +32,13 @@ public abstract class AbstractVendita<T, E> implements Vendita<T, E> {
 	 * @param codVendita codice univoco della vendita
 	 * @param data data in cui la vendita è effettuata
 	 */
-	public AbstractVendita(int codVendita, Data data) {
+	public AbstractVendita(int codVendita, Data data) throws VenditaException {
+
+		String errore = MsgErroreVendita.CREAZIONE_VENDITA;
+		int anno = data.getAnno();
+		if (anno > 2021 && anno < 1900)
+			throw new VenditaException(errore + MsgErroreVendita.DATA_NON_REALE, new VenditaException());
+		
 		this.codVendita = codVendita;
 		this.data = data;
 	}
@@ -116,7 +123,18 @@ public abstract class AbstractVendita<T, E> implements Vendita<T, E> {
 	/**
 	 * {@inheritDoc}
 	 */
-	public abstract Object clone();
+	public Object clone() {
+		
+		Object o = null;
+		
+		try {
+			o = super.clone();
+		}
+		catch(CloneNotSupportedException e) {
+			System.err.println("Clone non supportato.");
+		}
+		return o;
+	}
 	
 	@Override
 	/**
