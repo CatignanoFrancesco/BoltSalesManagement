@@ -1,5 +1,6 @@
 package utility;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.sql.Date;
@@ -31,6 +32,8 @@ public class Data implements Cloneable, Comparable<Data> {
 	// COSTRUTTORI
 	/**
 	 * Costruisce il tipo data partendo da un giorno del mese, un mese e un anno.
+	 * E' buona norma chiamare il costruttore all'interno del blocco try-catch in modo da evitare eventuali
+	 * arresti del programma in caso di data errata.
 	 * @param giornoDelMese Il giorno del mese.
 	 * @param mese Il mese dell'anno. Può ricevere il parametro sia esplicitamente, che sotto forma di costante.
 	 * @param anno
@@ -125,7 +128,12 @@ public class Data implements Cloneable, Comparable<Data> {
 	 * @param anno L'anno.
 	 */
 	public void set(int giornoDelMese, int mese, int anno) {
-		this.localdate = LocalDate.of(anno, mese, giornoDelMese);
+		try {
+			this.localdate = LocalDate.of(anno, mese, giornoDelMese);
+		}
+		catch(DateTimeException e) {
+			System.err.println(e.getMessage());
+		}
 	}
 	
 	
@@ -134,7 +142,12 @@ public class Data implements Cloneable, Comparable<Data> {
 	 * @param data La data da impostare
 	 */
 	public void setFromSql(Date data) {
-		this.localdate = new Date(data.getTime()).toLocalDate();
+		try {
+			this.localdate = new Date(data.getTime()).toLocalDate();
+		}
+		catch(DateTimeException e) {
+			System.err.println(e.getMessage());
+		}
 	}
 	
 	
