@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.HashSet;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.DateTimeException;
 
 import utility.Data;
 /*
@@ -15,10 +16,11 @@ import bulloni.Materiale;
 import bulloni.Innesto;
 import bulloni.exception.BulloneException;
 /*
- * Classi per gestire il database (effettuare query, insert, update ecc...) e per creare le query da far eseguire al DBMS.
+ * Classi per gestire il database e le sue eccezioni (effettuare query, insert, update ecc...) e per creare le query da far eseguire al DBMS.
  */
 import databaseSQL.DatabaseSQL;
 import databaseSQL.Query;
+import databaseSQL.exception.DatabaseSQLException;
 
 
 /**
@@ -52,7 +54,22 @@ public class GestoreBulloni {
 			bulloni.clear();
 		}
 		
-		// Inserire query
+		// Aggiunta di bulloni di tipo grano dal database
+		try {
+			// Creazione della query ed esecuzione della select
+			ResultSet rs = DatabaseSQL.select(Query.getSimpleSelectEquiJoin(NOME_TABELLA_BULLONI, NOME_TABELLA_BULLONE_GRANO, CampiTabellaBullone.codice.toString(), CampiTabellaBulloneGrano.codice.toString()));
+			while(rs.next()) {
+				bulloni.add(costruisciBulloneGrano(rs));
+				codBulloneAutomatico++;	// Aggiorna il suo valore, cosi' quando verra' utilizzato, codBulloneAutomatico avra' un valore che sicuramente non e' mai stato utilizzato per il codice del bullone.
+			}
+			DatabaseSQL.chiudiConnessione();	// Chiusura della connessione al db (l'apertura è fatta automaticamente al momento della chiamata ad una select
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		catch(DatabaseSQLException e) {
+			System.err.println(e.getMessage());
+		}
 	}
 	
 	
@@ -65,12 +82,19 @@ public class GestoreBulloni {
 	 */
 	private Bullone costruisciBulloneGrano(ResultSet rs) {
 		try {
-			Bullone bullone = new BulloneGrano(rs.getInt(1), new Data(rs.getDate(2)), rs.getString(3), rs.getDouble(4), rs.getDouble(5), (Materiale)rs.getObject(6), rs.getDouble(7), rs.getDouble(8), (Innesto)rs.getObject(9));
+			Bullone bullone = new BulloneGrano(rs.getInt(1), new Data(rs.getDate(2)), rs.getString(3), rs.getDouble(4), rs.getDouble(5), Materiale.valueOf(rs.getString(9)), rs.getDouble(6), rs.getDouble(7), Innesto.valueOf(rs.getString(10)));
+			if(rs.getString(11)=="T") {
+				bullone.elimina();
+			}
 			return bullone;
 		} catch(BulloneException e) {
 			System.err.println(e.getMessage());
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			e.printStackTrace();
+		}
+		catch(DateTimeException e) {
+			System.err.println(e.getMessage());
 		}
 				
 		return null;
