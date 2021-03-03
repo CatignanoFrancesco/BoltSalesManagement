@@ -117,6 +117,7 @@ class DBCreazioneAutomatica {
 				                                      "dataProduzione date not null, " +
 		                                              "luogoProduzione varchar(50) not null, " +
 				                                      "peso float not null, " +
+		                                              "prezzo float not null, " +
 		                                              "lunghezza float not null, " +
 				                                      "diametroVite float not null, " +
 		                                              "innesto enum('TAGLIO', 'ESAGONALE', 'CROCE', 'TORX') not null, " +
