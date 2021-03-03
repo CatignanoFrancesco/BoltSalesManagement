@@ -12,9 +12,7 @@ public class DatabaseSQLException extends Exception {
 	/**
 	 * costruttore senza parametri
 	 */
-	public DatabaseSQLException() {
-		super();
-	}
+	public DatabaseSQLException() {}
 	
 	/**
 	 * costruttore con parametri
