@@ -3,6 +3,7 @@
  */
 package persona;
 
+import persona.exception.ExceptionAnagraficaErrata;
 import persona.exception.ExceptionImpiegato;
 import persona.exception.MsgExceptionImpiegato;
 import utility.Data;
@@ -35,14 +36,44 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato {
 	 * @param id                        id dell'impiegato
 	 * @param giornateLavorativeAnnuali giornate lavorative annuali dell'impiegato
 	 * @param stipendioMensile          stipendio mensile dell'impiegato
+	 * @throws ExceptionImpiegato sollevata per errori riguardanti i valori di attributi propri di impiegato
+	 * @throws ExceptionAnagraficaErrata sollevata per errori riguardatni i valori di attributo propri di AbstractPersona
 	 */
 	public ImpiegatoGenerale(String nome, String cognome, char sesso, Data dataNascita, int id,
-			int giornateLavorativeAnnuali, float stipendioMensile) {
-
+			int giornateLavorativeAnnuali, float stipendioMensile) throws ExceptionImpiegato, ExceptionAnagraficaErrata{
+		
 		super(nome, cognome, sesso, dataNascita);
-		this.id = id;
-		this.giornateLavorativeAnnuali = giornateLavorativeAnnuali;
-		this.stipendioMensile = stipendioMensile;
+
+		boolean flagException = false;// flag per segnalare il sollevamento di un eccezione
+		String msgException;// messaggio di eccezzione
+		
+		
+		
+		if ((stipendioMensile < MIN_STIPENDIO_MENSILE) || (stipendioMensile > MAX_STIPENDIO_MENSILE)) {// lo stipedendio non rispetta
+																											// le soglie minime e massime
+
+			flagException = true;
+			msgException = MsgExceptionImpiegato.STIPENDIO_NON_VALIDO;
+
+		} else if (this.giornateLavorativeAnnuali < MIN_GIORNATE_LAVORATIVE_ANNUALI
+				|| this.giornateLavorativeAnnuali > MAX_GIORNATE_LAVORATIVE_ANNUALI) {//giornate minimi o massimo non rispettate
+
+			flagException = true;
+			msgException = MsgExceptionImpiegato.GIORNATE_NON_VALIDE;
+		}
+
+		if (flagException == true)
+			
+			throw new ExceptionImpiegato(msgException, ExceptionImpiegato);
+
+		else {
+
+			this.id = id;
+			this.giornateLavorativeAnnuali = giornateLavorativeAnnuali;
+			this.stipendioMensile = stipendioMensile;
+
+		}
+
 	}
 
 	/**
@@ -88,8 +119,8 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato {
 			flagException = true;
 			msgException = MsgExceptionImpiegato.IMPIEGATO_GIA_ASSUNTO;
 
-		} else if ((stipendioMensile < MIN_STIPENDIO_MENSILE) || (stipendioMensile > MAX_STIPENDIO_MENSILE)) {// lo stipedendio non rispetta le
-																												// soglie minime e massime
+		} else if ((stipendioMensile < MIN_STIPENDIO_MENSILE) || (stipendioMensile > MAX_STIPENDIO_MENSILE)) {// lo stipedendio non rispetta
+																												// le soglie minime e massime
 
 			flagException = true;
 			msgException = MsgExceptionImpiegato.STIPENDIO_NON_VALIDO;
@@ -127,15 +158,16 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato {
 		if (this.isAssunto == false) {// l'impiegato risulta esere licenziato
 
 			flagException = true;
-			msgException = MsgExceptionImpiegato.IMPIEGATO_LICENZIATO ;
+			msgException = MsgExceptionImpiegato.IMPIEGATO_LICENZIATO;
 
-		} else if (stipendioMensile < this.stipendioMensile) {// il nuovo stipendio è minore dello stipendio attuale
+		} else if (stipendioMensile <= this.stipendioMensile) {// il nuovo stipendio è minore uguale dello stipendio
+																// attuale
 
 			flagException = true;
 			msgException = MsgExceptionImpiegato.STIPENDIO_PROMOZIONE_NON_VALIDO;
 
 		} else if (stipendioMensile > MAX_STIPENDIO_MENSILE) {
-			
+
 			flagException = true;
 			msgException = MsgExceptionImpiegato.STIPENDIO_NON_VALIDO;
 
@@ -143,8 +175,8 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato {
 
 			flagException = true;
 			msgException = MsgExceptionImpiegato.GIORNATE_NON_VALIDE;
-		} else if(giornateLavorativeAnnuali > MAX_GIORNATE_LAVORATIVE_ANNUALI) {
-			
+		} else if (giornateLavorativeAnnuali > MAX_GIORNATE_LAVORATIVE_ANNUALI) {
+
 			flagException = true;
 			msgException = MsgExceptionImpiegato.GIORNATE_NON_VALIDE;
 		}
@@ -164,7 +196,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void licenzia() {
+	public void licenzia() throws ExceptionImpiegato {
 
 		if (this.isAssunto == true) {// se l'impiegato non è gia licenziato
 
@@ -172,9 +204,9 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato {
 			this.stipendioMensile = 0;
 			this.giornateLavorativeAnnuali = 0;
 
-		} else {
+		} else {// non si puo licenziare un impiegato gia licenziato
 
-			// da implementare eccezzioni apposite
+			throw new ExceptionImpiegato(MsgExceptionImpiegato.IMPIEGATO_GIA_LICENZIATO, ExceptionImpiegato);
 		}
 	}
 

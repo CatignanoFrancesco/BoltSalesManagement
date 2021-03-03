@@ -51,7 +51,7 @@ abstract class AbstractPersona implements Persona {
 			flagEccezione = true;
 			msgExcpetion = MsgExceptionAnagraficaErrata.COGNOME_NON_VALIDO;
 
-		} else if (sesso != 'm' || sesso != 'M' || sesso != 'f' || sesso != 'F') {
+		} else if (sesso != 'm' && sesso != 'M' && sesso != 'f' && sesso != 'F') {
 
 			flagEccezione = true;
 			msgExcpetion = MsgExceptionAnagraficaErrata.SESSO_NON_VALIDO;

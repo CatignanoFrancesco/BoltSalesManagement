@@ -3,6 +3,9 @@
  */
 package persona;
 
+import persona.exception.ExceptionAnagraficaErrata;
+import persona.exception.ExceptionImpiegato;
+import persona.exception.MsgExceptionImpiegato;
 import utility.Data;
 
 /**
@@ -18,6 +21,8 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 
 	private int bulloniVendibiliAnnualmente;// settabili arbitrariamente o in base al fatto che ogni impiegato ne puo
 											// vendere al massimo 500 al di
+											// ad ogno modo non sara possibile assegnare piu di n bulloni
+											// con n=BULLONI_VENDIBILI_GIORNALMENTE*this.giornateLAvorativeAnnuali
 
 	/**
 	 * costruttore che setta il numero di bulloni vendibili annalmente in base alle
@@ -30,9 +35,15 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 	 * @param id                        id impiegato
 	 * @param giornateLavorativeAnnuali giornate lavorative annuali impiegato
 	 * @param stipendioMensile          stipendio mensile impiegato
+	 * @exception ExceptionAnagraficaErrata sollevata per errori di valore di
+	 *                                      attributi proprio dell'anagrafica
+	 * @exception ExceptionImpiegato        sollevata per errori di valore di
+	 *                                      attributi propri impiegatoGenerale e
+	 *                                      impiegatoBulloni
 	 */
 	public ImpiegatoBulloni(String nome, String cognome, char sesso, Data dataNascita, int id,
-			int giornateLavorativeAnnuali, float stipendioMensile) {
+			int giornateLavorativeAnnuali, float stipendioMensile)
+			throws ExceptionAnagraficaErrata, ExceptionImpiegato {
 
 		super(nome, cognome, sesso, dataNascita, id, giornateLavorativeAnnuali, stipendioMensile);
 		this.bulloniVendibiliAnnualmente = BULLONI_VENDIBILI_GIORNALMENTE * giornateLavorativeAnnuali;
@@ -51,12 +62,31 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 	 * @param stipendioMensile            stipendio mensile impiegato
 	 * @param bulloniVendibiliAnnualmente massimo di bulloni vendibili annualmente
 	 *                                    da un impiegato
+	 * @exception ExceptionAnagraficaErrata sollevata per errori di valore di
+	 *                                      attributi proprio dell'anagrafica
+	 * @exception ExceptionImpiegato        sollevata per errori di valore di
+	 *                                      attributi propri impiegatoGenerale e
+	 *                                      impiegatoBulloni
 	 */
 	public ImpiegatoBulloni(String nome, String cognome, char sesso, Data dataNascita, int id,
-			int giornateLavorativeAnnuali, float stipendioMensile, int bulloniVendibiliAnnualmente) {
+			int giornateLavorativeAnnuali, float stipendioMensile, int bulloniVendibiliAnnualmente)
+			throws ExceptionAnagraficaErrata, ExceptionImpiegato {
 
 		super(nome, cognome, sesso, dataNascita, id, giornateLavorativeAnnuali, stipendioMensile);
-		this.bulloniVendibiliAnnualmente = bulloniVendibiliAnnualmente;
+
+		if (bulloniVendibiliAnnualmente > (500 * this.getGiornateLavorativeAnnuali()))// per vendere tutti i bulloni
+																						// assegnatogli
+																						// dovrebbe vendere piu di 500
+																						// bulloni al di
+																						// cosa non concesso dalle
+																						// specifiche per cui sollevo un
+																						// eccezione
+
+			throw new ExceptionImpiegato(MsgExceptionImpiegato.ECCESSO_BULLONI_ASSEGNATI, ExceptionImpiegato);
+
+		else
+
+			this.bulloniVendibiliAnnualmente = bulloniVendibiliAnnualmente;
 	}
 
 	/**
@@ -66,6 +96,7 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 	 *         giornarlmente
 	 */
 	public static int getBulloniVendibiliGiornalmente() {
+
 		return BULLONI_VENDIBILI_GIORNALMENTE;
 	}
 
@@ -88,7 +119,19 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 	 */
 	public void setBulloniVendibiliAnnualmente(int bulloniVendibiliAnnualmente) {
 
-		this.bulloniVendibiliAnnualmente = bulloniVendibiliAnnualmente;
+		if (bulloniVendibiliAnnualmente > (500 * this.getGiornateLavorativeAnnuali()))// per vendere tutti i bulloni
+																						// assegnatogli
+																						// dovrebbe vendere piu di 500
+																						// bulloni al di
+																						// cosa non concesso dalle
+																						// specifiche per cui sollevo un
+																						// eccezione
+
+			throw new ExceptionImpiegato(MsgExceptionImpiegato.ECCESSO_BULLONI_ASSEGNATI, ExceptionImpiegato);
+
+		else
+
+			this.bulloniVendibiliAnnualmente = bulloniVendibiliAnnualmente;
 	}
 
 	@Override
