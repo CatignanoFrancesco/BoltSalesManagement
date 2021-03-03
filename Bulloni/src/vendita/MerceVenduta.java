@@ -72,6 +72,16 @@ public class MerceVenduta implements Cloneable {
 	
 	
 	/**
+	 * Metodo che ritorna il codice del bullone presente nella classe
+	 * 
+	 * @return codice del bullone presente nella classe
+	 */
+	public int getCodiceBullone() {
+		return this.bullone.getCodice();
+	}
+	
+	
+	/**
 	 * Metodo che ritorna il numero di bulloni venduti di questo tipo
 	 * 
 	 * @return numero di bulloni
