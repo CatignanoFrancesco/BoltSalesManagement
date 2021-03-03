@@ -76,6 +76,38 @@ public class GestoreBulloni {
 	
 	// OPERAZIONI
 	/**
+	 * Metodo per aggiungere al set di bulloni il bullone di tipo grano e per inserirlo nel database.
+	 * Se non e' stato ricevuto alcun bullone in input, verra' sollevata un'eccezione.
+	 * @param b Il bullone grano
+	 */
+	public void newBulloneGrano(BulloneGrano b) {
+		if(b!=null) {	// altrimenti sollevera' un'eccezione
+			bulloni.add(b);
+			
+			// Valori del bullone da inserire nel database
+			String[] valoriTabellaBullone = { ((Integer)b.getCodice()).toString(), b.getDataProduzione().toFormattedDate(), b.getLuogoProduzione(), ((Double)b.getPeso()).toString(), ((Double)b.getPrezzo()).toString(), ((Double)b.getLunghezza()).toString(), ((Double)b.getDiametroVite()).toString(), b.getInnesto().toString(), b.getMateriale().toString(), (b.isEliminato()==true) ? "T" : "F" };
+			String[] valoriTabellaBulloneGrano = { ((Integer)b.getCodice()).toString() };
+			
+			// Inserimento nel database
+			try {
+				// Inserimento nella tabella generale Bullone
+				DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_BULLONI, valoriTabellaBullone));
+				// Inserimento nella tabella specifica Bullone_grano
+				DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_BULLONE_GRANO, valoriTabellaBulloneGrano));
+				DatabaseSQL.chiudiConnessione();
+			}
+			catch(DatabaseSQLException e) {
+				System.err.println(e.getMessage());
+			}
+			catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	
+	/**
 	 * A partire dal risultato di una query, costruisce un oggetto Bullone di tipo grano.
 	 * @param rs Il risultato della query.
 	 * @return bullone Il bullone costruito.
