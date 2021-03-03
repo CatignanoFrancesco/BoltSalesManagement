@@ -10,6 +10,7 @@ enum CampiTabellaBullone {
 	dataProduzione,
 	luogoProduzione,
 	peso,
+	prezzo,
 	materiale,
 	lunghezza,
 	diametroVite,
