@@ -82,7 +82,7 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 																						// specifiche per cui sollevo un
 																						// eccezione
 
-			throw new ExceptionImpiegato(MsgExceptionImpiegato.ECCESSO_BULLONI_ASSEGNATI, ExceptionImpiegato);
+			throw new ExceptionImpiegato(MsgExceptionImpiegato.ECCESSO_BULLONI_ASSEGNATI, new ExceptionImpiegato());
 
 		else
 
@@ -127,7 +127,7 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 																						// specifiche per cui sollevo un
 																						// eccezione
 
-			throw new ExceptionImpiegato(MsgExceptionImpiegato.ECCESSO_BULLONI_ASSEGNATI, ExceptionImpiegato);
+			throw new ExceptionImpiegato(MsgExceptionImpiegato.ECCESSO_BULLONI_ASSEGNATI, new ExceptionImpiegato());
 
 		else
 

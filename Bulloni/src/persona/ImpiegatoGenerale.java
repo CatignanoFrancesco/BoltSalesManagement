@@ -64,7 +64,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato {
 
 		if (flagException == true)
 			
-			throw new ExceptionImpiegato(msgException, ExceptionImpiegato);
+			throw new ExceptionImpiegato(msgException, new ExceptionImpiegato());
 
 		else {
 
@@ -133,7 +133,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato {
 		}
 
 		if (flagException == true)
-			throw new ExceptionImpiegato(msgException, ExceptionImpiegato);
+			throw new ExceptionImpiegato(msgException, new ExceptionImpiegato());
 
 		else {
 
@@ -182,7 +182,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato {
 		}
 
 		if (flagException == true)
-			throw new ExceptionImpiegato(msgException, ExceptionImpiegato);
+			throw new ExceptionImpiegato(msgException, new ExceptionImpiegato());
 
 		else {
 
@@ -206,7 +206,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato {
 
 		} else {// non si puo licenziare un impiegato gia licenziato
 
-			throw new ExceptionImpiegato(MsgExceptionImpiegato.IMPIEGATO_GIA_LICENZIATO, ExceptionImpiegato);
+			throw new ExceptionImpiegato(MsgExceptionImpiegato.IMPIEGATO_GIA_LICENZIATO, new ExceptionImpiegato());
 		}
 	}
 
