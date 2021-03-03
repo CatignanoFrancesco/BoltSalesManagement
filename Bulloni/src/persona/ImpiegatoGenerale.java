@@ -14,7 +14,7 @@ import utility.Data;
  *         classe per implementare l'interfaccia Impiegato
  *
  */
-public class ImpiegatoGenerale extends AbstractPersona implements Impiegato {
+public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Cloneable {
 
 	private static final int MIN_GIORNATE_LAVORATIVE_ANNUALI = 144;// si suppone che ogni impiegato debba lavorare
 																	// almeno 3 volte a settimana
