@@ -41,7 +41,7 @@ abstract class AbstractPersona implements Persona {
 	public AbstractPersona(String nome, String cognome, char sesso, Data dataNascita) throws ExceptionAnagraficaErrata {
 
 		boolean flagEccezione = false;// flag per segnalare se si verifica un eccezzione riguardante l'anagrafica
-		String msgExcpetion;
+		String msgExcpetion = new String();
 
 		if (!Pattern.matches(regExpNameOrSurname, nome)) {//nome non valido
 

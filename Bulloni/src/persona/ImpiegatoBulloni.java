@@ -74,13 +74,13 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 
 		super(nome, cognome, sesso, dataNascita, id, giornateLavorativeAnnuali, stipendioMensile);
 
-		if (bulloniVendibiliAnnualmente > (500 * this.getGiornateLavorativeAnnuali()))// per vendere tutti i bulloni
-																						// assegnatogli
-																						// dovrebbe vendere piu di 500
-																						// bulloni al di
-																						// cosa non concesso dalle
-																						// specifiche per cui sollevo un
-																						// eccezione
+		if (checkNumeroBulloniAnnuali(bulloniVendibiliAnnualmente))// per vendere tutti i bulloni
+																	// assegnatogli
+																	// dovrebbe vendere piu di 500
+																	// bulloni al di
+																	// cosa non concesso dalle
+																	// specifiche per cui sollevo un
+																	// eccezione
 
 			throw new ExceptionImpiegato(MsgExceptionImpiegato.ECCESSO_BULLONI_ASSEGNATI, new ExceptionImpiegato());
 
@@ -116,22 +116,46 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 	 * 
 	 * @param bulloniVendibiliAnnualmente il nuovo valore di bulloni vendibili
 	 *                                    annualmente da un impiegato
+	 * @throws ExceptionImpiegato sollevata se il numero di bulloni supera soglia n
+	 *                            con
+	 *                            n=BULLONI_VENDIBILI_GIORNALMENTE*this.giornateLAvorativeAnnuali
 	 */
-	public void setBulloniVendibiliAnnualmente(int bulloniVendibiliAnnualmente) {
+	public void setBulloniVendibiliAnnualmente(int bulloniVendibiliAnnualmente) throws ExceptionImpiegato {
 
-		if (bulloniVendibiliAnnualmente > (500 * this.getGiornateLavorativeAnnuali()))// per vendere tutti i bulloni
-																						// assegnatogli
-																						// dovrebbe vendere piu di 500
-																						// bulloni al di
-																						// cosa non concesso dalle
-																						// specifiche per cui sollevo un
-																						// eccezione
+		if (checkNumeroBulloniAnnuali(bulloniVendibiliAnnualmente))// per vendere tutti i bulloni
+																	// assegnatogli
+																	// dovrebbe vendere piu di 500
+																	// bulloni al di
+																	// cosa non concesso dalle
+																	// specifiche per cui sollevo un
+																	// eccezione
 
 			throw new ExceptionImpiegato(MsgExceptionImpiegato.ECCESSO_BULLONI_ASSEGNATI, new ExceptionImpiegato());
 
 		else
 
 			this.bulloniVendibiliAnnualmente = bulloniVendibiliAnnualmente;
+	}
+
+	/**
+	 * controllo se il numero di bulloni che sto assegnando ad un impiegato rispetti
+	 * la soglia di n con
+	 * n=BULLONI_VENDIBILI_GIORNALMENTE*this.giornateLAvorativeAnnuali
+	 * 
+	 * @param bulloniVendibiliAnnualmente
+	 * @return ret true se il numero di bulloni non supera la soglia n, false
+	 *         altrimenti
+	 */
+	private boolean checkNumeroBulloniAnnuali(int bulloniVendibiliAnnualmente) {
+
+		boolean ret = true;// valore di ritorno
+
+		if (bulloniVendibiliAnnualmente > (BULLONI_VENDIBILI_GIORNALMENTE * this.getGiornateLavorativeAnnuali()))
+
+			ret = false;
+
+		return ret;
+
 	}
 
 	@Override
