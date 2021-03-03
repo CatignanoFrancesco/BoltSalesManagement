@@ -9,10 +9,13 @@ package vendita.exception;
 public class MsgErroreVendita {
 	
 	/** Intestazione per la creazione di una vendita */
-	private static final String CREAZIONE_VENDITA = "VenditaException sollevata:\n";
+	public static final String CREAZIONE_VENDITA = "VenditaException sollevata:\n";
 	
 	/** Intestazione per la creazione di una vendita di bulloni */
-	private static final String CREAZIONE_VENDITA_BULLONI = "Classe VenditaBulloni\n";
+	public static final String CREAZIONE_VENDITA_BULLONI = "Classe VenditaBulloni\n";
+	
+	/** Intestazione per la creazione della classe MerceVenduta */
+	public static final String CREAZIONE_MERCE_VENDUTA = "Classe MerceVenduta\n";
 	
 	/** Messaggio di errore nel caso di data non reale, ad esempio una data contenente l'anno 3000 o 1900 */
 	public static final String DATA_NON_REALE = "La data di vendita non corrisponde ad una data reale.";
@@ -22,6 +25,9 @@ public class MsgErroreVendita {
 	
 	/** Messaggio di errore nel caso il responsabile vendita passato in input al costruttore sia nullo */
 	public static final String RESPONSABILE_VENDITA_NULLO = "Il responsabile della vendita è nullo.";
+	
+	/** Messaggio di errore nel caso il bullone inserito in input nel costruttore di MerceVenduta sia nullo */
+	public static final String BULLONE_NULLO = "Il bullone è nullo.";
 
 	/**
 	 * Costruttore privato

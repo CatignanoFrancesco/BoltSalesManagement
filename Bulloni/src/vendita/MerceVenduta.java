@@ -1,6 +1,7 @@
 package vendita;
 
 import bulloni.Bullone;
+import vendita.exception.*;
 
 /**
  * @author GiannettaGerardo
@@ -31,7 +32,13 @@ public class MerceVenduta implements Cloneable {
 	 * @param bullone tipo di bullone venduto
 	 * @param numeroBulloni numero di bulloni venduti di questo tipo
 	 */
-	public MerceVenduta(Bullone bullone, int numeroBulloni) {
+	public MerceVenduta(Bullone bullone, int numeroBulloni) throws VenditaException {
+		
+		String errore = MsgErroreVendita.CREAZIONE_VENDITA + MsgErroreVendita.CREAZIONE_MERCE_VENDUTA;
+		
+		if (bullone == null)
+			throw new VenditaException(errore + MsgErroreVendita.BULLONE_NULLO, new VenditaException());
+
 		this.bullone = bullone;
 		this.numeroBulloni = numeroBulloni;
 		this.prezzoVenditaBullone = this.bullone.getPrezzo();
@@ -50,7 +57,13 @@ public class MerceVenduta implements Cloneable {
 	 * @param prezzoBulloni prezzo totale dei bulloni venduti di questo tipo
 	 * @param prezzoVenditaBullone prezzo del bullone al momento della vendita
 	 */
-	public MerceVenduta(Bullone bullone, int numeroBulloni, double prezzoBulloni, double prezzoVenditaBullone) {
+	public MerceVenduta(Bullone bullone, int numeroBulloni, double prezzoBulloni, double prezzoVenditaBullone) throws VenditaException  {
+		
+		String errore = MsgErroreVendita.CREAZIONE_VENDITA + MsgErroreVendita.CREAZIONE_MERCE_VENDUTA;
+		
+		if (bullone == null)
+			throw new VenditaException(errore + MsgErroreVendita.BULLONE_NULLO, new VenditaException());
+		
 		this.bullone = bullone;
 		this.numeroBulloni = numeroBulloni;
 		this.prezzoVenditaBullone = prezzoVenditaBullone;
@@ -58,26 +71,51 @@ public class MerceVenduta implements Cloneable {
 	}
 	
 	
+	/**
+	 * Metodo che ritorna il numero di bulloni venduti di questo tipo
+	 * 
+	 * @return numero di bulloni
+	 */
 	public int getNumeroBulloni() {
 		return this.numeroBulloni;
 	}
 	
 	
+	/**
+	 * Metodo che ritorna il prezzo totale dei bulloni venduti di questo tipo
+	 * 
+	 * @return prezzo totale dei bulloni
+	 */
 	public double getPrezzoBulloni() {
 		return this.prezzoBulloni;
 	}
 	
 	
+	/**
+	 * Metodo che ritorna il prezzo di questo tipo di bullone al momento della vendita
+	 * 
+	 * @return prezzo di questo tipo di bullone al momento della vendita
+	 */
 	public double getPrezzoVenditaBullone() {
 		return this.prezzoVenditaBullone;
 	}
 	
 	
+	/**
+	 * Metodo che imposta un nuovo numero di bulloni venduti
+	 * 
+	 * @param nuovoNumero il nuovo numero di bulloni da impostare
+	 */
 	public void setNumeroBulloni(int nuovoNumero) {
 		this.numeroBulloni = nuovoNumero;
 	}
 	
 	
+	/**
+	 * Metodo che imposta un nuovo prezzo totale ai bulloni venduti
+	 * 
+	 * @param nuovoPrezzo il nuovo prezzo totale da impostare
+	 */
 	public void setPrezzoBulloni(double nuovoPrezzo) {
 		this.prezzoBulloni = nuovoPrezzo;
 	}
