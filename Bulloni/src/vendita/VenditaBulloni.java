@@ -98,6 +98,7 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 		return this.impiegato;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}

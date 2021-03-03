@@ -6,6 +6,8 @@ package vendita.exception;
  * Classe che rappresenta l'eccezione che potrebbe sollevarsi nella classe AbstractVendita e nelle sue derivate
  */
 public class VenditaException extends Exception {
+	
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Costruttore dell'eccezione senza parametri

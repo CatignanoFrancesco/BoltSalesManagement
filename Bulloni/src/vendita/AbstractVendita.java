@@ -38,7 +38,7 @@ public abstract class AbstractVendita<T, E> implements Vendita<T, E>, Cloneable{
 		String errore = MsgErroreVendita.CREAZIONE_VENDITA;
 		int anno = data.getAnno();
 		
-		if (anno > LocalDate.now().getYear() && anno < 1900)
+		if ((anno > LocalDate.now().getYear()) && (anno < LocalDate.now().getYear() - 150))
 			throw new VenditaException(errore + MsgErroreVendita.DATA_NON_REALE, new VenditaException());
 		
 		this.codVendita = codVendita;
@@ -117,6 +117,7 @@ public abstract class AbstractVendita<T, E> implements Vendita<T, E>, Cloneable{
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}
@@ -128,7 +129,7 @@ public abstract class AbstractVendita<T, E> implements Vendita<T, E>, Cloneable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractVendita other = (AbstractVendita) obj;
+		AbstractVendita<T, E> other = (AbstractVendita<T, E>) obj;
 		if (codVendita != other.codVendita)
 			return false;
 		return true;
