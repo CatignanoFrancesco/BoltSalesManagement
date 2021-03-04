@@ -25,7 +25,7 @@ public interface Impiegato extends Persona {
 	 * ritorna lo stipendio mensile di un impiegato
 	 * 
 	 * 
-	 * @return stipendioMensile lo stipendio dell'impiegato, uguale a 0 se questo è
+	 * @return stipendioMensile lo stipendio dell'impiegato, uguale a 0 se questo ï¿½
 	 *         licenziato
 	 */
 	public float getStipendioMensile();
@@ -34,7 +34,7 @@ public interface Impiegato extends Persona {
 	 * ritorna le giornate lavorative annuali di un impiegato
 	 * 
 	 * @return giornateLavorativeAnnuali le giornate annuali del dipendente,uguali a
-	 *         0 se questo è licenziato
+	 *         0 se questo ï¿½ licenziato
 	 */
 	public int getGiornateLavorativeAnnuali();
 
@@ -45,7 +45,7 @@ public interface Impiegato extends Persona {
 	 * @param stipendioMensile          lo stipendio con cu assumere un impiegato
 	 * @param giornateLavorativeannuali le giornate lavorative con cui assumere un
 	 *                                  impiegato
-	 * @exception ExceptionImpiegato sollevata se un impiegato è gia assunto o lo
+	 * @exception ExceptionImpiegato sollevata se un impiegato ï¿½ gia assunto o lo
 	 *                               stipendio o le giornate lavorative non sono
 	 *                               valide
 	 */
@@ -57,7 +57,7 @@ public interface Impiegato extends Persona {
 	 * 
 	 * @param stipendioMensile          il nuovo stipednio da assegnare
 	 * @param giornateLavorativeAnnuali le nuove giornate da assegnare
-	 * @throws ExceptionImpiegato sollevata se il nuovo stipendio è minore uguale
+	 * @throws ExceptionImpiegato sollevata se il nuovo stipendio ï¿½ minore uguale
 	 *                            dell' attuale o se le nuove giornate sono minori
 	 *                            delle attuali
 	 */
@@ -67,7 +67,7 @@ public interface Impiegato extends Persona {
 	 * setta il valore dell'attributo isAssunto su false e azzera gli attributi
 	 * stipendioMensile e giornateLavorativeAnnuali
 	 * 
-	 * @throws ExceptionImpiegato se un impiegato è gia licenziato
+	 * @throws ExceptionImpiegato se un impiegato ï¿½ gia licenziato
 	 */
 	public void licenzia() throws ExceptionImpiegato;
 

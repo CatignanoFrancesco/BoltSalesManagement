@@ -9,7 +9,12 @@ import vendita.exception.*;
 
 /**
  * @author GiannettaGerardo
+ * @param <MerceVenduta> classe associativa MerceVenduta per gesitire i bulloni venduti
+ * @param <Impiegato> responsabile della vendita
  *
+ * Classe che rappresenta una vendita di bulloni, effettuata da un responsabile vendita, ovvero
+ * un Impiegato. Si avvala di una classe associativa, MerceVenduta, per gestire i bulloni e i 
+ * relativi dati associati alla specifica vendita
  */
 public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> implements Vendita<MerceVenduta, Impiegato> {
 
@@ -46,6 +51,15 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 		
 		this.impiegato = impiegato;
 		this.merce = merce;
+		
+		Iterator<MerceVenduta> i = merce.iterator();
+		MerceVenduta mv = null;
+		
+		while(i.hasNext()) {
+			mv = i.next();
+			super.quantitaMerceTotale += mv.getNumeroBulloni();
+			super.prezzoVenditaTotale += mv.getPrezzoBulloni();
+		}
 		
 	}
 
@@ -95,7 +109,7 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 	 * {@inheritDoc}
 	 */
 	public Impiegato getResponsabileVendita() {
-		return this.impiegato;
+		return (Impiegato)this.impiegato.clone();
 	}
 
 	@SuppressWarnings("unchecked")
