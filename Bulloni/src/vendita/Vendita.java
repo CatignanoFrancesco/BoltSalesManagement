@@ -2,6 +2,7 @@ package vendita;
 
 import utility.Data;
 import java.util.Set;
+import vendita.exception.VenditaException;
 
 /**
  * @author GiannettaGerardo
@@ -46,7 +47,7 @@ public interface Vendita<T, E> {
 	 * @param merce merce venduta nella rispettiva vendita
 	 * @return true se è possibile aggiungere alla vendita tale merce, false altrimenti
 	 */
-	public boolean addMerceVenduta(T merce);
+	public boolean addMerceVenduta(T merce) throws VenditaException;
 	
 	/**
 	 * Metodo che aggiunge (all'insieme già esistente) un insieme di oggetti rappresentanti la merce venduta
@@ -54,7 +55,7 @@ public interface Vendita<T, E> {
 	 * @param merce insieme di merce venduta nella rispettiva vendita
 	 * @return true se è possibile aggiungere alla vendita tale merce, false altrimenti
 	 */
-	public boolean addAllMerceVenduta(Set<T> merce);
+	public boolean addAllMerceVenduta(Set<T> merce) throws VenditaException;
 	
 	/**
 	 * Metodo che ritorna il responsabile della vendita (o comuque chi ha effettuato la vendita)

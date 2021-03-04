@@ -3,6 +3,7 @@ package vendita;
 import java.util.Set;
 import utility.Data;
 import vendita.exception.*;
+import java.time.LocalDate;;
 
 /**
  * @author GiannettaGerardo
@@ -36,7 +37,8 @@ public abstract class AbstractVendita<T, E> implements Vendita<T, E>, Cloneable{
 
 		String errore = MsgErroreVendita.CREAZIONE_VENDITA;
 		int anno = data.getAnno();
-		if (anno > 2021 && anno < 1900)
+		
+		if ((anno > LocalDate.now().getYear()) && (anno < LocalDate.now().getYear() - 150))
 			throw new VenditaException(errore + MsgErroreVendita.DATA_NON_REALE, new VenditaException());
 		
 		this.codVendita = codVendita;
@@ -76,13 +78,13 @@ public abstract class AbstractVendita<T, E> implements Vendita<T, E>, Cloneable{
 	/**
 	 * {@inheritDoc}
 	 */
-	public abstract boolean addMerceVenduta(T merce);
+	public abstract boolean addMerceVenduta(T merce) throws VenditaException;
 
 	@Override
 	/**
 	 * {@inheritDoc}
 	 */
-	public abstract boolean addAllMerceVenduta(Set<T> merce);
+	public abstract boolean addAllMerceVenduta(Set<T> merce) throws VenditaException;
 
 	@Override
 	/**
@@ -102,6 +104,7 @@ public abstract class AbstractVendita<T, E> implements Vendita<T, E>, Cloneable{
 	 */
 	public abstract void setQuantitaMerceByCodice(int codiceMerce, int nuovaQuantita);
 
+	
 	@Override
 	/**
 	 * {@inheritDoc}
@@ -112,13 +115,27 @@ public abstract class AbstractVendita<T, E> implements Vendita<T, E>, Cloneable{
 		result = prime * result + codVendita;
 		return result;
 	}
-	
+
+
+	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}
 	 */
-	public abstract boolean equals(Object obj);
-	
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractVendita<T, E> other = (AbstractVendita<T, E>) obj;
+		if (codVendita != other.codVendita)
+			return false;
+		return true;
+	}
+
+
 	@Override
 	/**
 	 * {@inheritDoc}

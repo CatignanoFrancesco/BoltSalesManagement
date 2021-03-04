@@ -72,5 +72,14 @@ public interface Impiegato extends Persona {
 	public void licenzia() throws ExceptionImpiegato;
 
 	public String toString();
+	
+	@Override
+	int hashCode();
+	
+	@Override
+	boolean equals(Object obj);
+	
+	
+	Object clone() throws CloneNotSupportedException;
 
 }

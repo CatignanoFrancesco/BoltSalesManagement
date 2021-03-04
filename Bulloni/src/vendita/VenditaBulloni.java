@@ -4,6 +4,7 @@ import persona.Impiegato;
 import utility.Data;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Iterator;
 import vendita.exception.*;
 
 /**
@@ -13,7 +14,7 @@ import vendita.exception.*;
 public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> implements Vendita<MerceVenduta, Impiegato> {
 
 	private Impiegato impiegato;
-	private Set<MerceVenduta> merce = new HashSet<MerceVenduta>();
+	private HashSet<MerceVenduta> merce = new HashSet<MerceVenduta>();
 	
 	/**
 	 * Costruttore di VenditaBulloni
@@ -24,7 +25,7 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 	 * @param merce insieme di merce venduta
 	 * @throws VenditaException
 	 */
-	public VenditaBulloni(int codVendita, Data data, Impiegato impiegato, Set<MerceVenduta> merce) throws VenditaException {
+	public VenditaBulloni(int codVendita, Data data, Impiegato impiegato, HashSet<MerceVenduta> merce) throws VenditaException {
 		super(codVendita, data);
 		
 		String errore = MsgErroreVendita.CREAZIONE_VENDITA + MsgErroreVendita.CREAZIONE_VENDITA_BULLONI;
@@ -69,16 +70,24 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean addMerceVenduta(MerceVenduta merce) {
-		return false;
+	public boolean addMerceVenduta(MerceVenduta merce) throws VenditaException {
+		
+		if (merce == null)
+			throw new VenditaException(MsgErroreVendita.CREAZIONE_VENDITA + MsgErroreVendita.MERCE_VENDUTA_NULLA, new VenditaException());
+		
+		return this.merce.add(merce);
 	}
 
 	@Override
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean addAllMerceVenduta(Set<MerceVenduta> merce) {
-		return false;
+	public boolean addAllMerceVenduta(Set<MerceVenduta> merce) throws VenditaException {
+		
+		if (merce == null)
+			throw new VenditaException(MsgErroreVendita.CREAZIONE_VENDITA + MsgErroreVendita.MERCE_VENDUTA_NULLA, new VenditaException());
+		
+		return this.merce.addAll(merce);
 	}
 
 	@Override
@@ -86,15 +95,26 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 	 * {@inheritDoc}
 	 */
 	public Impiegato getResponsabileVendita() {
-		return null;
+		return this.impiegato;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	/**
 	 * {@inheritDoc}
 	 */
 	public Set<MerceVenduta> getMerceVenduta() {
-		return null;
+		
+		Iterator<MerceVenduta> i = merce.iterator();
+		
+		HashSet<MerceVenduta> clone = (HashSet<MerceVenduta>)merce.clone();
+		clone.clear();
+		
+		while(i.hasNext()) {
+			clone.add(i.next());
+		}
+		
+		return clone;
 	}
 
 	@Override
@@ -103,15 +123,17 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 	 */
 	public void setQuantitaMerceByCodice(int codiceMerce, int nuovaQuantita) {
 		
-	}
-
-	
-	@Override
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean equals(Object obj) {
-		return false;
+		Iterator<MerceVenduta> i = merce.iterator();
+		MerceVenduta mv = null;
+		
+		while(i.hasNext()) {
+			mv = i.next();
+			if (mv.getCodiceBullone() == codiceMerce) {
+				mv.setNumeroBulloni(nuovaQuantita);
+				mv.setPrezzoBulloni(mv.getPrezzoVenditaBullone() * nuovaQuantita);
+				break;
+			}
+		}
 	}
 	
 	
@@ -120,6 +142,19 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 	 * {@inheritDoc}
 	 */
 	public String toString() {
-		return null;
+		
+		String risultato = "Classe: " + this.getClass().getSimpleName() + "\n" + super.toString() +
+				           "Responsabile vendita:\n" + this.getResponsabileVendita().toString() + "\n" +
+				           "Merce venduta :";
+		
+		Iterator<MerceVenduta> i = merce.iterator();
+		
+		while(i.hasNext()) {
+			risultato += i.next().toString() + "\n";
+		}
+		risultato += "\n";
+
+		return risultato;
+		       
 	}
 }

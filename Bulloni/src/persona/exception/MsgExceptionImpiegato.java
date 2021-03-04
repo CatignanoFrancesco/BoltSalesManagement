@@ -24,5 +24,6 @@ public class MsgExceptionImpiegato {
 	public static final String IMPIEGATO_GIA_LICENZIATO = "non puoi licenziare un impiegato gia licenziato";
 
 	public static final String IMPIEGATO_GIA_ASSUNTO = "non puoi assumere un impiegato gia assunto";
-
+	
+	public static final String ECCESSO_BULLONI_ASSEGNATI = "troppo bulloni da vendere in confronto alle giornate assegnatoli";
 }

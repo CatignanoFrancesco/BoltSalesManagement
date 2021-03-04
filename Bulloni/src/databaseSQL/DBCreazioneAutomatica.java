@@ -117,10 +117,11 @@ class DBCreazioneAutomatica {
 				                                      "dataProduzione date not null, " +
 		                                              "luogoProduzione varchar(50) not null, " +
 				                                      "peso float not null, " +
+		                                              "prezzo float not null, " +
 		                                              "lunghezza float not null, " +
 				                                      "diametroVite float not null, " +
-		                                              "innesto enum('taglio', 'esagonale', 'croce', 'torx') not null, " +
-				                                      "materiale enum('acciaio', 'acciaio_inox', 'ottone', 'bronzo', 'titanio', 'nylon', 'vetro_porcellana') not null, " +
+		                                              "innesto enum('TAGLIO', 'ESAGONALE', 'CROCE', 'TORX') not null, " +
+				                                      "materiale enum('ACCIAIO', 'ACCIAIO_INOX', 'OTTONE', 'BRONZO', 'TITANIO', 'NYLON', 'VETRO_PORCELLANA') not null, " +
 		                                              "eliminato enum('T', 'F') not null default 'F' )");
 		pst.executeUpdate();
 		
@@ -130,9 +131,9 @@ class DBCreazioneAutomatica {
 		                            "references Bullone(codice) on delete cascade on update cascade )");
 		pst.executeUpdate();
 		
-		pst = Connessione.connection.prepareStatement("insert into Bullone values (0, '2012-05-30', 'Genova', 0.07, 2, 0.5, 'esagonale', 'acciaio', 'F'), " +
-		                                                       "(1, '2019-02-28', 'Bari', 0.1, 3, 1, 'croce', 'bronzo', 'F'), " +
-				                                               "(2, '2018-09-09', 'Bari', 0.1, 3, 1, 'torx', 'titanio', 'F')");
+		pst = Connessione.connection.prepareStatement("insert into Bullone values (0, '2012-05-30', 'Genova', 0.07, 2, 0.5, 'ESAGONALE', 'ACCIAIO', 'F'), " +
+		                                                       "(1, '2019-02-28', 'Bari', 0.1, 3, 1, 'CROCE', 'BRONZO', 'F'), " +
+				                                               "(2, '2018-09-09', 'Bari', 0.1, 3, 1, 'TORX', 'TITANIO', 'F')");
 		pst.executeUpdate();
 		
 		pst = Connessione.connection.prepareStatement("insert into Bullone_grano values (0), (1), (2)");
