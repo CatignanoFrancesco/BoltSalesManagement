@@ -94,7 +94,6 @@ public class GestoreBulloni {
 				DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_BULLONI, valoriTabellaBullone));
 				// Inserimento nella tabella specifica Bullone_grano
 				DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_BULLONE_GRANO, valoriTabellaBulloneGrano));
-				DatabaseSQL.chiudiConnessione();
 			}
 			catch(DatabaseSQLException e) {
 				System.err.println(e.getMessage());
@@ -160,7 +159,6 @@ public class GestoreBulloni {
 				// Update nel DB
 				try {
 					DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_BULLONI, CampiTabellaBullone.prezzo.toString(), ((Double)nuovoPrezzo).toString(), CampiTabellaBullone.codice.toString(), ((Integer)codice).toString()));
-					DatabaseSQL.chiudiConnessione();
 				}
 				catch(DatabaseSQLException e) {
 					System.err.println(e.getMessage());
@@ -197,7 +195,6 @@ public class GestoreBulloni {
 				// Update nel DB
 				try {
 					DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_BULLONI, CampiTabellaBullone.eliminato.toString(), "T", CampiTabellaBullone.codice.toString(), ((Integer)b.getCodice()).toString()));
-					DatabaseSQL.chiudiConnessione();
 				}
 				catch(DatabaseSQLException e) {
 					System.err.println(e.getMessage());
