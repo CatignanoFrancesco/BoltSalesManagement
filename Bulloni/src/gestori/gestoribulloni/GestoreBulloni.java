@@ -33,7 +33,7 @@ import databaseSQL.exception.DatabaseSQLException;
  *
  */
 public class GestoreBulloni {
-	private Set<Bullone> bulloni = new HashSet<Bullone>();	// Set di bulloni
+	private HashSet<Bullone> bulloni = new HashSet<Bullone>();	// Set di bulloni
 	private static int codBulloneAutomatico = 1;	// Genera automaticamente il codice per i bulloni in modo che siano unici. Viene incrementato ogni volta che viene utilizzato.
 	private static final String NOME_TABELLA_BULLONI = "Bullone";	// Nome della tabella generica dei bulloni per eseguire le insert, le query e le modifiche.
 	private static final String NOME_TABELLA_BULLONE_GRANO = "Bullone_grano";	// Nome della tabella specifica per eseguire le insert, le query e le modifiche.
@@ -103,6 +103,18 @@ public class GestoreBulloni {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	
+	/**
+	 * Restituisce una copia del set di bulloni, in modo da evitare modifiche o rimozioni che non coincidono
+	 * con quanto memorizzato nel database.
+	 * @return bulloniCopy La copia del set di bulloni
+	 */
+	public Set<Bullone> getAll() {
+		@SuppressWarnings("unchecked")
+		HashSet<Bullone> bulloniCopy = (HashSet<Bullone>) this.bulloni.clone();
+		return bulloniCopy;
 	}
 	
 	
