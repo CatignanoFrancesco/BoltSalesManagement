@@ -1,4 +1,4 @@
-package gestori;
+package gestori.gestoribulloni;
 
 /**
  * Contiene i nomi dei campi della tabella generale Bullone.

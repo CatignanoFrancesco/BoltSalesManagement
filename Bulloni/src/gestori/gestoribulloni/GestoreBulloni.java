@@ -1,4 +1,4 @@
-package gestori;
+package gestori.gestoribulloni;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -114,8 +114,8 @@ public class GestoreBulloni {
 	 */
 	private Bullone costruisciBulloneGrano(ResultSet rs) {
 		try {
-			Bullone bullone = new BulloneGrano(rs.getInt(1), new Data(rs.getDate(2)), rs.getString(3), rs.getDouble(4), rs.getDouble(5), Materiale.valueOf(rs.getString(9)), rs.getDouble(6), rs.getDouble(7), Innesto.valueOf(rs.getString(10)));
-			if(rs.getString(11)=="T") {
+			Bullone bullone = new BulloneGrano(rs.getInt(1), new Data(rs.getDate(2)), rs.getString(3), rs.getDouble(4), rs.getDouble(5), Materiale.valueOf(rs.getString(9)), rs.getDouble(6), rs.getDouble(7), Innesto.valueOf(rs.getString(8)));
+			if(rs.getString(10)=="T") {
 				bullone.elimina();
 			}
 			return bullone;
