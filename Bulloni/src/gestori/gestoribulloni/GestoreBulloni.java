@@ -85,7 +85,7 @@ public class GestoreBulloni {
 			bulloni.add(b);
 			
 			// Valori del bullone da inserire nel database
-			String[] valoriTabellaBullone = { ((Integer)b.getCodice()).toString(), b.getDataProduzione().toFormattedDate(), b.getLuogoProduzione(), ((Double)b.getPeso()).toString(), ((Double)b.getPrezzo()).toString(), ((Double)b.getLunghezza()).toString(), ((Double)b.getDiametroVite()).toString(), b.getInnesto().toString(), b.getMateriale().toString(), (b.isEliminato()==true) ? "T" : "F" };
+			String[] valoriTabellaBullone = { ((Integer)b.getCodice()).toString(), b.getDataProduzione().toSqlDate().toString(), b.getLuogoProduzione(), ((Double)b.getPeso()).toString(), ((Double)b.getPrezzo()).toString(), ((Double)b.getLunghezza()).toString(), ((Double)b.getDiametroVite()).toString(), b.getInnesto().toString(), b.getMateriale().toString(), (b.isEliminato()==true) ? "T" : "F" };
 			String[] valoriTabellaBulloneGrano = { ((Integer)b.getCodice()).toString() };
 			
 			// Inserimento nel database
