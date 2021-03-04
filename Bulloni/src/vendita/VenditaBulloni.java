@@ -89,7 +89,20 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 		if (merce == null)
 			throw new VenditaException(MsgErroreVendita.CREAZIONE_VENDITA + MsgErroreVendita.MERCE_VENDUTA_NULLA, new VenditaException());
 		
-		return this.merce.add(merce);
+		boolean risultato = this.merce.add(merce);
+		
+		/* 
+		 * se l'aggiunta è stata completata con successo, aggiorna gli attributi 
+		 * quantitaMerceTotale
+		 * prezzoVenditaTotale
+		 * sommandogli i valori della nuova istanza di merce venduta
+		 */
+		if (risultato) {
+			super.quantitaMerceTotale += merce.getNumeroBulloni();
+			super.prezzoVenditaTotale += merce.getPrezzoBulloni();
+		}
+		
+		return risultato;
 	}
 
 	@Override
@@ -101,7 +114,27 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 		if (merce == null)
 			throw new VenditaException(MsgErroreVendita.CREAZIONE_VENDITA + MsgErroreVendita.MERCE_VENDUTA_NULLA, new VenditaException());
 		
-		return this.merce.addAll(merce);
+		boolean risultato = this.merce.addAll(merce);
+		
+		/* 
+		 * se l'aggiunta è stata completata con successo, aggiorna gli attributi 
+		 * quantitaMerceTotale
+		 * prezzoVenditaTotale
+		 * sommandogli i valori del nuovo set di merce venduta
+		 */
+		if (risultato) {
+			
+			Iterator<MerceVenduta> i = merce.iterator();
+			MerceVenduta mv = null;
+			
+			while(i.hasNext()) {
+				mv = i.next();
+				super.quantitaMerceTotale += mv.getNumeroBulloni();
+				super.prezzoVenditaTotale += mv.getPrezzoBulloni();
+			}
+		}
+		
+		return risultato;
 	}
 
 	@Override
@@ -158,8 +191,10 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 	public String toString() {
 		
 		String risultato = "Classe: " + this.getClass().getSimpleName() + "\n" + super.toString() +
+				           "Quantità totale di merce venduta: " + super.quantitaMerceTotale + "\n" +
+				           "Prezzo totale della merce venduta: " + super.prezzoVenditaTotale + "\n" +
 				           "Responsabile vendita:\n" + this.getResponsabileVendita().toString() + "\n" +
-				           "Merce venduta :";
+				           "Merce venduta:\n";
 		
 		Iterator<MerceVenduta> i = merce.iterator();
 		

@@ -199,7 +199,7 @@ public class MerceVenduta implements Cloneable {
 		return "Numero di bulloni venduti: " + this.numeroBulloni + "\n" +
 		       "Prezzo totale di questi bulloni: " + this.prezzoBulloni + "\n" +
 			   "Prezzo del singolo bullone al momento della vendita: " + this.prezzoVenditaBullone + "\n" +
-		       "Dettagli sul bullone in questione: " + "\n" + this.bullone.toString();
+		       "Dettagli sul bullone in questione: " + "\n" + this.bullone.toString() + "\n";
 	}
 
 }
