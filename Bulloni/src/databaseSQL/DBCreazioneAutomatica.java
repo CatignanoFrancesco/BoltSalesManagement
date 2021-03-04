@@ -131,9 +131,9 @@ class DBCreazioneAutomatica {
 		                            "references Bullone(codice) on delete cascade on update cascade )");
 		pst.executeUpdate();
 		
-		pst = Connessione.connection.prepareStatement("insert into Bullone values (0, '2012-05-30', 'Genova', 0.07, 2, 0.5, 'ESAGONALE', 'ACCIAIO', 'F'), " +
-		                                                       "(1, '2019-02-28', 'Bari', 0.1, 3, 1, 'CROCE', 'BRONZO', 'F'), " +
-				                                               "(2, '2018-09-09', 'Bari', 0.1, 3, 1, 'TORX', 'TITANIO', 'F')");
+		pst = Connessione.connection.prepareStatement("insert into Bullone values (0, '2012-05-30', 'Genova', 0.07, 1.5, 2, 0.5, 'ESAGONALE', 'ACCIAIO', 'F'), " +
+		                                                       "(1, '2019-02-28', 'Bari', 0.1, 0.5, 3, 1, 'CROCE', 'BRONZO', 'F'), " +
+				                                               "(2, '2018-09-09', 'Bari', 0.1, 0.99, 3, 1, 'TORX', 'TITANIO', 'F')");
 		pst.executeUpdate();
 		
 		pst = Connessione.connection.prepareStatement("insert into Bullone_grano values (0), (1), (2)");
