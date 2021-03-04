@@ -13,12 +13,12 @@ package persona.exception;
  */
 public class MsgExceptionAnagraficaErrata {
 	
-	public static final String NOME_NON_VALIDO = "formato del nome assegnato al dipendente non valido";
+	public static final String NOME_NON_VALIDO = "sollevata ExceptionAnagraficaErrata:\nformato del nome assegnato al dipendente non valido";
 	
-	public static final String COGNOME_NON_VALIDO = "formato del cognome assegnato al dipendente non valido";
+	public static final String COGNOME_NON_VALIDO = "sollevata ExceptionAnagraficaErrata:\nformato del cognome assegnato al dipendente non valido";
 	
-	public static final String SESSO_NON_VALIDO = "sesso assegnato al dipendente non valido";
+	public static final String SESSO_NON_VALIDO = "sollevata ExceptionAnagraficaErrata:\nsesso assegnato al dipendente non valido";
 	
-	public static final String DATA_NASCITA_FUTURA = "data di nascita assegnata al dipendente futura";
+	public static final String DATA_NASCITA_FUTURA = "sollevata ExceptionAnagraficaErrata:\ndata di nascita assegnata al dipendente futura";
 
 }
