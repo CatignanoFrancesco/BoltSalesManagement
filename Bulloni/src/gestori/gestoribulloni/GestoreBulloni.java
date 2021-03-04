@@ -138,6 +138,45 @@ public class GestoreBulloni {
 	}
 	
 	
+	/**
+	 * Esegue la modifica del prezzo di un bullone presente nel set ed effettua l'update anche nel DB.
+	 * Cerca all'interno del set un bullone avente quel codice e, se lo trova, ne modifica il prezzo.
+	 * Se il bullone non viene trovato, viene sollevata un'eccezione. Viene sollevata un'eccezione anche quando
+	 * il prezzo non rientra nel range stabilito in Bullone.
+	 * Infine, se la ricerca e la modifica sono andate a buon fine, viene effettuato l'update nel database.
+	 * @param codice Il codice del bullone da modificare.
+	 * @param nuovoPrezzo Il nuovo valore dell'attributo "prezzo".
+	 * @throws BulloneException L'eccezione sollevata se il prezzo non rispetta le specifiche semantiche.
+	 */
+	public void updatePrezzoBulloneByCodice(int codice, double nuovoPrezzo) throws BulloneException {
+		boolean trovato = false;	// Vale true se il bullone e' stato trovato
+		
+		// Ricerca e update
+		for(Bullone b : this.bulloni) {
+			if(b.getCodice() == codice) {
+				trovato = true;
+				b.setPrezzo(nuovoPrezzo);
+				
+				// Update nel DB
+				try {
+					DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_BULLONI, CampiTabellaBullone.prezzo.toString(), ((Double)nuovoPrezzo).toString(), CampiTabellaBullone.codice.toString(), ((Integer)codice).toString()));
+					DatabaseSQL.chiudiConnessione();
+				}
+				catch(DatabaseSQLException e) {
+					System.err.println(e.getMessage());
+				}
+				catch(SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		if(trovato==false) {
+			//solleva eccezione
+		}
+	}
+	
+	
 	
 	/**
 	 * A partire dal risultato di una query, costruisce un oggetto Bullone di tipo grano.
