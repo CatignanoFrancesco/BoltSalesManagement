@@ -177,6 +177,43 @@ public class GestoreBulloni {
 	}
 	
 	
+	/**
+	 * Questo metodo permette di "rimuovere" un bullone dal set di bulloni e dal database.
+	 * In realta' viene solamente portato a "true" il valore dell'attributo "eliminato" in bullone. In questo modo non vengono eliminate tutte
+	 * le informazioni sui bulloni che potrebbero servire alle altre classi, ma sono rese inaccessibili alcune operazioni di modifica.
+	 * L'azione di eliminazione e' irreversibile.
+	 * La ricerca del bullone richiesto avviene mediante il codice ricevuto come parametro. Se la ricerca non da alcun risultato, viene sollevata
+	 * un'eccezione. 
+	 * @param codice Il codice del bullone da cercare.
+	 */
+	public void rimuoviBulloneByCodice(int codice) {
+		boolean trovato = false;	// Vale true se il bullone e' stato trovato.
+		
+		for(Bullone b : this.bulloni) {
+			if(b.getCodice()==codice) {
+				trovato = true;
+				b.elimina();	// Elimina il bullone
+				
+				// Update nel DB
+				try {
+					DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_BULLONI, CampiTabellaBullone.eliminato.toString(), "T", CampiTabellaBullone.codice.toString(), ((Integer)b.getCodice()).toString()));
+					DatabaseSQL.chiudiConnessione();
+				}
+				catch(DatabaseSQLException e) {
+					System.err.println(e.getMessage());
+				}
+				catch(SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		
+		if(trovato==false) {
+			// Sollevare eccezione
+		}
+	}
+	
 	
 	/**
 	 * A partire dal risultato di una query, costruisce un oggetto Bullone di tipo grano.
