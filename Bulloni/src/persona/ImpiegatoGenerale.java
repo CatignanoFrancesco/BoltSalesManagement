@@ -188,7 +188,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 																				// attuali
 
 			flagException = true;
-			msgException = MsgExceptionImpiegato.GIORNATE_NON_VALIDE;
+			msgException = MsgExceptionImpiegato.GIORNATE_PROMOZIONE_NON_VALIDO;
 
 		} else if (giornateLavorativeAnnuali > MAX_GIORNATE_LAVORATIVE_ANNUALI) {// giornate lavorative superiori ai
 																					// giorni di un anno
