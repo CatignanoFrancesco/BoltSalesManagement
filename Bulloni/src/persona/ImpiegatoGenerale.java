@@ -279,7 +279,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Object clone() throws CloneNotSupportedException {
+	public Object clone() {
 
 		Object o = null;
 

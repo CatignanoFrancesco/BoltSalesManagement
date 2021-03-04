@@ -79,7 +79,6 @@ public interface Impiegato extends Persona {
 	@Override
 	boolean equals(Object obj);
 	
-	
 	Object clone() throws CloneNotSupportedException;
 
 }
