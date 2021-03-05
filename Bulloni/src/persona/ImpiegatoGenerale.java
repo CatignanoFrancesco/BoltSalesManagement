@@ -222,8 +222,8 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	@Override
 	public String toString() {
 
-		return super.toString() + "\nid: " + this.getID() + "\nstipendio mensile: " + this.getStipendioMensile()
-				+ " \ngiornate lavorative annuali " + this.getGiornateLavorativeAnnuali();
+		return super.toString() + "\nID: " + this.getID() + "\nStipendio mensile: " + this.getStipendioMensile()
+				+ " \nGiornate lavorative annuali: " + this.getGiornateLavorativeAnnuali();
 	}
 
 	/**
@@ -292,9 +292,4 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 		return o;
 	}
 	
-	public boolean getIsAssunto() {
-		
-		return this.isAssunto;
-	}
-
 }

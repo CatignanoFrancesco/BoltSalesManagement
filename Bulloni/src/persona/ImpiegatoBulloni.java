@@ -166,7 +166,7 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return super.toString() + "\nbulloni vendibili annualmente: " + this.getBulloniVendibiliAnnualmente() + "\n";
+		return super.toString() + "\nBulloni vendibili annualmente: " + this.getBulloniVendibiliAnnualmente() + "\n";
 	}
 
 }

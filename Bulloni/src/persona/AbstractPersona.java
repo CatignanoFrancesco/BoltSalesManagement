@@ -178,8 +178,8 @@ abstract class AbstractPersona implements Persona {
 
 	public String toString() {
 
-		return "nome: " + this.getNome() + " \ncognome " + this.getCognome() + "\nsesso: " + this.getSesso()
-				+ "\ndata nascita: " + this.getDataNascita().toFormattedDate();
+		return "Nome: " + this.getNome() + " \nCognome: " + this.getCognome() + "\nSesso: " + this.getSesso()
+				+ "\nData nascita: " + this.getDataNascita().toFormattedDate();
 	}
 
 }
