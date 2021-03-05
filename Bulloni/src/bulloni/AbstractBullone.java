@@ -319,6 +319,7 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 					  "Data di produzione: " + this.dataProduzione.toFormattedDate() + "\n" +
 					  "Luogo produzione: " + this.luogoProduzione + "\n" +
 					  "Peso: " + this.peso + " gr" + "\n" +
+					  "Prezzo: " + this.prezzo + "€" + "\n" +
 					  "Materiale: " + this.materiale.toString() + "\n" +
 					  "Lunghezza: " + this.lunghezza + " mm" + "\n" +
 					  "Diametro della vite: " + this.diametroVite + " mm" + "\n" +
