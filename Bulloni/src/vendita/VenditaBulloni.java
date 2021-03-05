@@ -19,7 +19,7 @@ import vendita.exception.*;
 public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> implements Vendita<MerceVenduta, Impiegato> {
 
 	private Impiegato impiegato;
-	private HashSet<MerceVenduta> merce = new HashSet<MerceVenduta>();
+	private Set<MerceVenduta> merce = new HashSet<MerceVenduta>();
 	
 	/**
 	 * Costruttore di VenditaBulloni
@@ -52,11 +52,7 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 		this.impiegato = impiegato;
 		this.merce = merce;
 		
-		Iterator<MerceVenduta> i = merce.iterator();
-		MerceVenduta mv = null;
-		
-		while(i.hasNext()) {
-			mv = i.next();
+		for (MerceVenduta mv : merce) {
 			super.quantitaMerceTotale += mv.getNumeroBulloni();
 			super.prezzoVenditaTotale += mv.getPrezzoBulloni();
 		}
@@ -72,6 +68,7 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 		return super.prezzoVenditaTotale;
 	}
 
+	
 	@Override
 	/**
 	 * {@inheritDoc}
@@ -80,6 +77,7 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 		return super.quantitaMerceTotale;
 	}
 
+	
 	@Override
 	/**
 	 * {@inheritDoc}
@@ -105,6 +103,7 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 		return risultato;
 	}
 
+	
 	@Override
 	/**
 	 * {@inheritDoc}
@@ -123,12 +122,7 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 		 * sommandogli i valori del nuovo set di merce venduta
 		 */
 		if (risultato) {
-			
-			Iterator<MerceVenduta> i = merce.iterator();
-			MerceVenduta mv = null;
-			
-			while(i.hasNext()) {
-				mv = i.next();
+			for (MerceVenduta mv : merce) {
 				super.quantitaMerceTotale += mv.getNumeroBulloni();
 				super.prezzoVenditaTotale += mv.getPrezzoBulloni();
 			}
@@ -137,6 +131,7 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 		return risultato;
 	}
 
+	
 	@Override
 	/**
 	 * {@inheritDoc}
@@ -145,25 +140,23 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 		return (Impiegato)this.impiegato.clone();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	/**
 	 * {@inheritDoc}
 	 */
 	public Set<MerceVenduta> getMerceVenduta() {
 		
-		Iterator<MerceVenduta> i = merce.iterator();
+		Set<MerceVenduta> clone = new HashSet<MerceVenduta>();
 		
-		HashSet<MerceVenduta> clone = (HashSet<MerceVenduta>)merce.clone();
-		clone.clear();
-		
-		while(i.hasNext()) {
-			clone.add(i.next());
+		for (MerceVenduta mv : this.merce) {
+			clone.add((MerceVenduta)mv.clone());
 		}
 		
 		return clone;
 	}
 
+	
 	@Override
 	/**
 	 * {@inheritDoc}
