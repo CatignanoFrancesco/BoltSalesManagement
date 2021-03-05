@@ -122,21 +122,14 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 			flagException = true;
 			msgException = MsgExceptionImpiegato.IMPIEGATO_GIA_ASSUNTO;
 
-		} else if ((stipendioMensile < MIN_STIPENDIO_MENSILE) || (stipendioMensile > MAX_STIPENDIO_MENSILE)) {// lo
-																												// stipedendio
-																												// non
-																												// rispetta
-																												// le
-																												// soglie
-																												// minime
-																												// e
-																												// massime
+		} else if ((stipendioMensile < MIN_STIPENDIO_MENSILE) || (stipendioMensile > MAX_STIPENDIO_MENSILE)) {// lo stipedendio non rispetta
+																												// le soglie minime e massime
 
 			flagException = true;
 			msgException = MsgExceptionImpiegato.STIPENDIO_NON_VALIDO;
 
-		} else if (this.giornateLavorativeAnnuali < MIN_GIORNATE_LAVORATIVE_ANNUALI
-				|| this.giornateLavorativeAnnuali > MAX_GIORNATE_LAVORATIVE_ANNUALI) {// le giornate lavorative non
+		} else if ((giornateLavorativeAnnuali < MIN_GIORNATE_LAVORATIVE_ANNUALI) ||
+					(giornateLavorativeAnnuali > MAX_GIORNATE_LAVORATIVE_ANNUALI)) {// le giornate lavorative non
 																						// rispettano le soglie min o
 																						// max
 
@@ -297,6 +290,11 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 		}
 
 		return o;
+	}
+	
+	public boolean getIsAssunto() {
+		
+		return this.isAssunto;
 	}
 
 }
