@@ -3,8 +3,6 @@
  */
 package persona;
 
-import java.io.ObjectInputStream.GetField;
-import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 import persona.exception.ExceptionAnagraficaErrata;
