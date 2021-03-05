@@ -315,7 +315,17 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 	 */
 	@Override
 	public String toString() {
-		return "Bullone";
+		String info = "Codice: " + this.codice + "\n" + 
+					  "Data di produzione: " + this.dataProduzione.toFormattedDate() + "\n" +
+					  "Luogo produzione: " + this.luogoProduzione + "\n" +
+					  "Peso: " + this.peso + " gr" + "\n" +
+					  "Materiale: " + this.materiale.toString() + "\n" +
+					  "Lunghezza: " + this.lunghezza + " mm" + "\n" +
+					  "Diametro della vite: " + this.diametroVite + " mm" + "\n" +
+					  "Diametro del dado: " + this.diametroDado + " mm" + "\n" +
+					  "Tipo innesto: " + this.innesto.toString();
+		
+		return info;
 	}
 	
 	

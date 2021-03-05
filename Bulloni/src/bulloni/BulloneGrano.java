@@ -26,7 +26,7 @@ public class BulloneGrano extends AbstractBullone {
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + " " + "grano";
+		return "Classe: " + this.getClass().getSimpleName() + "\n" + super.toString();
 	}
 
 }
