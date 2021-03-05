@@ -18,7 +18,11 @@ import vendita.exception.*;
  */
 public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> implements Vendita<MerceVenduta, Impiegato> {
 
+	/** Responsabile della vendita */
 	private Impiegato impiegato;
+	
+	/** Questo Set di MerceVenduta costituisce l'accesso ai bulloni venduti e ad altre proprietà della relazione,
+	 * infatti la classe MerceVenduta è una classe associativa */
 	private Set<MerceVenduta> merce = new HashSet<MerceVenduta>();
 	
 	/**
@@ -163,11 +167,7 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 	 */
 	public void setQuantitaMerceByCodice(int codiceMerce, int nuovaQuantita) {
 		
-		Iterator<MerceVenduta> i = merce.iterator();
-		MerceVenduta mv = null;
-		
-		while(i.hasNext()) {
-			mv = i.next();
+		for (MerceVenduta mv : this.merce) {
 			if (mv.getCodiceBullone() == codiceMerce) {
 				mv.setNumeroBulloni(nuovaQuantita);
 				mv.setPrezzoBulloni(mv.getPrezzoVenditaBullone() * nuovaQuantita);
@@ -185,14 +185,12 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 		
 		String risultato = "Classe: " + this.getClass().getSimpleName() + "\n" + super.toString() +
 				           "Quantità totale di merce venduta: " + super.quantitaMerceTotale + "\n" +
-				           "Prezzo totale della merce venduta: " + super.prezzoVenditaTotale + "\n" +
+				           "Prezzo totale della merce venduta: " + super.prezzoVenditaTotale + "\n\n" +
 				           "Responsabile vendita:\n" + this.getResponsabileVendita().toString() + "\n" +
 				           "Merce venduta:\n";
 		
-		Iterator<MerceVenduta> i = merce.iterator();
-		
-		while(i.hasNext()) {
-			risultato += i.next().toString() + "\n";
+		for (MerceVenduta mv : this.merce) {
+			risultato += mv.toString() + "\n";
 		}
 		risultato += "\n";
 
