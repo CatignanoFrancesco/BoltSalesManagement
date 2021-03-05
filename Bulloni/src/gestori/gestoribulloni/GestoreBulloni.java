@@ -80,7 +80,7 @@ public class GestoreBulloni {
 	 * Se non e' stato ricevuto alcun bullone in input, verra' sollevata un'eccezione.
 	 * @param b Il bullone grano
 	 */
-	public void newBulloneGrano(BulloneGrano b) {
+	public void newBulloneGrano(Bullone b) {
 		if(b!=null) {	// altrimenti sollevera' un'eccezione
 			bulloni.add(b);
 			
