@@ -1,5 +1,6 @@
 /**
  * @author GiannettaGerardo
+ * 
  * Package contenente le classi java per utilizzare un database SQL,
  * in questo caso specifico MySQL.
  * 
