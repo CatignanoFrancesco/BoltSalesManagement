@@ -25,6 +25,8 @@ class DBCreazioneAutomatica {
 	
 	public static void eseguiDBCreazioneAutomatica(String url, String user, String pass, String dbName, String timeZone) throws SQLException {
 		
+		System.out.println("Creazione DB iniziata...");
+		
 		// crea il database e lo usa per le operazioni successive
 		createAndUseDB(url, user, pass, dbName, timeZone);
 		
@@ -39,6 +41,8 @@ class DBCreazioneAutomatica {
 		
 		// crea la tabella MerceVenduta nel db
 		createMerceVenduta();
+		
+		System.out.println("Creazione DB terminata.");
 	}
 	
 	
