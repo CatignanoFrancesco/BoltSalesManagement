@@ -167,10 +167,21 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 	 */
 	public void setQuantitaMerceByCodice(int codiceMerce, int nuovaQuantita) {
 		
+		/*
+		 * Una volta trovata l'istanza di MerceVenduta tramite il codice, si sottraggono 
+		 * ai 2 attributi quantitaMerceTotale e prezzoVenditaTotale le precedenti quantità 
+		 * corrispondenti all'istanza di MerceVenduta trovata, si modificano le quantità di 
+		 * questa istanza di MerceVenduta e successivamente si riaggiungono le nuove quantità 
+		 * ai 2 attributi quantitaMerceTotale e prezzoVenditaTotale
+		 */
 		for (MerceVenduta mv : this.merce) {
 			if (mv.getCodiceBullone() == codiceMerce) {
+				super.quantitaMerceTotale -= mv.getNumeroBulloni();
+				super.prezzoVenditaTotale -= mv.getPrezzoBulloni();
 				mv.setNumeroBulloni(nuovaQuantita);
 				mv.setPrezzoBulloni(mv.getPrezzoVenditaBullone() * nuovaQuantita);
+				super.quantitaMerceTotale += mv.getNumeroBulloni();
+				super.prezzoVenditaTotale += mv.getPrezzoBulloni();
 				break;
 			}
 		}
