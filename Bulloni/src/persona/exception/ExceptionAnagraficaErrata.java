@@ -12,13 +12,25 @@ package persona.exception;
  */
 public class ExceptionAnagraficaErrata extends Exception {
 
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * costruttore
+	 */
 	public ExceptionAnagraficaErrata() {
 		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @param message
-	 * @param cause
+	 * 
+	 * costruttore
+	 * 
+	 * @param message il messaggio che si vuole assegnare all'eccezione
+	 * @param cause il tipo di causa che ha sollevato l'eccezione
 	 */
 	public ExceptionAnagraficaErrata(String message, Throwable cause) {
 		super(message, cause);

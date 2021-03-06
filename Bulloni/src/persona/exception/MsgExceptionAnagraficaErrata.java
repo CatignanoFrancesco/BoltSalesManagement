@@ -6,19 +6,19 @@ package persona.exception;
 /**
  * @author Francolino Flavio Domenico
  * 
- *         questa classe conterra tutti i possibili messaggi usabili da classi
+ *         questa classe contine tutti i possibili messaggi usabili da classi
  *         che sollevano eccezione ti tipo personalizzato rigurardanti un
  *         angrafica errata di una persona
  *
  */
 public class MsgExceptionAnagraficaErrata {
 	
-	public static final String NOME_NON_VALIDO = "sollevata ExceptionAnagraficaErrata:\nformato del nome assegnato al dipendente non valido";
+	public static final String NOME_NON_VALIDO = "Sollevata ExceptionAnagraficaErrata:\nformato del nome assegnato al dipendente non valido";
 	
-	public static final String COGNOME_NON_VALIDO = "sollevata ExceptionAnagraficaErrata:\nformato del cognome assegnato al dipendente non valido";
+	public static final String COGNOME_NON_VALIDO = "Sollevata ExceptionAnagraficaErrata:\nformato del cognome assegnato al dipendente non valido";
 	
-	public static final String SESSO_NON_VALIDO = "sollevata ExceptionAnagraficaErrata:\nsesso assegnato al dipendente non valido";
+	public static final String SESSO_NON_VALIDO = "Sollevata ExceptionAnagraficaErrata:\nsesso assegnato al dipendente non valido";
 	
-	public static final String DATA_NASCITA_FUTURA = "sollevata ExceptionAnagraficaErrata:\ndata di nascita assegnata al dipendente futura";
+	public static final String DATA_NASCITA_FUTURA = "Sollevata ExceptionAnagraficaErrata:\ndata di nascita assegnata al dipendente futura";
 
 }
