@@ -207,7 +207,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	@Override
 	public void licenzia() throws ExceptionImpiegato {
 
-		if (this.isAssunto == true) {// se l'impiegato non è gia licenziato
+		if (this.isAssunto == true) {// se l'impiegato è effetivamente assunto
 
 			this.isAssunto = false;
 			this.stipendioMensile = 0;

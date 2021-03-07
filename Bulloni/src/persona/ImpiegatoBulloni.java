@@ -29,7 +29,7 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 											// con n=BULLONI_VENDIBILI_GIORNALMENTE*this.giornateLAvorativeAnnuali
 
 	/**
-	 * costruttore che setta il numero di bulloni vendibili annalmente in base alle
+	 * costruttore che setta il numero di bulloni vendibili annualmente in base alle
 	 * giornate lavorative dell'impiegato
 	 * 
 	 * @param nome                      nome impiegato
@@ -141,6 +141,44 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 
 			this.bulloniVendibiliAnnualmente = bulloniVendibiliAnnualmente;
 	}
+	
+	
+	@Override
+	public void assumi(int stipendioMensile, int giornateLavorativeAnnuali) throws ExceptionImpiegato {
+		
+		super.assumi(stipendioMensile, giornateLavorativeAnnuali);
+		this.bulloniVendibiliAnnualmente = BULLONI_VENDIBILI_GIORNALMENTE * this.getGiornateLavorativeAnnuali();
+	}
+	
+	
+	
+	public void assumi(int stipendioMensile, int giornateLavorativeAnnuali, int bulloniVendibiliAnnualmente) throws ExceptionImpiegato {
+		
+		super.assumi(stipendioMensile, giornateLavorativeAnnuali);
+		
+		if (!checkMaxNumeroBulloniVendibiliAnnualmente(bulloniVendibiliAnnualmente))
+			// per vendere tutti i bulloni dovrebbe vendere piu di 500 bulloni al di
+			// cosa non concesso dalle specifiche per cui sollevo un eccezione
+
+			throw new ExceptionImpiegato(MsgExceptionImpiegato.ECCESSO_BULLONI_ASSEGNATI, new ExceptionImpiegato());
+		
+		else if(bulloniVendibiliAnnualmente < MIN_BULLONI_VENDIBILI_ANNUALMENTE)
+			
+			throw new ExceptionImpiegato(MsgExceptionImpiegato.POCHI_BULLONI_ASSEGNATI, new ExceptionImpiegato());
+
+		else
+
+			this.bulloniVendibiliAnnualmente = bulloniVendibiliAnnualmente;
+	}
+	
+	@Override
+	public void licenzia() throws ExceptionImpiegato {
+		
+		super.licenzia();
+		this.bulloniVendibiliAnnualmente = 0;
+	}
+	
+	
 
 	/**
 	 * controllo se il numero di bulloni che sto assegnando ad un impiegato rispetti
