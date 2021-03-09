@@ -2,9 +2,13 @@ package gestori.gestorevendite;
 
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
+
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import utility.Data;
 import vendita.*;
 import vendita.exception.*;
@@ -25,64 +29,67 @@ public class GestoreVendita {
 	private static int codVenditaAutomatico = 0;
 	private static final String NOME_TABELLA_VENDITA = "Vendita";
 	private static final String NOME_TABELLA_MERCE_VENDUTA = "MerceVenduta";
-	private static final String NOME_TABELLA_IMPIEGATO = "Impiegato";
-	private static final String NOME_TABELLA_BULLONE = "Bullone";
 
 	
 	public GestoreVendita(GestoreBulloni gb) {
 		
-		selectVendite();
-		selectMerceVenduta(gb);
+		Map<Integer, Set<MerceVenduta>> merce = selectMerceVenduta(gb);
 	}
 	
 	
-	private void selectMerceVenduta(GestoreBulloni gb) {
+	private Map<Integer, Set<MerceVenduta>> selectMerceVenduta(GestoreBulloni gb) {
 		
 		Set<Bullone> bulloni = gb.getAll();
-		Set<MerceVenduta> merce = new HashSet<MerceVenduta>();
+		Map<Integer, Set<MerceVenduta>> merce = new HashMap<Integer, Set<MerceVenduta>>();
 		
 		try {
 			ResultSet rs = DatabaseSQL.select(Query.getSimpleSelect(NOME_TABELLA_MERCE_VENDUTA));
 			
 			while(rs.next()) {
-				for (Bullone b : bulloni) {
-					if (b.getCodice() == rs.getInt(2)) {
+				
+				try {
+					Set<MerceVenduta> setMerce = merce.get(rs.getInt(CampiTabellaMerceVenduta.codVendita.toString()));
+					
+					if (setMerce == null) {
 						
+						setMerce = new HashSet<MerceVenduta>();
+						
+						setMerce.add(new MerceVenduta(gb.getBulloneByCodice(rs.getInt(CampiTabellaMerceVenduta.bullone.toString())), 
+                                                      rs.getInt(CampiTabellaMerceVenduta.numeroBulloni.toString()), 
+                                                      rs.getDouble(CampiTabellaMerceVenduta.prezzoBulloni.toString()), 
+                                                      rs.getDouble(CampiTabellaMerceVenduta.prezzoVenditaBullone.toString())
+                                                      ));
+						
+						merce.put(rs.getInt(CampiTabellaMerceVenduta.codVendita.toString()), setMerce);
+					}
+					else {
+						setMerce.add(new MerceVenduta(gb.getBulloneByCodice(rs.getInt(CampiTabellaMerceVenduta.bullone.toString())), 
+                                                      rs.getInt(CampiTabellaMerceVenduta.numeroBulloni.toString()), 
+                                                      rs.getDouble(CampiTabellaMerceVenduta.prezzoBulloni.toString()), 
+                                                      rs.getDouble(CampiTabellaMerceVenduta.prezzoVenditaBullone.toString())
+                                                      ));
 					}
 				}
-			}
-		}
-		catch (DatabaseSQLException e) {
-			System.out.println(e.getMessage());
-		}
-		catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-	
-	
-	private void selectVendite() {
-		
-		try {
-			ResultSet rs = DatabaseSQL.select(Query.getSimpleSelectEquiJoin (
-					                           NOME_TABELLA_VENDITA, 
-	                                           "Impiegato", 
-	                                           CampiTabellaVendita.impiegato.toString(), 
-	                                           "matricola")
-					                           );
-			
-			while (rs.next()) {
+				catch (GestoreBulloniException e) {
+					System.err.println(e.getMessage());
+				}
+				catch (VenditaException e) {
+					System.err.println(e.getMessage());
+				}
 				
 			}
 			
 			DatabaseSQL.chiudiConnessione();
+			
 		}
 		catch (DatabaseSQLException e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 		}
 		catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 		}
+		
+		return merce;
 	}
 
 }
