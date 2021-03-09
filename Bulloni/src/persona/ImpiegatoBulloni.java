@@ -28,6 +28,16 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 											// ad ogno modo non sara possibile assegnare piu di n bulloni
 											// con n=BULLONI_VENDIBILI_GIORNALMENTE*this.giornateLAvorativeAnnuali
 	
+	
+	/**
+	 * costruttore da usare qundo devo instanziare in impiegato che prendere i valori da un altro impiegato
+	 */
+	public ImpiegatoBulloni() {
+		
+		super();
+	};
+	
+	
 	/**
 	 * costruttore che setta il numero di bulloni vendibili annualmente in maniera
 	 * arbitraria tramite il parametro apposito, da usare quando s'instanzia un impiegato con dati fatti inserire dall'utente

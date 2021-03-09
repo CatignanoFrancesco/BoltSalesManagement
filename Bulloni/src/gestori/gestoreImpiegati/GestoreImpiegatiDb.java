@@ -96,6 +96,25 @@ public class GestoreImpiegatiDb {
 		return returnSetImpiegati;
 
 	}
+	
+	
+	public ImpiegatoBulloni getImpiegatoByID(int id) {
+		
+		
+		ImpiegatoBulloni impiegato = new ImpiegatoBulloni();
+		
+		for(ImpiegatoBulloni i : this.impiegati) {
+			
+			if(id == i.getID()) {
+				
+				impiegato = (ImpiegatoBulloni)i.clone();
+				
+				break;
+			}
+		}
+		
+		return impiegato;
+	}
 
 	/**
 	 * questo metodo si occupa di inserire nel set locale e quindi poi sul db un
@@ -245,7 +264,7 @@ public class GestoreImpiegatiDb {
 	 * @throws DatabaseSQLException
 	 * @throws SQLException
 	 */
-	public void assumiImpiegatDB(int id) throws ExceptionGestoreImpiegato, SQLException, DatabaseSQLException {
+	public void assumiImpiegatoDB(int id) throws ExceptionGestoreImpiegato, SQLException, DatabaseSQLException {
 
 		boolean flag = false;// flag per indicare se si è trovato l'impiegato richiesto o meno
 

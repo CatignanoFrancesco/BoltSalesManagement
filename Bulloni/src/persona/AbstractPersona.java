@@ -27,6 +27,13 @@ abstract class AbstractPersona implements Persona {
 																	// cognome senza fare distinzione fra minuscolo e
 																	// maiuscolo
 
+	
+	/**
+	 * costruttore
+	 */
+	public AbstractPersona() {};
+	
+	
 	/**
 	 * costruttore
 	 * 

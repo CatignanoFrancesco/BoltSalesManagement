@@ -27,6 +27,14 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	private float stipendioMensile;
 	private boolean isAssunto = true;// alla crazione di un instanza Impiegato si presuppone che sia anche stato
 										// assunto
+	
+	/**
+	 * costruttore da usare qundo devo instanziare in impiegato che prendere i valori da un altro impiegato
+	 */
+	public ImpiegatoGenerale() {
+		
+		super();
+	};
 
 	/**
 	 * costruttore di classe da usare per instanziare dipendenti con dati presi dal db
