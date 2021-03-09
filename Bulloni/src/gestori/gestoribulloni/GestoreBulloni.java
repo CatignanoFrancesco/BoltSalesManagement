@@ -36,7 +36,7 @@ import databaseSQL.exception.DatabaseSQLException;
  */
 public class GestoreBulloni {
 	private Set<Bullone> bulloni = new HashSet<Bullone>();	// Set di bulloni
-	private static int codBulloneAutomatico = 1;	// Genera automaticamente il codice per i bulloni in modo che siano unici. Viene incrementato ogni volta che viene utilizzato.
+	private static int codBulloneAutomatico = 0;	// Contiene un codice di un bullone non presente tra i codici dei bulloni presenti nel set. Questo servira' per tutti i casi in cui il codice del bullone deve essere creato dal gestore.
 	private static final String NOME_TABELLA_BULLONI = "Bullone";	// Nome della tabella generica dei bulloni per eseguire le insert, le query e le modifiche.
 	private static final String NOME_TABELLA_BULLONE_GRANO = "Bullone_grano";	// Nome della tabella specifica per eseguire le insert, le query e le modifiche.
 	
@@ -62,7 +62,6 @@ public class GestoreBulloni {
 			ResultSet rs = DatabaseSQL.select(Query.getSimpleSelectEquiJoin(NOME_TABELLA_BULLONI, NOME_TABELLA_BULLONE_GRANO, CampiTabellaBullone.codice.toString(), CampiTabellaBulloneGrano.codice.toString()));
 			while(rs.next()) {
 				bulloni.add(costruisciBulloneGrano(rs));
-				codBulloneAutomatico++;	// Aggiorna il suo valore, cosi' quando verra' utilizzato, codBulloneAutomatico avra' un valore che sicuramente non e' mai stato utilizzato per il codice del bullone.
 			}
 			DatabaseSQL.chiudiConnessione();	// Chiusura della connessione al db (l'apertura è fatta automaticamente al momento della chiamata ad una select
 		}
@@ -72,6 +71,11 @@ public class GestoreBulloni {
 		catch(DatabaseSQLException e) {
 			System.err.println(e.getMessage());
 		}
+		
+		/*
+		 * Viene assegnato all'attributo codBulloneAutomatico un valore non esistente nel set di bulloni.
+		 */
+		codBulloneAutomatico = this.getMaxCodiceBullone() + 1;
 	}
 	
 	
@@ -80,31 +84,42 @@ public class GestoreBulloni {
 	/**
 	 * Metodo per aggiungere al set di bulloni il bullone di tipo grano e per inserirlo nel database.
 	 * Se non e' stato ricevuto alcun bullone in input, verra' sollevata un'eccezione.
+	 * Se viene ricevuto un bullone il cui codice esiste gia', ne viene cambiato il codice (attraverso l'attributo codBulloneAutomatico)
+	 * e viene inserito nel set e successivamente nella relativa tabella del database.
 	 * @param b Il bullone grano
 	 * @throws GestoreBulloniException L'eccezione sollevata se non e' stato ricevuto in input alcun bullone.
 	 */
 	public void newBulloneGrano(Bullone b) throws GestoreBulloniException {
 		if(b!=null) {
 			
-			// Se il bullone esiste gia', non viene effettuata la insert
-			if(bulloni.add(b) == true) {
-				// Valori del bullone da inserire nel database
-				String[] valoriTabellaBullone = { ((Integer)b.getCodice()).toString(), b.getDataProduzione().toSqlDate().toString(), b.getLuogoProduzione(), ((Double)b.getPeso()).toString(), ((Double)b.getPrezzo()).toString(), ((Double)b.getLunghezza()).toString(), ((Double)b.getDiametroVite()).toString(), b.getInnesto().toString(), b.getMateriale().toString(), (b.isEliminato()==true) ? "T" : "F" };
-				String[] valoriTabellaBulloneGrano = { ((Integer)b.getCodice()).toString() };
-				
-				// Inserimento nel database
+			// Se il bullone esiste gia', ne viene cambiato il codice e viene inserito nel db
+			if(bulloni.add(b) == false) {
 				try {
-					// Inserimento nella tabella generale Bullone
-					DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_BULLONI, valoriTabellaBullone));
-					// Inserimento nella tabella specifica Bullone_grano
-					DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_BULLONE_GRANO, valoriTabellaBulloneGrano));
+					b = new BulloneGrano(codBulloneAutomatico, b.getDataProduzione(), b.getLuogoProduzione(), b.getPeso(), b.getPrezzo(), b.getMateriale(), b.getLunghezza(), b.getDiametroDado(), b.getInnesto());
+					bulloni.add(b);
 				}
-				catch(DatabaseSQLException e) {
+				catch(BulloneException e) {
 					System.err.println(e.getMessage());
 				}
-				catch(SQLException e) {
-					e.printStackTrace();
-				}	
+				codBulloneAutomatico++;
+			}
+			
+			// Valori del bullone da inserire nel database
+			String[] valoriTabellaBullone = { ((Integer)b.getCodice()).toString(), b.getDataProduzione().toSqlDate().toString(), b.getLuogoProduzione(), ((Double)b.getPeso()).toString(), ((Double)b.getPrezzo()).toString(), ((Double)b.getLunghezza()).toString(), ((Double)b.getDiametroVite()).toString(), b.getInnesto().toString(), b.getMateriale().toString(), (b.isEliminato()==true) ? "T" : "F" };
+			String[] valoriTabellaBulloneGrano = { ((Integer)b.getCodice()).toString() };
+			
+			// Inserimento nel database
+			try {
+				// Inserimento nella tabella generale Bullone
+				DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_BULLONI, valoriTabellaBullone));
+				// Inserimento nella tabella specifica Bullone_grano
+				DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_BULLONE_GRANO, valoriTabellaBulloneGrano));
+			}
+			catch(DatabaseSQLException e) {
+				System.err.println(e.getMessage());
+			}
+			catch(SQLException e) {
+				e.printStackTrace();
 			}
 			
 		} else {
@@ -257,6 +272,28 @@ public class GestoreBulloni {
 		}
 				
 		return null;
+	}
+
+	
+	/**
+	 * Restituisce il massimo tra i codici dei bulloni presenti nel set.
+	 * Questo metodo servira' per evitare che dopo il riempimento del set di bulloni, il valore dell'attributo "codBulloneAutomatico"
+	 * contenga un valore corrispondente ad un codice gia' presente nel set. In questo modo viene evitato il sollevamento
+	 * di qualche eccezione relativa all'inserimento nel database di un bullone con un codice gia' presente (con il conseguente rifiuto
+	 * della insert).
+	 * La ricerca del codice avente valore massimo avviene mediante una ricerca lineare all'interno del set, confrontando il codice
+	 * con un valore massimo provvisorio, che verra' aggiornato quando viene trovato un codice il cui valore e' superiore.
+	 * @return max Il codice del bullone avente valore massimo.
+	 */
+	private int getMaxCodiceBullone() {
+		int max = 0;
+		
+		for(Bullone b : this.bulloni) {
+			if(b.getCodice()>max) {
+				max = b.getCodice();
+			}
+		}
+		return max;
 	}
 	
 }
