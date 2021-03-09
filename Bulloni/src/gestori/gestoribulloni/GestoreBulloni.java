@@ -96,12 +96,14 @@ public class GestoreBulloni {
 			if(bulloni.add(b) == false) {
 				try {
 					b = new BulloneGrano(codBulloneAutomatico, b.getDataProduzione(), b.getLuogoProduzione(), b.getPeso(), b.getPrezzo(), b.getMateriale(), b.getLunghezza(), b.getDiametroDado(), b.getInnesto());
-					bulloni.add(b);
 				}
 				catch(BulloneException e) {
 					System.err.println(e.getMessage());
 				}
+				bulloni.add(b);
 				codBulloneAutomatico++;
+			} else {
+				codBulloneAutomatico = this.getMaxCodiceBullone() + 1;	// Aggiornato nuovamente
 			}
 			
 			// Valori del bullone da inserire nel database
