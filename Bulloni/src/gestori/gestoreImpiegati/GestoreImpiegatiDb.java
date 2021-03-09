@@ -98,7 +98,9 @@ public class GestoreImpiegatiDb {
 	}
 	
 	
-	public ImpiegatoBulloni getImpiegatoByID(int id) {
+	public ImpiegatoBulloni getImpiegatoByID(int id) throws ExceptionGestoreImpiegato {
+		
+		boolean flag = false;//flag per segnalare se viene trovato il dipendente cercato
 		
 		
 		ImpiegatoBulloni impiegato = new ImpiegatoBulloni();
@@ -109,9 +111,16 @@ public class GestoreImpiegatiDb {
 				
 				impiegato = (ImpiegatoBulloni)i.clone();
 				
+				flag = true;
+				
 				break;
 			}
 		}
+		
+		if (flag == false)// non ho trovato l'impiegato richiesto
+
+			throw new ExceptionGestoreImpiegato(MsgExceptionGestoreImpiegato.IMPIEGATO_NON_TROVATO,
+					new ExceptionGestoreImpiegato());
 		
 		return impiegato;
 	}
