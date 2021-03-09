@@ -34,7 +34,7 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 	 * @param merce insieme di merce venduta
 	 * @throws VenditaException
 	 */
-	public VenditaBulloni(int codVendita, Data data, Impiegato impiegato, HashSet<MerceVenduta> merce) throws VenditaException {
+	public VenditaBulloni(int codVendita, Data data, Impiegato impiegato, Set<MerceVenduta> merce) throws VenditaException {
 		super(codVendita, data);
 		
 		String errore = MsgErroreVendita.CREAZIONE_VENDITA + MsgErroreVendita.CREAZIONE_VENDITA_BULLONI;
