@@ -15,6 +15,8 @@ import bulloni.BulloneGrano;
 import bulloni.Materiale;
 import bulloni.Innesto;
 import bulloni.exception.BulloneException;
+import gestori.gestoribulloni.exception.GestoreBulloniException;
+import gestori.gestoribulloni.exception.MsgErrore;
 /*
  * Classi per gestire il database e le sue eccezioni (effettuare query, insert, update ecc...) e per creare le query da far eseguire al DBMS.
  */
@@ -79,28 +81,34 @@ public class GestoreBulloni {
 	 * Metodo per aggiungere al set di bulloni il bullone di tipo grano e per inserirlo nel database.
 	 * Se non e' stato ricevuto alcun bullone in input, verra' sollevata un'eccezione.
 	 * @param b Il bullone grano
+	 * @throws GestoreBulloniException L'eccezione sollevata se non e' stato ricevuto in input alcun bullone.
 	 */
-	public void newBulloneGrano(Bullone b) {
-		if(b!=null) {	// altrimenti sollevera' un'eccezione
-			bulloni.add(b);
+	public void newBulloneGrano(Bullone b) throws GestoreBulloniException {
+		if(b!=null) {
 			
-			// Valori del bullone da inserire nel database
-			String[] valoriTabellaBullone = { ((Integer)b.getCodice()).toString(), b.getDataProduzione().toSqlDate().toString(), b.getLuogoProduzione(), ((Double)b.getPeso()).toString(), ((Double)b.getPrezzo()).toString(), ((Double)b.getLunghezza()).toString(), ((Double)b.getDiametroVite()).toString(), b.getInnesto().toString(), b.getMateriale().toString(), (b.isEliminato()==true) ? "T" : "F" };
-			String[] valoriTabellaBulloneGrano = { ((Integer)b.getCodice()).toString() };
+			// Se il bullone esiste gia', non viene effettuata la insert
+			if(bulloni.add(b) == true) {
+				// Valori del bullone da inserire nel database
+				String[] valoriTabellaBullone = { ((Integer)b.getCodice()).toString(), b.getDataProduzione().toSqlDate().toString(), b.getLuogoProduzione(), ((Double)b.getPeso()).toString(), ((Double)b.getPrezzo()).toString(), ((Double)b.getLunghezza()).toString(), ((Double)b.getDiametroVite()).toString(), b.getInnesto().toString(), b.getMateriale().toString(), (b.isEliminato()==true) ? "T" : "F" };
+				String[] valoriTabellaBulloneGrano = { ((Integer)b.getCodice()).toString() };
+				
+				// Inserimento nel database
+				try {
+					// Inserimento nella tabella generale Bullone
+					DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_BULLONI, valoriTabellaBullone));
+					// Inserimento nella tabella specifica Bullone_grano
+					DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_BULLONE_GRANO, valoriTabellaBulloneGrano));
+				}
+				catch(DatabaseSQLException e) {
+					System.err.println(e.getMessage());
+				}
+				catch(SQLException e) {
+					e.printStackTrace();
+				}	
+			}
 			
-			// Inserimento nel database
-			try {
-				// Inserimento nella tabella generale Bullone
-				DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_BULLONI, valoriTabellaBullone));
-				// Inserimento nella tabella specifica Bullone_grano
-				DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_BULLONE_GRANO, valoriTabellaBulloneGrano));
-			}
-			catch(DatabaseSQLException e) {
-				System.err.println(e.getMessage());
-			}
-			catch(SQLException e) {
-				e.printStackTrace();
-			}
+		} else {
+			throw new GestoreBulloniException(MsgErrore.BULLONE_NULLO, new GestoreBulloniException());
 		}
 	}
 	
@@ -131,12 +139,20 @@ public class GestoreBulloni {
 	 * senza che questa modifica sia sincronizzata con il database.
 	 * @param codice Il codice del bullone da cercare.
 	 * @return b Il clone del bullone trovato.
+	 * @throws GestoreBulloniException L'eccezione sollevata se il bullone non e' stato trovato.
 	 */
-	public Bullone getBulloneByCodice(int codice) {
+	public Bullone getBulloneByCodice(int codice) throws GestoreBulloniException {
+		boolean trovato = false;
+		
 		for(Bullone b : this.bulloni) {
 			if(b.getCodice() == codice) {
+				trovato = true;
 				return (Bullone) b.clone();
 			}
+		}
+		
+		if( trovato==false ) {
+			throw new GestoreBulloniException(MsgErrore.BULLONE_NON_TROVATO, new GestoreBulloniException());
 		}
 		return null;
 	}
@@ -151,8 +167,9 @@ public class GestoreBulloni {
 	 * @param codice Il codice del bullone da modificare.
 	 * @param nuovoPrezzo Il nuovo valore dell'attributo "prezzo".
 	 * @throws BulloneException L'eccezione sollevata se il prezzo non rispetta le specifiche semantiche.
+	 * @throws GestoreBulloniException L'eccezione sollevata se il bullone non e' stato trovato.
 	 */
-	public void updatePrezzoBulloneByCodice(int codice, double nuovoPrezzo) throws BulloneException {
+	public void updatePrezzoBulloneByCodice(int codice, double nuovoPrezzo) throws BulloneException, GestoreBulloniException {
 		boolean trovato = false;	// Vale true se il bullone e' stato trovato
 		
 		// Ricerca e update
@@ -175,7 +192,7 @@ public class GestoreBulloni {
 		}
 		
 		if(trovato==false) {
-			//solleva eccezione
+			throw new GestoreBulloniException(MsgErrore.BULLONE_NON_TROVATO, new GestoreBulloniException());
 		}
 	}
 	
@@ -188,8 +205,9 @@ public class GestoreBulloni {
 	 * La ricerca del bullone richiesto avviene mediante il codice ricevuto come parametro. Se la ricerca non da alcun risultato, viene sollevata
 	 * un'eccezione. 
 	 * @param codice Il codice del bullone da cercare.
+	 * @throws GestoreBulloniException L'eccezione sollevata se il bullone non e' stato trovato.
 	 */
-	public void rimuoviBulloneByCodice(int codice) {
+	public void rimuoviBulloneByCodice(int codice) throws GestoreBulloniException {
 		boolean trovato = false;	// Vale true se il bullone e' stato trovato.
 		
 		for(Bullone b : this.bulloni) {
@@ -211,7 +229,7 @@ public class GestoreBulloni {
 		}
 		
 		if(trovato==false) {
-			// Sollevare eccezione
+			throw new GestoreBulloniException(MsgErrore.BULLONE_NON_TROVATO, new GestoreBulloniException());
 		}
 	}
 	
