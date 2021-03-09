@@ -16,13 +16,13 @@ import databaseSQL.exception.*;
 class Connessione {
 	
 	/** Nome del Database */
-	private static final String DB_NOME = "Bulloni";
+	private static final String DB_NOME = "bulloni";
 	
 	/** Username per connettersi al DBMS */
 	private static final String USERNAME = "root";
 	
 	/** Password per connettersi al DBMS */
-	private static final String PASSWORD = "pass";
+	private static final String PASSWORD = "mysqlPasstemp";
 	
 	/** Indirizzo del server */
 	private static final String HOST = "localhost";

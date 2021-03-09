@@ -4,6 +4,7 @@
 package persona;
 
 import persona.exception.ExceptionImpiegato;
+import persona.exception.MsgExceptionImpiegato;
 
 /**
  * @author Francolino Flavio Domenico
@@ -70,14 +71,30 @@ public interface Impiegato extends Persona {
 	 * @throws ExceptionImpiegato se un impiegato ï¿½ gia licenziato
 	 */
 	public void licenzia() throws ExceptionImpiegato;
-
+	
+	/**
+	 * setta il valore dell'id di un determinato dipendente
+	 * è usabile solo se il determinato dipendeten non ha gia un id altrimenti solleva un eccezione
+	 * 
+	 * @param id il valore da assegnare all'id del dipendente
+	 * @exception ExceptionImpiegato sollevate se il determinato dipendente ha gia un id
+	 */
+	public void setID(int id) throws ExceptionImpiegato;
+	
+	/**
+	 * permmette di vedere se un impiegato risulta assunto o meno
+	 * 
+	 * @return ret true se l'impiegato è assunto,false altrimenti
+	 */
+	public boolean getIsAssunto();
+	
 	public String toString();
 	
 	@Override
-	int hashCode();
+	public int hashCode();
 	
 	@Override
-	boolean equals(Object obj);
+	public boolean equals(Object obj);
 	
 	Object clone();
 

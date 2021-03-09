@@ -22,13 +22,14 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	private static final int MIN_STIPENDIO_MENSILE = 1000;
 	private static final int MAX_STIPENDIO_MENSILE = 2000;
 
-	private int id, giornateLavorativeAnnuali;
+	private int id = -1;
+	private int giornateLavorativeAnnuali;
 	private float stipendioMensile;
 	private boolean isAssunto = true;// alla crazione di un instanza Impiegato si presuppone che sia anche stato
 										// assunto
 
 	/**
-	 * costruttore di classe
+	 * costruttore di classe da usare per instanziare dipendenti con dati presi dal db
 	 * 
 	 * @param nome                      nome dell'impiegato
 	 * @param cognome                   cognome dell'impiegato
@@ -43,7 +44,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	 *                                   di attributo propri di AbstractPersona
 	 */
 	public ImpiegatoGenerale(String nome, String cognome, char sesso, Data dataNascita, int id,
-			int giornateLavorativeAnnuali, float stipendioMensile)
+			int giornateLavorativeAnnuali, float stipendioMensile, boolean isAssunto)
 			throws ExceptionImpiegato, ExceptionAnagraficaErrata {
 
 		super(nome, cognome, sesso, dataNascita);
@@ -72,6 +73,59 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 		else {// nessun errore rilevato
 
 			this.id = id;
+			this.giornateLavorativeAnnuali = giornateLavorativeAnnuali;
+			this.stipendioMensile = stipendioMensile;
+			this.isAssunto = isAssunto;
+
+		}
+
+	}
+	
+	
+	/**
+	 * costruttore di classe da usare se si fa inserire un nuovo dipendente all'utente
+	 * poiche il campo id verrà assegnato automaticamente dal software e l'attributo isAssunto avrà dei volori di defoult
+	 * 
+	 * @param nome                      nome dell'impiegato
+	 * @param cognome                   cognome dell'impiegato
+	 * @param sesso                     sesso dell'impiegato
+	 * @param dataNascita               data nascita dell'impiegato
+	 * @param giornateLavorativeAnnuali giornate lavorative annuali dell'impiegato
+	 * @param stipendioMensile          stipendio mensile dell'impiegato
+	 * @throws ExceptionImpiegato        sollevata per errori riguardanti i valori
+	 *                                   di attributi propri di impiegato
+	 * @throws ExceptionAnagraficaErrata sollevata per errori riguardatni i valori
+	 *                                   di attributo propri di AbstractPersona
+	 */
+	public ImpiegatoGenerale(String nome, String cognome, char sesso, Data dataNascita,
+			int giornateLavorativeAnnuali, float stipendioMensile)
+			throws ExceptionImpiegato, ExceptionAnagraficaErrata {
+
+		super(nome, cognome, sesso, dataNascita);
+
+		boolean flagException = false;// flag per segnalare il sollevamento di un eccezione
+		String msgException = new String();// messaggio di eccezzione
+
+		if ((stipendioMensile < MIN_STIPENDIO_MENSILE) || (stipendioMensile > MAX_STIPENDIO_MENSILE)) {
+			// lo stipedendio non rispetta le soglie minime e massime
+
+			flagException = true;
+			msgException = MsgExceptionImpiegato.STIPENDIO_NON_VALIDO;
+
+		}
+		if ((giornateLavorativeAnnuali < MIN_GIORNATE_LAVORATIVE_ANNUALI) || (giornateLavorativeAnnuali > MAX_GIORNATE_LAVORATIVE_ANNUALI)) {
+			// giornate minimi o massimo non rispettate
+
+			flagException = true;
+			msgException = MsgExceptionImpiegato.GIORNATE_NON_VALIDE;
+		}
+
+		if (flagException == true)// ho rilevato un errore quindi sollevo un eccezione
+
+			throw new ExceptionImpiegato(msgException, new ExceptionImpiegato());
+
+		else {// nessun errore rilevato
+
 			this.giornateLavorativeAnnuali = giornateLavorativeAnnuali;
 			this.stipendioMensile = stipendioMensile;
 
@@ -217,6 +271,27 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 
 			throw new ExceptionImpiegato(MsgExceptionImpiegato.IMPIEGATO_GIA_LICENZIATO, new ExceptionImpiegato());
 		}
+	}
+	
+	
+	@Override
+	public boolean getIsAssunto() {
+		
+		return this.isAssunto;
+	}
+	
+	@Override
+	public void setID(int id) throws ExceptionImpiegato {
+		
+		
+		if(this.id >= -1)
+		
+			throw new ExceptionImpiegato(MsgExceptionImpiegato.ID_GIA_ASSEGNATO, new ExceptionImpiegato());
+		
+		else
+			
+			this.id = id;
+		
 	}
 
 	@Override

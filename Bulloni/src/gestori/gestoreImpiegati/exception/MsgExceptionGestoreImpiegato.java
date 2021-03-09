@@ -13,6 +13,7 @@ package gestori.gestoreImpiegati.exception;
  */
 public class MsgExceptionGestoreImpiegato {
 
-	public static final String IMPIEGATO_NON_TROVATO = "Sollevvata ExceptionGestoreImpiegato:\n impiegato non trovato";
+	public static final String IMPIEGATO_NON_TROVATO = "Sollevata ExceptionGestoreImpiegato:\n impiegato non trovato o id non valido";
+
 
 }

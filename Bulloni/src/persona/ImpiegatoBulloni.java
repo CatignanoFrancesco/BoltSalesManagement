@@ -27,16 +27,56 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 											// vendere al massimo 500 al di
 											// ad ogno modo non sara possibile assegnare piu di n bulloni
 											// con n=BULLONI_VENDIBILI_GIORNALMENTE*this.giornateLAvorativeAnnuali
+	
+	/**
+	 * costruttore che setta il numero di bulloni vendibili annualmente in maniera
+	 * arbitraria tramite il parametro apposito, da usare quando s'instanzia un impiegato con dati fatti inserire dall'utente
+	 * poiche l'id viene assegnata in maniera automatica dal software
+	 * 
+	 * @param nome                        nome impiegato
+	 * @param cognome                     cognome impiegato
+	 * @param sesso                       sesso impiegato
+	 * @param dataNascita                 data nascita impiegato
+	 * @param giornateLavorativeAnnuali   giornate lavorative annuali impiegato
+	 * @param stipendioMensile            stipendio mensile impiegato
+	 * @param bulloniVendibiliAnnualmente massimo di bulloni vendibili annualmente
+	 *                                    da un impiegato
+	 * @exception ExceptionAnagraficaErrata sollevata per errori di valore di
+	 *                                      attributi proprio dell'anagrafica
+	 * @exception ExceptionImpiegato        sollevata per errori di valore di
+	 *                                      attributi propri impiegatoGenerale e
+	 *                                      impiegatoBulloni
+	 */
+	public ImpiegatoBulloni(String nome, String cognome, char sesso, Data dataNascita,
+			int giornateLavorativeAnnuali, float stipendioMensile, int bulloniVendibiliAnnualmente)
+			throws ExceptionAnagraficaErrata, ExceptionImpiegato {
+
+		super(nome, cognome, sesso, dataNascita, giornateLavorativeAnnuali, stipendioMensile);
+
+		if (!checkMaxNumeroBulloniVendibiliAnnualmente(bulloniVendibiliAnnualmente))
+			// per vendere tutti i bulloni dovrebbe vendere piu di 500 bulloni al di
+			// cosa non concesso dalle specifiche per cui sollevo un eccezione
+
+			throw new ExceptionImpiegato(MsgExceptionImpiegato.ECCESSO_BULLONI_ASSEGNATI, new ExceptionImpiegato());
+		
+		else if(bulloniVendibiliAnnualmente < MIN_BULLONI_VENDIBILI_ANNUALMENTE)
+			
+			throw new ExceptionImpiegato(MsgExceptionImpiegato.POCHI_BULLONI_ASSEGNATI, new ExceptionImpiegato());
+
+		else
+
+			this.bulloniVendibiliAnnualmente = bulloniVendibiliAnnualmente;
+	}
 
 	/**
 	 * costruttore che setta il numero di bulloni vendibili annualmente in base alle
-	 * giornate lavorative dell'impiegato
+	 * giornate lavorative dell'impiegato, da usare quando si instanzia un impiegato con dati presi dall'utente
+	 * poiche l'id viene assegnato automatcamente dal software e l'attributo isAssunto avrà dei volori di defoult
 	 * 
 	 * @param nome                      nome impiegato
 	 * @param cognome                   cognome impiegato
 	 * @param sesso                     sesso impiegato
 	 * @param dataNascita               data nascita impiegato
-	 * @param id                        id impiegato
 	 * @param giornateLavorativeAnnuali giornate lavorative annuali impiegato
 	 * @param stipendioMensile          stipendio mensile impiegato
 	 * @exception ExceptionAnagraficaErrata sollevata per errori di valore di
@@ -45,18 +85,18 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 	 *                                      attributi propri impiegatoGenerale e
 	 *                                      impiegatoBulloni
 	 */
-	public ImpiegatoBulloni(String nome, String cognome, char sesso, Data dataNascita, int id,
+	public ImpiegatoBulloni(String nome, String cognome, char sesso, Data dataNascita,
 			int giornateLavorativeAnnuali, float stipendioMensile)
 			throws ExceptionAnagraficaErrata, ExceptionImpiegato {
 
-		super(nome, cognome, sesso, dataNascita, id, giornateLavorativeAnnuali, stipendioMensile);
+		super(nome, cognome, sesso, dataNascita, giornateLavorativeAnnuali, stipendioMensile);
 		this.bulloniVendibiliAnnualmente = BULLONI_VENDIBILI_GIORNALMENTE * giornateLavorativeAnnuali;//calcolo i bulloni che puoi vendere un determinato impiegato
 																										//in base alle giornate assegnatoli
 	}
 
 	/**
 	 * costruttore che setta il numero di bulloni vendibili annualmente in maniera
-	 * arbitraria tramite il parametro apposito
+	 * arbitraria tramite il parametro apposito, da usare quando s'instanzia un impiegato con dati letti dal db
 	 * 
 	 * @param nome                        nome impiegato
 	 * @param cognome                     cognome impiegato
@@ -74,10 +114,10 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 	 *                                      impiegatoBulloni
 	 */
 	public ImpiegatoBulloni(String nome, String cognome, char sesso, Data dataNascita, int id,
-			int giornateLavorativeAnnuali, float stipendioMensile, int bulloniVendibiliAnnualmente)
+			int giornateLavorativeAnnuali, float stipendioMensile, int bulloniVendibiliAnnualmente, boolean isAssunto)
 			throws ExceptionAnagraficaErrata, ExceptionImpiegato {
 
-		super(nome, cognome, sesso, dataNascita, id, giornateLavorativeAnnuali, stipendioMensile);
+		super(nome, cognome, sesso, dataNascita, id, giornateLavorativeAnnuali, stipendioMensile, isAssunto);
 
 		if (!checkMaxNumeroBulloniVendibiliAnnualmente(bulloniVendibiliAnnualmente))
 			// per vendere tutti i bulloni dovrebbe vendere piu di 500 bulloni al di

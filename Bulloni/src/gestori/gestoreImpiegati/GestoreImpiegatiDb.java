@@ -3,8 +3,12 @@
  */
 package gestori.gestoreImpiegati;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 
 import com.mysql.cj.protocol.Resultset;
 
@@ -12,6 +16,8 @@ import databaseSQL.DatabaseSQL;
 import databaseSQL.Query;
 import databaseSQL.exception.DatabaseSQLException;
 import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
+import gestori.gestoreImpiegati.exception.MsgExceptionGestoreImpiegato;
+import utility.Data;
 
 /**
  * @author Francolino Flavio Domenico
@@ -21,13 +27,15 @@ import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
  */
 
 import persona.ImpiegatoBulloni;
+import persona.exception.ExceptionAnagraficaErrata;
+import persona.exception.ExceptionImpiegato;
 
 public class GestoreImpiegatiDb {
 
-	private static final String NOME_TABELLA_IMPIEGATI = "impiegati";
+	private static final String NOME_TABELLA_IMPIEGATI = "impiegato";
 
-	private HashSet<ImpiegatoBulloni> impiegati = new HashSet<ImpiegatoBulloni>();// set per salvare localmente gli
-																					// impiegati letti dal db
+	private Set<ImpiegatoBulloni> impiegati = new HashSet<ImpiegatoBulloni>();// set per salvare localmente gli
+																				// impiegati letti dal db
 
 	/**
 	 * costruttore.
@@ -35,58 +43,88 @@ public class GestoreImpiegatiDb {
 	 * questo costruttore si occupa di caricare il set locale con gli impiegati
 	 * letti dal db
 	 */
-	public GestoreImpiegatiDb() {
+	public GestoreImpiegatiDb() throws SQLException, DatabaseSQLException {
 
-		
-		//blocco commentato poiche ci son problemi con la connessione al server mysql locale
-		/*
-		 * try {
-		 * 
-		 * Resultset rs =
-		 * (Resultset)DatabaseSQL.select(Query.getSimpleSelect(NOME_TABELLA_IMPIEGATI));
-		 * 
-		 * //strrs
-		 * 
-		 * while(rs.getNextResultset() != null) {
-		 * 
-		 * ImpiegatoBulloni i = new ImpiegatoBulloni(rs.get, cognome, sesso,
-		 * dataNascita, id, giornateLavorativeAnnuali, stipendioMensile)
-		 * 
-		 * impiegati.add(new impi)
-		 * 
-		 * System.out.println(rs.getRows()); }
-		 * 
-		 * } catch (SQLException | DatabaseSQLException e) {
-		 * 
-		 * //System.err.println(e.getMessage());
-		 * 
-		 * e.getStackTrace(); }
-		 */
+		ResultSet rs = null;
 
+		rs = DatabaseSQL.select(Query.getSimpleSelect(NOME_TABELLA_IMPIEGATI));
+
+		while (rs.next()) {
+
+			try {
+
+				// instanzio in impiegato per ogni tupla letta dal db
+				ImpiegatoBulloni i = new ImpiegatoBulloni(rs.getString(CampiTabellaImpiegati.nome.toString()),
+						rs.getString(CampiTabellaImpiegati.cognome.toString()),
+						rs.getString(CampiTabellaImpiegati.sesso.toString()).charAt(0),
+						new Data(rs.getDate(CampiTabellaImpiegati.dataNascita.toString())),
+						rs.getInt(CampiTabellaImpiegati.matricola.toString()),
+						rs.getInt(CampiTabellaImpiegati.giornateLavorativeAnnuali.toString()),
+						rs.getFloat(CampiTabellaImpiegati.stipendioMensile.toString()),
+						rs.getInt(CampiTabellaImpiegati.bulloniVendibiliAnnualmente.toString()),
+						Boolean.valueOf(rs.getString(CampiTabellaImpiegati.eliminato.toString())));
+
+				impiegati.add(i);// aggiungo l'impiegato al set locale
+
+			} catch (ExceptionAnagraficaErrata | ExceptionImpiegato e) {
+
+				System.err.println(e.getMessage());
+			}
+
+			DatabaseSQL.chiudiConnessione();
+		}
 	}
 
 	/**
 	 * questo metodo serve per rendere disponibili gli impiegati letti dal db a
 	 * tutte le classi che hanno bisogno di accedere ai medesimi impiegati letti
 	 * 
-	 * @return impiegati l'insieme di impiegati letti dal db o che sono stati
-	 *         aggiunti in locale
+	 * @return returnSetImpiegati clone del set locale di impiegati letti dal db o
+	 *         che sono stati aggiunti in locale
 	 */
-	public HashSet<ImpiegatoBulloni> getSetImpiegati() {
+	public Set<ImpiegatoBulloni> getSetImpiegati() {
 
-		return impiegati;
+		Set<ImpiegatoBulloni> returnSetImpiegati = new HashSet<ImpiegatoBulloni>();// set nel quale clonare gli
+																					// impiegati da restituire
+
+		for (ImpiegatoBulloni i : this.impiegati) {
+
+			returnSetImpiegati.add((ImpiegatoBulloni) i.clone());
+
+		}
+
+		return returnSetImpiegati;
 
 	}
 
 	/**
-	 * questo metdo si occupa di inserire nel set locale e quindi poi sul db un
-	 * nuovo impiegato passatoli come parametro
+	 * questo metodo si occupa di inserire nel set locale e quindi poi sul db un
+	 * nuovo impiegato passatoli come parametro assegnandoli quindi come
+	 * id/matricola il numero successivo all'ultimo id presente nel db
 	 * 
 	 * @param impiegato l'impiegato che si vuole aggiungere
-	 * @throws ExceptionGestoreImpiegato sollevate se non si riesce ad aggiungere un
-	 *                                   impiegato
 	 */
-	public void aggiungiImpiegatoDB(ImpiegatoBulloni impiegato) throws ExceptionGestoreImpiegato {
+	public void aggiungiImpiegatoDB(ImpiegatoBulloni impiegato) throws SQLException, DatabaseSQLException {
+
+		try {
+
+			impiegato.setID(this.impiegati.size() - 1);
+
+		} catch (ExceptionImpiegato e) {
+
+			System.err.println(e.getMessage());
+		}
+
+		this.impiegati.add(impiegato);
+
+		String[] valoriCampiTabella = { ((Integer) impiegato.getID()).toString(), impiegato.getNome(),
+				impiegato.getCognome(), impiegato.getDataNascita().toSqlDate().toString(),
+				String.valueOf(impiegato.getSesso()), ((Float) impiegato.getStipendioMensile()).toString(),
+				((Integer) impiegato.getBulloniVendibiliAnnualmente()).toString(),
+				((Integer) impiegato.getGiornateLavorativeAnnuali()).toString(),
+				((Boolean) impiegato.getIsAssunto()).toString() };
+
+		DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_IMPIEGATI, valoriCampiTabella));
 
 	}
 
@@ -97,8 +135,43 @@ public class GestoreImpiegatiDb {
 	 * @param id id dell'impiegato da aggiornare
 	 * @throws ExceptionGestoreImpiegato sollevate se non riescono ad aggiornare i
 	 *                                   valori
+	 * @throws DatabaseSQLException
+	 * @throws SQLException
 	 */
-	public void aggiornaImpiegatoDB(int id) throws ExceptionGestoreImpiegato {
+	public void aggiornaImpiegatoDB(int id) throws ExceptionGestoreImpiegato, SQLException, DatabaseSQLException {
+
+		boolean flag = false;// flag per indicare se si è trovato l'impiegato richiesto o meno
+
+		if (id < 0)
+
+			throw new ExceptionGestoreImpiegato(MsgExceptionGestoreImpiegato.IMPIEGATO_NON_TROVATO,
+					new ExceptionGestoreImpiegato());
+
+		for (ImpiegatoBulloni i : this.impiegati) {
+
+			if (i.getID() == id) {// ho trovate l'impiegato richiesto
+
+				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
+						CampiTabellaImpiegati.stipendioMensile.toString(), ((Float) i.getStipendioMensile()).toString(),
+						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// aggiorno lo
+																										// stipendio
+
+				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
+						CampiTabellaImpiegati.giornateLavorativeAnnuali.toString(),
+						((Integer) i.getGiornateLavorativeAnnuali()).toString(),
+						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// aggiorno le
+																										// giornate
+																										// lavorative
+				flag = true;
+				break;
+			}
+
+		}
+
+		if (flag == false)// non ho trovato l'impiegato richiesto
+
+			throw new ExceptionGestoreImpiegato(MsgExceptionGestoreImpiegato.IMPIEGATO_NON_TROVATO,
+					new ExceptionGestoreImpiegato());
 
 	}
 
@@ -109,8 +182,56 @@ public class GestoreImpiegatiDb {
 	 * @param id id dell'impiegato da aggiornare
 	 * @throws ExceptionGestoreImpiegato sollevata se è impossibe aggiornare il
 	 *                                   valore dell'attributo eliminato
+	 * @throws DatabaseSQLException
+	 * @throws SQLException
 	 */
-	public void licenziaImpiegatoDB(int id) throws ExceptionGestoreImpiegato {
+	public void licenziaImpiegatoDB(int id) throws ExceptionGestoreImpiegato, SQLException, DatabaseSQLException {
+
+		boolean flag = false;// flag per indicare se si è trovato l'impiegato richiesto o meno
+
+		if (id < 0)
+
+			throw new ExceptionGestoreImpiegato(MsgExceptionGestoreImpiegato.IMPIEGATO_NON_TROVATO,
+					new ExceptionGestoreImpiegato());
+
+		for (ImpiegatoBulloni i : this.impiegati) {
+
+			if (i.getID() == id) {// ho trovate l'impiegato richiesto
+
+				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
+						CampiTabellaImpiegati.stipendioMensile.toString(), ((Float) i.getStipendioMensile()).toString(),
+						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// azzero lo
+																										// stipendio
+
+				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
+						CampiTabellaImpiegati.giornateLavorativeAnnuali.toString(),
+						((Integer) i.getGiornateLavorativeAnnuali()).toString(),
+						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// azzero le
+																										// giornate
+																										// lavorative
+
+				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
+						CampiTabellaImpiegati.bulloniVendibiliAnnualmente.toString(),
+						((Integer) i.getBulloniVendibiliAnnualmente()).toString(),
+						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// azzero i
+																										// bulloni
+																										// vendibili
+
+				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
+						CampiTabellaImpiegati.eliminato.toString(), ((Boolean) i.getIsAssunto()).toString(),
+						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// setto
+																										// eliminato su
+																										// vero
+				flag = true;
+				break;
+			}
+
+		}
+
+		if (flag == false)// non ho trovato l'impiegato richiesto
+
+			throw new ExceptionGestoreImpiegato(MsgExceptionGestoreImpiegato.IMPIEGATO_NON_TROVATO,
+					new ExceptionGestoreImpiegato());
 
 	}
 
@@ -121,8 +242,56 @@ public class GestoreImpiegatiDb {
 	 * @param id id dell'impiegato da aggiornare
 	 * @throws ExceptionGestoreImpiegato sollevata se è impossibe aggiornare il
 	 *                                   valore dell'attributo eliminato
+	 * @throws DatabaseSQLException
+	 * @throws SQLException
 	 */
-	public void assumiImpiegatDB(int id) throws ExceptionGestoreImpiegato {
+	public void assumiImpiegatDB(int id) throws ExceptionGestoreImpiegato, SQLException, DatabaseSQLException {
+
+		boolean flag = false;// flag per indicare se si è trovato l'impiegato richiesto o meno
+
+		if (id < 0)
+
+			throw new ExceptionGestoreImpiegato(MsgExceptionGestoreImpiegato.IMPIEGATO_NON_TROVATO,
+					new ExceptionGestoreImpiegato());
+
+		for (ImpiegatoBulloni i : this.impiegati) {
+
+			if (i.getID() == id) {// ho trovate l'impiegato richiesto
+
+				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
+						CampiTabellaImpiegati.stipendioMensile.toString(), ((Float) i.getStipendioMensile()).toString(),
+						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// setto lo
+																										// stipendio
+
+				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
+						CampiTabellaImpiegati.giornateLavorativeAnnuali.toString(),
+						((Integer) i.getGiornateLavorativeAnnuali()).toString(),
+						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// setto le
+																										// giornate
+																										// lavorative
+
+				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
+						CampiTabellaImpiegati.bulloniVendibiliAnnualmente.toString(),
+						((Integer) i.getBulloniVendibiliAnnualmente()).toString(),
+						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// setto i
+																										// bulloni
+																										// vendibili
+
+				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
+						CampiTabellaImpiegati.eliminato.toString(), ((Boolean) i.getIsAssunto()).toString(),
+						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// setto
+																										// eliminato su
+																										// falso
+				flag = true;
+				break;
+			}
+
+		}
+
+		if (flag == false)// non ho trovato l'impiegato richiesto
+
+			throw new ExceptionGestoreImpiegato(MsgExceptionGestoreImpiegato.IMPIEGATO_NON_TROVATO,
+					new ExceptionGestoreImpiegato());
 
 	}
 

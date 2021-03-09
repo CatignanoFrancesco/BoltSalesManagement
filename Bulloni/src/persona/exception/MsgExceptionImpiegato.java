@@ -25,7 +25,9 @@ public class MsgExceptionImpiegato {
 
 	public static final String IMPIEGATO_GIA_ASSUNTO = "Sollevata ExceptionImpiegato:\n non puoi assumere un impiegato gia assunto";
 	
-	public static final String ECCESSO_BULLONI_ASSEGNATI = "Sroppo bulloni da vendere in confronto alle giornate assegnate al medesimo dipendente";
+	public static final String ECCESSO_BULLONI_ASSEGNATI = "Sollevata ExceptionImpiegato:\n troppi bulloni da vendere in confronto alle giornate assegnate al medesimo dipendente";
 	
-	public static final String POCHI_BULLONI_ASSEGNATI = "Ogni impiegato deve vendere almeno 365 bulloni l'anno";
+	public static final String POCHI_BULLONI_ASSEGNATI = "Sollevata ExceptionImpiegato:\n Ogni impiegato deve vendere almeno 365 bulloni l'anno";
+	
+	public static final String ID_GIA_ASSEGNATO = "Sollevata ExceptionImpiegato:\n questo impiegato ha gia un id";
 }
