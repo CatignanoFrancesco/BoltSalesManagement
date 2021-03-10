@@ -23,6 +23,18 @@ public class MsgErroreGestoreVendita {
 	/** indica che le vendite cercate tramite codice impiegato non esistono nel Set interno della classe */
 	public static final String VENDITE_NON_TROVATE_IMPIEGATO = "Nessuna vendita corrisponde all'impiegato cercato.";
 	
+	/** indica che il Set di vendite è vuoto, quindi il database ha le tabelle Vendita e MerceVenduta vuote */
+	public static final String VENDITE_VUOTE = "Non sono presenti vendite nel database.";
+	
+	/** indica che nel metodo aggiungiVendita si sta tentando di aggiungere una vendita già esistente */
+	public static final String VENDITA_ESISTENTE = "La vendita che si tenta di aggiungere esiste già.";
+	
+	/** indica che si sta tentando di aggiungere col metodo aggiungiVendita un oggetto null */
+	public static final String VENDITA_NULLA = "La vendita che si tenta di aggiungere è nulla.";
+	
+	/** indica che si sta tendando di aggiungere un codice negativo ad una nuova vendita in aggiungiVendits */
+	public static final String CODICE_VENDITA_NEGATIVO = "Il codice vendita assegnato alla nuova vendita è negativo.";
+	
 	
 	/**
 	 * il costruttore di MsgErroreGestoreVendita deve essere privato

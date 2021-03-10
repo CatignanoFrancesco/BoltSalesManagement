@@ -44,6 +44,7 @@ public class GestoreVendita {
 	private static final String NOME_TABELLA_MERCE_VENDUTA = "MerceVenduta";
 
 	
+	
 	/**
 	 * Costruttore che prima di tutto chiama il metodo selectMerceVenduta per prelevare dal database la merce venduta,
 	 * successivamente preleva i dati sulle vendita dal daatabse, costruendo il Set di Vendita interno alla classe;
@@ -53,6 +54,8 @@ public class GestoreVendita {
 	 * @param gi gestore degli impiegati
 	 */
 	public GestoreVendita(GestoreBulloni gb, GestoreImpiegatiDb gi) throws GestoreVenditaException {
+		
+		// aggiungere controlli sui gestori
 		
 		// HashMap contenente come chiave il codice della vendita, come oggetto associato un Set di MerceVenduta
 		Map<Integer, Set<MerceVenduta>> merce = selectMerceVenduta(gb);
@@ -95,8 +98,9 @@ public class GestoreVendita {
 		}	
 		
 		// imposta il nuovo codice automatico delle vendite
-		setNewCodVenditaAutomatico();
+		codVenditaAutomatico = getNewCodVenditaAutomatico();
 	}
+	
 	
 	
 	/**
@@ -174,6 +178,29 @@ public class GestoreVendita {
 		
 		return merce;
 	}
+	
+	
+	
+	@SuppressWarnings("unchecked")
+	/**
+	 * Metodo che ritorna un Set<Vendita<MerceVenduta, Impiegato>> di cloni dell'originale
+	 * 
+	 * @return Set<Vendita<MerceVenduta, Impiegato>> di cloni
+	 * @throws GestoreVenditaException
+	 */
+	public Set<Vendita<MerceVenduta, Impiegato>> getVendite() throws GestoreVenditaException {
+		
+		Set<Vendita<MerceVenduta, Impiegato>> risultato = new HashSet<Vendita<MerceVenduta, Impiegato>>();
+		
+		for (Vendita<MerceVenduta, Impiegato> v : vendite)
+			risultato.add((Vendita<MerceVenduta, Impiegato>)v.clone());
+		
+		if (risultato.isEmpty())
+			throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.VENDITE_VUOTE, new GestoreVenditaException());
+		
+		return risultato;
+	}
+	
 	
 	
 	@SuppressWarnings("unchecked")
@@ -254,11 +281,37 @@ public class GestoreVendita {
 	}
 	
 	
+	
+	
+	public void aggiungiVendita(Vendita<MerceVenduta, Impiegato> vendita) throws GestoreVenditaException {
+		
+		if (vendita == null) {
+			throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.VENDITA_NULLA, new GestoreVenditaException());
+		}
+		
+		for (Vendita<MerceVenduta, Impiegato> v : vendite) {
+			if (v.getCodVendita() == vendita.getCodVendita())
+				throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.VENDITA_ESISTENTE, new GestoreVenditaException());
+		}
+		
+		if (vendita.getCodVendita() < 0)
+			throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.CODICE_VENDITA_NEGATIVO, new GestoreVenditaException());
+		
+		vendite.add(vendita);
+		
+        // aggiungere la insert nel database
+
+		
+	}
+	
+	
+	
 	/**
-	 * Metodo che imposta il codice della vendita automatico uguale al massimo tra i codici presenti nel Set + 1; 
-	 * Questo metodo verrà chiamato solo nel costruttore della classe, prima della fine di esso
+	 * Metodo che ritorna il codice della vendita automatico uguale al massimo tra i codici presenti nel Set + 1; 
+	 * 
+	 * @return il codice massimo tra quelli presenti nel Set + 1
 	 */
-	private void setNewCodVenditaAutomatico() {
+	public int getNewCodVenditaAutomatico() {
 		
 		int max = 0;
 		
@@ -267,7 +320,7 @@ public class GestoreVendita {
 				max = v.getCodVendita();
 		}
 		
-		codVenditaAutomatico = ++max;
+		return ++max;
 	}
 
 }
