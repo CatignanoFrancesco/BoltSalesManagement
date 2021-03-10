@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -282,26 +283,78 @@ public class GestoreVendita {
 	
 	
 	
-	
+	/**
+	 * Metodo che inserisce nel Set di vendite e nel database un nuovo oggetto vendita.
+	 * Effettua opportuni controlli prelinimari sull'oggetto, lo inserisce nel Set controllando
+	 * che non sia già presente un oggetto con lo stesso codice chiave e infine si avvale di un
+	 * altro metodo privato per inserire nel database anche il corrispondente Set di MerceVenduta
+	 * 
+	 * @param vendita oggetto vendita da inserire nel database
+	 * @throws GestoreVenditaException
+	 */
 	public void aggiungiVendita(Vendita<MerceVenduta, Impiegato> vendita) throws GestoreVenditaException {
 		
-		if (vendita == null) {
+		// controllo che l'oggetto non sia nullo
+		if (vendita == null)
 			throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.VENDITA_NULLA, new GestoreVenditaException());
-		}
 		
-		for (Vendita<MerceVenduta, Impiegato> v : vendite) {
-			if (v.getCodVendita() == vendita.getCodVendita())
-				throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.VENDITA_ESISTENTE, new GestoreVenditaException());
-		}
-		
+		// controllo che il codice dell'oggetto non sia negativo
 		if (vendita.getCodVendita() < 0)
 			throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.CODICE_VENDITA_NEGATIVO, new GestoreVenditaException());
 		
-		vendite.add(vendita);
+		// controllo che il nuovo oggetto sia univoco all'interno del Set
+		if(!vendite.add(vendita)) {
+			throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.VENDITA_ESISTENTE, new GestoreVenditaException());
+		}
+		else {
+			// creo i valori per la tabella vendita del database covertendoli tutti in formato String
+			String[] valoriTabellaVendita = {((Integer)vendita.getCodVendita()).toString(), 
+					                         ((Integer)vendita.getResponsabileVendita().getID()).toString(),
+					                         vendita.getData().toSqlDate().toString(),
+					                         ((Double)vendita.getPrezzoVenditaTotale()).toString(),
+					                         ((Integer)vendita.getQuantitaMerceTotale()).toString()};
+			
+			try {
+				// eseguo la insert nella tabella vendita del database
+				DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_VENDITA, valoriTabellaVendita));
+				
+				// chiamo il metodo che inserisce opportunatamente il Set di MerceVenduta nel database aprendo un solo canale TCP
+				aggiungiMerceVenduta(vendita.getMerceVenduta(), vendita);
+			}
+			catch (DatabaseSQLException e) {
+				System.err.println(e.getMessage());
+			}
+			catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+			
+		}
+	}
+	
+	
+	/**
+	 * Metodo che inserisce, aprendo un solo canale TCP e quindi chiamando una sola volta il metodo
+	 * insert di DatabaseSQL, un intero Set di MerceVenduta nel database
+	 * 
+	 * @param mv set di merce venduta corrispondente all'oggetto vendita da aggiungere al database
+	 * @param vendita oggetto vendita da aggiungere al database
+	 * @throws SQLException
+	 * @throws DatabaseSQLException
+	 */
+	private void aggiungiMerceVenduta(Set<MerceVenduta> mv, Vendita<MerceVenduta, Impiegato> vendita) throws SQLException, DatabaseSQLException {
 		
-        // aggiungere la insert nel database
-
+		// creo i valori per la tabella merce venduta del database covertendoli tutti in formato String
+		ArrayList<String[]> valoriTabellaMerceVenduta = new ArrayList<String[]>(mv.size());
 		
+		for (MerceVenduta m : mv) {
+			valoriTabellaMerceVenduta.add(new String[]{((Integer)vendita.getCodVendita()).toString(),
+					                                   ((Integer)m.getCodiceBullone()).toString(),
+					                                   ((Integer)m.getNumeroBulloni()).toString(),
+					                                   ((Double)m.getPrezzoBulloni()).toString(),
+					                                   ((Double)m.getPrezzoVenditaBullone()).toString()});
+		}
+		// eseguo la insert nel database
+		DatabaseSQL.insert(Query.getInsertMultipli(NOME_TABELLA_MERCE_VENDUTA, valoriTabellaMerceVenduta));
 	}
 	
 	

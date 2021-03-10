@@ -38,8 +38,9 @@ public class DatabaseSQL {
 	
 	/** Questa espressione regolare accetta stringa del tipo:
 	 * insert into tabella values ('qualcosa')
-	 * insert into tabella values ('qualcosa', 'numero') */
-	private static final String insertRegex = "(insert into \\w+ values [(]('((\\w)|(\\p{Graph}))+', )*'\\w+'[)])";
+	 * insert into tabella values ('qualcosa', 'numero') 
+	 * insert into tabella values ('qualcosa'), ('qualcosaAncora', 'fine') */
+	private static final String insertRegex = "(insert into \\w+ values ([(]('((\\w)|(\\p{Graph}))+', )*'\\w+'[)], )*([(]('((\\w)|(\\p{Graph}))+', )*'\\w+'[)]))";
 	
 	/** Questa espressione regolare accetta stringa del tipo:
 	 * update tabella set campo='numero'

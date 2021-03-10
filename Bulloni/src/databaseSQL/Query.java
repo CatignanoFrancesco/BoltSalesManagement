@@ -1,5 +1,6 @@
 package databaseSQL;
 
+import java.util.ArrayList;
 
 /**
  * @author GiannettaGerardo
@@ -95,10 +96,62 @@ public class Query {
 		
 		for (int i = 0; i < values.length; i++) {
 			
-			if (values[i] == values[values.length - 1])
+			if (i == (values.length - 1))
 				risultato += "'" + values[i] + "')";
 			else
 				risultato += "'" + values[i] + "', ";
+		}
+		
+		// se l'array di stringhe inserito in input fosse vuoto, alla query creata mancherebbe una parentesi tonda
+		if ((risultato.indexOf("(") == -1) || (risultato.indexOf(")") == -1)) {
+			risultato = INSERT + table + VALUES + "()";
+		}
+		
+		return risultato;
+	}
+	
+	
+	/**
+	 * Metodo che ritorna una query SQL di tipo INSERT che accetta tuple multiple
+	 * 
+	 * @param table tabella del database
+	 * @param values valori da inserire nella tabella
+	 * @return una query SQL di tipo INSERT
+	 */
+	public static String getInsertMultipli(String table, ArrayList<String[]> values) {
+		
+		String risultato = INSERT + table + VALUES;
+		int i = 0;
+		
+		for (i = 0; i < values.size(); i++) {
+			
+			String[] stringhe = values.get(i);
+			
+			for (int j = 0; j < stringhe.length; j++) {
+				
+				if ((j == (stringhe.length - 1)) && (j == 0))
+					if (i == (values.size() - 1))
+						risultato += "('" + stringhe[j] + "')";
+					else
+						risultato += "('" + stringhe[j] + "'), ";
+				
+				else if (j == (stringhe.length - 1)) {
+					
+					if (i == (values.size() - 1))
+						risultato += "'" + stringhe[j] + "')";
+					else
+						risultato += "'" + stringhe[j] + "'), ";
+				}
+				else if (j == 0)
+					risultato += "('" + stringhe[j] + "', ";
+				else
+					risultato += "'" + stringhe[j] + "', ";
+			}
+		}
+		
+		// se l'ArrayList inserito in input fosse vuoto, alla query creata mancherebbero delle parentesi tonde
+		if ((risultato.indexOf("(") == -1) || (risultato.indexOf(")") == -1)) {
+			risultato = INSERT + table + VALUES + "()";
 		}
 		
 		return risultato;
