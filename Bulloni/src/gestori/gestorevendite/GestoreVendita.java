@@ -332,6 +332,7 @@ public class GestoreVendita {
 	}
 	
 	
+	
 	/**
 	 * Metodo che inserisce, aprendo un solo canale TCP e quindi chiamando una sola volta il metodo
 	 * insert di DatabaseSQL, un intero Set di MerceVenduta nel database
