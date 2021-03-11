@@ -102,7 +102,7 @@ public abstract class AbstractVendita<T, E> implements Vendita<T, E>, Cloneable{
 	/**
 	 * {@inheritDoc}
 	 */
-	public abstract void setQuantitaMerceByCodice(int codiceMerce, int nuovaQuantita);
+	public abstract boolean setQuantitaMerceByCodice(int codiceMerce, int nuovaQuantita);
 
 	
 	@Override

@@ -56,7 +56,21 @@ public class GestoreVendita {
 	 */
 	public GestoreVendita(GestoreBulloni gb, GestoreImpiegatiDb gi) throws GestoreVenditaException {
 		
-		// aggiungere controlli sui gestori
+		boolean eccezioneGestori = false;
+		String msgErrore = MsgErroreGestoreVendita.INTESTAZIONE;
+		
+		// controllo che i gestori passati come parametro non siano nulli
+		if (gb == null) {
+			eccezioneGestori = true;
+			msgErrore += MsgErroreGestoreVendita.GESTORE_BULLONI_NULLO;
+		}
+		if (gi == null) {
+			eccezioneGestori = true;
+			msgErrore += MsgErroreGestoreVendita.GESTORE_IMPIEGATI_NULLO;
+		}
+		if (eccezioneGestori) {
+			throw new GestoreVenditaException(msgErrore, new GestoreVenditaException());
+		}
 		
 		// HashMap contenente come chiave il codice della vendita, come oggetto associato un Set di MerceVenduta
 		Map<Integer, Set<MerceVenduta>> merce = selectMerceVenduta(gb);
@@ -99,7 +113,7 @@ public class GestoreVendita {
 		}	
 		
 		// imposta il nuovo codice automatico delle vendite
-		codVenditaAutomatico = getNewCodVenditaAutomatico();
+		setCodVenditaAutomatico();
 	}
 	
 	
@@ -307,6 +321,12 @@ public class GestoreVendita {
 			throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.VENDITA_ESISTENTE, new GestoreVenditaException());
 		}
 		else {
+			
+			// mi assicuro che il codice di vendita automatico sia sempre maggiore del codice vendita più grande inserito nel Set
+			if (vendita.getCodVendita() >= codVenditaAutomatico) {
+				codVenditaAutomatico = vendita.getCodVendita() + 1;
+			}
+			
 			// creo i valori per la tabella vendita del database covertendoli tutti in formato String
 			String[] valoriTabellaVendita = {((Integer)vendita.getCodVendita()).toString(), 
 					                         ((Integer)vendita.getResponsabileVendita().getID()).toString(),
@@ -360,12 +380,57 @@ public class GestoreVendita {
 	
 	
 	
+	
+	@SuppressWarnings("unchecked")
+	public boolean updateNumeroBulloniVendutiByCodici(int codVendita, int codBullone, int nuovoNumero) {
+		
+		boolean codiceTrovato = false;
+		
+		Vendita<MerceVenduta, Impiegato> clone = null;
+		
+		for (Vendita<MerceVenduta, Impiegato> v : vendite) {
+			if (v.getCodVendita() == codVendita) {
+				clone = (Vendita<MerceVenduta, Impiegato>)v.clone();
+				codiceTrovato = v.setQuantitaMerceByCodice(codBullone, nuovoNumero);
+			}
+		}
+		// se il metodo setQuantitaMerceByCodice ha ritornato false, allora il codice del bullone non è stato trovato
+		if (!codiceTrovato)
+			return codiceTrovato;
+		
+		try {
+			DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_VENDITA, 
+					                                      CampiTabellaVendita.numeroBulloniTotali.toString(), 
+					                                      ((Integer)clone.getQuantitaMerceTotale()).toString(), 
+					                                      CampiTabellaVendita.codVendita.toString(), 
+					                                      ((Integer)codVendita).toString()));
+			
+			DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_VENDITA, 
+                                                          CampiTabellaVendita.prezzoVenditaTotale.toString(), 
+                                                          ((Double)clone.getPrezzoVenditaTotale()).toString(), 
+                                                          CampiTabellaVendita.codVendita.toString(), 
+                                                          ((Integer)codVendita).toString()));
+			
+			// aggiornare merce venduta nel db
+			/* getSimpleUpdateByDoubleKey(NOME_TABELLA_MERCE_VENDUTA, 
+			 *                            CampiTabellaMerceVenduta, String value, String keyField1, String keyValue1, String keyField2, String keyValue2) */
+		}
+		catch (DatabaseSQLException e) {
+			System.err.println(e.getMessage());
+		}
+		catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+		
+		return codiceTrovato;
+	}
+	
+	
+	
 	/**
-	 * Metodo che ritorna il codice della vendita automatico uguale al massimo tra i codici presenti nel Set + 1; 
-	 * 
-	 * @return il codice massimo tra quelli presenti nel Set + 1
+	 * Metodo che imposta il codice della vendita automatico uguale al massimo tra i codici presenti nel Set + 1; 
 	 */
-	public int getNewCodVenditaAutomatico() {
+	private void setCodVenditaAutomatico() {
 		
 		int max = 0;
 		
@@ -374,7 +439,19 @@ public class GestoreVendita {
 				max = v.getCodVendita();
 		}
 		
-		return ++max;
+		codVenditaAutomatico = ++max;
+	}
+	
+	
+	/**
+	 * Metodo che ritorna il codice delle vendite automatico;
+	 * È possibile usarlo per inserire un nuovo oggetto Vendita nel gestore,
+	 * assicurandosi così di inserire un codice valido
+	 * 
+	 * @return il codice delle vendite automatico
+	 */
+	public int getCodVenditaAutomatico() {
+		return codVenditaAutomatico;
 	}
 
 }

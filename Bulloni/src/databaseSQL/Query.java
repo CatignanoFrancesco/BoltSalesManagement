@@ -73,13 +73,33 @@ public class Query {
 	 * @param value valore del campo della tabella 
 	 * @param keyField campo chiave
 	 * @param keyValue valore chiave
-	 * @return una query SQL di tipo UPDATE che dovrebbe aggiornare una singola tupla precisa
+	 * @return una query SQL di tipo UPDATE che dovrebbe aggiornare una singola tupla precisa, riconosciuta tramite l'uso di 1 chiave
 	 */
 	public static String getSimpleUpdateByKey(String table, String field, String value, String keyField, String keyValue) {
 		
 		String query = getSimpleUpdate(table, field, value);
 		
 		return query + WHERE + keyField + "=" + "'"+keyValue+"'";
+	}
+	
+	
+	/**
+	 * Metodo che ritorna una query SQL di tipo UPDATE che dovrebbe agire su una tupla precisa tramite le 2 proprie chiavi
+	 * 
+	 * @param table tabella del database
+	 * @param field campo della tabella del database
+	 * @param value valore del campo della tabella 
+	 * @param keyField1 primo campo chiave
+	 * @param keyValue1 primo valore chiave
+	 * @param keyField2 secondo campo chiave
+	 * @param keyValue2 secondo valore chiave
+	 * @return una query SQL di tipo UPDATE che dovrebbe aggiornare una singola tupla precisa, riconosciuta tramite l'uso di 2 chiavi
+	 */
+	public static String getSimpleUpdateByDoubleKey(String table, String field, String value, String keyField1, String keyValue1, String keyField2, String keyValue2) {
+		
+		String query = getSimpleUpdateByKey(table, field, value, keyField1, keyValue1);
+		
+		return query + " and " + keyField2 + "=" + "'"+keyValue2+"'"; 
 	}
 	
 	

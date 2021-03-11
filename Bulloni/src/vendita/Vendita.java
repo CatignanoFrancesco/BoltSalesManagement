@@ -77,8 +77,10 @@ public interface Vendita<T, E> {
 	 * 
 	 * @param codiceMerce codice univoco rappresentante un oggetto della merce venduta
 	 * @param nuovaQuantita nuova quantità da modificare
+	 * 
+	 * @return true se il settaggio è andato a buon fine, false se il codice merce non è stato trovato
 	 */
-	public void setQuantitaMerceByCodice(int codiceMerce, int nuovaQuantita);
+	public boolean setQuantitaMerceByCodice(int codiceMerce, int nuovaQuantita);
 	
 	/**
 	 * Metodo che calcola e restituisce l'hashCode dell'oggetto, rendendolo di fatto univoco

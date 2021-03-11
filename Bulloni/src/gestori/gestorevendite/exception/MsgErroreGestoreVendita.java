@@ -35,6 +35,12 @@ public class MsgErroreGestoreVendita {
 	/** indica che si sta tendando di aggiungere un codice negativo ad una nuova vendita in aggiungiVendits */
 	public static final String CODICE_VENDITA_NEGATIVO = "Il codice vendita assegnato alla nuova vendita è negativo.";
 	
+	/** indica che è stato passato un oggetto nullo al posto del gestore dei bulloni nel costruttore del gestore vendita */
+	public static final String GESTORE_BULLONI_NULLO = "Il gestore dei bulloni è un oggetto nullo.";
+	
+	/** indica che è stato passato un oggetto nullo al posto del gestore degli impiegati nel costruttore del gestore vendita */
+	public static final String GESTORE_IMPIEGATI_NULLO = "Il gestore degli impiegati è un oggetto nullo.";
+	
 	
 	/**
 	 * il costruttore di MsgErroreGestoreVendita deve essere privato

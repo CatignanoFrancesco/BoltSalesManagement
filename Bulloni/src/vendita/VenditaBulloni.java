@@ -165,8 +165,9 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 	/**
 	 * {@inheritDoc}
 	 */
-	public void setQuantitaMerceByCodice(int codiceMerce, int nuovaQuantita) {
+	public boolean setQuantitaMerceByCodice(int codiceMerce, int nuovaQuantita) {
 		
+		boolean codiceTrovato = false;
 		/*
 		 * Una volta trovata l'istanza di MerceVenduta tramite il codice, si sottraggono 
 		 * ai 2 attributi quantitaMerceTotale e prezzoVenditaTotale le precedenti quantità 
@@ -176,6 +177,7 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 		 */
 		for (MerceVenduta mv : this.merce) {
 			if (mv.getCodiceBullone() == codiceMerce) {
+				codiceTrovato = true;
 				super.quantitaMerceTotale -= mv.getNumeroBulloni();
 				super.prezzoVenditaTotale -= mv.getPrezzoBulloni();
 				mv.setNumeroBulloni(nuovaQuantita);
@@ -185,6 +187,8 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 				break;
 			}
 		}
+		
+		return codiceTrovato;
 	}
 	
 	
