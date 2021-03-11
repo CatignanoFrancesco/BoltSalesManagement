@@ -528,5 +528,27 @@ public class GestoreVendita {
 	public int getCodVenditaAutomatico() {
 		return codVenditaAutomatico;
 	}
+	
+	
+	/**
+	 * Metodo che ritorna una stringa contenente tutte le informazioni dettagliate dell'istanza dell'oggetto
+	 * con il quale si chiama questo metodo
+	 * 
+	 * @return la stringa con tutte le informazioni dell'oggetto
+	 */
+	public String toString() {
+		
+		String risultato = "Classe " + this.getClass().getSimpleName() + ":\n" +
+		                   "Codice vendita automatico: " + codVenditaAutomatico + "\n" +
+				           "Nome tabella vendita nel database: " + NOME_TABELLA_VENDITA + "\n" + 
+		                   "Nome tabella merce nel database: " + NOME_TABELLA_MERCE_VENDUTA + "\n" +
+				           "Set di vendite: \n";
+		
+		for (Vendita<MerceVenduta, Impiegato> v : vendite) {
+			risultato += v.toString();
+		}
+		
+		return risultato;
+	}
 
 }
