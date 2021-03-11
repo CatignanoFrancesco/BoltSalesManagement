@@ -382,6 +382,16 @@ public class GestoreVendita {
 	
 	
 	@SuppressWarnings("unchecked")
+	/**
+	 * Metodo che effettua l'update sul Set di vendite e sul database del numero di bulloni venduti per un dato bullone
+	 * in una data vendita. Utilizzando il metodo setQuantitaMerceByCodice degli oggetti Vendita ci si assicura anche 
+	 * l'aggiornamento del numero totale di bulloni venduti nell'intera vendita e del prezzo totale della vendita
+	 * 
+	 * @param codVendita codice identificativo della vendita
+	 * @param codBullone codice identificativo del bullone nella vendita
+	 * @param nuovoNumero nuova quantità di bulloni per un dato bullone
+	 * @return true se il metodo è terminato con successo, false altrimenti
+	 */
 	public boolean updateNumeroBulloniVendutiByCodici(int codVendita, int codBullone, int nuovoNumero) {
 		
 		boolean codiceTrovato = false;
@@ -398,27 +408,92 @@ public class GestoreVendita {
 		if (!codiceTrovato)
 			return codiceTrovato;
 		
+		/* ricavo il Set clonato di MerceVenduta dall'oggetto vendita trovato e da esso prendo il clone del singolo oggetto 
+		 * MerceVenduta relativo al bullone che mi serve */
+		Set<MerceVenduta> cloneMerce = clone.getMerceVenduta();
+		MerceVenduta merce = null;
+		for (MerceVenduta mv : cloneMerce) {
+			if (mv.getCodiceBullone() == codBullone)
+				merce = (MerceVenduta)mv.clone();
+		}
+		
 		try {
+			// aggiorno nel database il numero dei bulloni totali nella tabella Vendita
 			DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_VENDITA, 
 					                                      CampiTabellaVendita.numeroBulloniTotali.toString(), 
 					                                      ((Integer)clone.getQuantitaMerceTotale()).toString(), 
 					                                      CampiTabellaVendita.codVendita.toString(), 
 					                                      ((Integer)codVendita).toString()));
 			
+			// aggiorno nel database il prezzo di vendita totale nella tabella Vendita
 			DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_VENDITA, 
                                                           CampiTabellaVendita.prezzoVenditaTotale.toString(), 
                                                           ((Double)clone.getPrezzoVenditaTotale()).toString(), 
                                                           CampiTabellaVendita.codVendita.toString(), 
                                                           ((Integer)codVendita).toString()));
 			
-			// aggiornare merce venduta nel db
-			/* getSimpleUpdateByDoubleKey(NOME_TABELLA_MERCE_VENDUTA, 
-			 *                            CampiTabellaMerceVenduta, String value, String keyField1, String keyValue1, String keyField2, String keyValue2) */
+			// aggiorno nel database il numero dei bulloni totali di quello specifico bullone nella tabella MerceVenduta
+			DatabaseSQL.update(Query.getSimpleUpdateByDoubleKey(NOME_TABELLA_MERCE_VENDUTA, 
+			                                                    CampiTabellaMerceVenduta.numeroBulloni.toString(), 
+			                                                    ((Integer)merce.getNumeroBulloni()).toString(), 
+			                                                    CampiTabellaMerceVenduta.codVendita.toString(), 
+			                                                    ((Integer)clone.getCodVendita()).toString(), 
+			                                                    CampiTabellaMerceVenduta.bullone.toString(), 
+			                                                    ((Integer)merce.getCodiceBullone()).toString()));
+			
+			// aggiorno nel database il prezzo di vendita totale di quello specifico bullone nella tabella MerceVenduta
+			DatabaseSQL.update(Query.getSimpleUpdateByDoubleKey(NOME_TABELLA_MERCE_VENDUTA, 
+                                                                CampiTabellaMerceVenduta.prezzoBulloni.toString(), 
+                                                                ((Double)merce.getPrezzoBulloni()).toString(), 
+                                                                CampiTabellaMerceVenduta.codVendita.toString(), 
+                                                                ((Integer)clone.getCodVendita()).toString(), 
+                                                                CampiTabellaMerceVenduta.bullone.toString(), 
+                                                                ((Integer)merce.getCodiceBullone()).toString()));
 		}
 		catch (DatabaseSQLException e) {
 			System.err.println(e.getMessage());
 		}
 		catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+		
+		return codiceTrovato;
+	}
+	
+	
+	
+	/**
+	 * Metodo che elimina dal Set di vendite e dal database una certa vendita
+	 * 
+	 * @param codiceVendita codice identificativo della vendita da eliminare
+	 * @return true se il metodo è terminato con successo, false altrimenti
+	 */
+	public boolean rimuoviVenditaByCodice(int codiceVendita) {
+		
+		boolean codiceTrovato = false;
+		
+		/* se il metodo getVenditaByCodice solleva l'eccezione GestoreVenditaException, 
+		 * allora non esiste alcuna vendita con questo codice all'interno del Set;
+		 * se il metodo remove rimuove con successo l'oggetto dal set originale, allora
+		 * si procede alla rimozione dal database */
+		try {
+			if (vendite.remove(this.getVenditaByCodice(codiceVendita))) {
+				codiceTrovato = true;
+				
+				try {
+					/* eseguo una delete nel database della vendita scelta. Nel database, una eliminazione di una vendita si ripercuote
+					 * anche sulle corrispondenti tuple in MerceVenduta, quindi non c'è bisogno di agire anche sulla tabella MerceVenduta */
+					DatabaseSQL.delete(Query.getSimpleDelete(NOME_TABELLA_VENDITA, CampiTabellaVendita.codVendita.toString(), ((Integer)codiceVendita).toString()));
+				}
+				catch (DatabaseSQLException e) {
+					System.err.println(e.getMessage());
+				}
+				catch (SQLException e) {
+					System.err.println(e.getMessage());
+				}
+			}
+		}
+		catch (GestoreVenditaException e) {
 			System.err.println(e.getMessage());
 		}
 		
