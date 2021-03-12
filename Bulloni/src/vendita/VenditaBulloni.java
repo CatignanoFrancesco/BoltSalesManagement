@@ -15,7 +15,7 @@ import vendita.exception.*;
  * un Impiegato. Si avvala di una classe associativa, MerceVenduta, per gestire i bulloni e i 
  * relativi dati associati alla specifica vendita
  */
-public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> implements Vendita<MerceVenduta, Impiegato>, Cloneable {
+public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> implements Vendita<MerceVenduta, Impiegato> {
 
 	/** Responsabile della vendita */
 	private Impiegato impiegato;
@@ -216,12 +216,20 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 	/**
 	 * {@inheritDoc}
 	 */
-	public Object clone() {
+	public Vendita<MerceVenduta, Impiegato> clone() {
 		
-		Object o = null;
+		Vendita<MerceVenduta, Impiegato> clone = null;
 		
-		o = super.clone();
+		try {
+			clone = new VenditaBulloni(this.getCodVendita(), 
+                                       this.getData(), 
+                                       this.getResponsabileVendita(), 
+                                       this.getMerceVenduta());
+		}
+		catch (VenditaException e) {
+			System.err.println(e.getMessage());
+		}
 		
-		return o;
+		return clone;
 	}
 }

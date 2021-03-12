@@ -12,7 +12,7 @@ import java.time.LocalDate;;
  *
  * Classe astratta rappresentante una vendita di merce generica, effettuata da un certo responsabile vendita
  */
-public abstract class AbstractVendita<T, E> implements Vendita<T, E>, Cloneable{
+public abstract class AbstractVendita<T, E> implements Vendita<T, E> {
 
 	/** Codice univoco della vendita */
 	private int codVendita;
@@ -140,18 +140,7 @@ public abstract class AbstractVendita<T, E> implements Vendita<T, E>, Cloneable{
 	/**
 	 * {@inheritDoc}
 	 */
-	public Object clone() {
-		
-		Object o = null;
-		
-		try {
-			o = super.clone();
-		}
-		catch(CloneNotSupportedException e) {
-			System.err.println("Clone non supportato.");
-		}
-		return o;
-	}
+	public abstract Vendita<T, E> clone();
 	
 	@Override
 	/**

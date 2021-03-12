@@ -103,7 +103,7 @@ public interface Vendita<T, E> {
 	 * 
 	 * @return l'oggetto clonato
 	 */
-	public Object clone();
+	public Vendita<T, E> clone();
 	
 	/**
 	 * Metodo che ritorna una stringa contenente tutte le informazioni dettagliate dell'istanza dell'oggetto
