@@ -40,7 +40,7 @@ public class DatabaseSQL {
 	 * insert into tabella values ('qualcosa')
 	 * insert into tabella values ('qualcosa', 'numero') 
 	 * insert into tabella values ('qualcosa'), ('qualcosaAncora', 'fine') */
-	private static final String insertRegex = "(insert into \\w+ values ([(]('((\\w)|(\\p{Graph}))+', )*'\\w+'[)], )*([(]('((\\w)|(\\p{Graph}))+', )*'\\w+'[)]))";
+	private static final String insertRegex = "(insert into \\w+ values ([(]('(\\p{Graph})+', )*'\\p{Graph}+'[)], )*([(]('(\\p{Graph})+', )*'\\p{Graph}+'[)]))";
 	
 	/** Questa espressione regolare accetta stringa del tipo:
 	 * update tabella set campo='numero'
@@ -52,7 +52,7 @@ public class DatabaseSQL {
 	/** Questa espressione regolare accetta stringa del tipo:
 	 * delete from tabella where campo='qualcosa'
 	 * delete from tabella where campo = 'numero' */
-	private static final String deleteRegex = "(delete from \\w+ where \\w+((=)|( = ))'((\\w)|(\\p{Graph}))+')";
+	private static final String deleteRegex = "(delete from \\w+ where \\w+((=)|( = ))'(\\p{Graph})+')";
 	
 
 	/**
