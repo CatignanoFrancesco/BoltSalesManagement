@@ -4,7 +4,6 @@ import persona.Impiegato;
 import utility.Data;
 import java.util.Set;
 import java.util.HashSet;
-import java.util.Iterator;
 import vendita.exception.*;
 
 /**
@@ -16,7 +15,7 @@ import vendita.exception.*;
  * un Impiegato. Si avvala di una classe associativa, MerceVenduta, per gestire i bulloni e i 
  * relativi dati associati alla specifica vendita
  */
-public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> implements Vendita<MerceVenduta, Impiegato> {
+public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> implements Vendita<MerceVenduta, Impiegato>, Cloneable {
 
 	/** Responsabile della vendita */
 	private Impiegato impiegato;
@@ -211,5 +210,18 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 
 		return risultato;
 		       
+	}
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public Object clone() {
+		
+		Object o = null;
+		
+		o = super.clone();
+		
+		return o;
 	}
 }
