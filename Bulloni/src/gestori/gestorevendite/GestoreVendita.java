@@ -62,11 +62,11 @@ public class GestoreVendita {
 		// controllo che i gestori passati come parametro non siano nulli
 		if (gb == null) {
 			eccezioneGestori = true;
-			msgErrore += MsgErroreGestoreVendita.GESTORE_BULLONI_NULLO;
+			msgErrore += MsgErroreGestoreVendita.GESTORE_BULLONI_NULLO + "\n";
 		}
 		if (gi == null) {
 			eccezioneGestori = true;
-			msgErrore += MsgErroreGestoreVendita.GESTORE_IMPIEGATI_NULLO;
+			msgErrore += MsgErroreGestoreVendita.GESTORE_IMPIEGATI_NULLO + "\n";
 		}
 		if (eccezioneGestori) {
 			throw new GestoreVenditaException(msgErrore, new GestoreVenditaException());
@@ -75,11 +75,9 @@ public class GestoreVendita {
 		// HashMap contenente come chiave il codice della vendita, come oggetto associato un Set di MerceVenduta
 		Map<Integer, Set<MerceVenduta>> merce = selectMerceVenduta(gb);
 		
-		// se l'HashMap ritornato è vuoto, significa che il database ha la tabella MerceVenduta vuota, quindi si solleva un'eccezione
-		if (merce.isEmpty()) {
-			throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.MERCE_VENDUTA_NULLA, new GestoreVenditaException());
-		}
-		else {
+		// se l'HashMap non è vuoto, procede alla creazione del degli oggetti vendita
+		if (!merce.isEmpty()) {
+			
 			try {
 				
 				ResultSet rs = DatabaseSQL.select(Query.getSimpleSelect(NOME_TABELLA_VENDITA));
@@ -110,6 +108,10 @@ public class GestoreVendita {
 			catch (SQLException e) {
 				System.err.println(e.getMessage());
 			}
+			//throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.MERCE_VENDUTA_NULLA, new GestoreVenditaException());
+		}
+		else {
+			
 		}	
 		
 		// imposta il nuovo codice automatico delle vendite
@@ -196,7 +198,6 @@ public class GestoreVendita {
 	
 	
 	
-	@SuppressWarnings("unchecked")
 	/**
 	 * Metodo che ritorna un Set<Vendita<MerceVenduta, Impiegato>> di cloni dell'originale
 	 * 
@@ -218,7 +219,6 @@ public class GestoreVendita {
 	
 	
 	
-	@SuppressWarnings("unchecked")
 	/**
 	 * Metodo che ritorna il clone di un oggetto Vendita<MerceVenduta, Impiegato>
 	 * in base ad un codice vendita passato in input
@@ -245,7 +245,6 @@ public class GestoreVendita {
 	
 	
 	
-	@SuppressWarnings("unchecked")
 	/**
 	 * Metodo che ritorna il clone di un Set<Vendita<MerceVenduta, Impiegato>>
 	 * in base ad una data passata in input
@@ -271,7 +270,6 @@ public class GestoreVendita {
 	
 	
 	
-	@SuppressWarnings("unchecked")
 	/**
 	 * Metodo che ritorna il clone di un Set<Vendita<MerceVenduta, Impiegato>>
 	 * in base al codice impiegato passato in input
@@ -381,7 +379,6 @@ public class GestoreVendita {
 	
 	
 	
-	@SuppressWarnings("unchecked")
 	/**
 	 * Metodo che effettua l'update sul Set di vendite e sul database del numero di bulloni venduti per un dato bullone
 	 * in una data vendita. Utilizzando il metodo setQuantitaMerceByCodice degli oggetti Vendita ci si assicura anche 
