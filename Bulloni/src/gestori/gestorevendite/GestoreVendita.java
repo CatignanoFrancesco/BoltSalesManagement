@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -397,8 +398,8 @@ public class GestoreVendita {
 		
 		for (Vendita<MerceVenduta, Impiegato> v : vendite) {
 			if (v.getCodVendita() == codVendita) {
-				clone = (Vendita<MerceVenduta, Impiegato>)v.clone();
 				codiceTrovato = v.setQuantitaMerceByCodice(codBullone, nuovoNumero);
+				clone = (Vendita<MerceVenduta, Impiegato>)v.clone();
 			}
 		}
 		// se il metodo setQuantitaMerceByCodice ha ritornato false, allora il codice del bullone non è stato trovato
