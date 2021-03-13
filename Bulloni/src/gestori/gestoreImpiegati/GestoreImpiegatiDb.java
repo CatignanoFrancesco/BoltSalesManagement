@@ -29,7 +29,7 @@ import persona.exception.MsgExceptionImpiegato;
 
 public class GestoreImpiegatiDb {
 
-	private static final String NOME_TABELLA_IMPIEGATI = "impiegato";
+	private static final String NOME_TABELLA_IMPIEGATI = "Impiegato";
 
 	private Set<ImpiegatoBulloni> impiegati = new HashSet<ImpiegatoBulloni>();// set per salvare localmente gli
 																				// impiegati letti dal db
@@ -170,7 +170,7 @@ public class GestoreImpiegatiDb {
 	public void aggiornaImpiegatoDB(int id, int gionateLavorativeAnnuali, float stipendio)
 			throws ExceptionGestoreImpiegato, SQLException, DatabaseSQLException {
 
-		boolean flag = false;// flag per indicare se si è trovato l'impiegato richiesto o meno
+		boolean flag = false;// flag per indicare se si Ã¨ trovato l'impiegato richiesto o meno
 
 		if (id < 0)
 
@@ -219,14 +219,14 @@ public class GestoreImpiegatiDb {
 	 * false) dell'impiegato con il determinato id passatoli
 	 * 
 	 * @param id id dell'impiegato da aggiornare
-	 * @throws ExceptionGestoreImpiegato sollevata se è impossibe aggiornare il
+	 * @throws ExceptionGestoreImpiegato sollevata se Ã¨ impossibe aggiornare il
 	 *                                   valore dell'attributo eliminato
 	 * @throws DatabaseSQLException
 	 * @throws SQLException
 	 */
 	public void licenziaImpiegatoDB(int id) throws ExceptionGestoreImpiegato, SQLException, DatabaseSQLException {
 
-		boolean flag = false;// flag per indicare se si è trovato l'impiegato richiesto o meno
+		boolean flag = false;// flag per indicare se si Ã¨ trovato l'impiegato richiesto o meno
 
 		if (id < 0)
 
@@ -260,14 +260,14 @@ public class GestoreImpiegatiDb {
 	 * true) dell'impiegato con il determinato id passatoli
 	 * 
 	 * @param id id dell'impiegato da aggiornare
-	 * @throws ExceptionGestoreImpiegato sollevata se è impossibe aggiornare il
+	 * @throws ExceptionGestoreImpiegato sollevata se Ã¨ impossibe aggiornare il
 	 *                                   valore dell'attributo eliminato
 	 * @throws DatabaseSQLException
 	 * @throws SQLException
 	 */
 	public void assumiImpiegatoDB(int id) throws ExceptionGestoreImpiegato, SQLException, DatabaseSQLException {
 
-		boolean flag = false;// flag per indicare se si è trovato l'impiegato richiesto o meno
+		boolean flag = false;// flag per indicare se si Ã¨ trovato l'impiegato richiesto o meno
 
 		if (id < 0)
 
