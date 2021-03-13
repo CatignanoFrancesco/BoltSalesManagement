@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import databaseSQL.exception.*;
 
@@ -99,7 +100,9 @@ public class DatabaseSQL {
 		
 		/* se la regex non è rispettata dalla query passata in input, solleva un eccezione di tipo 
 		 * DatabaseSQLException con un messaggio personalizzato per il tipo di errore specifico */
-		if (!Pattern.matches(selectRegex, query)) {
+		Pattern p = Pattern.compile(selectRegex);
+		Matcher m = p.matcher(query);
+		if (!m.matches()) {
 			throw new DatabaseSQLException(MsgErrore.ERRORE_REGEX_SELECT, new DatabaseSQLException());
 		}
 		
@@ -125,7 +128,9 @@ public class DatabaseSQL {
 		
 		/* se la regex non è rispettata dalla query passata in input, solleva un eccezione di tipo 
 		 * DatabaseSQLException con un messaggio personalizzato per il tipo di errore specifico */
-		if (!Pattern.matches(insertRegex, query)) {
+		Pattern p = Pattern.compile(insertRegex);
+		Matcher m = p.matcher(query);
+		if (!m.matches()) {
 			throw new DatabaseSQLException(MsgErrore.ERRORE_REGEX_INSERT, new DatabaseSQLException());
 		}
 		
@@ -151,7 +156,9 @@ public class DatabaseSQL {
 		
 		/* se la regex non è rispettata dalla query passata in input, solleva un eccezione di tipo 
 		 * DatabaseSQLException con un messaggio personalizzato per il tipo di errore specifico */
-		if (!Pattern.matches(updateRegex, query)) {
+		Pattern p = Pattern.compile(updateRegex);
+		Matcher m = p.matcher(query);
+		if (!m.matches()) {
 			throw new DatabaseSQLException(MsgErrore.ERRORE_REGEX_UPDATE, new DatabaseSQLException());
 		}
 		
@@ -177,7 +184,9 @@ public class DatabaseSQL {
 		
 		/* se la regex non è rispettata dalla query passata in input, solleva un eccezione di tipo 
 		 * DatabaseSQLException con un messaggio personalizzato per il tipo di errore specifico */
-		if (!Pattern.matches(deleteRegex, query)) {
+		Pattern p = Pattern.compile(deleteRegex);
+		Matcher m = p.matcher(query);
+		if (!m.matches()) {
 			throw new DatabaseSQLException(MsgErrore.ERRORE_REGEX_DELETE, new DatabaseSQLException());
 		}
 		
