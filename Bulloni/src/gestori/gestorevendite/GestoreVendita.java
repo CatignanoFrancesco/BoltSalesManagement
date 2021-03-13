@@ -33,7 +33,7 @@ import gestori.gestorevendite.exception.*;
 public class GestoreVendita {
 	
 	/** Set contenente oggetti VenditaBulloni prelevati dal database */
-	Set<Vendita<MerceVenduta, Impiegato>> vendite = new HashSet<Vendita<MerceVenduta, Impiegato>>();
+	private Set<Vendita<MerceVenduta, Impiegato>> vendite = new HashSet<Vendita<MerceVenduta, Impiegato>>();
 	
 	/** Codice per le vendita a costruzione automatica, utile per poter aggiungere una nuova vendita
 	 * senza impostare manualmente un codice come parametro di input */
