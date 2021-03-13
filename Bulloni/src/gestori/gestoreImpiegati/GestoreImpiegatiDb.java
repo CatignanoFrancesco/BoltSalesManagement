@@ -5,12 +5,8 @@ package gestori.gestoreImpiegati;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.mysql.cj.protocol.Resultset;
 
 import databaseSQL.DatabaseSQL;
 import databaseSQL.Query;
@@ -29,10 +25,11 @@ import utility.Data;
 import persona.ImpiegatoBulloni;
 import persona.exception.ExceptionAnagraficaErrata;
 import persona.exception.ExceptionImpiegato;
+import persona.exception.MsgExceptionImpiegato;
 
 public class GestoreImpiegatiDb {
 
-	private static final String NOME_TABELLA_IMPIEGATI = "Impiegato";
+	private static final String NOME_TABELLA_IMPIEGATI = "impiegato";
 
 	private Set<ImpiegatoBulloni> impiegati = new HashSet<ImpiegatoBulloni>();// set per salvare localmente gli
 																				// impiegati letti dal db
@@ -62,7 +59,7 @@ public class GestoreImpiegatiDb {
 						rs.getInt(CampiTabellaImpiegati.giornateLavorativeAnnuali.toString()),
 						rs.getFloat(CampiTabellaImpiegati.stipendioMensile.toString()),
 						rs.getInt(CampiTabellaImpiegati.bulloniVendibiliAnnualmente.toString()),
-						Boolean.valueOf(rs.getString(CampiTabellaImpiegati.eliminato.toString())));
+						(rs.getString(CampiTabellaImpiegati.eliminato.toString()) == "T") ? true : false);
 
 				impiegati.add(i);// aggiungo l'impiegato al set locale
 
@@ -72,6 +69,7 @@ public class GestoreImpiegatiDb {
 			}
 
 		}
+
 		DatabaseSQL.chiudiConnessione();
 	}
 
@@ -81,12 +79,14 @@ public class GestoreImpiegatiDb {
 	 * 
 	 * @return returnSetImpiegati clone del set locale di impiegati letti dal db o
 	 *         che sono stati aggiunti in locale
+	 * @throws DatabaseSQLException 
+	 * @throws SQLException 
 	 */
-	public Set<ImpiegatoBulloni> getSetImpiegati() {
+	public Set<ImpiegatoBulloni> getSetImpiegati() throws SQLException, DatabaseSQLException {
 
 		Set<ImpiegatoBulloni> returnSetImpiegati = new HashSet<ImpiegatoBulloni>();// set nel quale clonare gli
 																					// impiegati da restituire
-
+		
 		for (ImpiegatoBulloni i : this.impiegati) {
 
 			returnSetImpiegati.add((ImpiegatoBulloni) i.clone());
@@ -96,32 +96,30 @@ public class GestoreImpiegatiDb {
 		return returnSetImpiegati;
 
 	}
-	
-	
+
 	public ImpiegatoBulloni getImpiegatoByID(int id) throws ExceptionGestoreImpiegato {
-		
-		boolean flag = false;//flag per segnalare se viene trovato il dipendente cercato
-		
-		
+
+		boolean flag = false;// flag per segnalare se viene trovato il dipendente cercato
+
 		ImpiegatoBulloni impiegato = new ImpiegatoBulloni();
-		
-		for(ImpiegatoBulloni i : this.impiegati) {
-			
-			if(id == i.getID()) {
-				
-				impiegato = (ImpiegatoBulloni)i.clone();
-				
+
+		for (ImpiegatoBulloni i : this.impiegati) {
+
+			if (id == i.getID()) {
+
+				impiegato = (ImpiegatoBulloni) i.clone();
+
 				flag = true;
-				
+
 				break;
 			}
 		}
-		
+
 		if (flag == false)// non ho trovato l'impiegato richiesto
 
 			throw new ExceptionGestoreImpiegato(MsgExceptionGestoreImpiegato.IMPIEGATO_NON_TROVATO,
 					new ExceptionGestoreImpiegato());
-		
+
 		return impiegato;
 	}
 
@@ -136,7 +134,8 @@ public class GestoreImpiegatiDb {
 
 		try {
 
-			impiegato.setID(this.impiegati.size() - 1);
+			impiegato.setID(this.impiegati.size());// setto l'id impiegato al valore successivo dell'ultimo impiegato
+													// presente nel db
 
 		} catch (ExceptionImpiegato e) {
 
@@ -150,9 +149,11 @@ public class GestoreImpiegatiDb {
 				String.valueOf(impiegato.getSesso()), ((Float) impiegato.getStipendioMensile()).toString(),
 				((Integer) impiegato.getBulloniVendibiliAnnualmente()).toString(),
 				((Integer) impiegato.getGiornateLavorativeAnnuali()).toString(),
-				((Boolean) impiegato.getIsAssunto()).toString() };
+				(impiegato.getIsLicenziato() == true) ? "t" : "f"};
 
 		DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_IMPIEGATI, valoriCampiTabella));
+
+		System.out.println("ho inserito nel db l'impiegatp");
 
 	}
 
@@ -166,9 +167,10 @@ public class GestoreImpiegatiDb {
 	 * @throws DatabaseSQLException
 	 * @throws SQLException
 	 */
-	public void aggiornaImpiegatoDB(int id) throws ExceptionGestoreImpiegato, SQLException, DatabaseSQLException {
+	public void aggiornaImpiegatoDB(int id, int gionateLavorativeAnnuali, float stipendio)
+			throws ExceptionGestoreImpiegato, SQLException, DatabaseSQLException {
 
-		boolean flag = false;// flag per indicare se si ï¿½ trovato l'impiegato richiesto o meno
+		boolean flag = false;// flag per indicare se si è trovato l'impiegato richiesto o meno
 
 		if (id < 0)
 
@@ -178,6 +180,15 @@ public class GestoreImpiegatiDb {
 		for (ImpiegatoBulloni i : this.impiegati) {
 
 			if (i.getID() == id) {// ho trovate l'impiegato richiesto
+
+				try {
+
+					i.promuovi(stipendio, gionateLavorativeAnnuali);// assegno i nuovi parametri
+
+				} catch (ExceptionImpiegato e) {
+
+					System.err.println(e.getMessage());
+				}
 
 				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
 						CampiTabellaImpiegati.stipendioMensile.toString(), ((Float) i.getStipendioMensile()).toString(),
@@ -208,14 +219,14 @@ public class GestoreImpiegatiDb {
 	 * false) dell'impiegato con il determinato id passatoli
 	 * 
 	 * @param id id dell'impiegato da aggiornare
-	 * @throws ExceptionGestoreImpiegato sollevata se ï¿½ impossibe aggiornare il
+	 * @throws ExceptionGestoreImpiegato sollevata se è impossibe aggiornare il
 	 *                                   valore dell'attributo eliminato
 	 * @throws DatabaseSQLException
 	 * @throws SQLException
 	 */
 	public void licenziaImpiegatoDB(int id) throws ExceptionGestoreImpiegato, SQLException, DatabaseSQLException {
 
-		boolean flag = false;// flag per indicare se si ï¿½ trovato l'impiegato richiesto o meno
+		boolean flag = false;// flag per indicare se si è trovato l'impiegato richiesto o meno
 
 		if (id < 0)
 
@@ -227,26 +238,7 @@ public class GestoreImpiegatiDb {
 			if (i.getID() == id) {// ho trovate l'impiegato richiesto
 
 				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
-						CampiTabellaImpiegati.stipendioMensile.toString(), ((Float) i.getStipendioMensile()).toString(),
-						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// azzero lo
-																										// stipendio
-
-				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
-						CampiTabellaImpiegati.giornateLavorativeAnnuali.toString(),
-						((Integer) i.getGiornateLavorativeAnnuali()).toString(),
-						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// azzero le
-																										// giornate
-																										// lavorative
-
-				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
-						CampiTabellaImpiegati.bulloniVendibiliAnnualmente.toString(),
-						((Integer) i.getBulloniVendibiliAnnualmente()).toString(),
-						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// azzero i
-																										// bulloni
-																										// vendibili
-
-				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
-						CampiTabellaImpiegati.eliminato.toString(), ((Boolean) i.getIsAssunto()).toString(),
+						CampiTabellaImpiegati.eliminato.toString(), (i.getIsLicenziato() == true) ? "t" : "f",
 						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// setto
 																										// eliminato su
 																										// vero
@@ -268,14 +260,14 @@ public class GestoreImpiegatiDb {
 	 * true) dell'impiegato con il determinato id passatoli
 	 * 
 	 * @param id id dell'impiegato da aggiornare
-	 * @throws ExceptionGestoreImpiegato sollevata se ï¿½ impossibe aggiornare il
+	 * @throws ExceptionGestoreImpiegato sollevata se è impossibe aggiornare il
 	 *                                   valore dell'attributo eliminato
 	 * @throws DatabaseSQLException
 	 * @throws SQLException
 	 */
 	public void assumiImpiegatoDB(int id) throws ExceptionGestoreImpiegato, SQLException, DatabaseSQLException {
 
-		boolean flag = false;// flag per indicare se si ï¿½ trovato l'impiegato richiesto o meno
+		boolean flag = false;// flag per indicare se si è trovato l'impiegato richiesto o meno
 
 		if (id < 0)
 
@@ -289,24 +281,24 @@ public class GestoreImpiegatiDb {
 				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
 						CampiTabellaImpiegati.stipendioMensile.toString(), ((Float) i.getStipendioMensile()).toString(),
 						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// setto lo
-																										// stipendio
+																										// stipendio nel db
 
 				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
 						CampiTabellaImpiegati.giornateLavorativeAnnuali.toString(),
 						((Integer) i.getGiornateLavorativeAnnuali()).toString(),
 						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// setto le
 																										// giornate
-																										// lavorative
+																										// lavorative nel db
 
 				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
 						CampiTabellaImpiegati.bulloniVendibiliAnnualmente.toString(),
 						((Integer) i.getBulloniVendibiliAnnualmente()).toString(),
 						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// setto i
 																										// bulloni
-																										// vendibili
+																										// vendibili nel db
 
 				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
-						CampiTabellaImpiegati.eliminato.toString(), ((Boolean) i.getIsAssunto()).toString(),
+						CampiTabellaImpiegati.eliminato.toString(), (i.getIsLicenziato() == true) ? "t" : "f",
 						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// setto
 																										// eliminato su
 																										// falso
