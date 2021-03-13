@@ -30,4 +30,6 @@ public class MsgExceptionImpiegato {
 	public static final String POCHI_BULLONI_ASSEGNATI = "Sollevata ExceptionImpiegato:\n Ogni impiegato deve vendere almeno 365 bulloni l'anno";
 	
 	public static final String ID_GIA_ASSEGNATO = "Sollevata ExceptionImpiegato:\n questo impiegato ha gia un id";
+	
+	public static final String ID_NON_VALIDO = "Sollevata ExceptionImpiegato:\n id non valido";
 }

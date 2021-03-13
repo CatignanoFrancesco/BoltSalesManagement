@@ -4,7 +4,6 @@
 package persona;
 
 import persona.exception.ExceptionImpiegato;
-import persona.exception.MsgExceptionImpiegato;
 
 /**
  * @author Francolino Flavio Domenico
@@ -50,7 +49,7 @@ public interface Impiegato extends Persona {
 	 *                               stipendio o le giornate lavorative non sono
 	 *                               valide
 	 */
-	public void assumi(int stipendioMensile, int giornateLavorativeAnnuali) throws ExceptionImpiegato;
+	public void assumi(float stipendioMensile, int giornateLavorativeAnnuali) throws ExceptionImpiegato;
 
 	/**
 	 * permette l'aggiornamento degli attributi stipendioMensile e
@@ -86,7 +85,7 @@ public interface Impiegato extends Persona {
 	 * 
 	 * @return ret true se l'impiegato è assunto,false altrimenti
 	 */
-	public boolean getIsAssunto();
+	public boolean getIsLicenziato();
 	
 	public String toString();
 	

@@ -25,7 +25,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	private int id = -1;
 	private int giornateLavorativeAnnuali;
 	private float stipendioMensile;
-	private boolean isAssunto = true;// alla crazione di un instanza Impiegato si presuppone che sia anche stato
+	private boolean isLicenziato = false;// alla crazione di un instanza Impiegato si presuppone che sia anche stato
 										// assunto
 	
 	/**
@@ -52,7 +52,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	 *                                   di attributo propri di AbstractPersona
 	 */
 	public ImpiegatoGenerale(String nome, String cognome, char sesso, Data dataNascita, int id,
-			int giornateLavorativeAnnuali, float stipendioMensile, boolean isAssunto)
+			int giornateLavorativeAnnuali, float stipendioMensile, boolean isLicenziato)
 			throws ExceptionImpiegato, ExceptionAnagraficaErrata {
 
 		super(nome, cognome, sesso, dataNascita);
@@ -83,7 +83,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 			this.id = id;
 			this.giornateLavorativeAnnuali = giornateLavorativeAnnuali;
 			this.stipendioMensile = stipendioMensile;
-			this.isAssunto = isAssunto;
+			this.isLicenziato = isLicenziato;
 
 		}
 
@@ -173,12 +173,12 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	 * {@inheritDoc} ideale per impiegati prima licenziati e poi magari riassunti
 	 */
 	@Override
-	public void assumi(int stipendioMensile, int giornateLavorativeAnnuali) throws ExceptionImpiegato {
+	public void assumi(float stipendioMensile, int giornateLavorativeAnnuali) throws ExceptionImpiegato {
 
 		boolean flagException = false;// flag per segnalare il sollevamento di un eccezione
 		String msgException = new String();// messaggio di eccezzione
 
-		if (this.isAssunto == true) {// l'impiegato risulta essere gia assunto
+		if (this.isLicenziato == false) {// l'impiegato risulta essere gia assunto
 			// non è possibile riassumerlo
 
 			flagException = true;
@@ -205,7 +205,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 
 		else {
 
-			this.isAssunto = true;
+			this.isLicenziato = false;
 
 			this.stipendioMensile = stipendioMensile;
 			this.giornateLavorativeAnnuali = giornateLavorativeAnnuali;
@@ -223,7 +223,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 		boolean flagException = false;// flag per segnalare il verificarsi di un eccezzione
 		String msgException = new String();
 
-		if (this.isAssunto == false) {// l'impiegato risulta esere licenziato
+		if (this.isLicenziato == true) {// l'impiegato risulta esere licenziato
 
 			flagException = true;
 			msgException = MsgExceptionImpiegato.IMPIEGATO_LICENZIATO;
@@ -269,36 +269,40 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	@Override
 	public void licenzia() throws ExceptionImpiegato {
 
-		if (this.isAssunto == true) {// se l'impiegato è effetivamente assunto
-
-			this.isAssunto = false;
-			this.stipendioMensile = 0;
-			this.giornateLavorativeAnnuali = 0;
-
-		} else {// non si puo licenziare un impiegato gia licenziato
-
+		if (this.isLicenziato == true) {// se l'impiegato risulta gia licenziato
+	
 			throw new ExceptionImpiegato(MsgExceptionImpiegato.IMPIEGATO_GIA_LICENZIATO, new ExceptionImpiegato());
+			
+		} else {
+			
+			this.isLicenziato = true;
+			
 		}
 	}
 	
 	
 	@Override
-	public boolean getIsAssunto() {
+	public boolean getIsLicenziato() {
 		
-		return this.isAssunto;
+		return this.isLicenziato;
 	}
 	
 	@Override
 	public void setID(int id) throws ExceptionImpiegato {
 		
 		
-		if(this.id >= -1)
-		
+		if(this.id >= 0)
+
 			throw new ExceptionImpiegato(MsgExceptionImpiegato.ID_GIA_ASSEGNATO, new ExceptionImpiegato());
+		
+		else if (id <= 0)
+			
+			throw new ExceptionImpiegato(MsgExceptionImpiegato.ID_NON_VALIDO, new ExceptionImpiegato());
 		
 		else
 			
 			this.id = id;
+			
 		
 	}
 

@@ -194,7 +194,7 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 	
 	
 	@Override
-	public void assumi(int stipendioMensile, int giornateLavorativeAnnuali) throws ExceptionImpiegato {
+	public void assumi(float stipendioMensile, int giornateLavorativeAnnuali) throws ExceptionImpiegato {
 		
 		super.assumi(stipendioMensile, giornateLavorativeAnnuali);
 		this.bulloniVendibiliAnnualmente = BULLONI_VENDIBILI_GIORNALMENTE * this.getGiornateLavorativeAnnuali();
@@ -202,7 +202,7 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 	
 	
 	
-	public void assumi(int stipendioMensile, int giornateLavorativeAnnuali, int bulloniVendibiliAnnualmente) throws ExceptionImpiegato {
+	public void assumi(float stipendioMensile, int giornateLavorativeAnnuali, int bulloniVendibiliAnnualmente) throws ExceptionImpiegato {
 		
 		super.assumi(stipendioMensile, giornateLavorativeAnnuali);
 		
@@ -220,14 +220,6 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 
 			this.bulloniVendibiliAnnualmente = bulloniVendibiliAnnualmente;
 	}
-	
-	@Override
-	public void licenzia() throws ExceptionImpiegato {
-		
-		super.licenzia();
-		this.bulloniVendibiliAnnualmente = 0;
-	}
-	
 	
 
 	/**
