@@ -7,11 +7,10 @@ import vendita.exception.VenditaException;
 /**
  * @author GiannettaGerardo
  * @param <T> rappresenta la merce in vendita
- * @param <E> rappresenta il responsabile della vendita o più semplicemente colui che la effettua
  *
  * Interfaccia contenente tutte le operazioni disponibili per tutti i tipi di Vendite
  */
-public interface Vendita<T, E> {
+public interface Vendita<T> {
 	
 	/**
 	 * Metodo che ritorna il codice univoco della vendita
@@ -62,7 +61,7 @@ public interface Vendita<T, E> {
 	 * 
 	 * @return responsabile della vendita
 	 */
-	public E getResponsabileVendita();
+	public int getResponsabileVendita();
 	
 	/**
 	 * Metodo che ritorna l'insieme di merce venduta nella rispettiva vendita;
@@ -103,7 +102,7 @@ public interface Vendita<T, E> {
 	 * 
 	 * @return l'oggetto clonato
 	 */
-	public Vendita<T, E> clone();
+	public Vendita<T> clone();
 	
 	/**
 	 * Metodo che ritorna una stringa contenente tutte le informazioni dettagliate dell'istanza dell'oggetto

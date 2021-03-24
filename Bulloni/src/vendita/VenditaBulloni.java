@@ -9,13 +9,12 @@ import vendita.exception.*;
 /**
  * @author GiannettaGerardo
  * @param <MerceVenduta> classe associativa MerceVenduta per gesitire i bulloni venduti
- * @param <Impiegato> responsabile della vendita
  *
  * Classe che rappresenta una vendita di bulloni, effettuata da un responsabile vendita, ovvero
  * un Impiegato. Si avvala di una classe associativa, MerceVenduta, per gestire i bulloni e i 
  * relativi dati associati alla specifica vendita
  */
-public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> implements Vendita<MerceVenduta, Impiegato> {
+public class VenditaBulloni extends AbstractVendita<MerceVenduta> implements Vendita<MerceVenduta> {
 
 	/** Responsabile della vendita */
 	private Impiegato impiegato;
@@ -139,8 +138,8 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 	/**
 	 * {@inheritDoc}
 	 */
-	public Impiegato getResponsabileVendita() {
-		return (Impiegato)this.impiegato.clone();
+	public int getResponsabileVendita() {
+		return this.impiegato.getID();
 	}
 
 	
@@ -200,7 +199,7 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 		String risultato = "Classe: " + this.getClass().getSimpleName() + "\n" + super.toString() +
 				           "Quantità totale di merce venduta: " + super.quantitaMerceTotale + "\n" +
 				           "Prezzo totale della merce venduta: " + super.prezzoVenditaTotale + "\n\n" +
-				           "Responsabile vendita:\n" + this.getResponsabileVendita().toString() + "\n" +
+				           "Responsabile vendita:\n" + ((Integer)this.getResponsabileVendita()).toString() + "\n" +
 				           "Merce venduta:\n";
 		
 		for (MerceVenduta mv : this.merce) {
@@ -216,14 +215,14 @@ public class VenditaBulloni extends AbstractVendita<MerceVenduta, Impiegato> imp
 	/**
 	 * {@inheritDoc}
 	 */
-	public Vendita<MerceVenduta, Impiegato> clone() {
+	public Vendita<MerceVenduta> clone() {
 		
-		Vendita<MerceVenduta, Impiegato> clone = null;
+		Vendita<MerceVenduta> clone = null;
 		
 		try {
 			clone = new VenditaBulloni(this.getCodVendita(), 
                                        this.getData(), 
-                                       this.getResponsabileVendita(), 
+                                       this.impiegato, 
                                        this.getMerceVenduta());
 		}
 		catch (VenditaException e) {

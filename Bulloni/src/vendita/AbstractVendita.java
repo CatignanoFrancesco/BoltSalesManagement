@@ -8,11 +8,10 @@ import java.time.LocalDate;;
 /**
  * @author GiannettaGerardo
  * @param <T> rappresenta la merce in vendita
- * @param <E> rappresenta il responsabile della vendita o più semplicemente colui che la effettua
  *
  * Classe astratta rappresentante una vendita di merce generica, effettuata da un certo responsabile vendita
  */
-public abstract class AbstractVendita<T, E> implements Vendita<T, E> {
+public abstract class AbstractVendita<T> implements Vendita<T> {
 
 	/** Codice univoco della vendita */
 	private int codVendita;
@@ -90,7 +89,7 @@ public abstract class AbstractVendita<T, E> implements Vendita<T, E> {
 	/**
 	 * {@inheritDoc}
 	 */
-	public abstract E getResponsabileVendita();
+	public abstract int getResponsabileVendita();
 
 	@Override
 	/**
@@ -129,7 +128,7 @@ public abstract class AbstractVendita<T, E> implements Vendita<T, E> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractVendita<T, E> other = (AbstractVendita<T, E>) obj;
+		AbstractVendita<T> other = (AbstractVendita<T>) obj;
 		if (codVendita != other.codVendita)
 			return false;
 		return true;
@@ -140,7 +139,7 @@ public abstract class AbstractVendita<T, E> implements Vendita<T, E> {
 	/**
 	 * {@inheritDoc}
 	 */
-	public abstract Vendita<T, E> clone();
+	public abstract Vendita<T> clone();
 	
 	@Override
 	/**

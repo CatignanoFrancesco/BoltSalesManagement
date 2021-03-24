@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,14 +25,14 @@ import gestori.gestorevendite.exception.*;
  * @author GiannettaGerardo
  *
  * Questa classe mette in relazione il package vendita con il database. Nel costruttore crea
- * un set di oggetti Vendita<MerceVenduta, Impiegato> tramite database e uso di altri costruttori,
+ * un set di oggetti Vendita<MerceVenduta> tramite database e uso di altri costruttori,
  * inoltre permette l'inseriemento di una nuova vendita, l'aggiornamento e l'eliminazione di una 
  * vendita esistente, oltre che la ricerca e restituzione di oggetti vendita in base a specifici parametri
  */
 public class GestoreVendita {
 	
 	/** Set contenente oggetti VenditaBulloni prelevati dal database */
-	private Set<Vendita<MerceVenduta, Impiegato>> vendite = new HashSet<Vendita<MerceVenduta, Impiegato>>();
+	private Set<Vendita<MerceVenduta>> vendite = new HashSet<Vendita<MerceVenduta>>();
 	
 	/** Codice per le vendita a costruzione automatica, utile per poter aggiungere una nuova vendita
 	 * senza impostare manualmente un codice come parametro di input */
@@ -200,17 +199,17 @@ public class GestoreVendita {
 	
 	
 	/**
-	 * Metodo che ritorna un Set<Vendita<MerceVenduta, Impiegato>> di cloni dell'originale
+	 * Metodo che ritorna un Set<Vendita<MerceVenduta>> di cloni dell'originale
 	 * 
-	 * @return Set<Vendita<MerceVenduta, Impiegato>> di cloni
+	 * @return Set<Vendita<MerceVenduta>> di cloni
 	 * @throws GestoreVenditaException
 	 */
-	public Set<Vendita<MerceVenduta, Impiegato>> getVendite() throws GestoreVenditaException {
+	public Set<Vendita<MerceVenduta>> getVendite() throws GestoreVenditaException {
 		
-		Set<Vendita<MerceVenduta, Impiegato>> risultato = new HashSet<Vendita<MerceVenduta, Impiegato>>();
+		Set<Vendita<MerceVenduta>> risultato = new HashSet<Vendita<MerceVenduta>>();
 		
-		for (Vendita<MerceVenduta, Impiegato> v : vendite)
-			risultato.add((Vendita<MerceVenduta, Impiegato>)v.clone());
+		for (Vendita<MerceVenduta> v : vendite)
+			risultato.add((Vendita<MerceVenduta>)v.clone());
 		
 		if (risultato.isEmpty())
 			throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.VENDITE_VUOTE, new GestoreVenditaException());
@@ -221,20 +220,20 @@ public class GestoreVendita {
 	
 	
 	/**
-	 * Metodo che ritorna il clone di un oggetto Vendita<MerceVenduta, Impiegato>
+	 * Metodo che ritorna il clone di un oggetto Vendita<MerceVenduta>
 	 * in base ad un codice vendita passato in input
 	 * 
 	 * @param codiceVendita codice da cercare
-	 * @return l'oggetto Vendita<MerceVenduta, Impiegato> trovato
+	 * @return l'oggetto Vendita<MerceVenduta> trovato
 	 * @throws GestoreVenditaException
 	 */
-	public Vendita<MerceVenduta, Impiegato> getVenditaByCodice(int codiceVendita) throws GestoreVenditaException {
+	public Vendita<MerceVenduta> getVenditaByCodice(int codiceVendita) throws GestoreVenditaException {
 		
-		Vendita<MerceVenduta, Impiegato> risultato = null;
+		Vendita<MerceVenduta> risultato = null;
 		
-		for (Vendita<MerceVenduta, Impiegato> v : vendite) {
+		for (Vendita<MerceVenduta> v : vendite) {
 			if (v.getCodVendita() == codiceVendita)
-				risultato = (Vendita<MerceVenduta, Impiegato>)v.clone();
+				risultato = (Vendita<MerceVenduta>)v.clone();
 		}
 		
 		if (risultato == null)
@@ -247,20 +246,20 @@ public class GestoreVendita {
 	
 	
 	/**
-	 * Metodo che ritorna il clone di un Set<Vendita<MerceVenduta, Impiegato>>
+	 * Metodo che ritorna il clone di un Set<Vendita<MerceVenduta>>
 	 * in base ad una data passata in input
 	 * 
 	 * @param dataVendita data di effettuazione della vendita
-	 * @return il Set<Vendita<MerceVenduta, Impiegato>> trovato
+	 * @return il Set<Vendita<MerceVenduta>> trovato
 	 * @throws GestoreVenditaException
 	 */
-	public Set<Vendita<MerceVenduta, Impiegato>> getVenditeByData(Data dataVendita) throws GestoreVenditaException {
+	public Set<Vendita<MerceVenduta>> getVenditeByData(Data dataVendita) throws GestoreVenditaException {
 		
-		Set<Vendita<MerceVenduta, Impiegato>> risultato = new HashSet<Vendita<MerceVenduta, Impiegato>>();
+		Set<Vendita<MerceVenduta>> risultato = new HashSet<Vendita<MerceVenduta>>();
 		
-		for (Vendita<MerceVenduta, Impiegato> v : vendite) {
+		for (Vendita<MerceVenduta> v : vendite) {
 			if (v.getData().compareTo(dataVendita) == 0)
-				risultato.add((Vendita<MerceVenduta, Impiegato>)v.clone());
+				risultato.add((Vendita<MerceVenduta>)v.clone());
 		}
 		
 		if (risultato.isEmpty())
@@ -272,20 +271,20 @@ public class GestoreVendita {
 	
 	
 	/**
-	 * Metodo che ritorna il clone di un Set<Vendita<MerceVenduta, Impiegato>>
+	 * Metodo che ritorna il clone di un Set<Vendita<MerceVenduta>>
 	 * in base al codice impiegato passato in input
 	 * 
 	 * @param codiceImpiegato codice impiegato da cercare nel Set
-	 * @return il Set<Vendita<MerceVenduta, Impiegato>> trovato
+	 * @return il Set<Vendita<MerceVenduta>> trovato
 	 * @throws GestoreVenditaException
 	 */
-	public Set<Vendita<MerceVenduta, Impiegato>> getVenditeByImpiegato(int codiceImpiegato) throws GestoreVenditaException {
+	public Set<Vendita<MerceVenduta>> getVenditeByImpiegato(int codiceImpiegato) throws GestoreVenditaException {
 		
-		Set<Vendita<MerceVenduta, Impiegato>> risultato = new HashSet<Vendita<MerceVenduta, Impiegato>>();
+		Set<Vendita<MerceVenduta>> risultato = new HashSet<Vendita<MerceVenduta>>();
 		
-		for (Vendita<MerceVenduta, Impiegato> v : vendite) {
-			if (v.getResponsabileVendita().getID() == codiceImpiegato)
-				risultato.add((Vendita<MerceVenduta, Impiegato>)v.clone());
+		for (Vendita<MerceVenduta> v : vendite) {
+			if (v.getResponsabileVendita() == codiceImpiegato)
+				risultato.add((Vendita<MerceVenduta>)v.clone());
 		}
 		
 		if (risultato.isEmpty())
@@ -305,7 +304,7 @@ public class GestoreVendita {
 	 * @param vendita oggetto vendita da inserire nel database
 	 * @throws GestoreVenditaException
 	 */
-	public void aggiungiVendita(Vendita<MerceVenduta, Impiegato> vendita) throws GestoreVenditaException {
+	public void aggiungiVendita(Vendita<MerceVenduta> vendita) throws GestoreVenditaException {
 		
 		// controllo che l'oggetto non sia nullo
 		if (vendita == null)
@@ -328,7 +327,7 @@ public class GestoreVendita {
 			
 			// creo i valori per la tabella vendita del database covertendoli tutti in formato String
 			String[] valoriTabellaVendita = {((Integer)vendita.getCodVendita()).toString(), 
-					                         ((Integer)vendita.getResponsabileVendita().getID()).toString(),
+					                         ((Integer)vendita.getResponsabileVendita()).toString(),
 					                         vendita.getData().toSqlDate().toString(),
 					                         ((Double)vendita.getPrezzoVenditaTotale()).toString(),
 					                         ((Integer)vendita.getQuantitaMerceTotale()).toString()};
@@ -361,7 +360,7 @@ public class GestoreVendita {
 	 * @throws SQLException
 	 * @throws DatabaseSQLException
 	 */
-	private void aggiungiMerceVenduta(Set<MerceVenduta> mv, Vendita<MerceVenduta, Impiegato> vendita) throws SQLException, DatabaseSQLException {
+	private void aggiungiMerceVenduta(Set<MerceVenduta> mv, Vendita<MerceVenduta> vendita) throws SQLException, DatabaseSQLException {
 		
 		// creo i valori per la tabella merce venduta del database covertendoli tutti in formato String
 		ArrayList<String[]> valoriTabellaMerceVenduta = new ArrayList<String[]>(mv.size());
@@ -394,12 +393,12 @@ public class GestoreVendita {
 		
 		boolean codiceTrovato = false;
 		
-		Vendita<MerceVenduta, Impiegato> clone = null;
+		Vendita<MerceVenduta> clone = null;
 		
-		for (Vendita<MerceVenduta, Impiegato> v : vendite) {
+		for (Vendita<MerceVenduta> v : vendite) {
 			if (v.getCodVendita() == codVendita) {
 				codiceTrovato = v.setQuantitaMerceByCodice(codBullone, nuovoNumero);
-				clone = (Vendita<MerceVenduta, Impiegato>)v.clone();
+				clone = (Vendita<MerceVenduta>)v.clone();
 			}
 		}
 		// se il metodo setQuantitaMerceByCodice ha ritornato false, allora il codice del bullone non è stato trovato
@@ -507,7 +506,7 @@ public class GestoreVendita {
 		
 		int max = 0;
 		
-		for (Vendita<MerceVenduta, Impiegato> v : vendite) {
+		for (Vendita<MerceVenduta> v : vendite) {
 			if (v.getCodVendita() > max)
 				max = v.getCodVendita();
 		}
@@ -542,7 +541,7 @@ public class GestoreVendita {
 		                   "Nome tabella merce nel database: " + NOME_TABELLA_MERCE_VENDUTA + "\n" +
 				           "Set di vendite: \n";
 		
-		for (Vendita<MerceVenduta, Impiegato> v : vendite) {
+		for (Vendita<MerceVenduta> v : vendite) {
 			risultato += v.toString();
 		}
 		
