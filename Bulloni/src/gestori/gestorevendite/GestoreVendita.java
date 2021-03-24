@@ -34,6 +34,12 @@ public class GestoreVendita {
 	/** Set contenente oggetti VenditaBulloni prelevati dal database */
 	private Set<Vendita<MerceVenduta>> vendite = new HashSet<Vendita<MerceVenduta>>();
 	
+	/** Map contenente il numero di vendite effettuate da un impiegato in ogni data */
+	private Map<ChiaveImpiegatoData, Integer> impiegatoData = new HashMap<ChiaveImpiegatoData, Integer>();
+	
+	/** Map contenente il numero di vendite effettuate da un impiegato in ogni anno */
+	private Map<ChiaveImpiegatoAnno, Integer> impiegatoAnno = new HashMap<ChiaveImpiegatoAnno, Integer>();
+	
 	/** Codice per le vendita a costruzione automatica, utile per poter aggiungere una nuova vendita
 	 * senza impostare manualmente un codice come parametro di input */
 	private static int codVenditaAutomatico = 0;
@@ -75,7 +81,7 @@ public class GestoreVendita {
 		// HashMap contenente come chiave il codice della vendita, come oggetto associato un Set di MerceVenduta
 		Map<Integer, Set<MerceVenduta>> merce = selectMerceVenduta(gb);
 		
-		// se l'HashMap non è vuoto, procede alla creazione del degli oggetti vendita
+		// se l'HashMap non è vuoto, procede alla creazione degli oggetti vendita
 		if (!merce.isEmpty()) {
 			
 			try {
@@ -108,14 +114,16 @@ public class GestoreVendita {
 			catch (SQLException e) {
 				System.err.println(e.getMessage());
 			}
-			//throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.MERCE_VENDUTA_NULLA, new GestoreVenditaException());
 		}
 		else {
-			
+			throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.MERCE_VENDUTA_NULLA, new GestoreVenditaException());
 		}	
 		
 		// imposta il nuovo codice automatico delle vendite
 		setCodVenditaAutomatico();
+		
+		// mappa le vendite in base all'impiegato che le ha effettuate e alla data/anno
+		mappaVenditeImpiegato();
 	}
 	
 	
@@ -194,6 +202,43 @@ public class GestoreVendita {
 		}
 		
 		return merce;
+	}
+	
+	
+	/**
+	 * Metodo che riempie i 2 HashMap impiegatoData e impiegatoAnno;
+	 * così facendo i controlli sul numero di bulloni vendibili per gli impiegati,
+	 * sia giornalieri che annuali, saranno semplici e rapidi
+	 */
+	private void mappaVenditeImpiegato() {
+		
+		ChiaveImpiegatoData mapCID = null;
+		ChiaveImpiegatoAnno mapCIA = null;
+		Integer numeroVenditeInData = null;
+		Integer numeroVenditeInAnno = null;
+		
+		for (Vendita<MerceVenduta> v : vendite) {
+			
+			mapCID = new ChiaveImpiegatoData(v.getResponsabileVendita(), (Data)v.getData().clone());
+			mapCIA = new ChiaveImpiegatoAnno(v.getResponsabileVendita(), v.getData().getAnno());
+			
+			numeroVenditeInData = impiegatoData.get(mapCID);
+			numeroVenditeInAnno = impiegatoAnno.get(mapCIA);
+			
+			if (numeroVenditeInData != null) {
+				numeroVenditeInData += v.getQuantitaMerceTotale();
+				impiegatoData.put(mapCID, numeroVenditeInData);
+			}
+			else
+				impiegatoData.put(mapCID, v.getQuantitaMerceTotale());
+			
+			if (numeroVenditeInAnno != null) {
+				numeroVenditeInAnno += v.getQuantitaMerceTotale();
+				impiegatoAnno.put(mapCIA, numeroVenditeInAnno);
+			}
+			else
+				impiegatoAnno.put(mapCIA, v.getQuantitaMerceTotale());
+		}
 	}
 	
 	
