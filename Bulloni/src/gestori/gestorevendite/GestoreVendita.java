@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import utility.Data;
 import vendita.*;
 import vendita.exception.VenditaException;
-import persona.Impiegato;
 import persona.ImpiegatoBulloni;
 import databaseSQL.*;
 import databaseSQL.exception.DatabaseSQLException;
@@ -40,10 +39,10 @@ public class GestoreVendita {
 	private Set<Vendita<MerceVenduta>> vendite = new HashSet<Vendita<MerceVenduta>>();
 	
 	/** Map contenente il numero di vendite effettuate da un impiegato in ogni data */
-	public Map<ChiaveImpiegatoData, Integer> impiegatoData = new HashMap<ChiaveImpiegatoData, Integer>();
+	private Map<ChiaveImpiegatoData, Integer> impiegatoData = new HashMap<ChiaveImpiegatoData, Integer>();
 	
 	/** Map contenente il numero di vendite effettuate da un impiegato in ogni anno */
-	public Map<ChiaveImpiegatoAnno, Integer> impiegatoAnno = new HashMap<ChiaveImpiegatoAnno, Integer>();
+	private Map<ChiaveImpiegatoAnno, Integer> impiegatoAnno = new HashMap<ChiaveImpiegatoAnno, Integer>();
 	
 	/** Codice per le vendita a costruzione automatica, utile per poter aggiungere una nuova vendita
 	 * senza impostare manualmente un codice come parametro di input */
@@ -368,13 +367,21 @@ public class GestoreVendita {
 		if (vendita.getCodVendita() < 0)
 			throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.CODICE_VENDITA_NEGATIVO, new GestoreVenditaException());
 		
-		// inserire controlli sul numero di bulloni vendibili 
-		
 		// controllo che il nuovo oggetto sia univoco all'interno del Set
 		if(!vendite.add(vendita)) {
 			throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.VENDITA_ESISTENTE, new GestoreVenditaException());
 		}
 		else {
+			
+			/* controllo che l'impiegato che sta cercando di effettuare la vendita possa effettivamente effettuarla, 
+			 * controllando il numero di bulloni già venduti in quella data e anno.
+			 * Questo controllo viene effettuato dopo l'inserimento nel Set di vendite principale, perché prima bisogna
+			 * assicurarsi che la vendita sia univoca; in caso lo fesse ma non fosse possibile salvarla per via del controllo
+			 * qui effettuato, la vendita verrà rimossa dal Set */
+			if (!checkNumeroBulloniVendutiImpiegato(vendita)) {
+				vendite.remove(vendita);
+				throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.BULLONI_MASSIMI_SUPERATI, new GestoreVenditaException());
+			}
 			
 			// mi assicuro che il codice di vendita automatico sia sempre maggiore del codice vendita più grande inserito nel Set
 			if (vendita.getCodVendita() >= codVenditaAutomatico) {
@@ -407,27 +414,55 @@ public class GestoreVendita {
 	
 	
 	
-	
+	/**
+	 * Metodo di controllo utilizzato nell'aggiunta e modifica di una vendita.
+     * Se l'impiegato che vuole effettuare questa vendita, ha già un numero di bulloni venduti in quella specifica data
+	 * tale che, sommato alla quantità di bulloni di questa vendita, supera il massimo consentito giornaliero 
+	 * (500 bulloni per tutti gli impiegati) o il massimo consentito annuale (varia per ogni impiegato), allora
+	 * la vendita viene annullata
+	 * 
+	 * @param vendita vendita che si vuole aggiungere o modificare
+	 * @return true se la vendita è accettabile, false se non lo è
+	 */
 	private boolean checkNumeroBulloniVendutiImpiegato(Vendita<MerceVenduta> vendita) {
 		
+		// risultato del metodo
 		boolean risultato = false;
+		
+		// classi chiave per interrogare gli HashMap
 		ChiaveImpiegatoData cid = new ChiaveImpiegatoData(vendita.getResponsabileVendita(), (Data)vendita.getData().clone());
 		ChiaveImpiegatoAnno cia = new ChiaveImpiegatoAnno(vendita.getResponsabileVendita(), vendita.getData().getAnno());
+		
+		// impiegato responsabile di questa vendita
 		ImpiegatoBulloni imp = null;
+		
+		// valori di ritorno dall'interrogazione degli HashMap (potrebbero essere null)
+		Integer nuovaQuantitaCID = this.impiegatoData.get(cid);
+		Integer nuovaQuantitaCIA = this.impiegatoAnno.get(cia);
+		
+		// se i valori ritornati dagli HashMap fossero nulli, si solleverebbe una NullPointerException
+		if (nuovaQuantitaCID == null)
+			nuovaQuantitaCID = new Integer(vendita.getQuantitaMerceTotale());
+		else
+			nuovaQuantitaCID += vendita.getQuantitaMerceTotale();
+		
+		if (nuovaQuantitaCIA == null)
+			nuovaQuantitaCIA = new Integer(vendita.getQuantitaMerceTotale());
+		else
+			nuovaQuantitaCIA += vendita.getQuantitaMerceTotale();
+		
 		
 		try {
 			imp = gi.getImpiegatoByID(vendita.getResponsabileVendita());
-			
-			Integer nuovaQuantitaCID = this.impiegatoData.get(cid) + vendita.getQuantitaMerceTotale();
-			Integer nuovaQuantitaCIA = this.impiegatoAnno.get(cia) + vendita.getQuantitaMerceTotale();
-			
+
 			if (nuovaQuantitaCIA <= imp.getBulloniVendibiliAnnualmente()) {
 				
 				if (nuovaQuantitaCID <= ImpiegatoBulloni.getBulloniVendibiliGiornalmente()) {
 					
-					
+					impiegatoData.put(cid, nuovaQuantitaCID);
+					impiegatoAnno.put(cia, nuovaQuantitaCIA);
+					risultato = true;
 				}
-				
 			}
 		}
 		catch (ExceptionGestoreImpiegato e) {

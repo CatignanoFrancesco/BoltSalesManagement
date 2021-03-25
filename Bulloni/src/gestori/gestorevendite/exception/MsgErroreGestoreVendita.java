@@ -41,6 +41,9 @@ public class MsgErroreGestoreVendita {
 	/** indica che è stato passato un oggetto nullo al posto del gestore degli impiegati nel costruttore del gestore vendita */
 	public static final String GESTORE_IMPIEGATI_NULLO = "Il gestore degli impiegati è un oggetto nullo.";
 	
+	/** indica che è il numero di bulloni venduti in una certa data/anno da un certo impiegato, sommati ai bulloni che si sta cercando di vendere, supera il massimo consentito */
+	public static final String BULLONI_MASSIMI_SUPERATI = "L'impiegato ha superato il numero di bulloni giornaliero e/o annuale massimo consentito. Operazione annullata.";
+	
 	
 	/**
 	 * il costruttore di MsgErroreGestoreVendita deve essere privato
