@@ -11,9 +11,6 @@ public class MsgErroreGestoreVendita {
 	/** intestazione di ogni messaggio d'errore per la classe GestoreVenditaException */
 	public static final String INTESTAZIONE = "GestoreVenditaException sollevata:\n";
 	
-	/** indica che il l'HashMap ritornato dal metodo selectMerceVenduta è vuoto */
-	public static final String MERCE_VENDUTA_NULLA = "Il Database ha ritornato un insieme vuoto di merce venduta.\n";
-	
 	/** indica che la vendita cercata tramite codice non esiste nel Set interno della classe */
 	public static final String VENDITA_NON_TROVATA = "Il codice vendita è inesistente.\n";
 	

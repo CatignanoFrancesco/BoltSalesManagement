@@ -31,8 +31,10 @@ import gestori.gestorevendite.exception.*;
  */
 public class GestoreVendita {
 	
+	// gestore dei bulloni che si interfaccia con la parte del database che riguarda i bulloni
 	GestoreBulloni gb;
 	
+	// gestore degli impiegati che si interfaccia con la parte del database che riguarda gli impiegati
 	GestoreImpiegatiDb gi;
 	
 	/** Set contenente oggetti VenditaBulloni prelevati dal database */
@@ -129,9 +131,6 @@ public class GestoreVendita {
 				System.err.println(e.getMessage());
 			}
 		}
-		/*else {
-			throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.MERCE_VENDUTA_NULLA, new GestoreVenditaException());
-		}*/
 	}
 	
 	
