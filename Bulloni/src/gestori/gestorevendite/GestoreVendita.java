@@ -411,10 +411,24 @@ public class GestoreVendita {
 	private boolean checkNumeroBulloniVendutiImpiegato(Vendita<MerceVenduta> vendita) {
 		
 		boolean risultato = false;
+		ChiaveImpiegatoData cid = new ChiaveImpiegatoData(vendita.getResponsabileVendita(), (Data)vendita.getData().clone());
+		ChiaveImpiegatoAnno cia = new ChiaveImpiegatoAnno(vendita.getResponsabileVendita(), vendita.getData().getAnno());
+		ImpiegatoBulloni imp = null;
 		
 		try {
-			Impiegato imp = gi.getImpiegatoByID(vendita.getResponsabileVendita());
+			imp = gi.getImpiegatoByID(vendita.getResponsabileVendita());
 			
+			Integer nuovaQuantitaCID = this.impiegatoData.get(cid) + vendita.getQuantitaMerceTotale();
+			Integer nuovaQuantitaCIA = this.impiegatoAnno.get(cia) + vendita.getQuantitaMerceTotale();
+			
+			if (nuovaQuantitaCIA <= imp.getBulloniVendibiliAnnualmente()) {
+				
+				if (nuovaQuantitaCID <= ImpiegatoBulloni.getBulloniVendibiliGiornalmente()) {
+					
+					
+				}
+				
+			}
 		}
 		catch (ExceptionGestoreImpiegato e) {
 			System.err.println(e.getMessage());
