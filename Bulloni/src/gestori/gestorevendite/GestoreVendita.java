@@ -373,12 +373,31 @@ public class GestoreVendita {
 		}
 		else {
 			
+			// classi chiave per interrogare gli HashMap
+			ChiaveImpiegatoData cid = new ChiaveImpiegatoData(vendita.getResponsabileVendita(), (Data)vendita.getData().clone());
+			ChiaveImpiegatoAnno cia = new ChiaveImpiegatoAnno(vendita.getResponsabileVendita(), vendita.getData().getAnno());
+	
+			// valori di ritorno dall'interrogazione degli HashMap (potrebbero essere null)
+			Integer nuovaQuantitaCID = this.impiegatoData.get(cid);
+			Integer nuovaQuantitaCIA = this.impiegatoAnno.get(cia);
+			
+			// se i valori ritornati dagli HashMap fossero nulli, si solleverebbe una NullPointerException
+			if (nuovaQuantitaCID == null)
+				nuovaQuantitaCID = new Integer(vendita.getQuantitaMerceTotale());
+			else
+				nuovaQuantitaCID += vendita.getQuantitaMerceTotale();
+			
+			if (nuovaQuantitaCIA == null)
+				nuovaQuantitaCIA = new Integer(vendita.getQuantitaMerceTotale());
+			else
+				nuovaQuantitaCIA += vendita.getQuantitaMerceTotale();
+			
 			/* controllo che l'impiegato che sta cercando di effettuare la vendita possa effettivamente effettuarla, 
 			 * controllando il numero di bulloni già venduti in quella data e anno.
 			 * Questo controllo viene effettuato dopo l'inserimento nel Set di vendite principale, perché prima bisogna
 			 * assicurarsi che la vendita sia univoca; in caso lo fesse ma non fosse possibile salvarla per via del controllo
 			 * qui effettuato, la vendita verrà rimossa dal Set */
-			if (!checkNumeroBulloniVendutiImpiegato(vendita)) {
+			if (!checkNumeroBulloniVendutiImpiegato(vendita.getResponsabileVendita(), cid, cia, nuovaQuantitaCIA, nuovaQuantitaCID)) {
 				vendite.remove(vendita);
 				throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.BULLONI_MASSIMI_SUPERATI, new GestoreVenditaException());
 			}
@@ -415,66 +434,6 @@ public class GestoreVendita {
 	
 	
 	/**
-	 * Metodo di controllo utilizzato nell'aggiunta e modifica di una vendita.
-     * Se l'impiegato che vuole effettuare questa vendita, ha già un numero di bulloni venduti in quella specifica data
-	 * tale che, sommato alla quantità di bulloni di questa vendita, supera il massimo consentito giornaliero 
-	 * (500 bulloni per tutti gli impiegati) o il massimo consentito annuale (varia per ogni impiegato), allora
-	 * la vendita viene annullata
-	 * 
-	 * @param vendita vendita che si vuole aggiungere o modificare
-	 * @return true se la vendita è accettabile, false se non lo è
-	 */
-	private boolean checkNumeroBulloniVendutiImpiegato(Vendita<MerceVenduta> vendita) {
-		
-		// risultato del metodo
-		boolean risultato = false;
-		
-		// classi chiave per interrogare gli HashMap
-		ChiaveImpiegatoData cid = new ChiaveImpiegatoData(vendita.getResponsabileVendita(), (Data)vendita.getData().clone());
-		ChiaveImpiegatoAnno cia = new ChiaveImpiegatoAnno(vendita.getResponsabileVendita(), vendita.getData().getAnno());
-		
-		// impiegato responsabile di questa vendita
-		ImpiegatoBulloni imp = null;
-		
-		// valori di ritorno dall'interrogazione degli HashMap (potrebbero essere null)
-		Integer nuovaQuantitaCID = this.impiegatoData.get(cid);
-		Integer nuovaQuantitaCIA = this.impiegatoAnno.get(cia);
-		
-		// se i valori ritornati dagli HashMap fossero nulli, si solleverebbe una NullPointerException
-		if (nuovaQuantitaCID == null)
-			nuovaQuantitaCID = new Integer(vendita.getQuantitaMerceTotale());
-		else
-			nuovaQuantitaCID += vendita.getQuantitaMerceTotale();
-		
-		if (nuovaQuantitaCIA == null)
-			nuovaQuantitaCIA = new Integer(vendita.getQuantitaMerceTotale());
-		else
-			nuovaQuantitaCIA += vendita.getQuantitaMerceTotale();
-		
-		
-		try {
-			imp = gi.getImpiegatoByID(vendita.getResponsabileVendita());
-
-			if (nuovaQuantitaCIA <= imp.getBulloniVendibiliAnnualmente()) {
-				
-				if (nuovaQuantitaCID <= ImpiegatoBulloni.getBulloniVendibiliGiornalmente()) {
-					
-					impiegatoData.put(cid, nuovaQuantitaCID);
-					impiegatoAnno.put(cia, nuovaQuantitaCIA);
-					risultato = true;
-				}
-			}
-		}
-		catch (ExceptionGestoreImpiegato e) {
-			System.err.println(e.getMessage());
-		}
-		
-		return risultato;
-	}
-	
-	
-	
-	/**
 	 * Metodo che inserisce, aprendo un solo canale TCP e quindi chiamando una sola volta il metodo
 	 * insert di DatabaseSQL, un intero Set di MerceVenduta nel database
 	 * 
@@ -500,6 +459,48 @@ public class GestoreVendita {
 	}
 	
 	
+	/**
+	 * Metodo di controllo utilizzato nell'aggiunta e modifica di una vendita.
+     * Se l'impiegato che vuole effettuare questa vendita, ha già un numero di bulloni venduti, in quella specifica data,
+	 * tale che sommato alla quantità di bulloni di questa vendita, supera il massimo consentito giornaliero 
+	 * (500 bulloni per tutti gli impiegati) o il massimo consentito annuale (varia per ogni impiegato), allora
+	 * la vendita viene annullata
+	 * 
+	 * @param impiegato codice univoco dell'impiegato
+	 * @param cid chiave per l'HashMap impiegatoData
+	 * @param cia chiave per l'HashMap impiegatoAnno
+	 * @param nuovaQuantitaCIA nuovo valore calcolato da aggiungere all'HashMap impiegatoAnno
+	 * @param nuovaQuantitaCID nuovo valore calcolato da aggiungere all'HashMap impiegatoData
+	 * @return true se il nuovo valore è accettabile per l'impiegato, false altrimenti
+	 */
+	private boolean checkNumeroBulloniVendutiImpiegato(int impiegato, ChiaveImpiegatoData cid, ChiaveImpiegatoAnno cia, int nuovaQuantitaCIA, int nuovaQuantitaCID) {
+		
+		// risultato del metodo
+		boolean risultato = false;
+		
+		// impiegato responsabile di questa vendita
+		ImpiegatoBulloni imp = null;
+			
+		try {
+			imp = gi.getImpiegatoByID(impiegato);
+
+			if (nuovaQuantitaCIA <= imp.getBulloniVendibiliAnnualmente()) {
+				
+				if (nuovaQuantitaCID <= ImpiegatoBulloni.getBulloniVendibiliGiornalmente()) {
+					
+					impiegatoData.put(cid, nuovaQuantitaCID);
+					impiegatoAnno.put(cia, nuovaQuantitaCIA);
+					risultato = true;
+				}
+			}
+		}
+		catch (ExceptionGestoreImpiegato e) {
+			System.err.println(e.getMessage());
+		}
+		
+		return risultato;
+	}
+	
 	
 	
 	/**
@@ -511,44 +512,81 @@ public class GestoreVendita {
 	 * @param codBullone codice identificativo del bullone nella vendita
 	 * @param nuovoNumero nuova quantità di bulloni per un dato bullone
 	 * @return true se il metodo è terminato con successo, false altrimenti
+	 * @throws GestoreVenditaException 
 	 */
-	public boolean updateNumeroBulloniVendutiByCodici(int codVendita, int codBullone, int nuovoNumero) {
+	public boolean updateNumeroBulloniVendutiByCodici(int codVendita, int codBullone, int nuovoNumero) throws GestoreVenditaException {
 		
 		boolean codiceTrovato = false;
 		
-		Vendita<MerceVenduta> clone = null;
+		ChiaveImpiegatoData cid = null;
+		ChiaveImpiegatoAnno cia = null;
+		
+		Vendita<MerceVenduta> venditaReale = null;
 		
 		for (Vendita<MerceVenduta> v : vendite) {
 			if (v.getCodVendita() == codVendita) {
-				codiceTrovato = v.setQuantitaMerceByCodice(codBullone, nuovoNumero);
-				clone = (Vendita<MerceVenduta>)v.clone();
+				venditaReale = v;
+				codiceTrovato = true;
+				break;
 			}
 		}
-		// se il metodo setQuantitaMerceByCodice ha ritornato false, allora il codice del bullone non è stato trovato
+		
+		// si controlla che sia stata trovata la vendita nel Set principale
 		if (!codiceTrovato)
 			return codiceTrovato;
 		
-		/* ricavo il Set clonato di MerceVenduta dall'oggetto vendita trovato e da esso prendo il clone del singolo oggetto 
+		// rendendo nuovamente falso il valore booleano, si può ripetere il controllo per la ricerca del bullone all'interno della vendita trovata
+		codiceTrovato = false;
+		
+		/* ricavo il Set clonato di MerceVenduta dall'oggetto vendita trovato e da esso prendo il singolo oggetto 
 		 * MerceVenduta relativo al bullone che mi serve */
-		Set<MerceVenduta> cloneMerce = clone.getMerceVenduta();
+		Set<MerceVenduta> cloneMerce = venditaReale.getMerceVenduta();
 		MerceVenduta merce = null;
 		for (MerceVenduta mv : cloneMerce) {
-			if (mv.getCodiceBullone() == codBullone)
-				merce = (MerceVenduta)mv.clone();
+			if (mv.getCodiceBullone() == codBullone) {
+				merce = mv;
+				codiceTrovato = true;
+				break;
+			}
 		}
 		
+		// si controlla che sia stato trovato quello specifico bullone nella vendita 
+		if (!codiceTrovato)
+			return codiceTrovato;
+		
+		// costruisco le chiavi per la ricerca negli HashMap
+		cid = new ChiaveImpiegatoData(venditaReale.getResponsabileVendita(), (Data)venditaReale.getData().clone());
+		cia = new ChiaveImpiegatoAnno(venditaReale.getResponsabileVendita(), venditaReale.getData().getAnno());
+		
+		/* questi 2 valori Integer ritornati sicuramente non saranno mai null, perché ci si sta riferendo ad una vendita già avvenuta,
+		 * inoltre i controlli sull'esistenza di questa vendita sono stati fatti precedentemente. Inoltre ai valori ritornati viene sottratto
+		 * il numero di bulloni venduti per quel tipo di bullone per cui si deve effettuare l'update; successivamente viene sommato il valore nuovo
+		 * per quello specifico bullone, così da poter effettuare i controlli simulando la nuova quantità e decidendo se rispetta i vincoli imposti
+		 * allo specifico impiegato */
+		Integer numBulloniCID = (impiegatoData.get(cid) - merce.getNumeroBulloni()) + nuovoNumero;
+		Integer numBulloniCIA = (impiegatoAnno.get(cia) - merce.getNumeroBulloni()) + nuovoNumero;
+		
+		// controllo che i valori calcolati siano accettabili per l'impiegato
+		if (checkNumeroBulloniVendutiImpiegato(venditaReale.getResponsabileVendita(), cid, cia, numBulloniCIA, numBulloniCID)) {
+			venditaReale.setQuantitaMerceByCodice(merce.getCodiceBullone(), nuovoNumero);
+		}
+		else {
+			throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.BULLONI_MASSIMI_SUPERATI, new GestoreVenditaException());
+		}
+		
+		// inizio aggiornamento nel database
 		try {
 			// aggiorno nel database il numero dei bulloni totali nella tabella Vendita
 			DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_VENDITA, 
 					                                      CampiTabellaVendita.numeroBulloniTotali.toString(), 
-					                                      ((Integer)clone.getQuantitaMerceTotale()).toString(), 
+					                                      ((Integer)venditaReale.getQuantitaMerceTotale()).toString(), 
 					                                      CampiTabellaVendita.codVendita.toString(), 
 					                                      ((Integer)codVendita).toString()));
 			
 			// aggiorno nel database il prezzo di vendita totale nella tabella Vendita
 			DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_VENDITA, 
                                                           CampiTabellaVendita.prezzoVenditaTotale.toString(), 
-                                                          ((Double)clone.getPrezzoVenditaTotale()).toString(), 
+                                                          ((Double)venditaReale.getPrezzoVenditaTotale()).toString(), 
                                                           CampiTabellaVendita.codVendita.toString(), 
                                                           ((Integer)codVendita).toString()));
 			
@@ -557,7 +595,7 @@ public class GestoreVendita {
 			                                                    CampiTabellaMerceVenduta.numeroBulloni.toString(), 
 			                                                    ((Integer)merce.getNumeroBulloni()).toString(), 
 			                                                    CampiTabellaMerceVenduta.codVendita.toString(), 
-			                                                    ((Integer)clone.getCodVendita()).toString(), 
+			                                                    ((Integer)venditaReale.getCodVendita()).toString(), 
 			                                                    CampiTabellaMerceVenduta.bullone.toString(), 
 			                                                    ((Integer)merce.getCodiceBullone()).toString()));
 			
@@ -566,7 +604,7 @@ public class GestoreVendita {
                                                                 CampiTabellaMerceVenduta.prezzoBulloni.toString(), 
                                                                 ((Double)merce.getPrezzoBulloni()).toString(), 
                                                                 CampiTabellaMerceVenduta.codVendita.toString(), 
-                                                                ((Integer)clone.getCodVendita()).toString(), 
+                                                                ((Integer)venditaReale.getCodVendita()).toString(), 
                                                                 CampiTabellaMerceVenduta.bullone.toString(), 
                                                                 ((Integer)merce.getCodiceBullone()).toString()));
 		}
