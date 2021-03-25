@@ -459,49 +459,6 @@ public class GestoreVendita {
 	}
 	
 	
-	/**
-	 * Metodo di controllo utilizzato nell'aggiunta e modifica di una vendita.
-     * Se l'impiegato che vuole effettuare questa vendita, ha già un numero di bulloni venduti, in quella specifica data,
-	 * tale che sommato alla quantità di bulloni di questa vendita, supera il massimo consentito giornaliero 
-	 * (500 bulloni per tutti gli impiegati) o il massimo consentito annuale (varia per ogni impiegato), allora
-	 * la vendita viene annullata
-	 * 
-	 * @param impiegato codice univoco dell'impiegato
-	 * @param cid chiave per l'HashMap impiegatoData
-	 * @param cia chiave per l'HashMap impiegatoAnno
-	 * @param nuovaQuantitaCIA nuovo valore calcolato da aggiungere all'HashMap impiegatoAnno
-	 * @param nuovaQuantitaCID nuovo valore calcolato da aggiungere all'HashMap impiegatoData
-	 * @return true se il nuovo valore è accettabile per l'impiegato, false altrimenti
-	 */
-	private boolean checkNumeroBulloniVendutiImpiegato(int impiegato, ChiaveImpiegatoData cid, ChiaveImpiegatoAnno cia, int nuovaQuantitaCIA, int nuovaQuantitaCID) {
-		
-		// risultato del metodo
-		boolean risultato = false;
-		
-		// impiegato responsabile di questa vendita
-		ImpiegatoBulloni imp = null;
-			
-		try {
-			imp = gi.getImpiegatoByID(impiegato);
-
-			if (nuovaQuantitaCIA <= imp.getBulloniVendibiliAnnualmente()) {
-				
-				if (nuovaQuantitaCID <= ImpiegatoBulloni.getBulloniVendibiliGiornalmente()) {
-					
-					impiegatoData.put(cid, nuovaQuantitaCID);
-					impiegatoAnno.put(cia, nuovaQuantitaCIA);
-					risultato = true;
-				}
-			}
-		}
-		catch (ExceptionGestoreImpiegato e) {
-			System.err.println(e.getMessage());
-		}
-		
-		return risultato;
-	}
-	
-	
 	
 	/**
 	 * Metodo che effettua l'update sul Set di vendite e sul database del numero di bulloni venduti per un dato bullone
@@ -518,6 +475,7 @@ public class GestoreVendita {
 		
 		boolean codiceTrovato = false;
 		
+		// classi chiave per interrogare gli HashMap
 		ChiaveImpiegatoData cid = null;
 		ChiaveImpiegatoAnno cia = null;
 		
@@ -621,6 +579,50 @@ public class GestoreVendita {
 	
 	
 	/**
+	 * Metodo di controllo utilizzato nell'aggiunta e modifica di una vendita.
+     * Se l'impiegato che vuole effettuare questa vendita, ha già un numero di bulloni venduti, in quella specifica data,
+	 * tale che sommato alla quantità di bulloni di questa vendita, supera il massimo consentito giornaliero 
+	 * (500 bulloni per tutti gli impiegati) o il massimo consentito annuale (varia per ogni impiegato), allora
+	 * la vendita viene annullata
+	 * 
+	 * @param impiegato codice univoco dell'impiegato
+	 * @param cid chiave per l'HashMap impiegatoData
+	 * @param cia chiave per l'HashMap impiegatoAnno
+	 * @param nuovaQuantitaCIA nuovo valore calcolato da aggiungere all'HashMap impiegatoAnno
+	 * @param nuovaQuantitaCID nuovo valore calcolato da aggiungere all'HashMap impiegatoData
+	 * @return true se il nuovo valore è accettabile per l'impiegato, false altrimenti
+	 */
+	private boolean checkNumeroBulloniVendutiImpiegato(int impiegato, ChiaveImpiegatoData cid, ChiaveImpiegatoAnno cia, int nuovaQuantitaCIA, int nuovaQuantitaCID) {
+		
+		// risultato del metodo
+		boolean risultato = false;
+		
+		// impiegato responsabile di questa vendita
+		ImpiegatoBulloni imp = null;
+			
+		try {
+			imp = gi.getImpiegatoByID(impiegato);
+
+			if (nuovaQuantitaCIA <= imp.getBulloniVendibiliAnnualmente()) {
+				
+				if (nuovaQuantitaCID <= ImpiegatoBulloni.getBulloniVendibiliGiornalmente()) {
+					
+					impiegatoData.put(cid, nuovaQuantitaCID);
+					impiegatoAnno.put(cia, nuovaQuantitaCIA);
+					risultato = true;
+				}
+			}
+		}
+		catch (ExceptionGestoreImpiegato e) {
+			System.err.println(e.getMessage());
+		}
+		
+		return risultato;
+	}
+	
+	
+	
+	/**
 	 * Metodo che elimina dal Set di vendite e dal database una certa vendita
 	 * 
 	 * @param codiceVendita codice identificativo della vendita da eliminare
@@ -630,12 +632,28 @@ public class GestoreVendita {
 		
 		boolean codiceTrovato = false;
 		
+		// classi chiave per interrogare gli HashMap
+		ChiaveImpiegatoData cid = null;
+		ChiaveImpiegatoAnno cia = null;
+		
+		Vendita<MerceVenduta> vendita = null;
+		
 		/* se il metodo getVenditaByCodice solleva l'eccezione GestoreVenditaException, 
 		 * allora non esiste alcuna vendita con questo codice all'interno del Set;
 		 * se il metodo remove rimuove con successo l'oggetto dal set originale, allora
 		 * si procede alla rimozione dal database */
 		try {
-			if (vendite.remove(this.getVenditaByCodice(codiceVendita))) {
+			
+			vendita = this.getVenditaByCodice(codiceVendita);
+			cid = new ChiaveImpiegatoData(vendita.getResponsabileVendita(), vendita.getData());
+			cia = new ChiaveImpiegatoAnno(vendita.getResponsabileVendita(), vendita.getData().getAnno());
+			
+			if (vendite.remove(vendita)) {
+				
+				// rimuovo la quantità di bulloni venduti salvata nei due HashMap che riguarda la vendita appena eliminata
+				impiegatoData.put(cid, impiegatoData.get(cid) - vendita.getQuantitaMerceTotale());
+				impiegatoAnno.put(cia, impiegatoAnno.get(cia) - vendita.getQuantitaMerceTotale());
+				
 				codiceTrovato = true;
 				
 				try {
