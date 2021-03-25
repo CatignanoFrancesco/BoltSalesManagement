@@ -39,10 +39,10 @@ public class GestoreVendita {
 	private Set<Vendita<MerceVenduta>> vendite = new HashSet<Vendita<MerceVenduta>>();
 	
 	/** Map contenente il numero di vendite effettuate da un impiegato in ogni data */
-	private Map<ChiaveImpiegatoData, Integer> impiegatoData = new HashMap<ChiaveImpiegatoData, Integer>();
+	public Map<ChiaveImpiegatoData, Integer> impiegatoData = new HashMap<ChiaveImpiegatoData, Integer>();
 	
 	/** Map contenente il numero di vendite effettuate da un impiegato in ogni anno */
-	private Map<ChiaveImpiegatoAnno, Integer> impiegatoAnno = new HashMap<ChiaveImpiegatoAnno, Integer>();
+	public Map<ChiaveImpiegatoAnno, Integer> impiegatoAnno = new HashMap<ChiaveImpiegatoAnno, Integer>();
 	
 	/** Codice per le vendita a costruzione automatica, utile per poter aggiungere una nuova vendita
 	 * senza impostare manualmente un codice come parametro di input */
@@ -115,6 +115,12 @@ public class GestoreVendita {
 				
 				DatabaseSQL.chiudiConnessione();
 				
+				// imposta il nuovo codice automatico delle vendite
+				setCodVenditaAutomatico();
+				
+				// mappa le vendite in base all'impiegato che le ha effettuate e alla data/anno
+				mappaVenditeImpiegato();
+				
 			}
 			catch (DatabaseSQLException e) {
 				System.err.println(e.getMessage());
@@ -123,15 +129,9 @@ public class GestoreVendita {
 				System.err.println(e.getMessage());
 			}
 		}
-		else {
+		/*else {
 			throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.MERCE_VENDUTA_NULLA, new GestoreVenditaException());
-		}	
-		
-		// imposta il nuovo codice automatico delle vendite
-		setCodVenditaAutomatico();
-		
-		// mappa le vendite in base all'impiegato che le ha effettuate e alla data/anno
-		mappaVenditeImpiegato();
+		}*/
 	}
 	
 	
