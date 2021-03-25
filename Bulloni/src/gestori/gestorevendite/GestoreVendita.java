@@ -532,6 +532,15 @@ public class GestoreVendita {
 			throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.BULLONI_MASSIMI_SUPERATI, new GestoreVenditaException());
 		}
 		
+		// ottengo ulteriormente l'oggetto merce per poter salvare nel database le modifiche effettuate
+		cloneMerce = venditaReale.getMerceVenduta();
+		for (MerceVenduta mv : cloneMerce) {
+			if (mv.getCodiceBullone() == codBullone) {
+				merce = mv;
+				break;
+			}
+		}
+		
 		// inizio aggiornamento nel database
 		try {
 			// aggiorno nel database il numero dei bulloni totali nella tabella Vendita
