@@ -13,6 +13,7 @@ import utility.Data;
 import vendita.*;
 import vendita.exception.VenditaException;
 import persona.Impiegato;
+import persona.ImpiegatoBulloni;
 import databaseSQL.*;
 import databaseSQL.exception.DatabaseSQLException;
 import gestori.gestoribulloni.*;
@@ -31,14 +32,18 @@ import gestori.gestorevendite.exception.*;
  */
 public class GestoreVendita {
 	
+	GestoreBulloni gb;
+	
+	GestoreImpiegatiDb gi;
+	
 	/** Set contenente oggetti VenditaBulloni prelevati dal database */
 	private Set<Vendita<MerceVenduta>> vendite = new HashSet<Vendita<MerceVenduta>>();
 	
 	/** Map contenente il numero di vendite effettuate da un impiegato in ogni data */
-	private Map<ChiaveImpiegatoData, Integer> impiegatoData = new HashMap<ChiaveImpiegatoData, Integer>();
+	public Map<ChiaveImpiegatoData, Integer> impiegatoData = new HashMap<ChiaveImpiegatoData, Integer>();
 	
 	/** Map contenente il numero di vendite effettuate da un impiegato in ogni anno */
-	private Map<ChiaveImpiegatoAnno, Integer> impiegatoAnno = new HashMap<ChiaveImpiegatoAnno, Integer>();
+	public Map<ChiaveImpiegatoAnno, Integer> impiegatoAnno = new HashMap<ChiaveImpiegatoAnno, Integer>();
 	
 	/** Codice per le vendita a costruzione automatica, utile per poter aggiungere una nuova vendita
 	 * senza impostare manualmente un codice come parametro di input */
@@ -78,8 +83,12 @@ public class GestoreVendita {
 			throw new GestoreVenditaException(msgErrore, new GestoreVenditaException());
 		}
 		
+		// salvo le istanze dei gestori in questa istanza di gestore vendite, serviranno per altri metodi
+		this.gb = gb;
+		this.gi = gi;
+		
 		// HashMap contenente come chiave il codice della vendita, come oggetto associato un Set di MerceVenduta
-		Map<Integer, Set<MerceVenduta>> merce = selectMerceVenduta(gb);
+		Map<Integer, Set<MerceVenduta>> merce = selectMerceVenduta();
 		
 		// se l'HashMap non è vuoto, procede alla creazione degli oggetti vendita
 		if (!merce.isEmpty()) {
@@ -139,7 +148,7 @@ public class GestoreVendita {
 	 * @return HashMap contenente i Set di MerceVenduta associati ad una chiave 
 	 *         di tipo int che rappresenta il codice vendita
 	 */
-	private Map<Integer, Set<MerceVenduta>> selectMerceVenduta(GestoreBulloni gb) {
+	private Map<Integer, Set<MerceVenduta>> selectMerceVenduta() {
 		
 		Map<Integer, Set<MerceVenduta>> merce = new HashMap<Integer, Set<MerceVenduta>>();
 		
@@ -359,6 +368,8 @@ public class GestoreVendita {
 		if (vendita.getCodVendita() < 0)
 			throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.CODICE_VENDITA_NEGATIVO, new GestoreVenditaException());
 		
+		// inserire controlli sul numero di bulloni vendibili 
+		
 		// controllo che il nuovo oggetto sia univoco all'interno del Set
 		if(!vendite.add(vendita)) {
 			throw new GestoreVenditaException(MsgErroreGestoreVendita.INTESTAZIONE + MsgErroreGestoreVendita.VENDITA_ESISTENTE, new GestoreVenditaException());
@@ -392,6 +403,24 @@ public class GestoreVendita {
 			}
 			
 		}
+	}
+	
+	
+	
+	
+	private boolean checkNumeroBulloniVendutiImpiegato(Vendita<MerceVenduta> vendita) {
+		
+		boolean risultato = false;
+		
+		try {
+			Impiegato imp = gi.getImpiegatoByID(vendita.getResponsabileVendita());
+			
+		}
+		catch (ExceptionGestoreImpiegato e) {
+			System.err.println(e.getMessage());
+		}
+		
+		return risultato;
 	}
 	
 	
