@@ -39,10 +39,10 @@ public class GestoreVendita {
 	private Set<Vendita<MerceVenduta>> vendite = new HashSet<Vendita<MerceVenduta>>();
 	
 	/** Map contenente il numero di vendite effettuate da un impiegato in ogni data */
-	public Map<ChiaveImpiegatoData, Integer> impiegatoData = new HashMap<ChiaveImpiegatoData, Integer>();
+	private Map<ChiaveImpiegatoData, Integer> impiegatoData = new HashMap<ChiaveImpiegatoData, Integer>();
 	
 	/** Map contenente il numero di vendite effettuate da un impiegato in ogni anno */
-	public Map<ChiaveImpiegatoAnno, Integer> impiegatoAnno = new HashMap<ChiaveImpiegatoAnno, Integer>();
+	private Map<ChiaveImpiegatoAnno, Integer> impiegatoAnno = new HashMap<ChiaveImpiegatoAnno, Integer>();
 	
 	/** Codice per le vendita a costruzione automatica, utile per poter aggiungere una nuova vendita
 	 * senza impostare manualmente un codice come parametro di input */
@@ -683,6 +683,52 @@ public class GestoreVendita {
 		}
 		
 		return codiceTrovato;
+	}
+	
+	
+	
+	/**
+	 * Metodo che interroga l'HashMap impiegatoData contenente il numero di bulloni venduti in base
+	 * all'impiegato e alla data in cui è stata effettuata la vendita.
+	 * 
+	 * @param matricolaImpiegato codice univoco di un impiegato
+	 * @param dataVendita data in cui la vendita è stata effettuata
+	 * @return -1 se i dati inseriti in input non sono contenuti nell'HashMap, un numero >= a 0 altrimenti
+	 */
+	public int getNumBulloniVendutiByImpiegatoData(int matricolaImpiegato, Data dataVendita) {
+		
+		Integer risultato = 0;
+		
+		ChiaveImpiegatoData cid = new ChiaveImpiegatoData(matricolaImpiegato, (Data)dataVendita.clone());
+		risultato = impiegatoData.get(cid);
+		
+		if (risultato == null)
+			risultato = new Integer(-1);
+		
+		return risultato;
+	}
+	
+	
+	
+	/**
+	 * Metodo che interroga l'HashMap impiegatoAnno contenente il numero di bulloni venduti in base
+	 * all'impiegato e all'anno in cui sono state effettuate le vendite.
+	 * 
+	 * @param matricolaImpiegato codice univoco di un impiegato
+	 * @param anno anno in cui sono state effettuate delle vendite
+	 * @return -1 se i dati inseriti in input non sono contenuti nell'HashMap, un numero >= a 0 altrimenti
+	 */
+	public int getNumBulloniVendutiByImpiegatoAnno(int matricolaImpiegato, int anno) {
+		
+		Integer risultato = 0;
+		
+		ChiaveImpiegatoAnno cia = new ChiaveImpiegatoAnno(matricolaImpiegato, anno);
+		risultato = impiegatoAnno.get(cia);
+		
+		if (risultato == null)
+			risultato = new Integer(-1);
+		
+		return risultato;
 	}
 	
 	
