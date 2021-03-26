@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.swing.text.StyledEditorKit.BoldAction;
+
 import databaseSQL.DatabaseSQL;
 import databaseSQL.Query;
 import databaseSQL.exception.DatabaseSQLException;
@@ -313,6 +315,26 @@ public class GestoreImpiegatiDb {
 			throw new ExceptionGestoreImpiegato(MsgExceptionGestoreImpiegato.IMPIEGATO_NON_TROVATO,
 					new ExceptionGestoreImpiegato());
 
+	}
+	
+	
+	/**
+	 * questo metodo server per dire se il set locale d'impiegati risulta vuoto o meno
+	 * @return true se il set locale e' vuoto, false altrimenti
+	 */
+	public boolean localSetIsEmpty() {
+		
+		boolean ret = false;//valore di ritorno
+		
+		if(this.impiegati.isEmpty())
+			
+			ret = true;
+		
+		else
+			
+			ret = false;
+		
+		return ret;
 	}
 
 }
