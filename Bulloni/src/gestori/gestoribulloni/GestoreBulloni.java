@@ -80,7 +80,11 @@ public class GestoreBulloni {
 	
 	
 	
-	// OPERAZIONI
+	/*
+	 * ------------------------------------------
+	 * 				METODI PUBBLICI
+	 * ------------------------------------------
+	 */
 	/**
 	 * Metodo per aggiungere al set di bulloni il bullone di tipo grano e per inserirlo nel database.
 	 * Se non e' stato ricevuto alcun bullone in input, verra' sollevata un'eccezione.
@@ -251,6 +255,21 @@ public class GestoreBulloni {
 	}
 	
 	
+	/**
+	 * Questo metodo controlla lo stato del set interno "bulloni" per accertarsi che ci siano dei bulloni all'interno.
+	 * @return true se il set e' vuoto, false altrimenti.
+	 */
+	public boolean isEmpty() {
+		return this.bulloni.isEmpty();
+	}
+	
+	
+	
+	/*
+	 * ------------------------------------------
+	 * 				METODI PRIVATI
+	 * ------------------------------------------
+	 */
 	/**
 	 * A partire dal risultato di una query, costruisce un oggetto Bullone di tipo grano.
 	 * @param rs Il risultato della query.
