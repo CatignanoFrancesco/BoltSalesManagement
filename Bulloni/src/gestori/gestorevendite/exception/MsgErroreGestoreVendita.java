@@ -41,6 +41,12 @@ public class MsgErroreGestoreVendita {
 	/** indica che è il numero di bulloni venduti in una certa data/anno da un certo impiegato, sommati ai bulloni che si sta cercando di vendere, supera il massimo consentito */
 	public static final String BULLONI_MASSIMI_SUPERATI = "L'impiegato ha superato il numero di bulloni giornaliero e/o annuale massimo consentito. Operazione annullata.\n";
 	
+	/** indica che il set locale del gestore bulloni è vuoto, quindi il database non ha bulloni salvati */
+	public static final String SET_LOCALE_BULLONI_VUOTO = "Il database non ha bulloni salvati.\n";
+	
+	/** indica che il set locale del gestore impiegati è vuoto, quindi il database non ha impiegati salvati */
+	public static final String SET_LOCALE_IMPIEGATI_VUOTO = "Il database non ha impiegati salvati.\n";
+	
 	
 	/**
 	 * il costruttore di MsgErroreGestoreVendita deve essere privato

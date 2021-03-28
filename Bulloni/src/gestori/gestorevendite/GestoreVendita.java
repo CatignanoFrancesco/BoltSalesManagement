@@ -74,7 +74,7 @@ public class GestoreVendita {
 		// controllo che i gestori passati come parametro non siano nulli
 		if (gb == null) {
 			eccezioneGestori = true;
-			msgErrore += MsgErroreGestoreVendita.GESTORE_BULLONI_NULLO + "\n";
+			msgErrore += MsgErroreGestoreVendita.GESTORE_BULLONI_NULLO;
 		}
 		if (gi == null) {
 			eccezioneGestori = true;
@@ -84,9 +84,26 @@ public class GestoreVendita {
 			throw new GestoreVenditaException(msgErrore, new GestoreVenditaException());
 		}
 		
+		eccezioneGestori = false;
+		msgErrore = MsgErroreGestoreVendita.INTESTAZIONE;
+		
 		// salvo le istanze dei gestori in questa istanza di gestore vendite, serviranno per altri metodi
 		this.gb = gb;
 		this.gi = gi;
+		
+		// controllo che nel database esista almeno un bullone e/o un impiegato tramite gli appositi gestori
+		if (gb.isEmpty()) {
+			eccezioneGestori = true;
+			msgErrore += MsgErroreGestoreVendita.SET_LOCALE_BULLONI_VUOTO;
+		}
+		if (gi.localSetIsEmpty()) {
+			eccezioneGestori = true;
+			msgErrore += MsgErroreGestoreVendita.SET_LOCALE_IMPIEGATI_VUOTO + "\n";
+		}
+		if (eccezioneGestori) {
+			throw new GestoreVenditaException(msgErrore, new GestoreVenditaException());
+		}
+		
 		
 		// HashMap contenente come chiave il codice della vendita, come oggetto associato un Set di MerceVenduta
 		Map<Integer, Set<MerceVenduta>> merce = selectMerceVenduta();
@@ -757,6 +774,16 @@ public class GestoreVendita {
 	 */
 	public int getCodVenditaAutomatico() {
 		return codVenditaAutomatico;
+	}
+	
+	
+	/**
+	 * Metodo che controlla se il set locale delle vendite è vuoto o meno
+	 * 
+	 * @return true se il set è vuoto, false altrimenti
+	 */
+	public boolean isEmpty() {
+		return this.vendite.isEmpty();
 	}
 	
 	
