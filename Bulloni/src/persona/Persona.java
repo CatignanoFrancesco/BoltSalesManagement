@@ -15,7 +15,7 @@ public interface Persona {
 	 * 
 	 * @return nomePersona il nome della persona
 	 */
-	public String getNome() throws ExceptionAnagraficaErrata;
+	public String getNome();
 
 	/**
 	 * restituisce il cognome di una persona
@@ -71,6 +71,10 @@ public interface Persona {
 	 */
 	public void setSesso(char sesso) throws ExceptionAnagraficaErrata;
 
+	/**
+	 * @return un oggetto persona convertiro in stringa
+	 */
+	@Override
 	public String toString();
 
 }

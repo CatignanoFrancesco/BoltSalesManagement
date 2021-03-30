@@ -22,8 +22,6 @@ public class MsgExceptionImpiegato {
 	public static final String IMPIEGATO_LICENZIATO = "Sollevata ExceptionImpiegato:\n impossibile modificare valori attributi di questo dipendente poiche l'impiegato risulta licenziato";
 
 	public static final String IMPIEGATO_GIA_LICENZIATO = "Sollevata ExceptionImpiegato:\n non puoi licenziare un impiegato gia licenziato";
-
-	public static final String IMPIEGATO_GIA_ASSUNTO = "Sollevata ExceptionImpiegato:\n non puoi assumere un impiegato gia assunto";
 	
 	public static final String ECCESSO_BULLONI_ASSEGNATI = "Sollevata ExceptionImpiegato:\n troppi bulloni da vendere in confronto alle giornate assegnate al medesimo dipendente";
 	

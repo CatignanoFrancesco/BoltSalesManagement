@@ -29,7 +29,8 @@ abstract class AbstractPersona implements Persona {
 
 	
 	/**
-	 * costruttore
+	 * costruttore da usare per instanziare oggetti che prendereanno valori da altre instanze
+	 * della stesso tipo
 	 */
 	public AbstractPersona() {};
 	
@@ -181,6 +182,10 @@ abstract class AbstractPersona implements Persona {
 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public String toString() {
 
 		return "Nome: " + this.getNome() + " \nCognome: " + this.getCognome() + "\nSesso: " + this.getSesso()

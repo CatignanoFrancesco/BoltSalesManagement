@@ -190,37 +190,7 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 		else
 
 			this.bulloniVendibiliAnnualmente = bulloniVendibiliAnnualmente;
-	}
-	
-	
-	@Override
-	public void assumi(float stipendioMensile, int giornateLavorativeAnnuali) throws ExceptionImpiegato {
-		
-		super.assumi(stipendioMensile, giornateLavorativeAnnuali);
-		this.bulloniVendibiliAnnualmente = BULLONI_VENDIBILI_GIORNALMENTE * this.getGiornateLavorativeAnnuali();
-	}
-	
-	
-	
-	public void assumi(float stipendioMensile, int giornateLavorativeAnnuali, int bulloniVendibiliAnnualmente) throws ExceptionImpiegato {
-		
-		super.assumi(stipendioMensile, giornateLavorativeAnnuali);
-		
-		if (!checkMaxNumeroBulloniVendibiliAnnualmente(bulloniVendibiliAnnualmente))
-			// per vendere tutti i bulloni dovrebbe vendere piu di 500 bulloni al di
-			// cosa non concesso dalle specifiche per cui sollevo un eccezione
-
-			throw new ExceptionImpiegato(MsgExceptionImpiegato.ECCESSO_BULLONI_ASSEGNATI, new ExceptionImpiegato());
-		
-		else if(bulloniVendibiliAnnualmente < MIN_BULLONI_VENDIBILI_ANNUALMENTE)
-			
-			throw new ExceptionImpiegato(MsgExceptionImpiegato.POCHI_BULLONI_ASSEGNATI, new ExceptionImpiegato());
-
-		else
-
-			this.bulloniVendibiliAnnualmente = bulloniVendibiliAnnualmente;
-	}
-	
+	}	
 
 	/**
 	 * controllo se il numero di bulloni che sto assegnando ad un impiegato rispetti
@@ -243,6 +213,9 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 
 	}
 
+	/**
+	 * converte l'oggetto impiegatoBulloni in stringa
+	 */
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

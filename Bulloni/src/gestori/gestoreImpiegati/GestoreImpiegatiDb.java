@@ -81,14 +81,14 @@ public class GestoreImpiegatiDb {
 	 * 
 	 * @return returnSetImpiegati clone del set locale di impiegati letti dal db o
 	 *         che sono stati aggiunti in locale
-	 * @throws DatabaseSQLException 
-	 * @throws SQLException 
+	 * @throws DatabaseSQLException
+	 * @throws SQLException
 	 */
 	public Set<ImpiegatoBulloni> getSetImpiegati() throws SQLException, DatabaseSQLException {
 
 		Set<ImpiegatoBulloni> returnSetImpiegati = new HashSet<ImpiegatoBulloni>();// set nel quale clonare gli
 																					// impiegati da restituire
-		
+
 		for (ImpiegatoBulloni i : this.impiegati) {
 
 			returnSetImpiegati.add((ImpiegatoBulloni) i.clone());
@@ -151,7 +151,7 @@ public class GestoreImpiegatiDb {
 				String.valueOf(impiegato.getSesso()), ((Float) impiegato.getStipendioMensile()).toString(),
 				((Integer) impiegato.getBulloniVendibiliAnnualmente()).toString(),
 				((Integer) impiegato.getGiornateLavorativeAnnuali()).toString(),
-				(impiegato.getIsLicenziato() == true) ? "t" : "f"};
+				(impiegato.getIsLicenziato() == true) ? "t" : "f" };
 
 		DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_IMPIEGATI, valoriCampiTabella));
 
@@ -239,13 +239,24 @@ public class GestoreImpiegatiDb {
 
 			if (i.getID() == id) {// ho trovate l'impiegato richiesto
 
-				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
-						CampiTabellaImpiegati.eliminato.toString(), (i.getIsLicenziato() == true) ? "t" : "f",
-						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// setto
-																										// eliminato su
-																										// vero
-				flag = true;
-				break;
+				try {
+
+					i.licenzia();// setto eliminato/isLicenziato su vero nel set locale
+
+					DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
+							CampiTabellaImpiegati.eliminato.toString(), (i.getIsLicenziato() == true) ? "t" : "f",
+							CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// setto
+																											// eliminato
+																											// su
+																											// vero nel
+																											// db
+					flag = true;
+					break;
+
+				} catch (ExceptionImpiegato e) {
+
+					e.printStackTrace();
+				}
 			}
 
 		}
@@ -258,82 +269,23 @@ public class GestoreImpiegatiDb {
 	}
 
 	/**
-	 * questo metodo si occupa di aggionare sul db il valore di eliminato(da false a
-	 * true) dell'impiegato con il determinato id passatoli
+	 * questo metodo server per dire se il set locale d'impiegati risulta vuoto o
+	 * meno
 	 * 
-	 * @param id id dell'impiegato da aggiornare
-	 * @throws ExceptionGestoreImpiegato sollevata se è impossibe aggiornare il
-	 *                                   valore dell'attributo eliminato
-	 * @throws DatabaseSQLException
-	 * @throws SQLException
-	 */
-	public void assumiImpiegatoDB(int id) throws ExceptionGestoreImpiegato, SQLException, DatabaseSQLException {
-
-		boolean flag = false;// flag per indicare se si è trovato l'impiegato richiesto o meno
-
-		if (id < 0)
-
-			throw new ExceptionGestoreImpiegato(MsgExceptionGestoreImpiegato.IMPIEGATO_NON_TROVATO,
-					new ExceptionGestoreImpiegato());
-
-		for (ImpiegatoBulloni i : this.impiegati) {
-
-			if (i.getID() == id) {// ho trovate l'impiegato richiesto
-
-				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
-						CampiTabellaImpiegati.stipendioMensile.toString(), ((Float) i.getStipendioMensile()).toString(),
-						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// setto lo
-																										// stipendio nel db
-
-				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
-						CampiTabellaImpiegati.giornateLavorativeAnnuali.toString(),
-						((Integer) i.getGiornateLavorativeAnnuali()).toString(),
-						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// setto le
-																										// giornate
-																										// lavorative nel db
-
-				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
-						CampiTabellaImpiegati.bulloniVendibiliAnnualmente.toString(),
-						((Integer) i.getBulloniVendibiliAnnualmente()).toString(),
-						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// setto i
-																										// bulloni
-																										// vendibili nel db
-
-				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
-						CampiTabellaImpiegati.eliminato.toString(), (i.getIsLicenziato() == true) ? "t" : "f",
-						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// setto
-																										// eliminato su
-																										// falso
-				flag = true;
-				break;
-			}
-
-		}
-
-		if (flag == false)// non ho trovato l'impiegato richiesto
-
-			throw new ExceptionGestoreImpiegato(MsgExceptionGestoreImpiegato.IMPIEGATO_NON_TROVATO,
-					new ExceptionGestoreImpiegato());
-
-	}
-	
-	
-	/**
-	 * questo metodo server per dire se il set locale d'impiegati risulta vuoto o meno
 	 * @return true se il set locale e' vuoto, false altrimenti
 	 */
 	public boolean localSetIsEmpty() {
-		
-		boolean ret = false;//valore di ritorno
-		
-		if(this.impiegati.isEmpty())
-			
+
+		boolean ret = false;// valore di ritorno
+
+		if (this.impiegati.isEmpty())
+
 			ret = true;
-		
+
 		else
-			
+
 			ret = false;
-		
+
 		return ret;
 	}
 

@@ -39,19 +39,6 @@ public interface Impiegato extends Persona {
 	public int getGiornateLavorativeAnnuali();
 
 	/**
-	 * setta il valore dell'attributo isAssunto su true e imposta lo stipendio
-	 * mensile e le giornate lavorative con i valori passatoli
-	 * 
-	 * @param stipendioMensile          lo stipendio con cu assumere un impiegato
-	 * @param giornateLavorativeannuali le giornate lavorative con cui assumere un
-	 *                                  impiegato
-	 * @exception ExceptionImpiegato sollevata se un impiegato ï¿½ gia assunto o lo
-	 *                               stipendio o le giornate lavorative non sono
-	 *                               valide
-	 */
-	public void assumi(float stipendioMensile, int giornateLavorativeAnnuali) throws ExceptionImpiegato;
-
-	/**
 	 * permette l'aggiornamento degli attributi stipendioMensile e
 	 * giornateLavorativeAnnuali di un impiegato
 	 * 
@@ -87,14 +74,29 @@ public interface Impiegato extends Persona {
 	 */
 	public boolean getIsLicenziato();
 	
+	/**
+	 * converte un istanza di un impiegato in stringa
+	 */
 	public String toString();
 	
+	/**
+	 * {@inheritDoc}
+	 * @return
+	 */
 	@Override
 	public int hashCode();
 	
+	/**
+	 * {@inheritDoc}
+	 * @param obj l'ggetto con cui confrontare
+	 * @return true se l'oggetto è uguale, false altrimenti
+	 */
 	@Override
 	public boolean equals(Object obj);
 	
+	/**
+	 * @return il clone dell'oggetto clonato
+	 */
 	Object clone();
 
 }

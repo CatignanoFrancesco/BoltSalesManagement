@@ -170,51 +170,6 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	}
 
 	/**
-	 * {@inheritDoc} ideale per impiegati prima licenziati e poi magari riassunti
-	 */
-	@Override
-	public void assumi(float stipendioMensile, int giornateLavorativeAnnuali) throws ExceptionImpiegato {
-
-		boolean flagException = false;// flag per segnalare il sollevamento di un eccezione
-		String msgException = new String();// messaggio di eccezzione
-
-		if (this.isLicenziato == false) {// l'impiegato risulta essere gia assunto
-			// non è possibile riassumerlo
-
-			flagException = true;
-			msgException = MsgExceptionImpiegato.IMPIEGATO_GIA_ASSUNTO;
-
-		} else if ((stipendioMensile < MIN_STIPENDIO_MENSILE) || (stipendioMensile > MAX_STIPENDIO_MENSILE)) {// lo stipedendio non rispetta
-																												// le soglie minime e massime
-
-			flagException = true;
-			msgException = MsgExceptionImpiegato.STIPENDIO_NON_VALIDO;
-
-		} else if ((giornateLavorativeAnnuali < MIN_GIORNATE_LAVORATIVE_ANNUALI) ||
-					(giornateLavorativeAnnuali > MAX_GIORNATE_LAVORATIVE_ANNUALI)) {// le giornate lavorative non
-																						// rispettano le soglie min o
-																						// max
-
-			flagException = true;
-			msgException = MsgExceptionImpiegato.GIORNATE_NON_VALIDE;
-		}
-
-		if (flagException == true)
-
-			throw new ExceptionImpiegato(msgException, new ExceptionImpiegato());
-
-		else {
-
-			this.isLicenziato = false;
-
-			this.stipendioMensile = stipendioMensile;
-			this.giornateLavorativeAnnuali = giornateLavorativeAnnuali;
-
-		}
-
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -280,13 +235,21 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 		}
 	}
 	
-	
+	/**
+	 * ritorna il valore dell'attributo Islicenziato  di un impiegato
+	 * 
+	 */
 	@Override
 	public boolean getIsLicenziato() {
 		
 		return this.isLicenziato;
 	}
 	
+	/**
+	 * setta il valore dell'attributo id  di un impiegato
+	 * 
+	 * @param
+	 */
 	@Override
 	public void setID(int id) throws ExceptionImpiegato {
 		
@@ -306,6 +269,9 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 		
 	}
 
+	/**
+	 * converte l'oggetto impiegatoGenerale in stringa
+	 */
 	@Override
 	public String toString() {
 
