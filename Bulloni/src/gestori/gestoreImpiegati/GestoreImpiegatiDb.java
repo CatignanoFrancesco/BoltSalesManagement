@@ -185,26 +185,26 @@ public class GestoreImpiegatiDb {
 
 				try {
 
-					i.promuovi(stipendio, gionateLavorativeAnnuali);// assegno i nuovi parametri
+					i.promuovi(stipendio, gionateLavorativeAnnuali);// assegno i nuovi parametri all determinato impiegato nel set locale
+					
+					DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
+							CampiTabellaImpiegati.stipendioMensile.toString(), ((Float) i.getStipendioMensile()).toString(),
+							CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// aggiorno lo
+																											// stipendio nel db
+
+					DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
+							CampiTabellaImpiegati.giornateLavorativeAnnuali.toString(),
+							((Integer) i.getGiornateLavorativeAnnuali()).toString(),
+							CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// aggiorno le
+																											// giornate
+																											// lavorative nel db
+					flag = true;
+					break;
 
 				} catch (ExceptionImpiegato e) {
 
 					System.err.println(e.getMessage());
 				}
-
-				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
-						CampiTabellaImpiegati.stipendioMensile.toString(), ((Float) i.getStipendioMensile()).toString(),
-						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// aggiorno lo
-																										// stipendio
-
-				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_IMPIEGATI,
-						CampiTabellaImpiegati.giornateLavorativeAnnuali.toString(),
-						((Integer) i.getGiornateLavorativeAnnuali()).toString(),
-						CampiTabellaImpiegati.matricola.toString(), ((Integer) i.getID()).toString()));// aggiorno le
-																										// giornate
-																										// lavorative
-				flag = true;
-				break;
 			}
 
 		}
