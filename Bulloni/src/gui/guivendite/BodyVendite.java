@@ -295,13 +295,7 @@ public class BodyVendite extends JPanel {
 			gbc_deleteButton.insets = new Insets(0, 0, 5, 25);
 			gbc_deleteButton.gridx = ++posizioneX;
 			gbc_deleteButton.gridy = i+1;
-			deleteButton[i].addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					
-					// test
-					JOptionPane.showMessageDialog(mainMenu, codLabel[i].getText());
-				}
-			});
+			deleteButton[i].addActionListener(new GestoreDeleteButton(mainMenu, codLabel[i].getText()));
 			panel.add(deleteButton[i], gbc_deleteButton);
 			
 			i++;
