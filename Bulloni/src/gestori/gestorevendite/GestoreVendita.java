@@ -29,7 +29,7 @@ import gestori.gestorevendite.exception.*;
  * inoltre permette l'inseriemento di una nuova vendita, l'aggiornamento e l'eliminazione di una 
  * vendita esistente, oltre che la ricerca e restituzione di oggetti vendita in base a specifici parametri
  */
-public class GestoreVendita {
+public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendite, ModificaVendite, EliminazioneVendite, ContainerVendite {
 	
 	// gestore dei bulloni che si interfaccia con la parte del database che riguarda i bulloni
 	GestoreBulloni gb;
@@ -267,11 +267,9 @@ public class GestoreVendita {
 	
 	
 	
+	@Override
 	/**
-	 * Metodo che ritorna un Set<Vendita<MerceVenduta>> di cloni dell'originale
-	 * 
-	 * @return Set<Vendita<MerceVenduta>> di cloni
-	 * @throws GestoreVenditaException
+	 * {@inheritDoc}
 	 */
 	public Set<Vendita<MerceVenduta>> getVendite() throws GestoreVenditaException {
 		
@@ -288,13 +286,9 @@ public class GestoreVendita {
 	
 	
 	
+	@Override
 	/**
-	 * Metodo che ritorna il clone di un oggetto Vendita<MerceVenduta>
-	 * in base ad un codice vendita passato in input
-	 * 
-	 * @param codiceVendita codice da cercare
-	 * @return l'oggetto Vendita<MerceVenduta> trovato
-	 * @throws GestoreVenditaException
+	 * {@inheritDoc}
 	 */
 	public Vendita<MerceVenduta> getVenditaByCodice(int codiceVendita) throws GestoreVenditaException {
 		
@@ -314,13 +308,9 @@ public class GestoreVendita {
 	
 	
 	
+	@Override
 	/**
-	 * Metodo che ritorna il clone di un Set<Vendita<MerceVenduta>>
-	 * in base ad una data passata in input
-	 * 
-	 * @param dataVendita data di effettuazione della vendita
-	 * @return il Set<Vendita<MerceVenduta>> trovato
-	 * @throws GestoreVenditaException
+	 * {@inheritDoc}
 	 */
 	public Set<Vendita<MerceVenduta>> getVenditeByData(Data dataVendita) throws GestoreVenditaException {
 		
@@ -339,13 +329,9 @@ public class GestoreVendita {
 	
 	
 	
+	@Override
 	/**
-	 * Metodo che ritorna il clone di un Set<Vendita<MerceVenduta>>
-	 * in base al codice impiegato passato in input
-	 * 
-	 * @param codiceImpiegato codice impiegato da cercare nel Set
-	 * @return il Set<Vendita<MerceVenduta>> trovato
-	 * @throws GestoreVenditaException
+	 * {@inheritDoc}
 	 */
 	public Set<Vendita<MerceVenduta>> getVenditeByImpiegato(int codiceImpiegato) throws GestoreVenditaException {
 		
@@ -364,14 +350,9 @@ public class GestoreVendita {
 	
 	
 	
+	@Override
 	/**
-	 * Metodo che inserisce nel Set di vendite e nel database un nuovo oggetto vendita.
-	 * Effettua opportuni controlli prelinimari sull'oggetto, lo inserisce nel Set controllando
-	 * che non sia già presente un oggetto con lo stesso codice chiave e infine si avvale di un
-	 * altro metodo privato per inserire nel database anche il corrispondente Set di MerceVenduta
-	 * 
-	 * @param vendita oggetto vendita da inserire nel database
-	 * @throws GestoreVenditaException
+	 * {@inheritDoc}
 	 */
 	public void aggiungiVendita(Vendita<MerceVenduta> vendita) throws GestoreVenditaException {
 		
@@ -476,16 +457,9 @@ public class GestoreVendita {
 	
 	
 	
+	@Override
 	/**
-	 * Metodo che effettua l'update sul Set di vendite e sul database del numero di bulloni venduti per un dato bullone
-	 * in una data vendita. Utilizzando il metodo setQuantitaMerceByCodice degli oggetti Vendita ci si assicura anche 
-	 * l'aggiornamento del numero totale di bulloni venduti nell'intera vendita e del prezzo totale della vendita
-	 * 
-	 * @param codVendita codice identificativo della vendita
-	 * @param codBullone codice identificativo del bullone nella vendita
-	 * @param nuovoNumero nuova quantità di bulloni per un dato bullone
-	 * @return true se il metodo è terminato con successo, false altrimenti
-	 * @throws GestoreVenditaException 
+	 * {@inheritDoc}
 	 */
 	public boolean updateNumeroBulloniVendutiByCodici(int codVendita, int codBullone, int nuovoNumero) throws GestoreVenditaException {
 		
@@ -603,21 +577,11 @@ public class GestoreVendita {
 	
 	
 	
+	@Override
 	/**
-	 * Metodo di controllo utilizzato nell'aggiunta e modifica di una vendita.
-     * Se l'impiegato che vuole effettuare questa vendita, ha già un numero di bulloni venduti, in quella specifica data,
-	 * tale che sommato alla quantità di bulloni di questa vendita, supera il massimo consentito giornaliero 
-	 * (500 bulloni per tutti gli impiegati) o il massimo consentito annuale (varia per ogni impiegato), allora
-	 * la vendita viene annullata
-	 * 
-	 * @param impiegato codice univoco dell'impiegato
-	 * @param cid chiave per l'HashMap impiegatoData
-	 * @param cia chiave per l'HashMap impiegatoAnno
-	 * @param nuovaQuantitaCIA nuovo valore calcolato da aggiungere all'HashMap impiegatoAnno
-	 * @param nuovaQuantitaCID nuovo valore calcolato da aggiungere all'HashMap impiegatoData
-	 * @return true se il nuovo valore è accettabile per l'impiegato, false altrimenti
+	 * {@inheritDoc}
 	 */
-	private boolean checkNumeroBulloniVendutiImpiegato(int impiegato, ChiaveImpiegatoData cid, ChiaveImpiegatoAnno cia, int nuovaQuantitaCIA, int nuovaQuantitaCID) {
+	public boolean checkNumeroBulloniVendutiImpiegato(int impiegato, ChiaveImpiegatoData cid, ChiaveImpiegatoAnno cia, int nuovaQuantitaCIA, int nuovaQuantitaCID) {
 		
 		// risultato del metodo
 		boolean risultato = false;
@@ -647,11 +611,9 @@ public class GestoreVendita {
 	
 	
 	
+	@Override
 	/**
-	 * Metodo che elimina dal Set di vendite e dal database una certa vendita
-	 * 
-	 * @param codiceVendita codice identificativo della vendita da eliminare
-	 * @return true se il metodo è terminato con successo, false altrimenti
+	 * {@inheritDoc}
 	 */
 	public boolean rimuoviVenditaByCodice(int codiceVendita) {
 		
@@ -703,13 +665,9 @@ public class GestoreVendita {
 	
 	
 	
+	@Override
 	/**
-	 * Metodo che interroga l'HashMap impiegatoData contenente il numero di bulloni venduti in base
-	 * all'impiegato e alla data in cui è stata effettuata la vendita.
-	 * 
-	 * @param matricolaImpiegato codice univoco di un impiegato
-	 * @param dataVendita data in cui la vendita è stata effettuata
-	 * @return -1 se i dati inseriti in input non sono contenuti nell'HashMap, un numero >= a 0 altrimenti
+	 * {@inheritDoc}
 	 */
 	public int getNumBulloniVendutiByImpiegatoData(int matricolaImpiegato, Data dataVendita) {
 		
@@ -726,13 +684,9 @@ public class GestoreVendita {
 	
 	
 	
+	@Override
 	/**
-	 * Metodo che interroga l'HashMap impiegatoAnno contenente il numero di bulloni venduti in base
-	 * all'impiegato e all'anno in cui sono state effettuate le vendite.
-	 * 
-	 * @param matricolaImpiegato codice univoco di un impiegato
-	 * @param anno anno in cui sono state effettuate delle vendite
-	 * @return -1 se i dati inseriti in input non sono contenuti nell'HashMap, un numero >= a 0 altrimenti
+	 * {@inheritDoc}
 	 */
 	public int getNumBulloniVendutiByImpiegatoAnno(int matricolaImpiegato, int anno) {
 		
@@ -765,33 +719,27 @@ public class GestoreVendita {
 	}
 	
 	
+	@Override
 	/**
-	 * Metodo che ritorna il codice delle vendite automatico;
-	 * È possibile usarlo per inserire un nuovo oggetto Vendita nel gestore,
-	 * assicurandosi così di inserire un codice valido
-	 * 
-	 * @return il codice delle vendite automatico
+	 * {@inheritDoc}
 	 */
 	public int getCodVenditaAutomatico() {
 		return codVenditaAutomatico;
 	}
 	
 	
+	@Override
 	/**
-	 * Metodo che controlla se il set locale delle vendite è vuoto o meno
-	 * 
-	 * @return true se il set è vuoto, false altrimenti
+	 * {@inheritDoc}
 	 */
 	public boolean isEmpty() {
 		return this.vendite.isEmpty();
 	}
 	
 	
+	@Override
 	/**
-	 * Metodo che ritorna una stringa contenente tutte le informazioni dettagliate dell'istanza dell'oggetto
-	 * con il quale si chiama questo metodo
-	 * 
-	 * @return la stringa con tutte le informazioni dell'oggetto
+	 * {@inheritDoc}
 	 */
 	public String toString() {
 		
