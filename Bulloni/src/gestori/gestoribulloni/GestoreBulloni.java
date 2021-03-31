@@ -47,7 +47,7 @@ public class GestoreBulloni {
 	 * Prende singolarmente i dati dal database e costruisce un oggetto specifico di tipo Bullone a partire dal
 	 * risultato della query. Successivamente aggiunge l'oggetto costruito all'interno del set di bulloni.
 	 */
-	public GestoreBulloni() {
+	public GestoreBulloni() throws DatabaseSQLException, SQLException {
 		/*
 		 * Se il set non e' vuoto, lo pulisce prima del riempimento.
 		 * In questo modo sicuramente verra' riempito con i dati aggiornati presenti all'interno della base di dati. 
@@ -56,25 +56,16 @@ public class GestoreBulloni {
 			bulloni.clear();
 		}
 		
-		// Aggiunta di bulloni di tipo grano dal database
-		try {
-			// Creazione della query ed esecuzione della select
-			ResultSet rs = DatabaseSQL.select(Query.getSimpleSelectEquiJoin(NOME_TABELLA_BULLONI, NOME_TABELLA_BULLONE_GRANO, CampiTabellaBullone.codice.toString(), CampiTabellaBulloneGrano.codice.toString()));
-			while(rs.next()) {
-				bulloni.add(costruisciBulloneGrano(rs));
-			}
-			DatabaseSQL.chiudiConnessione();	// Chiusura della connessione al db (l'apertura è fatta automaticamente al momento della chiamata ad una select
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
-		catch(DatabaseSQLException e) {
-			System.err.println(e.getMessage());
-		}
-		
 		/*
-		 * Viene assegnato all'attributo codBulloneAutomatico un valore non esistente nel set di bulloni.
+		 * Riempimento del set di bulloni di tipo grano, prendendo i dati dal database.
 		 */
+		// Creazione della query ed esecuzione della select
+		ResultSet rs = DatabaseSQL.select(Query.getSimpleSelectEquiJoin(NOME_TABELLA_BULLONI, NOME_TABELLA_BULLONE_GRANO, CampiTabellaBullone.codice.toString(), CampiTabellaBulloneGrano.codice.toString()));
+		while(rs.next()) {
+			bulloni.add(costruisciBulloneGrano(rs));
+		}
+		DatabaseSQL.chiudiConnessione();	// Chiusura della connessione al db (l'apertura è fatta automaticamente al momento della chiamata ad una select
+		// Viene assegnato all'attributo codBulloneAutomatico un valore non esistente nel set di bulloni.
 		codBulloneAutomatico = this.getMaxCodiceBullone() + 1;
 	}
 	
@@ -92,18 +83,16 @@ public class GestoreBulloni {
 	 * e viene inserito nel set e successivamente nella relativa tabella del database.
 	 * @param b Il bullone grano
 	 * @throws GestoreBulloniException L'eccezione sollevata se non e' stato ricevuto in input alcun bullone.
+	 * @throws BulloneException L'eccezione sollevata se i dati passati al costruttore di BulloneGrano non rispettano le specifiche semantiche.
+	 * @throws DataBaseSQLException L'eccezione sollevata quando ci sono errori con la connessione al database o con l'esecuzione di query.
+	 * @throws SQLException L'eccezione sollevata quando ci sono errori con la connessione al database o con l'esecuzione di query.
 	 */
-	public void newBulloneGrano(Bullone b) throws GestoreBulloniException {
+	public void newBulloneGrano(Bullone b) throws GestoreBulloniException, BulloneException, DatabaseSQLException, SQLException{
 		if(b!=null) {
 			
 			// Se il bullone esiste gia', ne viene cambiato il codice e viene inserito nel db
 			if(bulloni.add(b) == false) {
-				try {
-					b = new BulloneGrano(codBulloneAutomatico, b.getDataProduzione(), b.getLuogoProduzione(), b.getPeso(), b.getPrezzo(), b.getMateriale(), b.getLunghezza(), b.getDiametroDado(), b.getInnesto());
-				}
-				catch(BulloneException e) {
-					System.err.println(e.getMessage());
-				}
+				b = new BulloneGrano(codBulloneAutomatico, b.getDataProduzione(), b.getLuogoProduzione(), b.getPeso(), b.getPrezzo(), b.getMateriale(), b.getLunghezza(), b.getDiametroDado(), b.getInnesto());
 				bulloni.add(b);
 				codBulloneAutomatico++;
 			} else {
@@ -114,19 +103,13 @@ public class GestoreBulloni {
 			String[] valoriTabellaBullone = { ((Integer)b.getCodice()).toString(), b.getDataProduzione().toSqlDate().toString(), b.getLuogoProduzione(), ((Double)b.getPeso()).toString(), ((Double)b.getPrezzo()).toString(), ((Double)b.getLunghezza()).toString(), ((Double)b.getDiametroVite()).toString(), b.getInnesto().toString(), b.getMateriale().toString(), (b.isEliminato()==true) ? "T" : "F" };
 			String[] valoriTabellaBulloneGrano = { ((Integer)b.getCodice()).toString() };
 			
-			// Inserimento nel database
-			try {
-				// Inserimento nella tabella generale Bullone
-				DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_BULLONI, valoriTabellaBullone));
-				// Inserimento nella tabella specifica Bullone_grano
-				DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_BULLONE_GRANO, valoriTabellaBulloneGrano));
-			}
-			catch(DatabaseSQLException e) {
-				System.err.println(e.getMessage());
-			}
-			catch(SQLException e) {
-				e.printStackTrace();
-			}
+			/*
+			 * Inserimento nel database
+			 */
+			// Inserimento nella tabella generale Bullone
+			DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_BULLONI, valoriTabellaBullone));
+			// Inserimento nella tabella specifica Bullone_grano
+			DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_BULLONE_GRANO, valoriTabellaBulloneGrano));
 			
 		} else {
 			throw new GestoreBulloniException(MsgErrore.BULLONE_NULLO, new GestoreBulloniException());
@@ -189,8 +172,10 @@ public class GestoreBulloni {
 	 * @param nuovoPrezzo Il nuovo valore dell'attributo "prezzo".
 	 * @throws BulloneException L'eccezione sollevata se il prezzo non rispetta le specifiche semantiche.
 	 * @throws GestoreBulloniException L'eccezione sollevata se il bullone non e' stato trovato.
+	 * @throws DatabaseSQLException L'eccezione sollevata quando ci sono errori con la connessione al database o quando non e' possibile eseguire l'update.
+	 * @throws SQLException L'eccezione sollevata quando ci sono errori con la connessione al database o quando non e' possibile eseguire l'update.
 	 */
-	public void updatePrezzoBulloneByCodice(int codice, double nuovoPrezzo) throws BulloneException, GestoreBulloniException {
+	public void updatePrezzoBulloneByCodice(int codice, double nuovoPrezzo) throws GestoreBulloniException, BulloneException, DatabaseSQLException, SQLException {
 		boolean trovato = false;	// Vale true se il bullone e' stato trovato
 		
 		// Ricerca e update
@@ -200,15 +185,7 @@ public class GestoreBulloni {
 				b.setPrezzo(nuovoPrezzo);
 				
 				// Update nel DB
-				try {
-					DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_BULLONI, CampiTabellaBullone.prezzo.toString(), ((Double)nuovoPrezzo).toString(), CampiTabellaBullone.codice.toString(), ((Integer)codice).toString()));
-				}
-				catch(DatabaseSQLException e) {
-					System.err.println(e.getMessage());
-				}
-				catch(SQLException e) {
-					e.printStackTrace();
-				}
+				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_BULLONI, CampiTabellaBullone.prezzo.toString(), ((Double)nuovoPrezzo).toString(), CampiTabellaBullone.codice.toString(), ((Integer)codice).toString()));
 			}
 		}
 		
@@ -227,8 +204,10 @@ public class GestoreBulloni {
 	 * un'eccezione. 
 	 * @param codice Il codice del bullone da cercare.
 	 * @throws GestoreBulloniException L'eccezione sollevata se il bullone non e' stato trovato.
+	 * @throws DatabaseSQLException L'eccezione sollevata quando ci sono errori con la connessione al database o quando non e' possibile eseguire l'update.
+	 * @throws SQLException L'eccezione sollevata quando ci sono errori con la connessione al database o quando non e' possibile eseguire l'update.
 	 */
-	public void rimuoviBulloneByCodice(int codice) throws GestoreBulloniException {
+	public void rimuoviBulloneByCodice(int codice) throws GestoreBulloniException, DatabaseSQLException, SQLException {
 		boolean trovato = false;	// Vale true se il bullone e' stato trovato.
 		
 		for(Bullone b : this.bulloni) {
@@ -237,15 +216,7 @@ public class GestoreBulloni {
 				b.elimina();	// Elimina il bullone
 				
 				// Update nel DB
-				try {
-					DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_BULLONI, CampiTabellaBullone.eliminato.toString(), "T", CampiTabellaBullone.codice.toString(), ((Integer)b.getCodice()).toString()));
-				}
-				catch(DatabaseSQLException e) {
-					System.err.println(e.getMessage());
-				}
-				catch(SQLException e) {
-					e.printStackTrace();
-				}
+				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_BULLONI, CampiTabellaBullone.eliminato.toString(), "T", CampiTabellaBullone.codice.toString(), ((Integer)b.getCodice()).toString()));
 			}
 		}
 		
