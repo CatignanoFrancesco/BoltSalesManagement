@@ -25,6 +25,10 @@ import vendita.Vendita;
 /**
  * @author GiannettaGerardo
  *
+ * Classe principale per la gestione delle vendite;
+ * Permette di visualizzare una lista completa di tutte le vendite, di visualizzarne i dettagli sulla merce venduta,
+ * di modificare una vendita a partire dalla merce, di eliminare una vendita, di aggiungere una nuova vendita o di 
+ * visualizzare tutti i dettagli riguardanti l'impiegato che ha effettuato la vendita o della singola merce nello specifico
  */
 public class BodyVendite extends JPanel {
 
@@ -67,6 +71,16 @@ public class BodyVendite extends JPanel {
 		this.mainMenu = mainMenu;
 		this.gestoreVendite = gestoreVendite;
 		inizializza();
+		createAggiungiVenditaButton();
+		createCercaPerButton();
+		creareVisualizzaTuttoButton();
+		
+		try {
+			printListaVendite(gestoreVendite.getVendite());
+		}
+		catch (GestoreVenditaException t) {
+			JOptionPane.showMessageDialog(mainMenu, t.getMessage());
+		}
 	}
 	
 	
@@ -95,7 +109,9 @@ public class BodyVendite extends JPanel {
 	}
 	
 	
-	
+	/**
+	 * Metodo che stampa le instestazioni delle colonne per la lista di vendite
+	 */
 	private void printIntestazioniColonne() {
 		
 		codiceLabel = new JLabel("Codice");
@@ -184,7 +200,13 @@ public class BodyVendite extends JPanel {
 		visualizzaTuttoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panel.removeAll();
-				printListaVendite();
+				
+				try {
+					printListaVendite(gestoreVendite.getVendite());
+				}
+				catch (GestoreVenditaException t) {
+					JOptionPane.showMessageDialog(mainMenu, t.getMessage());
+				}
 			}
 		});
 		visualizzaTuttoButton.setBounds(657, 10, 120, 30);
@@ -192,17 +214,13 @@ public class BodyVendite extends JPanel {
 	}
 	
 	
-	
-	public void printListaVendite() {
+	/**
+	 * Metodo che stampa una lista di vendite
+	 */
+	public void printListaVendite(Set<Vendita<MerceVenduta>> vendite) {
 		
-		Set<Vendita<MerceVenduta>> vendite = null;
-		
-		try {
-			vendite = gestoreVendite.getVendite();
-		}
-		catch (GestoreVenditaException e) {
-			JOptionPane.showMessageDialog(mainMenu, e.getMessage());
-		}
+		// stampa le intestazioni delle colonne per la lista di vendite
+		printIntestazioniColonne();
 		
 		final int DIMENSIONE = vendite.size();
 		
@@ -254,7 +272,7 @@ public class BodyVendite extends JPanel {
 			// stampo il prezzo totale della merce venduta nella lista
 			prezzoTotLabel[i] = new JLabel(((Double)vendita.getPrezzoVenditaTotale()).toString());
 			GridBagConstraints gbc_prezzoTotLabel = new GridBagConstraints();
-			gbc_prezzoTotLabel.insets = new Insets(0, 0, 5, 0);
+			gbc_prezzoTotLabel.insets = new Insets(0, 0, 5, 1);
 			gbc_prezzoTotLabel.gridx = ++posizioneX;
 			gbc_prezzoTotLabel.gridy = i+1;
 			panel.add(prezzoTotLabel[i], gbc_prezzoTotLabel);
@@ -262,15 +280,10 @@ public class BodyVendite extends JPanel {
 			// pulsante che permette di visualizzare tutte le info sulla merce venduta tramite un'apposita finestra
 			visualButton[i] = new JButton("Info merce");
 			GridBagConstraints gbc_visualButton = new GridBagConstraints();
-			gbc_visualButton.insets = new Insets(0, 0, 5, 1);
+			gbc_visualButton.insets = new Insets(0, 0, 5, 0);
 			gbc_visualButton.gridx = ++posizioneX;
 			gbc_visualButton.gridy = i+1;
-			visualButton[i].addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					// creare VisualizzaMerceVenduta
-					mainMenu.setEnabled(false);
-				}
-			});
+			visualButton[i].addActionListener(new GestoreButton(gestoreVendite, mainMenu, codLabel[i].getText()));
 			panel.add(visualButton[i], gbc_visualButton);
 			
 			// pulsate che permette di visualizzare tutte le info sull'impiegato che ha effettuato la vendita in un'apposita finestra
@@ -279,12 +292,7 @@ public class BodyVendite extends JPanel {
 			gbc_infoImpiegatoButton.insets = new Insets(0, 0, 5, 0);
 			gbc_infoImpiegatoButton.gridx = ++posizioneX;
 			gbc_infoImpiegatoButton.gridy = i+1;
-			infoImpiegatoButton[i].addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					// creare la finestra di visualizzazione impiegato
-					mainMenu.setEnabled(false);
-				}
-			});
+			infoImpiegatoButton[i].addActionListener(new GestoreButton(gestoreVendite, mainMenu, matricolaImpLabel[i].getText()));
 			panel.add(infoImpiegatoButton[i], gbc_infoImpiegatoButton);
 			
 			// pulsante che permette di eliminare questa vendita dal set originale, dal database e dalla lista
@@ -295,7 +303,7 @@ public class BodyVendite extends JPanel {
 			gbc_deleteButton.insets = new Insets(0, 0, 5, 25);
 			gbc_deleteButton.gridx = ++posizioneX;
 			gbc_deleteButton.gridy = i+1;
-			deleteButton[i].addActionListener(new GestoreDeleteButton(mainMenu, codLabel[i].getText()));
+			deleteButton[i].addActionListener(new GestoreButton(gestoreVendite, mainMenu, codLabel[i].getText()));
 			panel.add(deleteButton[i], gbc_deleteButton);
 			
 			i++;
