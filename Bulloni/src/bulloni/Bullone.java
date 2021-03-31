@@ -99,6 +99,25 @@ public interface Bullone {
 	public void elimina();
 	
 	/**
+	 * Restituisce un array di stringhe contenente le informazioni generali di un bullone.
+	 * Si differenzia dal metodo toString() perche' permette di avere singolarmente, sotto forma di stringa i valori degli attributi dei bulloni.
+	 * Le informazioni ottenute rispettano quest'ordine:
+	 * - tipo (la classe a cui appartiene);
+	 * - codice;
+	 * - data di produzione;
+	 * - luogo di produzione;
+	 * - il peso;
+	 * - il prezzo;
+	 * - il materiale;
+	 * - la lunghezza;
+	 * - il diametro della vite;
+	 * - il diametro del dado;
+	 * - il tipo di innesto.
+	 * @return L'array di stringhe contenente le informazioni
+	 */
+	public String[] getInfo();
+	
+	/**
 	 * Confronta due oggetti e restituisce un valore che indica se sono uguali o meno.
 	 * Il confronto si baserà sul codice del bullone.
 	 * @param obj L'oggetto da confrontare con il bullone.

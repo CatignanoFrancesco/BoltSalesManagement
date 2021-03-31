@@ -272,6 +272,27 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 	 * 
 	 */
 	@Override
+	public String[] getInfo() {
+		String[] info = new String[] { this.getClass().getSimpleName(),	// Tipo
+									   ((Integer)this.codice).toString(),	// Codice
+									   this.dataProduzione.toFormattedDate(),	// Data di produzione
+									   this.luogoProduzione,	// Luogo di produzione
+									   ((Double)this.peso).toString(),	// Peso
+									   ((Double)this.prezzo).toString(),	// Prezzo
+									   this.materiale.toString(),	// Materiale
+									   ((Double)this.lunghezza).toString(),	// Lunghezza
+									   ((Double)this.diametroVite).toString(),	// Diametro della vite
+									   ((Double)this.diametroDado).toString(),	// Diametro del dado
+									   this.innesto.toString()	// Innesto
+									  };
+		return info;
+	}
+	
+	
+	/**{@inheritDoc}
+	 * 
+	 */
+	@Override
 	public boolean equals(Object obj) {
 		// Controllo del riferimento
 		if( this==obj ) {
