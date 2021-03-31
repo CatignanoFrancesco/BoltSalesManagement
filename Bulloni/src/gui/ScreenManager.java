@@ -23,7 +23,7 @@ public class ScreenManager extends JPanel {
 								// cliccato
 
 	private static JFrame parentWindow;// riferimento alla JFrame padre
-										// che servirà per realizzare un effetto focus all'aprirsi di nuove finestre
+										// che servirï¿½ per realizzare un effetto focus all'aprirsi di nuove finestre
 
 	/**
 	 * costruttore che inizalizza il layout del pannello, aggiunge gli elementi da
