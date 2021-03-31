@@ -163,6 +163,30 @@ public class GestoreBulloni {
 	
 	
 	/**
+	 * Questo metodo si occupa di cercare un bullone nel set a partire dal codice ricevuto in input e restituire un array di stringhe contenente le informazioni
+	 * generali del bullone, gia' pronte per essere visualizzate.
+	 * Le informazioni seguono quest'ordine:
+	 * - tipo (la classe a cui appartiene);
+	 * - codice;
+	 * - data di produzione;
+	 * - luogo di produzione;
+	 * - il peso;
+	 * - il prezzo;
+	 * - il materiale;
+	 * - la lunghezza;
+	 * - il diametro della vite;
+	 * - il diametro del dado;
+	 * - il tipo di innesto.
+	 * @param codice Il codice del bullone da cercare
+	 * @return L'array contenente le informazioni
+	 * @throws GestoreBulloniException L'eccezione sollevata quando non e' stato trovato alcun bullone.
+	 */
+	public String[] getInfoBulloneByCodice(int codice) throws GestoreBulloniException {
+		return this.getBulloneByCodice(codice).getInfo();
+	}
+	
+	
+	/**
 	 * Esegue la modifica del prezzo di un bullone presente nel set ed effettua l'update anche nel DB.
 	 * Cerca all'interno del set un bullone avente quel codice e, se lo trova, ne modifica il prezzo.
 	 * Se il bullone non viene trovato, viene sollevata un'eccezione. Viene sollevata un'eccezione anche quando
