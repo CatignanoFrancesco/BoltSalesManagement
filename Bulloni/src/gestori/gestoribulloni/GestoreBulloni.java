@@ -34,7 +34,7 @@ import databaseSQL.exception.DatabaseSQLException;
  * @author Catignano Francesco
  *
  */
-public class GestoreBulloni {
+public class GestoreBulloni implements ContainerBulloni {
 	private Set<Bullone> bulloni = new HashSet<Bullone>();	// Set di bulloni
 	private static int codBulloneAutomatico = 0;	// Contiene un codice di un bullone non presente tra i codici dei bulloni presenti nel set. Questo servira' per tutti i casi in cui il codice del bullone deve essere creato dal gestore.
 	private static final String NOME_TABELLA_BULLONI = "Bullone";	// Nome della tabella generica dei bulloni per eseguire le insert, le query e le modifiche.
@@ -76,18 +76,10 @@ public class GestoreBulloni {
 	 * 				METODI PUBBLICI
 	 * ------------------------------------------
 	 */
-	/**
-	 * Metodo per aggiungere al set di bulloni il bullone di tipo grano e per inserirlo nel database.
-	 * Se non e' stato ricevuto alcun bullone in input, verra' sollevata un'eccezione.
-	 * Se viene ricevuto un bullone il cui codice esiste gia', ne viene cambiato il codice (attraverso l'attributo codBulloneAutomatico)
-	 * e viene inserito nel set e successivamente nella relativa tabella del database.
-	 * @param b Il bullone grano
-	 * @throws GestoreBulloniException L'eccezione sollevata se non e' stato ricevuto in input alcun bullone.
-	 * @throws BulloneException L'eccezione sollevata se i dati passati al costruttore di BulloneGrano non rispettano le specifiche semantiche.
-	 * @throws DataBaseSQLException L'eccezione sollevata quando ci sono errori con la connessione al database o con l'esecuzione di query.
-	 * @throws SQLException L'eccezione sollevata quando ci sono errori con la connessione al database o con l'esecuzione di query.
+	/**{@inheritDoc}
+	 *
 	 */
-	public void newBulloneGrano(Bullone b) throws GestoreBulloniException, BulloneException, DatabaseSQLException, SQLException{
+	public void newBulloneGrano(Bullone b) throws GestoreBulloniException, BulloneException, DatabaseSQLException, SQLException {
 		if(b!=null) {
 			
 			// Se il bullone esiste gia', ne viene cambiato il codice e viene inserito nel db
@@ -117,10 +109,8 @@ public class GestoreBulloni {
 	}
 	
 	
-	/**
-	 * Restituisce una copia del set di bulloni, in modo da evitare modifiche o rimozioni che non coincidono
-	 * con quanto memorizzato nel database.
-	 * @return bulloniCopy La copia del set di bulloni
+	/**{@inheritDoc}
+	 *
 	 */
 	public Set<Bullone> getAll() {
 		Set<Bullone> bulloniCopy = new HashSet<Bullone>();	// La copia del set di bulloni
@@ -134,16 +124,8 @@ public class GestoreBulloni {
 	}
 	
 	
-	/**
-	 * Restituisce una copia del bullone, partendo da un codice ricevuto in input.
-	 * Effettua una ricerca nel set confrontando il codice ricevuto in input con il codice
-	 * di ogni bullone presente nel set. Se trova il bullone lo restituisce,
-	 * altrimenti viene sollevata un'eccezione.
-	 * Viene restituito un clone, in modo tale da evitare modifiche accidentali al bullone presente nel set,
-	 * senza che questa modifica sia sincronizzata con il database.
-	 * @param codice Il codice del bullone da cercare.
-	 * @return b Il clone del bullone trovato.
-	 * @throws GestoreBulloniException L'eccezione sollevata se il bullone non e' stato trovato.
+	/**{@inheritDoc}
+	 * 
 	 */
 	public Bullone getBulloneByCodice(int codice) throws GestoreBulloniException {
 		boolean trovato = false;
@@ -162,42 +144,16 @@ public class GestoreBulloni {
 	}
 	
 	
-	/**
-	 * Questo metodo si occupa di cercare un bullone nel set a partire dal codice ricevuto in input e restituire un array di stringhe contenente le informazioni
-	 * generali del bullone, gia' pronte per essere visualizzate.
-	 * Le informazioni seguono quest'ordine:
-	 * - tipo (la classe a cui appartiene);
-	 * - codice;
-	 * - data di produzione;
-	 * - luogo di produzione;
-	 * - il peso;
-	 * - il prezzo;
-	 * - il materiale;
-	 * - la lunghezza;
-	 * - il diametro della vite;
-	 * - il diametro del dado;
-	 * - il tipo di innesto.
-	 * @param codice Il codice del bullone da cercare
-	 * @return L'array contenente le informazioni
-	 * @throws GestoreBulloniException L'eccezione sollevata quando non e' stato trovato alcun bullone.
+	/**{@inheritDoc}
+	 *
 	 */
 	public String[] getInfoBulloneByCodice(int codice) throws GestoreBulloniException {
 		return this.getBulloneByCodice(codice).getInfo();
 	}
 	
 	
-	/**
-	 * Esegue la modifica del prezzo di un bullone presente nel set ed effettua l'update anche nel DB.
-	 * Cerca all'interno del set un bullone avente quel codice e, se lo trova, ne modifica il prezzo.
-	 * Se il bullone non viene trovato, viene sollevata un'eccezione. Viene sollevata un'eccezione anche quando
-	 * il prezzo non rientra nel range stabilito in Bullone.
-	 * Infine, se la ricerca e la modifica sono andate a buon fine, viene effettuato l'update nel database.
-	 * @param codice Il codice del bullone da modificare.
-	 * @param nuovoPrezzo Il nuovo valore dell'attributo "prezzo".
-	 * @throws BulloneException L'eccezione sollevata se il prezzo non rispetta le specifiche semantiche.
-	 * @throws GestoreBulloniException L'eccezione sollevata se il bullone non e' stato trovato.
-	 * @throws DatabaseSQLException L'eccezione sollevata quando ci sono errori con la connessione al database o quando non e' possibile eseguire l'update.
-	 * @throws SQLException L'eccezione sollevata quando ci sono errori con la connessione al database o quando non e' possibile eseguire l'update.
+	/**{@inheritDoc}
+	 * 
 	 */
 	public void updatePrezzoBulloneByCodice(int codice, double nuovoPrezzo) throws GestoreBulloniException, BulloneException, DatabaseSQLException, SQLException {
 		boolean trovato = false;	// Vale true se il bullone e' stato trovato
@@ -219,17 +175,8 @@ public class GestoreBulloni {
 	}
 	
 	
-	/**
-	 * Questo metodo permette di "rimuovere" un bullone dal set di bulloni e dal database.
-	 * In realta' viene solamente portato a "true" il valore dell'attributo "eliminato" in bullone. In questo modo non vengono eliminate tutte
-	 * le informazioni sui bulloni che potrebbero servire alle altre classi, ma sono rese inaccessibili alcune operazioni di modifica.
-	 * L'azione di eliminazione e' irreversibile.
-	 * La ricerca del bullone richiesto avviene mediante il codice ricevuto come parametro. Se la ricerca non da alcun risultato, viene sollevata
-	 * un'eccezione. 
-	 * @param codice Il codice del bullone da cercare.
-	 * @throws GestoreBulloniException L'eccezione sollevata se il bullone non e' stato trovato.
-	 * @throws DatabaseSQLException L'eccezione sollevata quando ci sono errori con la connessione al database o quando non e' possibile eseguire l'update.
-	 * @throws SQLException L'eccezione sollevata quando ci sono errori con la connessione al database o quando non e' possibile eseguire l'update.
+	/**{@inheritDoc}
+	 * 
 	 */
 	public void rimuoviBulloneByCodice(int codice) throws GestoreBulloniException, DatabaseSQLException, SQLException {
 		boolean trovato = false;	// Vale true se il bullone e' stato trovato.
@@ -250,9 +197,8 @@ public class GestoreBulloni {
 	}
 	
 	
-	/**
-	 * Questo metodo controlla lo stato del set interno "bulloni" per accertarsi che ci siano dei bulloni all'interno.
-	 * @return true se il set e' vuoto, false altrimenti.
+	/**{@inheritDoc}
+	 * 
 	 */
 	public boolean isEmpty() {
 		return this.bulloni.isEmpty();
