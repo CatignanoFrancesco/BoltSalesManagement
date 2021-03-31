@@ -60,7 +60,7 @@ public interface Impiegato extends Persona {
 	
 	/**
 	 * setta il valore dell'id di un determinato dipendente
-	 * è usabile solo se il determinato dipendeten non ha gia un id altrimenti solleva un eccezione
+	 * Ã¨ usabile solo se il determinato dipendeten non ha gia un id altrimenti solleva un eccezione
 	 * 
 	 * @param id il valore da assegnare all'id del dipendente
 	 * @exception ExceptionImpiegato sollevate se il determinato dipendente ha gia un id
@@ -70,12 +70,13 @@ public interface Impiegato extends Persona {
 	/**
 	 * permmette di vedere se un impiegato risulta assunto o meno
 	 * 
-	 * @return ret true se l'impiegato è assunto,false altrimenti
+	 * @return ret true se l'impiegato Ã¨ assunto,false altrimenti
 	 */
 	public boolean getIsLicenziato();
 	
 	/**
 	 * converte un istanza di un impiegato in stringa
+	 * @return l'oggetto convertito
 	 */
 	public String toString();
 	
@@ -89,7 +90,7 @@ public interface Impiegato extends Persona {
 	/**
 	 * {@inheritDoc}
 	 * @param obj l'ggetto con cui confrontare
-	 * @return true se l'oggetto è uguale, false altrimenti
+	 * @return true se l'oggetto Ã¨ uguale, false altrimenti
 	 */
 	@Override
 	public boolean equals(Object obj);

@@ -92,7 +92,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	
 	/**
 	 * costruttore di classe da usare se si fa inserire un nuovo dipendente all'utente
-	 * poiche il campo id verr‡ assegnato automaticamente dal software e l'attributo isAssunto avr‡ dei volori di defoult
+	 * poiche il campo id verr√† assegnato automaticamente dal software e l'attributo isAssunto avr√† dei volori di defoult
 	 * 
 	 * @param nome                      nome dell'impiegato
 	 * @param cognome                   cognome dell'impiegato
@@ -183,7 +183,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 			flagException = true;
 			msgException = MsgExceptionImpiegato.IMPIEGATO_LICENZIATO;
 
-		} else if (stipendioMensile <= this.stipendioMensile) {// il nuovo stipendio Ë minore uguale dello stipendio
+		} else if (stipendioMensile <= this.stipendioMensile) {// il nuovo stipendio √® minore uguale dello stipendio
 																// attuale
 
 			flagException = true;
@@ -236,8 +236,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	}
 	
 	/**
-	 * ritorna il valore dell'attributo Islicenziato  di un impiegato
-	 * 
+	 * @{inheritDoc}
 	 */
 	@Override
 	public boolean getIsLicenziato() {
@@ -246,9 +245,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	}
 	
 	/**
-	 * setta il valore dell'attributo id  di un impiegato
-	 * 
-	 * @param
+	 * @{inheritDoc}
 	 */
 	@Override
 	public void setID(int id) throws ExceptionImpiegato {
@@ -270,7 +267,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	}
 
 	/**
-	 * converte l'oggetto impiegatoGenerale in stringa
+	 * @inheritDoc}
 	 */
 	@Override
 	public String toString() {

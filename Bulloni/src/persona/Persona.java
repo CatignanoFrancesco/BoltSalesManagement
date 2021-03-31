@@ -72,6 +72,7 @@ public interface Persona {
 	public void setSesso(char sesso) throws ExceptionAnagraficaErrata;
 
 	/**
+	 * converte un oggetto AbstractPersona in stringa
 	 * @return un oggetto persona convertiro in stringa
 	 */
 	@Override
