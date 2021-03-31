@@ -2,7 +2,8 @@ package gestori.gestorevendite;
 
 /**
  * @author GiannettaGerardo
- *
+ * 
+ * Interfaccia contenente i metodi che si occupano dell'eliminazione nel GestoreVendita
  */
 public interface EliminazioneVendite {
 

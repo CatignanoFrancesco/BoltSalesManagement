@@ -5,6 +5,7 @@ import gestori.gestorevendite.exception.GestoreVenditaException;
 /**
  * @author GiannettaGerardo
  *
+ * Interfaccia contenente i metodi che si occupano della modifica nel GestoreVendita
  */
 public interface ModificaVendite {
 

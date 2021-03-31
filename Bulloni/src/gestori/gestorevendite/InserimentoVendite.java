@@ -6,7 +6,8 @@ import vendita.Vendita;
 
 /**
  * @author GiannettaGerardo
- *
+ * 
+ * Interfaccia contenente i metodi che si occupano dell'inserimento nel GestoreVendita
  */
 public interface InserimentoVendite {
 

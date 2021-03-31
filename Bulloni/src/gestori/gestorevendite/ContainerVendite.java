@@ -3,6 +3,7 @@ package gestori.gestorevendite;
 /**
  * @author GiannettaGerardo
  *
+ * Interfaccia che estende tutte le altre interfacce del GestoreVendita e contiene inoltre i metodi di esso che non hanno una precisa collocazione
  */
 public interface ContainerVendite extends VisualizzazioneVendite, InserimentoVendite, ModificaVendite, EliminazioneVendite {
 	
