@@ -81,7 +81,7 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 	/**
 	 * costruttore che setta il numero di bulloni vendibili annualmente in base alle
 	 * giornate lavorative dell'impiegato, da usare quando si instanzia un impiegato con dati presi dall'utente
-	 * poiche l'id viene assegnato automatcamente dal software e l'attributo isAssunto avr‡ dei volori di defoult
+	 * poiche l'id viene assegnato automatcamente dal software e l'attributo isAssunto avr√† dei volori di defoult
 	 * 
 	 * @param nome                      nome impiegato
 	 * @param cognome                   cognome impiegato
@@ -215,6 +215,7 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 
 	/**
 	 * converte l'oggetto impiegatoBulloni in stringa
+	 * @return l'impiegato bulloni convertito
 	 */
 	@Override
 	public String toString() {
