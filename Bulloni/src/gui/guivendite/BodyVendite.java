@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gui.guivendite;
 
 import java.awt.BorderLayout;
@@ -10,13 +7,20 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+
+import gestori.gestorevendite.ContainerVendite;
+import gestori.gestorevendite.exception.GestoreVenditaException;
+import vendita.MerceVenduta;
+import vendita.Vendita;
 
 /**
  * @author GiannettaGerardo
@@ -36,6 +40,7 @@ public class BodyVendite extends JPanel {
 	private static final int X_SCROLLPANE = 10;
 	private static final int Y_SCROLLPANE = 50;
 	
+	// oggetti per creare l'interfaccia grafica
 	private JScrollPane scrollPane;
 	private JPanel panel;
 	private JLabel codiceLabel;
@@ -49,14 +54,18 @@ public class BodyVendite extends JPanel {
 	private BodyVendite istanzaCorrente = this;
 	private JFrame mainMenu;
 	
+	private ContainerVendite gestoreVendite;
+	private static final int SOGLIA_MASSIMA_LISTA_VENDITE = 17;
+	
 	
 	/**
 	 * Costruttore del pannello principale delle vendite
 	 * 
 	 * @param mainMenu finestra principale nella quale questo pannello è situato
 	 */
-	public BodyVendite(JFrame mainMenu) {
+	public BodyVendite(JFrame mainMenu, ContainerVendite gestoreVendite) {
 		this.mainMenu = mainMenu;
+		this.gestoreVendite = gestoreVendite;
 		inizializza();
 	}
 	
@@ -146,6 +155,158 @@ public class BodyVendite extends JPanel {
 		});
 		aggiungiVenditaButton.setBounds(10, 565, 136, 30);
 		add(aggiungiVenditaButton);
+	}
+	
+	
+	/**
+	 * Metodo che crea il pulsante per iniziare la ricerca delle vendite in base a dei parametri di ricerca
+	 */
+	public void createCercaPerButton() {
+		
+		cercaPerButton = new JButton("Cerca per...");
+		cercaPerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// creare SelezionaRicerca
+				mainMenu.setEnabled(false);
+			}
+		});
+		cercaPerButton.setBounds(10, 10, 118, 30);
+		add(cercaPerButton);
+	}
+	
+	
+	/**
+	 * Metodo che crea il pulsante per ristampare tutta la lista completa di vendite, utile dopo una ricerca
+	 */
+	public void creareVisualizzaTuttoButton() {
+		
+		visualizzaTuttoButton = new JButton("Visualizza tutto");
+		visualizzaTuttoButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel.removeAll();
+				printListaVendite();
+			}
+		});
+		visualizzaTuttoButton.setBounds(657, 10, 120, 30);
+		add(visualizzaTuttoButton);
+	}
+	
+	
+	
+	public void printListaVendite() {
+		
+		Set<Vendita<MerceVenduta>> vendite = null;
+		
+		try {
+			vendite = gestoreVendite.getVendite();
+		}
+		catch (GestoreVenditaException e) {
+			JOptionPane.showMessageDialog(mainMenu, e.getMessage());
+		}
+		
+		final int DIMENSIONE = vendite.size();
+		
+		// controllo necessario per mantenere un layout visivamente corretto quando si supera un certo numero di vendite
+		if (DIMENSIONE >= SOGLIA_MASSIMA_LISTA_VENDITE)
+			scrollPane.setViewportView(panel);
+		else
+			scrollPane.setColumnHeaderView(panel);
+		
+		// oggetti componenti della lista di vendite
+		JLabel[] codLabel = new JLabel[DIMENSIONE];
+		JLabel[] matricolaImpLabel = new JLabel[DIMENSIONE];
+		JLabel[] quantitaTotLabel = new JLabel[DIMENSIONE];
+		JLabel[] prezzoTotLabel = new JLabel[DIMENSIONE];
+		JButton[] visualButton = new JButton[DIMENSIONE];
+		JButton[] infoImpiegatoButton = new JButton[DIMENSIONE];
+		JButton[] deleteButton = new JButton[DIMENSIONE];
+		int posizioneX = 0;
+		int i = 0;
+		
+		for (Vendita<MerceVenduta> vendita : vendite) {
+			
+			posizioneX = 0;
+			
+			// stampo i codici vendita nella lista
+			codLabel[i] = new JLabel(((Integer)vendita.getCodVendita()).toString());
+			GridBagConstraints gbc_codLabel = new GridBagConstraints();
+			gbc_codLabel.insets = new Insets(0, 2, 5, 5);
+			gbc_codLabel.gridx = posizioneX;
+			gbc_codLabel.gridy = i+1;
+			panel.add(codLabel[i], gbc_codLabel);
+			
+			// stampo le matricole degli impiegati nella lista
+			matricolaImpLabel[i] = new JLabel(((Integer)vendita.getResponsabileVendita()).toString());
+			GridBagConstraints gbc_matricolaImpLabel = new GridBagConstraints();
+			gbc_matricolaImpLabel.insets = new Insets(0, 0, 5 ,1);
+			gbc_matricolaImpLabel.gridx = ++posizioneX;
+			gbc_matricolaImpLabel.gridy = i+1;
+			panel.add(matricolaImpLabel[i], gbc_matricolaImpLabel);
+			
+			// stampo la quantita' totale di merce venduta nella lista
+			quantitaTotLabel[i] = new JLabel(((Integer)vendita.getQuantitaMerceTotale()).toString());
+			GridBagConstraints gbc_quantitaTotLabel = new GridBagConstraints();
+			gbc_quantitaTotLabel.insets = new Insets(0, 0, 5, 1);
+			gbc_quantitaTotLabel.gridx = ++posizioneX;
+			gbc_quantitaTotLabel.gridy = i+1;
+			panel.add(quantitaTotLabel[i], gbc_quantitaTotLabel);
+			
+			// stampo il prezzo totale della merce venduta nella lista
+			prezzoTotLabel[i] = new JLabel(((Double)vendita.getPrezzoVenditaTotale()).toString());
+			GridBagConstraints gbc_prezzoTotLabel = new GridBagConstraints();
+			gbc_prezzoTotLabel.insets = new Insets(0, 0, 5, 0);
+			gbc_prezzoTotLabel.gridx = ++posizioneX;
+			gbc_prezzoTotLabel.gridy = i+1;
+			panel.add(prezzoTotLabel[i], gbc_prezzoTotLabel);
+			
+			// pulsante che permette di visualizzare tutte le info sulla merce venduta tramite un'apposita finestra
+			visualButton[i] = new JButton("Info merce");
+			GridBagConstraints gbc_visualButton = new GridBagConstraints();
+			gbc_visualButton.insets = new Insets(0, 0, 5, 1);
+			gbc_visualButton.gridx = ++posizioneX;
+			gbc_visualButton.gridy = i+1;
+			visualButton[i].addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					// creare VisualizzaMerceVenduta
+					mainMenu.setEnabled(false);
+				}
+			});
+			panel.add(visualButton[i], gbc_visualButton);
+			
+			// pulsate che permette di visualizzare tutte le info sull'impiegato che ha effettuato la vendita in un'apposita finestra
+			infoImpiegatoButton[i] = new JButton("Impiegato");
+			GridBagConstraints gbc_infoImpiegatoButton = new GridBagConstraints();
+			gbc_infoImpiegatoButton.insets = new Insets(0, 0, 5, 0);
+			gbc_infoImpiegatoButton.gridx = ++posizioneX;
+			gbc_infoImpiegatoButton.gridy = i+1;
+			infoImpiegatoButton[i].addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					// creare la finestra di visualizzazione impiegato
+					mainMenu.setEnabled(false);
+				}
+			});
+			panel.add(infoImpiegatoButton[i], gbc_infoImpiegatoButton);
+			
+			// pulsante che permette di eliminare questa vendita dal set originale, dal database e dalla lista
+			deleteButton[i] = new JButton("Elimina");
+			deleteButton[i].setBackground(Color.red);
+			deleteButton[i].setForeground(Color.white);
+			GridBagConstraints gbc_deleteButton = new GridBagConstraints();
+			gbc_deleteButton.insets = new Insets(0, 0, 5, 25);
+			gbc_deleteButton.gridx = ++posizioneX;
+			gbc_deleteButton.gridy = i+1;
+			deleteButton[i].addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					// test
+					JOptionPane.showMessageDialog(mainMenu, codLabel[i].getText());
+				}
+			});
+			panel.add(deleteButton[i], gbc_deleteButton);
+			
+			i++;
+		}
+		
 	}
 
 }
