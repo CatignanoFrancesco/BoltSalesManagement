@@ -3,6 +3,9 @@
  * alla comunicazione con il database.
  * 
  * Contiene:
+ * - AggiungiBulloni
+ * - VisualizzaBulloni
+ * - ModificaBulloni
  * - ContainerBulloni
  * - GestoreBulloni;
  * - CampoTabellaBullone;
