@@ -3,6 +3,7 @@
  * alla comunicazione con il database.
  * 
  * Contiene:
+ * - ContainerBulloni
  * - GestoreBulloni;
  * - CampoTabellaBullone;
  * - CampoTabellaBulloneGrano;
