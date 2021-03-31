@@ -171,6 +171,36 @@ public class Data implements Cloneable, Comparable<Data> {
 	}
 	
 	
+	@Override
+	/**
+	 * Controlla che questa data e quella ricevuta come parametro siano uguali.
+	 * @param o L'oggetto da confrontare.
+	 * @return true se le date sono uguali, false altrimenti.
+	 */
+	public boolean equals(Object o) {
+		// Controllo del riferimento
+		if(o==null) {
+			return false;
+		}
+		if(this==o) {
+			return true;
+		}
+		
+		// Controllo delle classi di appartenenza
+		if(this.getClass()!=o.getClass()) {
+			return false;
+		}
+		
+		// Controllo dell'oggetto Data
+		Data other = (Data) o;
+		if(this.getAnno()==other.getAnno() && this.getMese()==other.getMese() && this.getGiorno()==other.getGiorno()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
 	/**
 	 * Clona l'istanza di un oggetto. Utile per evitare che la restituzione di un oggetto privato di tipo Data, ne permetta la modifica.
 	 * @return obj L'oggetto clonato.
