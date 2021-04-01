@@ -99,5 +99,33 @@ public interface Impiegato extends Persona {
 	 * @return il clone dell'oggetto clonato
 	 */
 	Object clone();
+	
+	/**
+	 * ritorna il valore della costante MAX_GIORNATE_LAVORATIVE_ANNUALI
+	 * 
+	 * @return il valore della costante MIN_GIORNATE_LAVORATIVE_ANNUALI
+	 */
+	public int getMaxGiornateLavorativeAnnuali();
+	
+	/**
+	 * ritorna il valore della costante MIN_GIORNATE_LAVORATIVE_ANNUALI
+	 * 
+	 * @return il valore della costante MIN_GIORNATE_LAVORATIVE_ANNUALI
+	 */
+	public int getMinGiornateLavorativeAnnuali();
+	
+	/**
+	 * ritorna il valore della costante MAX_STIPENDIO_MENSILE
+	 * 
+	 * @return il valore della costante MAX_STIPENDIO_MENSILE
+	 */
+	public int getMaxStipendioMensile();
+	
+	/**
+	 * ritorna il valore della costante MIN_STIPENDIO_MENSILE
+	 * 
+	 * @return il valore della costante MIN_STIPENDIO_MENSILE
+	 */
+	public int getMinStipendioMensile();
 
 }

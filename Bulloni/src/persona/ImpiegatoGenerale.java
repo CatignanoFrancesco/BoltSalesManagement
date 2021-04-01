@@ -341,5 +341,41 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 
 		return o;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getMaxGiornateLavorativeAnnuali() {
+		
+		return MAX_GIORNATE_LAVORATIVE_ANNUALI;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getMinGiornateLavorativeAnnuali() {
+
+		return MIN_GIORNATE_LAVORATIVE_ANNUALI;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getMaxStipendioMensile() {
+		
+		return MAX_STIPENDIO_MENSILE;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getMinStipendioMensile() {
+		
+		return MIN_STIPENDIO_MENSILE;
+	}
 	
 }
