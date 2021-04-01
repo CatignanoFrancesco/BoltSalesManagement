@@ -15,66 +15,85 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class BodyHome extends JPanel {
-	
-	GridBagConstraints gbc = new GridBagConstraints();//server per settare il layout degli elementi
-	
+
+	GridBagConstraints gbc = new GridBagConstraints();// server per settare il layout degli elementi
+
 	private static JButton btnDipendenti;
 	private static JButton btnBulloni;
 	private static JButton btnVendite;
 	private static JButton btnExit;
-	
+
 	/**
-	 * costruttore per inizializzaere il layout e aggiungere i diversi bottoni 
+	 * costruttore per inizializzaere il layout e aggiungere i diversi bottoni
 	 * btnDipendenti,btnVendite,btnBulloni,btnExit;
 	 */
 	public BodyHome() {
-		
+
 		this.setLayout(new GridBagLayout());
 		this.setBackground(Color.green);
-		
-		//aggiungo i diversi bottoni
+
+		// aggiungo i diversi bottoni
 		this.addButtons();
-		
+		//triggero i bottoni
+		this.triggerButtons();
+
 		this.revalidate();
 		this.repaint();
 	}
-	
-	
+
 	/**
-	 * metodo per aggiungere i diversi bottoni 
+	 * metodo per aggiungere i diversi bottoni alla home
 	 * btnDipendenti,btnVendite,btnBulloni,btnExit
 	 * 
 	 */
 	private void addButtons() {
 
-		//setto i paramentri principali del layout
+		// setto i paramentri principali del layout
 		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.insets = new Insets(10, 5, 10, 5);//distanza fra i diversi elementi del pannello
-		
-		//aggiungo il bottone per visualizzare i dipendenti
+		gbc.insets = new Insets(10, 5, 10, 5);// distanza fra i diversi elementi del pannello
+
+		// aggiungo il bottone per visualizzare i dipendenti
 		btnDipendenti = new JButton("vedi dipendenti");
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		this.add(btnDipendenti, gbc);
-		
-		//aggiungo il bottone per visualizzare i bulloni
+
+		// aggiungo il bottone per visualizzare i bulloni
 		btnBulloni = new JButton("vedi bulloni");
 		gbc.gridx = 1;
 		gbc.gridy = 0;
 		this.add(btnBulloni, gbc);
-		
-		//aggiungo il bottone per visualizzare le vendite
+
+		// aggiungo il bottone per visualizzare le vendite
 		btnVendite = new JButton("vedi vendite");
 		gbc.gridx = 2;
 		gbc.gridy = 0;
 		this.add(btnVendite, gbc);
-		
-		//aggiungo il bottone exit
+
+		// aggiungo il bottone exit
 		btnExit = new JButton("exit");
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.gridx = 1;
 		gbc.gridy = 2;
 		this.add(btnExit, gbc);
+	}
+
+	/**
+	 * metodo usato per triggerare i bottoni della schemata home
+	 */
+	private void triggerButtons() {
+
+		btnDipendenti.addActionListener(new ScrennManagerBtnClickListener());
+		btnDipendenti.setActionCommand(ScrennManagerBtnClickListener.BTN_IMPIEGATI);
+
+		btnBulloni.addActionListener(new ScrennManagerBtnClickListener());
+		btnBulloni.setActionCommand(ScrennManagerBtnClickListener.BTN_BULLONI);
+
+		btnVendite.addActionListener(new ScrennManagerBtnClickListener());
+		btnVendite.setActionCommand(ScrennManagerBtnClickListener.BTN_VENDITE);
+
+		btnExit.addActionListener(new ScrennManagerBtnClickListener());
+		btnExit.setActionCommand(ScrennManagerBtnClickListener.BTN_EXIT);
 	}
 
 }

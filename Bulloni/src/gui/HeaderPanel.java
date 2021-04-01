@@ -29,6 +29,7 @@ public class HeaderPanel extends JPanel {
 		
 		this.setLayout(new GridBagLayout());
 		this.addElement();
+		this.triggerButtons();
 		
 		this.revalidate();
 		this.repaint();
@@ -87,6 +88,12 @@ public class HeaderPanel extends JPanel {
 	public void setScreenTitleText(String screenTitleText) {
 		
 		this.lblScreenTitle.setText(screenTitleText);
+	}
+	
+	private void triggerButtons() {
+		
+		btnBack.addActionListener(new ScrennManagerBtnClickListener());
+		btnBack.setActionCommand(ScrennManagerBtnClickListener.BTN_BACK);
 	}
 
 }

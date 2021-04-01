@@ -10,8 +10,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.sql.SQLException;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import databaseSQL.exception.DatabaseSQLException;
 
 public class MainWindow extends JFrame {
 
@@ -26,8 +31,10 @@ public class MainWindow extends JFrame {
 	/**
 	 * costruttore che inizilizza valori quali layout e dimensione delle finestra
 	 * corrente
+	 * @throws SQLException 
+	 * @throws DatabaseSQLException 
 	 */
-	private MainWindow() {
+	private MainWindow() throws DatabaseSQLException, SQLException {
 
 		setTitle("bulloni");
 
@@ -52,12 +59,21 @@ public class MainWindow extends JFrame {
 
 	}
 
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		
+		MainWindow window = null;
 
-		MainWindow window = new MainWindow();
+		try {
+			 window = new MainWindow();
+			 
+		} catch (Exception e) {
+			
+			JOptionPane.showMessageDialog(window, e.getMessage(), "exception", JOptionPane.ERROR_MESSAGE);
+		}
 
 	}
 
