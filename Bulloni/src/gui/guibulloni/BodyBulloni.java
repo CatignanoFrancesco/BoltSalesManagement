@@ -1,17 +1,15 @@
 package gui.guibulloni;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.border.MatteBorder;
 
 
 /**
@@ -25,6 +23,8 @@ public class BodyBulloni extends JPanel {
 	
 	private static final int MAX_WIDTH = 750;
 	private static final int MAX_HEIGHT = 650;
+	
+	private JFrame mainFrame;
 	
 	/*
 	 * Elementi visibili nel pannello
@@ -42,8 +42,13 @@ public class BodyBulloni extends JPanel {
 	 *  COSTRUTTORE
 	 * -------------
 	 */
-	public BodyBulloni() {
-		// AGGIUNGERE FINESTRA PRINCIPALE E INTERFACCIA VISUALIZZAZIONE
+	/**
+	 * Costruisce il pannello principale contenente la lista di bulloni.
+	 * @param mainFrame La finestra principale in cui si trova questo pannello.
+	 */
+	public BodyBulloni(JFrame mainFrame) {
+		this.mainFrame = mainFrame;
+		// AGGIUNGERE INTERFACCIA VISUALIZZAZIONE
 		
 		/*
 		 * Questo layout servira' per posizionare le label e i pulsanti in alto e in basso
@@ -155,9 +160,20 @@ public class BodyBulloni extends JPanel {
 		gbcForListaContainerPanel.gridheight = GridBagConstraints.RELATIVE;
 		gbcForListaContainerPanel.weightx = 1;
 		gbcForListaContainerPanel.weighty = 1;
-		this.listaContainerPanel.setBorder(new MatteBorder(1,1,1,1,Color.RED));
+		//this.listaContainerPanel.setBorder(new MatteBorder(1,1,1,1,Color.RED));
 		this.listaContainerPanel.setLayout(gblForListaContainerPanel);
 		
 		// metodo per mostrare i bulloni
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		this.listaContainerPanel.add(new SimpleInfoBullonePanel(this.mainFrame, this), gbc);
+		
+		GridBagConstraints gbc2 = new GridBagConstraints();
+		gbc2.fill = GridBagConstraints.HORIZONTAL;
+		gbc2.gridx = 0;
+		gbc2.gridy = 1;
+		this.listaContainerPanel.add(new SimpleInfoBullonePanel(this.mainFrame, this), gbc2);
 	}
 }
