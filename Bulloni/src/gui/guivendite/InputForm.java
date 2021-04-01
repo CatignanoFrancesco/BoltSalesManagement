@@ -2,6 +2,10 @@ package gui.guivendite;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -12,8 +16,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import databaseSQL.exception.DatabaseSQLException;
 import gestori.gestoreImpiegati.GestoreImpiegatiDb;
-import gestori.gestorevendite.InserimentoVendite;;
+import gestori.gestorevendite.InserimentoVendite;
+
+import persona.ImpiegatoBulloni;
 
 /**
  * @author GiannettaGerardo
@@ -113,7 +120,10 @@ public class InputForm extends JFrame implements WindowListener {
 	}
 	
 	
-	
+	/**
+	 * Metodo che crea il form per inserire la data della vendita;
+	 * Usa 3 menu' combobox (menu' a tendita) per permettere di scegliere giorno, mese e anno
+	 */
 	public void createFormData() {
 		
 		// label corrispondente alla data della vendita
@@ -127,22 +137,80 @@ public class InputForm extends JFrame implements WindowListener {
 		giornoComboBox.setBounds(104, 106, 37, 21);
 		getContentPane().add(giornoComboBox);
 		
+		// label corrispondente al giorno del mese
 		giornoLabel = new JLabel("Giorno:");
 		giornoLabel.setBounds(104, 90, 45, 13);
 		getContentPane().add(giornoLabel);
 		meseLabel.setLabelFor(giornoComboBox);
 		
+		// menu combobox per scegliere il mese dell'anno
 		meseComboBox = new JComboBox<Integer>();
 		meseComboBox.setModel(new DefaultComboBoxModel<Integer>(new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12}));
 		meseComboBox.setBounds(156, 106, 37, 21);
 		getContentPane().add(meseComboBox);
 		
+		// label corrispondente al mese dell'anno
 		meseLabel = new JLabel("Mese:");
 		meseLabel.setBounds(156, 90, 45, 13);
 		getContentPane().add(meseLabel);
 		meseLabel.setLabelFor(meseComboBox);
 		
+		// creo una lista di anni che vanno dal 1930 ad oggi; questa lista andrà inserita nella combobox degli anni sottoforma di array
+		ArrayList<Integer> listaAnni = new ArrayList<Integer>(100);
+		for (int i = 1930; i <= LocalDate.now().getYear(); i++) {
+			listaAnni.add(i);
+		}
+		
+		// menu combobox per scegliere l'anno
 		annoComboBox = new JComboBox<Integer>();
+		annoComboBox.setModel(new DefaultComboBoxModel<Integer>(listaAnni.toArray(new Integer[0])));
+		annoComboBox.setBounds(208, 106, 53, 21);
+		getContentPane().add(annoComboBox);
+		
+		// label corrispondente all'anno
+		annoLabel = new JLabel("Anno:");
+		annoLabel.setBounds(208, 90, 45, 13);
+		getContentPane().add(annoLabel);
+		annoLabel.setLabelFor(annoComboBox);
+		
+	}
+	
+	
+	/**
+	 * Metodo che crea il form per inserire la matricola dell'impiegato che effettua la vendita
+	 */
+	public void createFormMatricolaImpiegato() {
+		
+		Set<ImpiegatoBulloni> impiegati = null;
+		
+		try {
+			impiegati = gestoreImpiegati.getSetImpiegati();
+		}
+		catch (DatabaseSQLException e) {
+			// todo 
+		}
+		catch (SQLException e) {
+			// todo
+		}
+		
+		matricoleImpiegato = new Integer[impiegati.size()];
+		int i = 0;
+		
+		impiegatoLabel = new JLabel("Matricola impiegato:");
+		impiegatoLabel.setBounds(10, 165, 120, 13);
+		getContentPane().add(impiegatoLabel);
+		
+		
+		for (ImpiegatoBulloni impb : impiegati) {
+			matricoleImpiegato[i] = impb.getID();
+			i++;
+		}
+		
+		impiegatoComboBox = new JComboBox<Integer>();
+		impiegatoLabel.setLabelFor(impiegatoComboBox);
+		impiegatoComboBox.setModel(new DefaultComboBoxModel<Integer>(matricoleImpiegato));
+		impiegatoComboBox.setBounds(140, 161, 53, 21);
+		getContentPane().add(impiegatoComboBox);
 		
 	}
 	
