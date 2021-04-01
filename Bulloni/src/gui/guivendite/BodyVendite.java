@@ -17,8 +17,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import gestori.gestoreImpiegati.GestoreImpiegatiDb;
 import gestori.gestorevendite.ContainerVendite;
 import gestori.gestorevendite.exception.GestoreVenditaException;
+import gestori.gestoribulloni.VisualizzaBulloni;
 import vendita.MerceVenduta;
 import vendita.Vendita;
 
@@ -34,7 +36,7 @@ public class BodyVendite extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	// Costanti
+	// costanti
 	private static final int WIDTH_BODY = 750;
 	private static final int HEIGHT_BODY = 652;
 	private static final int X_BODY = 100;
@@ -58,7 +60,15 @@ public class BodyVendite extends JPanel {
 	private BodyVendite istanzaCorrente = this;
 	private JFrame mainMenu;
 	
+	// gestore delle vendite con interfaccia generale contenente tutti i metodi
 	private ContainerVendite gestoreVendite;
+	
+	// gestore dei bulloni con interfaccia di visualizzazione
+	private VisualizzaBulloni gestoreBulloni;
+	
+	// gestore degli impiegati con interfaccia di visualizzazione
+	private GestoreImpiegatiDb gestoreImpiegati;
+	
 	private static final int SOGLIA_MASSIMA_LISTA_VENDITE = 17;
 	
 	
@@ -67,9 +77,11 @@ public class BodyVendite extends JPanel {
 	 * 
 	 * @param mainMenu finestra principale nella quale questo pannello è situato
 	 */
-	public BodyVendite(JFrame mainMenu, ContainerVendite gestoreVendite) {
+	public BodyVendite(JFrame mainMenu, ContainerVendite gestoreVendite, VisualizzaBulloni gestoreBulloni, GestoreImpiegatiDb gestoreImpiegati) {
 		this.mainMenu = mainMenu;
 		this.gestoreVendite = gestoreVendite;
+		this.gestoreBulloni = gestoreBulloni;
+		this.gestoreImpiegati = gestoreImpiegati;
 		inizializza();
 		createAggiungiVenditaButton();
 		createCercaPerButton();
