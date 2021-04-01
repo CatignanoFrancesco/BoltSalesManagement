@@ -122,6 +122,10 @@ public class ScreenManager extends JPanel {
 		}
 	}
 	
+	/**
+	*questo metodo instanzia semplicemente i diversi gestori che verranno passate ai diversi pannelli
+	*affinche si possano visulizzare i dati
+	**/
 	private void istanziaGestori() {
 		
 		try {
