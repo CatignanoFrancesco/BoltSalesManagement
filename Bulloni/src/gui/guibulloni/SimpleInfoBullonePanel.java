@@ -9,7 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.MatteBorder;
+
+import gestori.gestoribulloni.VisualizzaBulloni;
 
 /**
  * Pannello che corrisponde ad una singola riga nella lista di bulloni.
@@ -24,6 +25,8 @@ class SimpleInfoBullonePanel extends JPanel {
 	
 	private JFrame mainFrame;	// Finestra principale
 	private BodyBulloni mainPanel;	// Pannello principale da cui deriva
+	private String[] infoBullone;	// Le informazioni del bullone
+	private VisualizzaBulloni visualizzaBulloni;	// Interfaccia di visualizzazione dei bulloni
 	
 	/*
 	 * Elementi visibili nel pannello
@@ -45,13 +48,18 @@ class SimpleInfoBullonePanel extends JPanel {
 	/**
 	 * Costruisce il pannello contenente le informazioni principali di un bullone, insieme a tutti i bottoni per l'interazione con essi.
 	 * Un singolo pannello costituisce una riga della lista presente nella classe BodyPanel.
+	 * Le informazioni del bullone sono prese da un'interfaccia software che contiene tutti i metodi per visualizzarle.
 	 * @param mainFrame La finestra principale da cui deriva.
-	 * @param mainPanel Il pannello principale da cui deriva
+	 * @param mainPanel Il pannello principale da cui deriva.
+	 * @param infoBullone L'array di stringhe contenente le informazioni del bullone.
+	 * @param visualizzaBulloni L'interfaccia di visualizzazione per i bulloni
 	 */
-	SimpleInfoBullonePanel(JFrame mainFrame, BodyBulloni mainPanel) {
+	SimpleInfoBullonePanel(JFrame mainFrame, BodyBulloni mainPanel, String[] infoBullone, VisualizzaBulloni visualizzaBulloni) {
 		// AGGIUNGERE INFORMAZIONI BULLONE
 		this.mainFrame = mainFrame;
 		this.mainPanel = mainPanel;
+		this.infoBullone = infoBullone;
+		this.visualizzaBulloni = visualizzaBulloni;
 		
 		/*
 		 * Impostazioni layout pannello
@@ -69,7 +77,6 @@ class SimpleInfoBullonePanel extends JPanel {
 		gblForSimpleInfoBullonePanel.rowWeights = new double[] {0.0};
 		
 		this.setLayout(gblForSimpleInfoBullonePanel);
-		//this.setBorder(new MatteBorder(1,1,1,1,Color.BLUE));
 		this.creaInfoBulloni();
 		this.creaBottoni();
 	}
@@ -91,7 +98,7 @@ class SimpleInfoBullonePanel extends JPanel {
 		/*
 		 * Codice
 		 */
-		this.lblCodice.setText("00");
+		this.lblCodice.setText(this.infoBullone[1]);
 		GridBagConstraints gbcForLblCodice = new GridBagConstraints();
 		gbcForLblCodice.gridx = 0;
 		gbcForLblCodice.gridy = 0;
@@ -102,7 +109,7 @@ class SimpleInfoBullonePanel extends JPanel {
 		/*
 		 * Tipo di bullone
 		 */
-		this.lblTipoBullone.setText("BulloneGrano");
+		this.lblTipoBullone.setText(this.infoBullone[0]);
 		GridBagConstraints gbcForLblTipoBullone = new GridBagConstraints();
 		gbcForLblTipoBullone.gridx = 1;
 		gbcForLblTipoBullone.gridy = 0;
@@ -113,7 +120,7 @@ class SimpleInfoBullonePanel extends JPanel {
 		/*
 		 * Prezzo
 		 */
-		this.lblPrezzo.setText("2.01");
+		this.lblPrezzo.setText(this.infoBullone[5]);
 		GridBagConstraints gbcForlblPrezzo = new GridBagConstraints();
 		gbcForlblPrezzo.gridx = 2;
 		gbcForlblPrezzo.gridy = 0;

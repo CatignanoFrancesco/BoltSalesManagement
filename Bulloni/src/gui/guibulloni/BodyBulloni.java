@@ -3,13 +3,19 @@ package gui.guibulloni;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Set;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+
+import bulloni.Bullone;
+import gestori.gestoribulloni.VisualizzaBulloni;
+import gestori.gestoribulloni.exception.GestoreBulloniException;
 
 
 /**
@@ -25,6 +31,7 @@ public class BodyBulloni extends JPanel {
 	private static final int MAX_HEIGHT = 650;
 	
 	private JFrame mainFrame;
+	private VisualizzaBulloni visualizzaBulloni;	// Interfaccia di visualizzazione
 	
 	/*
 	 * Elementi visibili nel pannello
@@ -45,10 +52,11 @@ public class BodyBulloni extends JPanel {
 	/**
 	 * Costruisce il pannello principale contenente la lista di bulloni.
 	 * @param mainFrame La finestra principale in cui si trova questo pannello.
+	 * @param visualizzaBulloni L'interfaccia di visualizzazione per i bulloni.
 	 */
-	public BodyBulloni(JFrame mainFrame) {
+	public BodyBulloni(JFrame mainFrame, VisualizzaBulloni visualizzaBulloni) {
 		this.mainFrame = mainFrame;
-		// AGGIUNGERE INTERFACCIA VISUALIZZAZIONE
+		this.visualizzaBulloni = visualizzaBulloni;
 		
 		/*
 		 * Questo layout servira' per posizionare le label e i pulsanti in alto e in basso
@@ -61,7 +69,7 @@ public class BodyBulloni extends JPanel {
 		 */
 		this.creaPannelloRicerca();
 		this.creaFooterPanel();
-		this.creaListaContainerPanel();
+		this.creaListaContainerPanel(this.visualizzaBulloni.getAll());
 	}
 	
 	
@@ -77,7 +85,7 @@ public class BodyBulloni extends JPanel {
 	 */
 	public void refresh() {
 		this.listaContainerPanel.removeAll();
-		this.creaListaContainerPanel();
+		this.creaListaContainerPanel(this.visualizzaBulloni.getAll());
 	}
 	
 	
@@ -136,8 +144,10 @@ public class BodyBulloni extends JPanel {
 	 * Metodo per creare e impostare un pannello contenente la lista di bulloni.
 	 * Viene aggiunto uno JScrollPane per utilizzare la barra laterale di scorrimento. Viene aggiunto anche un pannello all'interno per impostare un layout
 	 * piu' flessibile (GridBagLayout) per lo scopo.
+	 * 
+	 * @param bulloni Il set di bulloni da mostrare
 	 */
-	private void creaListaContainerPanel() {
+	private void creaListaContainerPanel(Set<Bullone> bulloni) {
 		/*
 		 * Impostazione di JScrollPane
 		 */
@@ -163,17 +173,39 @@ public class BodyBulloni extends JPanel {
 		//this.listaContainerPanel.setBorder(new MatteBorder(1,1,1,1,Color.RED));
 		this.listaContainerPanel.setLayout(gblForListaContainerPanel);
 		
-		// metodo per mostrare i bulloni
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		this.listaContainerPanel.add(new SimpleInfoBullonePanel(this.mainFrame, this), gbc);
-		
-		GridBagConstraints gbc2 = new GridBagConstraints();
-		gbc2.fill = GridBagConstraints.HORIZONTAL;
-		gbc2.gridx = 0;
-		gbc2.gridy = 1;
-		this.listaContainerPanel.add(new SimpleInfoBullonePanel(this.mainFrame, this), gbc2);
+		try {
+			if(bulloni.isEmpty()) {
+				this.add(new JLabel("Non ci sono bulloni"));
+			} else {
+				this.mostraBulloni(bulloni);	
+			}
+		}
+		catch(GestoreBulloniException e) {
+			System.err.println(e.getMessage());
+		}
+ 	}
+	
+	
+	/**
+	 * Metodo per creare i pannelli relativi ad ogni singolo bullone e per mostrarli nell'interfaccia.
+	 * Riceve in input un set di bulloni e per ogni codice, cerca le sue informazioni che verranno passate al pannello.
+	 * Mostra solamente i bulloni che non sono stati eliminati.
+	 * @param bulloni Il set di bulloni da mostrare.
+	 * @throws GestoreBulloniException 
+	 */
+	private void mostraBulloni(Set<Bullone> bulloni) throws GestoreBulloniException {
+		int posY = 0;
+		for(Bullone b : bulloni) {
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.gridx = 0;
+			gbc.gridy = posY;
+			
+			if(b.isEliminato()==false) {
+				this.listaContainerPanel.add(new SimpleInfoBullonePanel(this.mainFrame, this, this.visualizzaBulloni.getInfoBulloneByCodice(b.getCodice()), this.visualizzaBulloni), gbc);
+			}
+			
+			posY++;
+		}
 	}
 }
