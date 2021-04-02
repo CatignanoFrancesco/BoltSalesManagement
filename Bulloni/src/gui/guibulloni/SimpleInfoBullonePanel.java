@@ -55,7 +55,6 @@ class SimpleInfoBullonePanel extends JPanel {
 	 * @param visualizzaBulloni L'interfaccia di visualizzazione per i bulloni
 	 */
 	SimpleInfoBullonePanel(JFrame mainFrame, BodyBulloni mainPanel, String[] infoBullone, VisualizzaBulloni visualizzaBulloni) {
-		// AGGIUNGERE INFORMAZIONI BULLONE
 		this.mainFrame = mainFrame;
 		this.mainPanel = mainPanel;
 		this.infoBullone = infoBullone;
@@ -71,9 +70,9 @@ class SimpleInfoBullonePanel extends JPanel {
 		gbcForSimpleInfoBullonePanel.gridy = 0;
 		
 		GridBagLayout gblForSimpleInfoBullonePanel = new GridBagLayout();
-		gblForSimpleInfoBullonePanel.columnWidths = new int[] {0, 0, 0, 240, 0, 0, 0};
+		gblForSimpleInfoBullonePanel.columnWidths = new int[] {0, 20, 0, 20, 0, 200, 0, 0, 0, 0};
 		gblForSimpleInfoBullonePanel.rowHeights = new int[] {0};
-		gblForSimpleInfoBullonePanel.columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		gblForSimpleInfoBullonePanel.columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		gblForSimpleInfoBullonePanel.rowWeights = new double[] {0.0};
 		
 		this.setLayout(gblForSimpleInfoBullonePanel);
@@ -111,7 +110,7 @@ class SimpleInfoBullonePanel extends JPanel {
 		 */
 		this.lblTipoBullone.setText(this.infoBullone[0]);
 		GridBagConstraints gbcForLblTipoBullone = new GridBagConstraints();
-		gbcForLblTipoBullone.gridx = 1;
+		gbcForLblTipoBullone.gridx = 2;
 		gbcForLblTipoBullone.gridy = 0;
 		gbcForLblTipoBullone.anchor = GridBagConstraints.LINE_START;
 		gbcForLblTipoBullone.insets = new Insets(5, 5, 5, 20);
@@ -122,7 +121,7 @@ class SimpleInfoBullonePanel extends JPanel {
 		 */
 		this.lblPrezzo.setText(this.infoBullone[5]);
 		GridBagConstraints gbcForlblPrezzo = new GridBagConstraints();
-		gbcForlblPrezzo.gridx = 2;
+		gbcForlblPrezzo.gridx = 4;
 		gbcForlblPrezzo.gridy = 0;
 		gbcForlblPrezzo.anchor = GridBagConstraints.LINE_START;
 		gbcForlblPrezzo.insets = new Insets(5, 5, 5, 20);
@@ -143,7 +142,7 @@ class SimpleInfoBullonePanel extends JPanel {
 		 */
 		this.btnInformazioni.setText("Informazioni");
 		GridBagConstraints gbcForBtnInformazioni = new GridBagConstraints();
-		gbcForBtnInformazioni.gridx = 4;
+		gbcForBtnInformazioni.gridx = 7;
 		gbcForBtnInformazioni.gridy = 0;
 		gbcForBtnInformazioni.anchor = GridBagConstraints.LINE_START;
 		gbcForBtnInformazioni.insets = new Insets(5, 5, 5, 5);
@@ -155,7 +154,7 @@ class SimpleInfoBullonePanel extends JPanel {
 		 */
 		this.btnModifica.setText("Modifica");
 		GridBagConstraints gbcForBtnModifica = new GridBagConstraints();
-		gbcForBtnModifica.gridx = 5;
+		gbcForBtnModifica.gridx = 8;
 		gbcForBtnModifica.gridy = 0;
 		gbcForBtnModifica.anchor = GridBagConstraints.LINE_START;
 		gbcForBtnModifica.insets = new Insets(5, 5, 5, 5);
@@ -169,7 +168,7 @@ class SimpleInfoBullonePanel extends JPanel {
 		this.btnElimina.setBackground(Color.RED);
 		this.btnElimina.setForeground(Color.WHITE);
 		GridBagConstraints gbcForBtnElimina = new GridBagConstraints();
-		gbcForBtnElimina.gridx = 6;
+		gbcForBtnElimina.gridx = 9;
 		gbcForBtnElimina.gridy = 0;
 		gbcForBtnElimina.anchor = GridBagConstraints.LINE_START;
 		gbcForBtnElimina.insets = new Insets(5, 5, 5, 5);
