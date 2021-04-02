@@ -95,6 +95,14 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// Bottone per mostrare le informazioni
+		if(e.getSource()==this.btnInformazioni) {
+			this.mainFrame.setEnabled(false);
+			this.mainFrame.setFocusable(false);
+			InfoBulloneFrame infoBulloneFrame = new InfoBulloneFrame(this.mainFrame, this.infoBullone);
+			infoBulloneFrame.setVisible(true);
+		}
+		
 		// Bottone per l'eliminazione
 		if(e.getSource()==this.btnElimina) {
 			/*
@@ -191,7 +199,7 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 		gbcForBtnInformazioni.anchor = GridBagConstraints.LINE_START;
 		gbcForBtnInformazioni.insets = new Insets(5, 5, 5, 5);
 		this.add(this.btnInformazioni, gbcForBtnInformazioni);
-		// Aggiungere action listener
+		this.btnInformazioni.addActionListener(this);
 		
 		/*
 		 * Bottone "Modifica"

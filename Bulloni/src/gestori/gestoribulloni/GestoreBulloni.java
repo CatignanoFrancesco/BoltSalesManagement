@@ -220,9 +220,7 @@ public class GestoreBulloni implements ContainerBulloni {
 		try {
 			Bullone bullone = new BulloneGrano(rs.getInt(1), new Data(rs.getDate(2)), rs.getString(3), rs.getDouble(4), rs.getDouble(5), Materiale.valueOf(rs.getString(9)), rs.getDouble(6), rs.getDouble(7), Innesto.valueOf(rs.getString(8)));
 			if(rs.getString(10).equals("T")) {
-				System.out.println(bullone.getCodice() + " " + bullone.isEliminato());
 				bullone.elimina();
-				System.out.println(bullone.getCodice() + " " + bullone.isEliminato());
 			}
 			return bullone;
 		} catch(BulloneException e) {
