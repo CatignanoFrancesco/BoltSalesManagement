@@ -69,7 +69,14 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 	private static final int SOGLIA_MASSIMA_LISTA_MERCE = 13;
 	
 	
-	
+	/**
+	 * Costruttore della classe VisualizzaMerceVenduta
+	 * 
+	 * @param mainJF finestra principale da bloccare
+	 * @param gestoreVendite gestore contenente tutte le vendite prese da database
+	 * @param codiceVendita codice univoco della vendita selezionata
+	 * @param merce set di merce venduta nella vendita selezionata
+	 */
 	public VisualizzaMerceVenduta(JFrame mainJF, ModificaVendite gestoreVendite, int codiceVendita, Set<MerceVenduta> merce) {
 		this.mainJFrame = mainJF;
 		this.gestoreVendite = gestoreVendite;

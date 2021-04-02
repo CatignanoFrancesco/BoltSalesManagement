@@ -2,12 +2,20 @@ package gui.guivendite;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import gestori.gestorevendite.ContainerVendite;
+import gestori.gestorevendite.ModificaVendite;
+import gestori.gestorevendite.exception.GestoreVenditaException;
+import gestori.gestoribulloni.VisualizzaBulloni;
+import gestori.gestoribulloni.exception.GestoreBulloniException;
+import gui.guibulloni.InfoBulloneFrame;
+import vendita.MerceVenduta;
+import vendita.Vendita;
 
 /**
  * @author GiannettaGerardo
@@ -26,10 +34,14 @@ public class GestoreButton implements ActionListener {
 	/** il gestore delle vendite con interfaccia completa di tutti i metodi */
 	private ContainerVendite gestoreVendite;
 	
+	/** il gestore dei bulloni con interfaccia di visualizzazione, contenente quindi solo metodi per la visualizzazione */
+	private VisualizzaBulloni gestoreBulloni;
+	
 	
 	/**
 	 * Costruttore della classe GestoreButton
 	 * 
+	 * @param gestoreVendite gestore contenente tutte le vendite prese da database
 	 * @param mainMenu finestra grafica padre
 	 * @param codice codice della tupla nella quale si clicca il pulsante
 	 */
@@ -39,6 +51,23 @@ public class GestoreButton implements ActionListener {
 		this.codice = codice;
 	}
 	
+	
+	/**
+	 * Costruttore della classe GestoreButton
+	 * 
+	 * @param gestoreVendite gestore contenente tutte le vendite prese da database
+	 * @param gestoreBulloni gestore contenente tutti i bulloni presi dal database
+	 * @param mainMenu finestra grafica padre
+	 * @param codice codice della tupla nella quale si clicca il pulsante
+	 */
+	public GestoreButton(ContainerVendite gestoreVendite, VisualizzaBulloni gestoreBulloni, JFrame mainMenu, String codice) {
+		this.gestoreVendite = gestoreVendite;
+		this.gestoreBulloni = gestoreBulloni;
+		this.mainMenu = mainMenu;
+		this.codice = codice;
+	}
+	
+	
 	@Override
 	/**
 	 * Metodo che gestisce l'evento catturato
@@ -46,8 +75,22 @@ public class GestoreButton implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		if (e.getActionCommand().equals("Info merce")) {
-			// creare VisualizzaMerceVenduta
-			mainMenu.setEnabled(false);
+			
+			// recupero la vendita che ha quel preciso codice e da essa recupero il set di merce venduta
+			try {
+				Vendita<MerceVenduta> vendita = gestoreVendite.getVenditaByCodice(Integer.parseInt(codice));
+				
+				Set<MerceVenduta> merce = vendita.getMerceVenduta();
+				
+				// creo la finestra che permette di visualizzare la lista di merce venduta, modificare la vendita e visualizzare tutte le info del bullone venduto
+				VisualizzaMerceVenduta mvm = new VisualizzaMerceVenduta(mainMenu, gestoreVendite, Integer.parseInt(codice), merce);
+				mvm.setVisible(true);
+				mainMenu.setEnabled(false);
+			} 
+			catch (GestoreVenditaException t) {
+				JOptionPane.showMessageDialog(mainMenu, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+			}
+			
 		}
 		else if (e.getActionCommand().equals("Impiegato")) {
 			// creare la finestra di visualizzazione impiegato
@@ -56,8 +99,27 @@ public class GestoreButton implements ActionListener {
 		else if (e.getActionCommand().equals("Elimina")) {
 			// eliminare vendita
 		}
-		else {
+		else if (e.getActionCommand().equals("Modifica")) {
+			// creare la finestra di modifica vendita
+		}
+		else if (e.getActionCommand().equals("Bullone")) {
 			
+			if (this.gestoreBulloni != null) {
+				try {
+					InfoBulloneFrame ibf = new InfoBulloneFrame(mainMenu, gestoreBulloni.getInfoBulloneByCodice(Integer.parseInt(codice)));
+					ibf.setVisible(true);
+					mainMenu.setEnabled(false);
+				} 
+				catch (NumberFormatException t) {
+					JOptionPane.showMessageDialog(mainMenu, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+				} 
+				catch (GestoreBulloniException t) {
+					JOptionPane.showMessageDialog(mainMenu, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		}
+		else {
+			JOptionPane.showMessageDialog(mainMenu, "Il pulsante cliccato non è riconosciuto.", "Errore", JOptionPane.ERROR_MESSAGE);
 		}
 
 	}
