@@ -418,7 +418,6 @@ public class InputForm extends JFrame implements WindowListener {
 					JOptionPane.showMessageDialog(mainJFrame, "Errore. La vendita non e' accettabile.");
 				}
 				
-				
 			}
 		});
 		aggiungiVenditaButton.setBounds(285, 315, 129, 30);
