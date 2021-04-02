@@ -43,6 +43,8 @@ public class BodyBulloni extends JPanel {
 	JButton btnAggiungiBullone = new JButton();
 	JScrollPane scrollPane = new JScrollPane();	// Contiene il pannello con la barra di scorrimento
 	JPanel listaContainerPanel = new JPanel();	// Pannello contenente la lista di bulloni
+	JLabel lblMancanzaBulloni = new JLabel();	// Label per informare l'utente della mancanza di bulloni
+
 	
 	/*
 	 * -------------
@@ -156,6 +158,8 @@ public class BodyBulloni extends JPanel {
 	 * Metodo per creare e impostare un pannello contenente la lista di bulloni.
 	 * Viene aggiunto uno JScrollPane per utilizzare la barra laterale di scorrimento. Viene aggiunto anche un pannello all'interno per impostare un layout
 	 * piu' flessibile (GridBagLayout) per lo scopo.
+	 * Viene effettuato un controllo sulla presenza o meno dei bulloni nel set; se non sono presenti, viene aggiunta una label che informa l'utente della mancanza
+	 * di bulloni, mentre il tasto per effettuare la ricerca scompare. In caso contrario, viene chiamato il metodo che si occupa di mostrare i bulloni.
 	 * 
 	 * @param bulloni Il set di bulloni da mostrare
 	 */
@@ -184,10 +188,17 @@ public class BodyBulloni extends JPanel {
 		gbcForListaContainerPanel.weighty = 1;
 		this.listaContainerPanel.setLayout(gblForListaContainerPanel);
 		
+		// Controllo sulla presenza dei bulloni
 		try {
-			if(bulloni.isEmpty()) {
-				this.add(new JLabel("Non ci sono bulloni"));
+			if(visualizzaBulloni.isEmpty()) {
+				this.btnCercaPer.setVisible(false);
+				this.lblMancanzaBulloni.setText("Non sono presenti bulloni. Aggiungine uno!");
+				GridBagConstraints gbcForLblMancanzaBulloni = new GridBagConstraints();
+				gbcForLblMancanzaBulloni.anchor = GridBagConstraints.CENTER;
+				this.listaContainerPanel.add(lblMancanzaBulloni, gbcForLblMancanzaBulloni);
 			} else {
+				this.lblMancanzaBulloni.setVisible(false);
+				this.btnCercaPer.setVisible(true);
 				this.mostraBulloni(bulloni);	
 			}
 		}
