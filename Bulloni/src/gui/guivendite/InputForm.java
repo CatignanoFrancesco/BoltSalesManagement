@@ -112,7 +112,7 @@ public class InputForm extends JFrame implements WindowListener {
 	public InputForm(JFrame mainJF, InserimentoVendite gestoreVendite, GestoreImpiegatiDb gestoreImpiegati, GestoreBulloni gestoreBulloni) {
 		
 		if (gestoreImpiegati.localSetIsEmpty() || gestoreBulloni.isEmpty()) {
-			JOptionPane.showMessageDialog(mainJF, "Impossibile aggiungere una vendita, non ci sono impiegati o bulloni registrati.");
+			JOptionPane.showMessageDialog(mainJF, "Impossibile aggiungere una vendita, non ci sono impiegati o bulloni registrati.", "Warning", JOptionPane.ERROR_MESSAGE);
 			this.mainJFrame.setEnabled(true);
 			dispose();
 		}
@@ -384,7 +384,7 @@ public class InputForm extends JFrame implements WindowListener {
 					/* questa eccezione non dovrebbe mai essere sollevata, perché usando un'unica istanza del gestore 
 					 * impiegati per tutto il programma, avrò sempre a disposizione tutti e soli gli impiegati salvati
 					 * nel database e nell'unico set di impiegati originale */
-					JOptionPane.showMessageDialog(mainJFrame, "Errore. Non esistono impiegati con questa matricola.");
+					JOptionPane.showMessageDialog(mainJFrame, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 				
 				Set<MerceVenduta> merce = new HashSet<MerceVenduta>();
@@ -401,33 +401,35 @@ public class InputForm extends JFrame implements WindowListener {
 				
 				}*/
 				
+				// costruisco la vendita utilizzando gli oggetti costruiti in precedenza
 				Vendita<MerceVenduta> vendita = null;
 				try {
 					vendita = new VenditaBulloni(Integer.parseInt(codiceVenditaTextField.getText()), data, impiegato, merce);
 				} 
 				catch (NumberFormatException f) {
 					// questo messaggio di errore non dovrebbe mai essere mostrato
-					JOptionPane.showMessageDialog(mainJFrame, "Errore. Il codice della vendita non è un numero corretto.");
+					JOptionPane.showMessageDialog(mainJFrame, "Errore. Il codice della vendita non è un numero corretto.", "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 				catch (VenditaException f) {
 					// questo messaggio di errore non dovrebbe mai essere mostrato, perche' ci sono diversi controlli fatti in precedenza
-					JOptionPane.showMessageDialog(mainJFrame, "Errore. La vendita non e' accettabile.");
+					JOptionPane.showMessageDialog(mainJFrame, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 				
+				// tento di aggiungere la vendita al set del gestore vendite e nel database
 				try {
 					gestoreVendite.aggiungiVendita(vendita);
 				} 
 				catch (GestoreVenditaException f) {
-					JOptionPane.showMessageDialog(mainJFrame, f.getMessage());
+					JOptionPane.showMessageDialog(mainJFrame, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				} 
 				catch (ExceptionGestoreImpiegato f) {
-					JOptionPane.showMessageDialog(mainJFrame, f.getMessage());
+					JOptionPane.showMessageDialog(mainJFrame, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				} 
 				catch (DatabaseSQLException f) {
-					JOptionPane.showMessageDialog(mainJFrame, f.getMessage());
+					JOptionPane.showMessageDialog(mainJFrame, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				} 
 				catch (SQLException f) {
-					JOptionPane.showMessageDialog(mainJFrame, f.getMessage());
+					JOptionPane.showMessageDialog(mainJFrame, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}

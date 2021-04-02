@@ -91,7 +91,7 @@ public class BodyVendite extends JPanel {
 			printListaVendite(gestoreVendite.getVendite());
 		}
 		catch (GestoreVenditaException t) {
-			JOptionPane.showMessageDialog(mainMenu, t.getMessage());
+			JOptionPane.showMessageDialog(mainMenu, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -217,7 +217,7 @@ public class BodyVendite extends JPanel {
 					printListaVendite(gestoreVendite.getVendite());
 				}
 				catch (GestoreVenditaException t) {
-					JOptionPane.showMessageDialog(mainMenu, t.getMessage());
+					JOptionPane.showMessageDialog(mainMenu, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

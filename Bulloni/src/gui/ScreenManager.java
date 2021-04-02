@@ -137,27 +137,27 @@ public class ScreenManager extends JPanel {
 			gv = new GestoreVendita(gb, gi);
 		} catch (SQLException e) {
 			
-			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "exception", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 		} 
 		catch (DatabaseSQLException e) {
 			
-			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "exception", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 		}
 		catch (GestoreVenditaException e) {
 			
-			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "exception", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 		} 
 		catch (VenditaException e) {
 			
-			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "exception", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 		} 
 		catch (ExceptionGestoreImpiegato e) {
 			
-			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "exception", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 		} 
 		catch (GestoreBulloniException e) {
 			
-			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "exception", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 		}
 		
 		
