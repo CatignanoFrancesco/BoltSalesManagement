@@ -20,7 +20,7 @@ import javax.swing.ScrollPaneConstants;
 import gestori.gestoreImpiegati.GestoreImpiegatiDb;
 import gestori.gestorevendite.ContainerVendite;
 import gestori.gestorevendite.exception.GestoreVenditaException;
-import gestori.gestoribulloni.VisualizzaBulloni;
+import gestori.gestoribulloni.GestoreBulloni;
 import vendita.MerceVenduta;
 import vendita.Vendita;
 
@@ -63,8 +63,8 @@ public class BodyVendite extends JPanel {
 	// gestore delle vendite con interfaccia generale contenente tutti i metodi
 	private ContainerVendite gestoreVendite;
 	
-	// gestore dei bulloni con interfaccia di visualizzazione
-	private VisualizzaBulloni gestoreBulloni;
+	// gestore dei bulloni
+	private GestoreBulloni gestoreBulloni;
 	
 	// gestore degli impiegati con interfaccia di visualizzazione
 	private GestoreImpiegatiDb gestoreImpiegati;
@@ -77,7 +77,7 @@ public class BodyVendite extends JPanel {
 	 * 
 	 * @param mainMenu finestra principale nella quale questo pannello è situato
 	 */
-	public BodyVendite(JFrame mainMenu, ContainerVendite gestoreVendite, VisualizzaBulloni gestoreBulloni, GestoreImpiegatiDb gestoreImpiegati) {
+	public BodyVendite(JFrame mainMenu, ContainerVendite gestoreVendite, GestoreBulloni gestoreBulloni, GestoreImpiegatiDb gestoreImpiegati) {
 		this.mainMenu = mainMenu;
 		this.gestoreVendite = gestoreVendite;
 		this.gestoreBulloni = gestoreBulloni;

@@ -1,10 +1,15 @@
 package gui.guivendite;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
@@ -12,15 +17,33 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.border.TitledBorder;
 
-import databaseSQL.exception.DatabaseSQLException;
+import bulloni.Bullone;
+import bulloni.BulloneGrano;
+import bulloni.Innesto;
+import bulloni.Materiale;
+import bulloni.exception.BulloneException;
 import gestori.gestoreImpiegati.GestoreImpiegatiDb;
+import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
 import gestori.gestorevendite.InserimentoVendite;
-
+import gestori.gestorevendite.exception.GestoreVenditaException;
+import gestori.gestoribulloni.GestoreBulloni;
+import gestori.gestoribulloni.VisualizzaBulloni;
+import persona.Impiegato;
 import persona.ImpiegatoBulloni;
+import utility.Data;
+import vendita.MerceVenduta;
+import vendita.Vendita;
+import vendita.VenditaBulloni;
+import vendita.exception.VenditaException;
 
 /**
  * @author GiannettaGerardo
@@ -35,6 +58,7 @@ public class InputForm extends JFrame implements WindowListener {
 	private static final int Y = 100;
 	private static final int WIDTH = 450;
 	private static final int HEIGHT = 404;
+	private int numeroBulloni;
 	
 	// oggetti per creare l'interfaccia grafica
 	private JTextField codiceVenditaTextField;
@@ -56,6 +80,11 @@ public class InputForm extends JFrame implements WindowListener {
 	private JButton aggiungiVenditaButton;
 	private JScrollPane scrollPane;
 	private JPanel panel;
+	private JLabel[] codiceLabel;             // conterrà i codici dei bulloni
+	private JLabel[] tipoBulloneLabel;        // conterrà il tipo dei bulloni
+	private JLabel[] luogoProduzioneLabel;    // conterrà il luogo di produzione dei bulloni
+	private JLabel[] prezzoLabel;             // conterrà il prezzo dei singoli bulloni
+	private JSpinner[] quantitaSpinner;               // conterrà la quantita' scelta da vendere dei bulloni con quel codice
 	private final String titoloFinestra = "Aggiungi vendita";
 	
 	// gestore delle vendite con interfaccia contenente i metodi di inserimento
@@ -64,19 +93,45 @@ public class InputForm extends JFrame implements WindowListener {
 	// gestore degli impiegati con interfaccia di visualizzazione
 	private GestoreImpiegatiDb gestoreImpiegati;
 	
+	// gestore dei bulloni con interfaccia di visualizzazione
+	private VisualizzaBulloni gestoreBulloni;
 	
-	public InputForm(JFrame mainJF, InserimentoVendite gestoreVendite, GestoreImpiegatiDb gestoreImpiegati) {
+	
+	/**
+	 * Costruttore della finestra per aggiungere una vendita;
+	 * Controlla prima di tutto che una vendita sia aggiungibile, e lo fa controllando che i set dei
+	 * gestori impiegati e bulloni non sia vuoti
+	 * 
+	 * @param mainJF finestra principale da bloccare
+	 * @param gestoreVendite gestore contenente tutte le vendite prese da database
+	 * @param gestoreImpiegati gestore contenente tutti gli impiegati presi dal database
+	 * @param gestoreBulloni gestore contenente tutti i bulloni presi dal database
+	 */
+	public InputForm(JFrame mainJF, InserimentoVendite gestoreVendite, GestoreImpiegatiDb gestoreImpiegati, GestoreBulloni gestoreBulloni) {
+		
+		if (gestoreImpiegati.localSetIsEmpty() || gestoreBulloni.isEmpty()) {
+			JOptionPane.showMessageDialog(mainJF, "Impossibile aggiungere una vendita, non ci sono impiegati o bulloni registrati.");
+			this.mainJFrame.setEnabled(true);
+			dispose();
+		}
 		
 		this.mainJFrame = mainJF;
 		this.gestoreVendite = gestoreVendite;
 		this.gestoreImpiegati = gestoreImpiegati;
+		this.gestoreBulloni = (VisualizzaBulloni)gestoreBulloni;
 		
 		setResizable(false);
 		setAlwaysOnTop(true);
 		addWindowListener(this);
 		inizializza();
+		createFormCodiceVendita();
+		createFormData();
+		createFormMatricolaImpiegato();
+		createFormBulloniDaVendere();
+		createAggiungiVenditaButton();
 		
 	}
+	
 	
 	
 	/**
@@ -95,6 +150,7 @@ public class InputForm extends JFrame implements WindowListener {
 		headerLabel.setBounds(10, 10, 346, 13);
 		getContentPane().add(headerLabel);
 	}
+	
 	
 	
 	/**
@@ -118,6 +174,7 @@ public class InputForm extends JFrame implements WindowListener {
 		codiceVenditaTextField.setColumns(10);
 		
 	}
+	
 	
 	
 	/**
@@ -176,36 +233,30 @@ public class InputForm extends JFrame implements WindowListener {
 	}
 	
 	
+	
 	/**
 	 * Metodo che crea il form per inserire la matricola dell'impiegato che effettua la vendita
 	 */
 	public void createFormMatricolaImpiegato() {
 		
-		Set<ImpiegatoBulloni> impiegati = null;
-		
-		try {
-			impiegati = gestoreImpiegati.getSetImpiegati();
-		}
-		catch (DatabaseSQLException e) {
-			// todo 
-		}
-		catch (SQLException e) {
-			// todo
-		}
+		// recupero gli impiegati dal gestore corrispondente
+		Set<ImpiegatoBulloni> impiegati = gestoreImpiegati.getSetImpiegati();
 		
 		matricoleImpiegato = new Integer[impiegati.size()];
 		int i = 0;
 		
+		// label corrispondente alla matricola dell'impiegato che ha effettuato la vendita
 		impiegatoLabel = new JLabel("Matricola impiegato:");
 		impiegatoLabel.setBounds(10, 165, 120, 13);
 		getContentPane().add(impiegatoLabel);
 		
-		
+		// ricavo le matricole di tutti gli impiegati e le salvo in un array di Integer, cosi' da poterle inserire in un menu combobox
 		for (ImpiegatoBulloni impb : impiegati) {
 			matricoleImpiegato[i] = impb.getID();
 			i++;
 		}
 		
+		// menu combobox per scegliere la matricola dell'impiegato che effettua la vendita
 		impiegatoComboBox = new JComboBox<Integer>();
 		impiegatoLabel.setLabelFor(impiegatoComboBox);
 		impiegatoComboBox.setModel(new DefaultComboBoxModel<Integer>(matricoleImpiegato));
@@ -213,6 +264,168 @@ public class InputForm extends JFrame implements WindowListener {
 		getContentPane().add(impiegatoComboBox);
 		
 	}
+	
+	
+	
+	/**
+	 * Metodo che crea il form per selezionare i bulloni da vendere e la quantità
+	 */
+	public void createFormBulloniDaVendere() {
+		
+		// recupero i bulloni dal gestore corrispondente
+		Set<Bullone> bulloni = gestoreBulloni.getAll();
+		
+		// label corrispondente ai bulloni da vendere
+		bulloniLabel = new JLabel("Seleziona i bulloni da vendere:");
+		bulloniLabel.setBounds(10, 219, 198, 13);
+		getContentPane().add(bulloniLabel);
+		
+		// pannello scorrevole che conterrà un panello con layout di tipo griglia
+		scrollPane = new JScrollPane();
+		bulloniLabel.setLabelFor(scrollPane);
+		scrollPane.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		scrollPane.setBounds(10, 242, 251, 103);
+		getContentPane().add(scrollPane);
+		
+		// pannello con layout di tipo griglia, che conterrà i bulloni da scegliere per la vendita
+		panel = new JPanel();
+		scrollPane.setViewportView(panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{0, 0, 0};
+		gbl_panel.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
+		
+		numeroBulloni = bulloni.size();  // numero di bulloni da mostrare
+		codiceLabel = new JLabel[numeroBulloni];
+		tipoBulloneLabel = new JLabel[numeroBulloni];
+		luogoProduzioneLabel = new JLabel[numeroBulloni];
+		prezzoLabel = new JLabel[numeroBulloni];
+		quantitaSpinner = new JSpinner[numeroBulloni];
+		SpinnerModel[] modelSpinner = new SpinnerModel[numeroBulloni]; // contiene le opzioni per il JSpinner
+		
+		int x = 0; // indice per posizionare gli elementi nella griglia
+		int i = 0; // contatore per i bulloni
+		
+		for (Bullone bullone : bulloni) {
+			
+			x = 0;
+			
+			// nella griglia indica il codice del bullone
+			codiceLabel[i] = new JLabel(((Integer)bullone.getCodice()).toString());
+			GridBagConstraints gbc_codiceLabel = new GridBagConstraints();
+			gbc_codiceLabel.insets = new Insets(0, 2, 5, 5);
+			gbc_codiceLabel.gridx = x;
+			gbc_codiceLabel.gridy = i;
+			panel.add(codiceLabel[i], gbc_codiceLabel);
+			
+			// nella griglia indica il tipo del bullone
+			tipoBulloneLabel[i] = new JLabel(bullone.getClass().getSimpleName());
+			GridBagConstraints gbc_tipoBulloneLabel = new GridBagConstraints();
+			gbc_tipoBulloneLabel.insets = new Insets(0, 30, 5, 5);
+			gbc_tipoBulloneLabel.gridx = ++x;
+			gbc_tipoBulloneLabel.gridy = i;
+			panel.add(tipoBulloneLabel[i], gbc_tipoBulloneLabel);
+			
+			// nella griglia indica il luogo di produzione del bullone
+			luogoProduzioneLabel[i] = new JLabel(bullone.getLuogoProduzione());
+			GridBagConstraints gbc_luogoProduzioneLabel = new GridBagConstraints();
+			gbc_luogoProduzioneLabel.insets = new Insets(0, 30, 5, 5);
+			gbc_luogoProduzioneLabel.gridx = ++x;
+			gbc_luogoProduzioneLabel.gridy = i;
+			panel.add(luogoProduzioneLabel[i], gbc_luogoProduzioneLabel);
+			
+			// nella griglia indica il prezzo di un singolo bullone
+			prezzoLabel[i] = new JLabel(((Double)bullone.getPrezzo()).toString());
+			GridBagConstraints gbc_prezzoLabel = new GridBagConstraints();
+			gbc_prezzoLabel.insets = new Insets(0, 0, 5, 5);
+			gbc_prezzoLabel.gridx = ++x;
+			gbc_prezzoLabel.gridy = i;
+			panel.add(prezzoLabel[i], gbc_prezzoLabel);
+			
+			// significato dei valori nel costruttore = (valore_iniziale, valore_minimo, valore_massimo, step)
+			modelSpinner[i] = new SpinnerNumberModel(0, 0, 500, 1);
+			
+			// nella griglia indica il contatore di bulloni da vendere con questo codice
+			quantitaSpinner[i] = new JSpinner(modelSpinner[i]);
+			GridBagConstraints gbc_quantitaSpinner = new GridBagConstraints();
+			gbc_quantitaSpinner.insets = new Insets(0, 0, 5, 10);
+			gbc_quantitaSpinner.gridx = ++x;
+			gbc_quantitaSpinner.gridy = i;
+			panel.add(quantitaSpinner[i], gbc_quantitaSpinner);
+					
+			i++;
+		}
+	}
+	
+	
+	
+	/**
+	 * Metodo che crea il pulsante per aggiungere la vendita creata;
+	 * Controlla che tutti i campi siano stati compilati correttamente e che la vendita sia fattibile
+	 */
+	public void createAggiungiVenditaButton() {
+		
+		aggiungiVenditaButton = new JButton("Aggiungi vendita");
+		aggiungiVenditaButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				// int codVendita, Data data, Impiegato impiegato, Set<MerceVenduta> merce
+				
+				Data data = new Data((Integer)giornoComboBox.getSelectedItem(), (Integer)meseComboBox.getSelectedItem(), (Integer)annoComboBox.getSelectedItem());
+				ImpiegatoBulloni impiegato = null;
+				
+				try {
+					impiegato = gestoreImpiegati.getImpiegatoByID((Integer)impiegatoComboBox.getSelectedItem());
+				} catch (ExceptionGestoreImpiegato t) {
+					/* questa eccezione non dovrebbe mai essere sollevata, perché usando un'unica istanza del gestore 
+					 * impiegati per tutto il programma, avrò sempre a disposizione tutti e soli gli impiegati salvati
+					 * nel database e nell'unico set di impiegati originale */
+					JOptionPane.showMessageDialog(mainJFrame, "Errore. Non esistono impiegati con questa matricola.");
+				}
+				
+				Set<MerceVenduta> merce = new HashSet<MerceVenduta>();
+				/*try {
+					for (int i = 0; i < numeroBulloni; i++) {
+						if ((Integer)quantitaSpinner[i].getValue() > 0)
+							merce.add(new MerceVenduta(gestoreBulloni.getBulloneByCodice(((Integer)codiceLabel[i])).toString(), (Integer)quantitaSpinner[i].getValue()));
+					}
+				}
+				catch (VenditaException f) {
+					
+				}
+				catch (GestoreBulloniException f) {
+				
+				}*/
+				
+				Vendita<MerceVenduta> vendita = null;
+				try {
+					vendita = new VenditaBulloni(Integer.parseInt(codiceVenditaTextField.getText()), data, impiegato, merce);
+				} 
+				catch (NumberFormatException f) {
+					// questo messaggio di errore non dovrebbe mai essere mostrato
+					JOptionPane.showMessageDialog(mainJFrame, "Errore. Il codice della vendita non è un numero corretto.");
+				}
+				catch (VenditaException f) {
+					// questo messaggio di errore non dovrebbe mai essere mostrato, perche' ci sono diversi controlli fatti in precedenza
+					JOptionPane.showMessageDialog(mainJFrame, "Errore. La vendita non e' accettabile.");
+				}
+				
+				try {
+					gestoreVendite.aggiungiVendita(vendita);
+				} catch (GestoreVenditaException f) {
+					JOptionPane.showMessageDialog(mainJFrame, "Errore. La vendita non e' accettabile.");
+				}
+				
+				
+			}
+		});
+		aggiungiVenditaButton.setBounds(285, 315, 129, 30);
+		getContentPane().add(aggiungiVenditaButton);
+		
+	}
+	
 	
 
 	@Override
