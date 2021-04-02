@@ -81,7 +81,19 @@ public class BodyBulloni extends JPanel {
 	
 	/**
 	 * Metodo per "ricaricare" il pannello e mostrare tutti gli elementi.
-	 * Utile, ad esempio, per mostrare tutta la lista, ad eccezione di un bullone che e' stato rimosso.
+	 * Utile, ad esempio, per mostrare tutta la lista, ad eccezione di un bullone che e' stato rimosso, oppure per mostrare i risultati di una ricerca.
+	 * 
+	 * @param bulloni. I bulloni che devono essere mostrati dopo il refresh della pagina
+	 */
+	public void refresh(Set<Bullone> bulloni) {
+		this.listaContainerPanel.removeAll();
+		this.creaListaContainerPanel(bulloni);
+	}
+	
+	
+	/**
+	 * Variante aparametrica del metodo refresh().
+	 * Il metodo si occupa da solo di rimediare l'intero set di bulloni e di mostrarlo.
 	 */
 	public void refresh() {
 		this.listaContainerPanel.removeAll();
@@ -170,7 +182,6 @@ public class BodyBulloni extends JPanel {
 		gbcForListaContainerPanel.gridheight = GridBagConstraints.RELATIVE;
 		gbcForListaContainerPanel.weightx = 1;
 		gbcForListaContainerPanel.weighty = 1;
-		//this.listaContainerPanel.setBorder(new MatteBorder(1,1,1,1,Color.RED));
 		this.listaContainerPanel.setLayout(gblForListaContainerPanel);
 		
 		try {
