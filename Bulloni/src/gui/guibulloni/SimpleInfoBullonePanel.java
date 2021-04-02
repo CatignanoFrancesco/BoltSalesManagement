@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,8 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import databaseSQL.exception.DatabaseSQLException;
 import gestori.gestoribulloni.ModificaBulloni;
 import gestori.gestoribulloni.VisualizzaBulloni;
+import gestori.gestoribulloni.exception.GestoreBulloniException;
 
 /**
  * Pannello che corrisponde ad una singola riga nella lista di bulloni.
@@ -102,8 +105,21 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 			 */
 			int risposta = JOptionPane.showConfirmDialog(this.mainFrame, "Vuoi davvero eliminare questo bullone?");
 			if(risposta==0) {
-				// Implementare eliminazione
-				this.mainPanel.refresh();
+				try {
+					this.modificaBulloni.rimuoviBulloneByCodice(this.codBullone);
+				}
+				catch(GestoreBulloniException ex) {
+					System.err.println(ex.getMessage());	// In questo caso l'errore non va comunicato all'utente poiche' il bullone che si sta cercando di eliminare sicuramente esiste.
+				}
+				catch(DatabaseSQLException ex) {
+					// Errore mostrato all'utente
+					JOptionPane.showConfirmDialog(this.mainFrame, ex.getMessage(), "Errore di connessione!", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+				}
+				catch(SQLException ex) {
+					ex.printStackTrace();
+				}
+				
+				this.mainPanel.refresh();	// Refresh del pannello
 			}
 		}
 	}
