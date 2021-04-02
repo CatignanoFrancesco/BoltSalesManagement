@@ -28,10 +28,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.border.TitledBorder;
 
 import bulloni.Bullone;
-import bulloni.BulloneGrano;
-import bulloni.Innesto;
-import bulloni.Materiale;
-import bulloni.exception.BulloneException;
 import databaseSQL.exception.DatabaseSQLException;
 import gestori.gestoreImpiegati.GestoreImpiegatiDb;
 import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
@@ -39,7 +35,7 @@ import gestori.gestorevendite.InserimentoVendite;
 import gestori.gestorevendite.exception.GestoreVenditaException;
 import gestori.gestoribulloni.GestoreBulloni;
 import gestori.gestoribulloni.VisualizzaBulloni;
-import persona.Impiegato;
+import gestori.gestoribulloni.exception.GestoreBulloniException;
 import persona.ImpiegatoBulloni;
 import utility.Data;
 import vendita.MerceVenduta;
@@ -55,16 +51,18 @@ public class InputForm extends JFrame implements WindowListener {
 
 	private static final long serialVersionUID = 1L;
 	
-	// costanti
+	/** coordinata x della finestra */
 	private static final int X = 100;
+	/** coordinata y della finestra */
 	private static final int Y = 100;
+	/** larghezza della finestra */
 	private static final int WIDTH = 450;
+	/** lunghezza della finestra */
 	private static final int HEIGHT = 404;
 	private int numeroBulloni;
 	
 	// oggetti per creare l'interfaccia grafica
 	private JTextField codiceVenditaTextField;
-	private JFrame inputFormFrame = this;
 	private JFrame mainJFrame;
 	private Integer[] matricoleImpiegato;
 	private JLabel headerLabel;
@@ -82,20 +80,27 @@ public class InputForm extends JFrame implements WindowListener {
 	private JButton aggiungiVenditaButton;
 	private JScrollPane scrollPane;
 	private JPanel panel;
-	private JLabel[] codiceLabel;             // conterrà i codici dei bulloni
-	private JLabel[] tipoBulloneLabel;        // conterrà il tipo dei bulloni
-	private JLabel[] luogoProduzioneLabel;    // conterrà il luogo di produzione dei bulloni
-	private JLabel[] prezzoLabel;             // conterrà il prezzo dei singoli bulloni
-	private JSpinner[] quantitaSpinner;               // conterrà la quantita' scelta da vendere dei bulloni con quel codice
+	
+	/** conterrà i codici dei bulloni */
+	private JLabel[] codiceLabel;
+	/** conterrà il tipo dei bulloni */
+	private JLabel[] tipoBulloneLabel;
+	/** conterrà il luogo di produzione dei bulloni */
+	private JLabel[] luogoProduzioneLabel;
+	/** conterrà il prezzo dei singoli bulloni */
+	private JLabel[] prezzoLabel;
+	/** conterrà la quantita' scelta da vendere dei bulloni con quel codice */
+	private JSpinner[] quantitaSpinner;
+	/** titolo della finestra grafica */
 	private final String titoloFinestra = "Aggiungi vendita";
 	
-	// gestore delle vendite con interfaccia contenente i metodi di inserimento
+	/** gestore delle vendite con interfaccia contenente i metodi di inserimento */
 	private InserimentoVendite gestoreVendite;
 	
-	// gestore degli impiegati con interfaccia di visualizzazione
+	/** gestore degli impiegati con interfaccia di visualizzazione */
 	private GestoreImpiegatiDb gestoreImpiegati;
 	
-	// gestore dei bulloni con interfaccia di visualizzazione
+	/** gestore dei bulloni con interfaccia di visualizzazione */
 	private VisualizzaBulloni gestoreBulloni;
 	
 	
@@ -122,9 +127,6 @@ public class InputForm extends JFrame implements WindowListener {
 		this.gestoreImpiegati = gestoreImpiegati;
 		this.gestoreBulloni = (VisualizzaBulloni)gestoreBulloni;
 		
-		setResizable(false);
-		setAlwaysOnTop(true);
-		addWindowListener(this);
 		inizializza();
 		createFormCodiceVendita();
 		createFormData();
@@ -142,6 +144,9 @@ public class InputForm extends JFrame implements WindowListener {
 	private void inizializza() {
 		
 		// creo la finestra
+		setResizable(false);
+		setAlwaysOnTop(true);
+		addWindowListener(this);
 		setTitle(titoloFinestra);
 		setBounds(X, Y, WIDTH, HEIGHT);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -151,6 +156,16 @@ public class InputForm extends JFrame implements WindowListener {
 		headerLabel = new JLabel("Compila tutti i campi per aggiungere una nuova vendita:");
 		headerLabel.setBounds(10, 10, 346, 13);
 		getContentPane().add(headerLabel);
+		
+		// pannello con layout di tipo griglia, che conterrà i bulloni da scegliere per la vendita
+		panel = new JPanel();
+		scrollPane.setViewportView(panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{0, 0, 0};
+		gbl_panel.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
 	}
 	
 	
@@ -289,16 +304,6 @@ public class InputForm extends JFrame implements WindowListener {
 		scrollPane.setBounds(10, 242, 251, 103);
 		getContentPane().add(scrollPane);
 		
-		// pannello con layout di tipo griglia, che conterrà i bulloni da scegliere per la vendita
-		panel = new JPanel();
-		scrollPane.setViewportView(panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{0, 0, 0};
-		gbl_panel.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
-		
 		numeroBulloni = bulloni.size();  // numero di bulloni da mostrare
 		codiceLabel = new JLabel[numeroBulloni];
 		tipoBulloneLabel = new JLabel[numeroBulloni];
@@ -387,29 +392,26 @@ public class InputForm extends JFrame implements WindowListener {
 					JOptionPane.showMessageDialog(mainJFrame, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 				
+				// costruisco il set di merce venduta da inserire nella vendita
 				Set<MerceVenduta> merce = new HashSet<MerceVenduta>();
-				/*try {
+				try {
 					for (int i = 0; i < numeroBulloni; i++) {
 						if ((Integer)quantitaSpinner[i].getValue() > 0)
-							merce.add(new MerceVenduta(gestoreBulloni.getBulloneByCodice(((Integer)codiceLabel[i])).toString(), (Integer)quantitaSpinner[i].getValue()));
+							merce.add(new MerceVenduta(gestoreBulloni.getBulloneByCodice(Integer.parseInt(codiceLabel[i].getText())), (Integer)quantitaSpinner[i].getValue()));
 					}
 				}
 				catch (VenditaException f) {
-					
+					JOptionPane.showMessageDialog(mainJFrame, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 				catch (GestoreBulloniException f) {
-				
-				}*/
+					JOptionPane.showMessageDialog(mainJFrame, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+				}
 				
 				// costruisco la vendita utilizzando gli oggetti costruiti in precedenza
 				Vendita<MerceVenduta> vendita = null;
 				try {
 					vendita = new VenditaBulloni(Integer.parseInt(codiceVenditaTextField.getText()), data, impiegato, merce);
 				} 
-				catch (NumberFormatException f) {
-					// questo messaggio di errore non dovrebbe mai essere mostrato
-					JOptionPane.showMessageDialog(mainJFrame, "Errore. Il codice della vendita non è un numero corretto.", "Exception", JOptionPane.ERROR_MESSAGE);
-				}
 				catch (VenditaException f) {
 					// questo messaggio di errore non dovrebbe mai essere mostrato, perche' ci sono diversi controlli fatti in precedenza
 					JOptionPane.showMessageDialog(mainJFrame, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);

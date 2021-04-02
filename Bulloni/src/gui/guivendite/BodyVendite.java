@@ -36,15 +36,23 @@ public class BodyVendite extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	// costanti
-	private static final int WIDTH_BODY = 750;
-	private static final int HEIGHT_BODY = 652;
+	/** coordinata x del body */
 	private static final int X_BODY = 100;
+	/** coordinata y del body */
 	private static final int Y_BODY = 100;
-	private static final int WIDTH_SCROLLPANE = 768;
-	private static final int HEIGHT_SCROLLPANE = 507;
+	/** larghezza del body */
+	private static final int WIDTH_BODY = 750;
+	/** lunghezza del body */
+	private static final int HEIGHT_BODY = 652;
+	
+	/** coordinata x dello scrollPane */
 	private static final int X_SCROLLPANE = 10;
+	/** coordinata y dello scrollPane */
 	private static final int Y_SCROLLPANE = 50;
+	/** larghezza dello scrollPane */
+	private static final int WIDTH_SCROLLPANE = 768;
+	/** lunghezza dello scrollPane */
+	private static final int HEIGHT_SCROLLPANE = 507;
 	
 	// oggetti per creare l'interfaccia grafica
 	private JScrollPane scrollPane;
@@ -60,15 +68,16 @@ public class BodyVendite extends JPanel {
 	private BodyVendite istanzaCorrente = this;
 	private JFrame mainMenu;
 	
-	// gestore delle vendite con interfaccia generale contenente tutti i metodi
+	/** gestore delle vendite con interfaccia generale contenente tutti i metodi */
 	private ContainerVendite gestoreVendite;
 	
-	// gestore dei bulloni
+	/** gestore dei bulloni */
 	private GestoreBulloni gestoreBulloni;
 	
-	// gestore degli impiegati con interfaccia di visualizzazione
+	/** gestore degli impiegati con interfaccia di visualizzazione */
 	private GestoreImpiegatiDb gestoreImpiegati;
 	
+	/** oltre questa soglia, il pannello contenente la lista cambierà tipo di layout, in modo da attivare la scrollbar senza problemi di layout */
 	private static final int SOGLIA_MASSIMA_LISTA_VENDITE = 17;
 	
 	
