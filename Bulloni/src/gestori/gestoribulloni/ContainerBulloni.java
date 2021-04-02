@@ -25,10 +25,4 @@ public interface ContainerBulloni extends AggiungiBulloni, VisualizzaBulloni, Mo
 	 * @throws GestoreBulloniException L'eccezione sollevata se il bullone non e' stato trovato.
 	 */
 	public Bullone getBulloneByCodice(int codice) throws GestoreBulloniException;
-	
-	/**
-	 * Questo metodo controlla lo stato del set interno "bulloni" per accertarsi che ci siano dei bulloni all'interno.
-	 * @return true se il set e' vuoto, false altrimenti.
-	 */
-	public boolean isEmpty();
 }

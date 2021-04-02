@@ -39,4 +39,10 @@ public interface VisualizzaBulloni {
 	 * @throws GestoreBulloniException L'eccezione sollevata quando non e' stato trovato alcun bullone.
 	 */
 	public String[] getInfoBulloneByCodice(int codice) throws GestoreBulloniException;
+	
+	/**
+	 * Questo metodo controlla lo stato del set interno "bulloni" per accertarsi che ci siano dei bulloni all'interno.
+	 * @return true se il set e' vuoto, false altrimenti.
+	 */
+	public boolean isEmpty();
 }
