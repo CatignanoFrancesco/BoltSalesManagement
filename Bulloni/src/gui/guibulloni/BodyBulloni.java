@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import bulloni.Bullone;
+import gestori.gestoribulloni.ModificaBulloni;
 import gestori.gestoribulloni.VisualizzaBulloni;
 import gestori.gestoribulloni.exception.GestoreBulloniException;
 
@@ -224,7 +225,7 @@ public class BodyBulloni extends JPanel {
 			gbc.gridy = posY;
 			
 			if(b.isEliminato()==false) {
-				this.listaContainerPanel.add(new SimpleInfoBullonePanel(this.mainFrame, this, b.getCodice(), this.visualizzaBulloni.getInfoBulloneByCodice(b.getCodice()), this.visualizzaBulloni), gbc);
+				this.listaContainerPanel.add(new SimpleInfoBullonePanel(this.mainFrame, this, b.getCodice(), this.visualizzaBulloni.getInfoBulloneByCodice(b.getCodice()), (ModificaBulloni)this.visualizzaBulloni), gbc);
 			}
 			
 			posY++;

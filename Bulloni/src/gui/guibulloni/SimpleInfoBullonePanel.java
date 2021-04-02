@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import gestori.gestoribulloni.ModificaBulloni;
 import gestori.gestoribulloni.VisualizzaBulloni;
 
 /**
@@ -30,7 +31,7 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 	private BodyBulloni mainPanel;	// Pannello principale da cui deriva
 	private int codBullone;	// Il codice del bullone a cui si fa riferimento
 	private String[] infoBullone;	// Le informazioni del bullone
-	private VisualizzaBulloni visualizzaBulloni;	// Interfaccia di visualizzazione dei bulloni
+	private ModificaBulloni modificaBulloni;	// Interfaccia di modifica dei bulloni
 	
 	/*
 	 * Elementi visibili nel pannello
@@ -59,12 +60,12 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 	 * @param infoBullone L'array di stringhe contenente le informazioni del bullone.
 	 * @param visualizzaBulloni L'interfaccia di visualizzazione per i bulloni
 	 */
-	SimpleInfoBullonePanel(JFrame mainFrame, BodyBulloni mainPanel, int codBullone, String[] infoBullone, VisualizzaBulloni visualizzaBulloni) {
+	SimpleInfoBullonePanel(JFrame mainFrame, BodyBulloni mainPanel, int codBullone, String[] infoBullone, ModificaBulloni modificaBulloni) {
 		this.mainFrame = mainFrame;
 		this.mainPanel = mainPanel;
 		this.codBullone = codBullone;
 		this.infoBullone = infoBullone;
-		this.visualizzaBulloni = visualizzaBulloni;
+		this.modificaBulloni = modificaBulloni;
 		
 		/*
 		 * Impostazioni layout pannello
