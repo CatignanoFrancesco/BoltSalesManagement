@@ -61,7 +61,7 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 	 * @param mainPanel Il pannello principale da cui deriva.
 	 * @param codBullone Il codice del bullone a cui il pannello fa riferimento. La sua funzione principale e' quella di permettere l'utilizzo dei metodi che usano i codici dei bulloni.
 	 * @param infoBullone L'array di stringhe contenente le informazioni del bullone.
-	 * @param visualizzaBulloni L'interfaccia di visualizzazione per i bulloni
+	 * @param modificaBulloni L'interfaccia di modifica per i bulloni
 	 */
 	SimpleInfoBullonePanel(JFrame mainFrame, BodyBulloni mainPanel, int codBullone, String[] infoBullone, ModificaBulloni modificaBulloni) {
 		this.mainFrame = mainFrame;
