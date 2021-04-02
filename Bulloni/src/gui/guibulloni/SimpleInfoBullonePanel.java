@@ -4,10 +4,13 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import gestori.gestoribulloni.VisualizzaBulloni;
@@ -20,11 +23,12 @@ import gestori.gestoribulloni.VisualizzaBulloni;
  * 
  * @author Catignano Francesco
  */
-class SimpleInfoBullonePanel extends JPanel {
+class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	private JFrame mainFrame;	// Finestra principale
 	private BodyBulloni mainPanel;	// Pannello principale da cui deriva
+	private int codBullone;	// Il codice del bullone a cui si fa riferimento
 	private String[] infoBullone;	// Le informazioni del bullone
 	private VisualizzaBulloni visualizzaBulloni;	// Interfaccia di visualizzazione dei bulloni
 	
@@ -51,12 +55,14 @@ class SimpleInfoBullonePanel extends JPanel {
 	 * Le informazioni del bullone sono prese da un'interfaccia software che contiene tutti i metodi per visualizzarle.
 	 * @param mainFrame La finestra principale da cui deriva.
 	 * @param mainPanel Il pannello principale da cui deriva.
+	 * @param codBullone Il codice del bullone a cui il pannello fa riferimento. La sua funzione principale e' quella di permettere l'utilizzo dei metodi che usano i codici dei bulloni.
 	 * @param infoBullone L'array di stringhe contenente le informazioni del bullone.
 	 * @param visualizzaBulloni L'interfaccia di visualizzazione per i bulloni
 	 */
-	SimpleInfoBullonePanel(JFrame mainFrame, BodyBulloni mainPanel, String[] infoBullone, VisualizzaBulloni visualizzaBulloni) {
+	SimpleInfoBullonePanel(JFrame mainFrame, BodyBulloni mainPanel, int codBullone, String[] infoBullone, VisualizzaBulloni visualizzaBulloni) {
 		this.mainFrame = mainFrame;
 		this.mainPanel = mainPanel;
+		this.codBullone = codBullone;
 		this.infoBullone = infoBullone;
 		this.visualizzaBulloni = visualizzaBulloni;
 		
@@ -78,6 +84,27 @@ class SimpleInfoBullonePanel extends JPanel {
 		this.setLayout(gblForSimpleInfoBullonePanel);
 		this.creaInfoBulloni();
 		this.creaBottoni();
+	}
+	
+	/**
+	 * Trigger dei bottoni
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// Bottone per l'eliminazione
+		if(e.getSource()==this.btnElimina) {
+			/*
+			 * 0 = si
+			 * 1 = no
+			 * 2 = annulla
+			 * -1 = finestra chiusa
+			 */
+			int risposta = JOptionPane.showConfirmDialog(this.mainFrame, "Vuoi davvero eliminare questo bullone?");
+			if(risposta==0) {
+				// Implementare eliminazione
+				this.mainPanel.refresh();
+			}
+		}
 	}
 	
 	
@@ -173,6 +200,7 @@ class SimpleInfoBullonePanel extends JPanel {
 		gbcForBtnElimina.anchor = GridBagConstraints.LINE_START;
 		gbcForBtnElimina.insets = new Insets(5, 5, 5, 5);
 		this.add(this.btnElimina, gbcForBtnElimina);
-		// Aggiungere action listener
+		this.btnElimina.addActionListener(this);
 	}
+	
 }

@@ -224,7 +224,7 @@ public class BodyBulloni extends JPanel {
 			gbc.gridy = posY;
 			
 			if(b.isEliminato()==false) {
-				this.listaContainerPanel.add(new SimpleInfoBullonePanel(this.mainFrame, this, this.visualizzaBulloni.getInfoBulloneByCodice(b.getCodice()), this.visualizzaBulloni), gbc);
+				this.listaContainerPanel.add(new SimpleInfoBullonePanel(this.mainFrame, this, b.getCodice(), this.visualizzaBulloni.getInfoBulloneByCodice(b.getCodice()), this.visualizzaBulloni), gbc);
 			}
 			
 			posY++;
