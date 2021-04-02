@@ -230,7 +230,7 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 			gbc_modificaButton.insets = new Insets(0, 0, 5, 1);
 			gbc_modificaButton.gridx = ++x;
 			gbc_modificaButton.gridy = i+1;
-			modificaButton[i].addActionListener(new GestoreButton((ContainerVendite)gestoreVendite, thisFrame, ""));
+			modificaButton[i].addActionListener(new GestoreButton((ContainerVendite)gestoreVendite, thisFrame, ((Integer)codiceVendita).toString(), codBullone[i].getText()));
 			panel.add(modificaButton[i], gbc_modificaButton);
 			
 			// pulsante che permette di visualizzare tutte le informazioni sul bullone corrispondente

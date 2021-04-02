@@ -18,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import gestori.gestorevendite.InserimentoVendite;
 import gestori.gestorevendite.VisualizzazioneVendite;
 import vendita.MerceVenduta;
 import vendita.Vendita;
@@ -57,6 +56,7 @@ public class SelezionaRicerca extends JFrame implements WindowListener {
 	private JLabel giornoLabel;
 	private JLabel meseLabel;
 	private JLabel annoLabel;
+	private JFrame finestraCorrente = this;
 	/** titolo della finestra grafica */
 	private final String titoloFinestra = "Ricerca per...";
 	
@@ -80,7 +80,9 @@ public class SelezionaRicerca extends JFrame implements WindowListener {
 		this.istanzaCorrente = istanzaCorrente;
 		
 		inizializza();
-		
+		createCercaPerCodiceVenditaButton();
+		createCercaPerMatricolaImpiegatoButton();
+		createCercaPerDataVenditaButton();
 		
 	}
 	
@@ -244,7 +246,7 @@ public class SelezionaRicerca extends JFrame implements WindowListener {
 	public void stampaListaRisultato(Set<Vendita<MerceVenduta>> vendite) {
 		
 		if (vendite.isEmpty())
-			JOptionPane.showMessageDialog(mainJFrame, "Nessuna vendita corrisponde al parametro cercato.", "Warning", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(finestraCorrente, "Nessuna vendita corrisponde al parametro cercato.", "Warning", JOptionPane.ERROR_MESSAGE);
 		else {
 			this.mainJFrame.setEnabled(true);
 			this.listaPanel.removeAll();

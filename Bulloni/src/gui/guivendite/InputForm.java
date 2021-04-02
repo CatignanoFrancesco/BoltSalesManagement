@@ -80,6 +80,7 @@ public class InputForm extends JFrame implements WindowListener {
 	private JButton aggiungiVenditaButton;
 	private JScrollPane scrollPane;
 	private JPanel panel;
+	private JFrame finestraCorrente = this;
 	
 	/** conterrà i codici dei bulloni */
 	private JLabel[] codiceLabel;
@@ -389,7 +390,7 @@ public class InputForm extends JFrame implements WindowListener {
 					/* questa eccezione non dovrebbe mai essere sollevata, perché usando un'unica istanza del gestore 
 					 * impiegati per tutto il programma, avrò sempre a disposizione tutti e soli gli impiegati salvati
 					 * nel database e nell'unico set di impiegati originale */
-					JOptionPane.showMessageDialog(mainJFrame, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(finestraCorrente, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 				
 				// costruisco il set di merce venduta da inserire nella vendita
@@ -397,24 +398,24 @@ public class InputForm extends JFrame implements WindowListener {
 				try {
 					for (int i = 0; i < numeroBulloni; i++) {
 						if ((Integer)quantitaSpinner[i].getValue() > 0)
-							merce.add(new MerceVenduta(gestoreBulloni.getBulloneByCodice(Integer.parseInt(codiceLabel[i].getText())), (Integer)quantitaSpinner[i].getValue()));
+							merce.add(new MerceVenduta(gestoreBulloni.getBulloneByCodice(Integer.parseUnsignedInt(codiceLabel[i].getText())), (Integer)quantitaSpinner[i].getValue()));
 					}
 				}
 				catch (VenditaException f) {
-					JOptionPane.showMessageDialog(mainJFrame, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 				catch (GestoreBulloniException f) {
-					JOptionPane.showMessageDialog(mainJFrame, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 				
 				// costruisco la vendita utilizzando gli oggetti costruiti in precedenza
 				Vendita<MerceVenduta> vendita = null;
 				try {
-					vendita = new VenditaBulloni(Integer.parseInt(codiceVenditaTextField.getText()), data, impiegato, merce);
+					vendita = new VenditaBulloni(Integer.parseUnsignedInt(codiceVenditaTextField.getText()), data, impiegato, merce);
 				} 
 				catch (VenditaException f) {
 					// questo messaggio di errore non dovrebbe mai essere mostrato, perche' ci sono diversi controlli fatti in precedenza
-					JOptionPane.showMessageDialog(mainJFrame, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 				
 				// tento di aggiungere la vendita al set del gestore vendite e nel database
@@ -422,16 +423,16 @@ public class InputForm extends JFrame implements WindowListener {
 					gestoreVendite.aggiungiVendita(vendita);
 				} 
 				catch (GestoreVenditaException f) {
-					JOptionPane.showMessageDialog(mainJFrame, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				} 
 				catch (ExceptionGestoreImpiegato f) {
-					JOptionPane.showMessageDialog(mainJFrame, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				} 
 				catch (DatabaseSQLException f) {
-					JOptionPane.showMessageDialog(mainJFrame, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				} 
 				catch (SQLException f) {
-					JOptionPane.showMessageDialog(mainJFrame, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}

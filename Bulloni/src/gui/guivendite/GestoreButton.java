@@ -31,11 +31,16 @@ public class GestoreButton implements ActionListener {
 	 * tra il pulsante cliccato e il resto dei parametri mostrati sulla stessa riga */
 	private String codice;
 	
+	/** codice della tupla nella quale si clicca il pulsante; può servire nel caso in cui servano 2 parametri codice
+	 * per distinguere una tupla da un'altra */
+	private String secondoCodice;
+	
 	/** il gestore delle vendite con interfaccia completa di tutti i metodi */
 	private ContainerVendite gestoreVendite;
 	
 	/** il gestore dei bulloni con interfaccia di visualizzazione, contenente quindi solo metodi per la visualizzazione */
 	private VisualizzaBulloni gestoreBulloni;
+	
 	
 	
 	/**
@@ -52,6 +57,7 @@ public class GestoreButton implements ActionListener {
 	}
 	
 	
+	
 	/**
 	 * Costruttore della classe GestoreButton
 	 * 
@@ -66,6 +72,23 @@ public class GestoreButton implements ActionListener {
 		this.mainMenu = mainMenu;
 		this.codice = codice;
 	}
+	
+	
+	
+	/**
+	 * Costruttore della classe GestoreButton
+	 * 
+	 * @param gestoreVendite gestore contenente tutte le vendite prese da database
+	 * @param mainMenu finestra grafica padre
+	 * @param codice codice della tupla nella quale si clicca il pulsante
+	 */
+	public GestoreButton(ContainerVendite gestoreVendite, JFrame mainMenu, String codice, String secondoCodice) {
+		this.gestoreVendite = gestoreVendite;
+		this.mainMenu = mainMenu;
+		this.codice = codice;
+		this.secondoCodice = secondoCodice;
+	}
+	
 	
 	
 	@Override
@@ -94,13 +117,19 @@ public class GestoreButton implements ActionListener {
 		}
 		else if (e.getActionCommand().equals("Impiegato")) {
 			// creare la finestra di visualizzazione impiegato
-			mainMenu.setEnabled(false);
 		}
 		else if (e.getActionCommand().equals("Elimina")) {
 			// eliminare vendita
 		}
 		else if (e.getActionCommand().equals("Modifica")) {
-			// creare la finestra di modifica vendita
+			
+			if (secondoCodice != null) {
+
+				ModificaVenditaBullone mvb = new ModificaVenditaBullone(mainMenu, (ModificaVendite)gestoreVendite, Integer.parseUnsignedInt(codice), Integer.parseUnsignedInt(secondoCodice));
+				mvb.setVisible(true);
+				mainMenu.setEnabled(false);
+			}
+			
 		}
 		else if (e.getActionCommand().equals("Bullone")) {
 			
