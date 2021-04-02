@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,6 +32,7 @@ import bulloni.BulloneGrano;
 import bulloni.Innesto;
 import bulloni.Materiale;
 import bulloni.exception.BulloneException;
+import databaseSQL.exception.DatabaseSQLException;
 import gestori.gestoreImpiegati.GestoreImpiegatiDb;
 import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
 import gestori.gestorevendite.InserimentoVendite;
@@ -414,8 +416,18 @@ public class InputForm extends JFrame implements WindowListener {
 				
 				try {
 					gestoreVendite.aggiungiVendita(vendita);
-				} catch (GestoreVenditaException f) {
-					JOptionPane.showMessageDialog(mainJFrame, "Errore. La vendita non e' accettabile.");
+				} 
+				catch (GestoreVenditaException f) {
+					JOptionPane.showMessageDialog(mainJFrame, f.getMessage());
+				} 
+				catch (ExceptionGestoreImpiegato f) {
+					JOptionPane.showMessageDialog(mainJFrame, f.getMessage());
+				} 
+				catch (DatabaseSQLException f) {
+					JOptionPane.showMessageDialog(mainJFrame, f.getMessage());
+				} 
+				catch (SQLException f) {
+					JOptionPane.showMessageDialog(mainJFrame, f.getMessage());
 				}
 				
 			}

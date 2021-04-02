@@ -1,5 +1,9 @@
 package gestori.gestorevendite;
 
+import java.sql.SQLException;
+
+import databaseSQL.exception.DatabaseSQLException;
+import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
 import gestori.gestorevendite.exception.GestoreVenditaException;
 
 /**
@@ -20,6 +24,6 @@ public interface ModificaVendite {
 	 * @return true se il metodo è terminato con successo, false altrimenti
 	 * @throws GestoreVenditaException 
 	 */
-	public boolean updateNumeroBulloniVendutiByCodici(int codVendita, int codBullone, int nuovoNumero) throws GestoreVenditaException;
+	public boolean updateNumeroBulloniVendutiByCodici(int codVendita, int codBullone, int nuovoNumero) throws GestoreVenditaException, ExceptionGestoreImpiegato, DatabaseSQLException, SQLException;
 	
 }

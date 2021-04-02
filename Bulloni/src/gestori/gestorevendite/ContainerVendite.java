@@ -1,5 +1,7 @@
 package gestori.gestorevendite;
 
+import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
+
 /**
  * @author GiannettaGerardo
  *
@@ -21,7 +23,7 @@ public interface ContainerVendite extends VisualizzazioneVendite, InserimentoVen
 	 * @param nuovaQuantitaCID nuovo valore calcolato da aggiungere all'HashMap impiegatoData
 	 * @return true se il nuovo valore è accettabile per l'impiegato, false altrimenti
 	 */
-	public boolean checkNumeroBulloniVendutiImpiegato(int impiegato, ChiaveImpiegatoData cid, ChiaveImpiegatoAnno cia, int nuovaQuantitaCIA, int nuovaQuantitaCID);
+	public boolean checkNumeroBulloniVendutiImpiegato(int impiegato, ChiaveImpiegatoData cid, ChiaveImpiegatoAnno cia, int nuovaQuantitaCIA, int nuovaQuantitaCID) throws ExceptionGestoreImpiegato;
 	
 
 	/**

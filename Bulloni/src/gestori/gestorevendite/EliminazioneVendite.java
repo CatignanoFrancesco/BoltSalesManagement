@@ -1,5 +1,10 @@
 package gestori.gestorevendite;
 
+import java.sql.SQLException;
+
+import databaseSQL.exception.DatabaseSQLException;
+import gestori.gestorevendite.exception.GestoreVenditaException;
+
 /**
  * @author GiannettaGerardo
  * 
@@ -13,6 +18,6 @@ public interface EliminazioneVendite {
 	 * @param codiceVendita codice identificativo della vendita da eliminare
 	 * @return true se il metodo è terminato con successo, false altrimenti
 	 */
-	public boolean rimuoviVenditaByCodice(int codiceVendita);
+	public boolean rimuoviVenditaByCodice(int codiceVendita) throws GestoreVenditaException, DatabaseSQLException, SQLException;
 	
 }

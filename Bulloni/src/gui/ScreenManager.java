@@ -13,11 +13,14 @@ import javax.swing.JPanel;
 
 import databaseSQL.exception.DatabaseSQLException;
 import gestori.gestoreImpiegati.GestoreImpiegatiDb;
+import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
 import gestori.gestorevendite.GestoreVendita;
 import gestori.gestorevendite.exception.GestoreVenditaException;
 import gestori.gestoribulloni.GestoreBulloni;
+import gestori.gestoribulloni.exception.GestoreBulloniException;
 import gui.guibulloni.BodyBulloni;
 import gui.guivendite.BodyVendite;
+import vendita.exception.VenditaException;
 
 /**
  * @author Francolino Flavio Domenico
@@ -132,11 +135,27 @@ public class ScreenManager extends JPanel {
 			gi = new GestoreImpiegatiDb();
 			gb = new GestoreBulloni();
 			gv = new GestoreVendita(gb, gi);
-		} catch (SQLException | DatabaseSQLException e) {
+		} catch (SQLException e) {
 			
 			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "exception", JOptionPane.ERROR_MESSAGE);
+		} 
+		catch (DatabaseSQLException e) {
 			
-		} catch (GestoreVenditaException e) {
+			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "exception", JOptionPane.ERROR_MESSAGE);
+		}
+		catch (GestoreVenditaException e) {
+			
+			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "exception", JOptionPane.ERROR_MESSAGE);
+		} 
+		catch (VenditaException e) {
+			
+			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "exception", JOptionPane.ERROR_MESSAGE);
+		} 
+		catch (ExceptionGestoreImpiegato e) {
+			
+			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "exception", JOptionPane.ERROR_MESSAGE);
+		} 
+		catch (GestoreBulloniException e) {
 			
 			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "exception", JOptionPane.ERROR_MESSAGE);
 		}

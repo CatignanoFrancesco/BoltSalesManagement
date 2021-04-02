@@ -65,8 +65,14 @@ public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendit
 	 * 
 	 * @param gb gestore dei bulloni
 	 * @param gi gestore degli impiegati
+	 * @throws GestoreVenditaException
+	 * @throws VenditaException
+	 * @throws ExceptionGestoreImpiegato
+	 * @throws GestoreBulloniException
+	 * @throws DatabaseSQLException
+	 * @throws SQLException
 	 */
-	public GestoreVendita(GestoreBulloni gb, GestoreImpiegatiDb gi) throws GestoreVenditaException {
+	public GestoreVendita(GestoreBulloni gb, GestoreImpiegatiDb gi) throws GestoreVenditaException, VenditaException, ExceptionGestoreImpiegato, GestoreBulloniException, DatabaseSQLException, SQLException {
 		
 		boolean eccezioneGestori = false;
 		String msgErrore = MsgErroreGestoreVendita.INTESTAZIONE;
@@ -84,52 +90,28 @@ public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendit
 			throw new GestoreVenditaException(msgErrore, new GestoreVenditaException());
 		}
 		
-		eccezioneGestori = false;
-		msgErrore = MsgErroreGestoreVendita.INTESTAZIONE;
 		
 		// salvo le istanze dei gestori in questa istanza di gestore vendite, serviranno per altri metodi
 		this.gb = gb;
 		this.gi = gi;
 		
 		// controllo che nel database esista almeno un bullone e/o un impiegato tramite gli appositi gestori
-		if (gb.isEmpty()) {
-			eccezioneGestori = true;
-			msgErrore += MsgErroreGestoreVendita.SET_LOCALE_BULLONI_VUOTO;
-		}
-		if (gi.localSetIsEmpty()) {
-			eccezioneGestori = true;
-			msgErrore += MsgErroreGestoreVendita.SET_LOCALE_IMPIEGATI_VUOTO + "\n";
-		}
-		if (eccezioneGestori) {
-			throw new GestoreVenditaException(msgErrore, new GestoreVenditaException());
-		}
-		
-		
-		// HashMap contenente come chiave il codice della vendita, come oggetto associato un Set di MerceVenduta
-		Map<Integer, Set<MerceVenduta>> merce = selectMerceVenduta();
-		
-		// se l'HashMap non è vuoto, procede alla creazione degli oggetti vendita
-		if (!merce.isEmpty()) {
+		if (!gb.isEmpty() && !gi.localSetIsEmpty()) {
+
+			// HashMap contenente come chiave il codice della vendita, come oggetto associato un Set di MerceVenduta
+			Map<Integer, Set<MerceVenduta>> merce = selectMerceVenduta();
 			
-			try {
-				
+			// se l'HashMap non è vuoto, procede alla creazione degli oggetti vendita
+			if (!merce.isEmpty()) {
+					
 				ResultSet rs = DatabaseSQL.select(Query.getSimpleSelect(NOME_TABELLA_VENDITA));
 				
 				while (rs.next()) {
 					
-					try {
-						vendite.add(new VenditaBulloni(rs.getInt(CampiTabellaVendita.codVendita.toString()), 
-			                                           new Data(rs.getDate(CampiTabellaVendita.data.toString())), 
-			                                           gi.getImpiegatoByID(rs.getInt(CampiTabellaVendita.impiegato.toString())), 
-			                                           merce.get(rs.getInt(CampiTabellaVendita.codVendita.toString()))));
-					}
-					catch (VenditaException e) {
-						System.err.println(e.getMessage());
-					}
-					catch (ExceptionGestoreImpiegato e) {
-						System.err.println(e.getMessage());
-					}
-					
+					vendite.add(new VenditaBulloni(rs.getInt(CampiTabellaVendita.codVendita.toString()), 
+		                                           new Data(rs.getDate(CampiTabellaVendita.data.toString())), 
+		                                           gi.getImpiegatoByID(rs.getInt(CampiTabellaVendita.impiegato.toString())), 
+		                                           merce.get(rs.getInt(CampiTabellaVendita.codVendita.toString()))));
 				}
 				
 				DatabaseSQL.chiudiConnessione();
@@ -139,13 +121,6 @@ public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendit
 				
 				// mappa le vendite in base all'impiegato che le ha effettuate e alla data/anno
 				mappaVenditeImpiegato();
-				
-			}
-			catch (DatabaseSQLException e) {
-				System.err.println(e.getMessage());
-			}
-			catch (SQLException e) {
-				System.err.println(e.getMessage());
 			}
 		}
 	}
@@ -162,68 +137,55 @@ public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendit
 	 * @param gb gestore dei bulloni
 	 * @return HashMap contenente i Set di MerceVenduta associati ad una chiave 
 	 *         di tipo int che rappresenta il codice vendita
+	 * @throws GestoreBulloniException
+	 * @throws VenditaException
+	 * @throws DatabaseSQLException
+	 * @throws SQLException
 	 */
-	private Map<Integer, Set<MerceVenduta>> selectMerceVenduta() {
+	private Map<Integer, Set<MerceVenduta>> selectMerceVenduta() throws GestoreBulloniException, VenditaException, DatabaseSQLException, SQLException  {
 		
 		Map<Integer, Set<MerceVenduta>> merce = new HashMap<Integer, Set<MerceVenduta>>();
+
+		ResultSet rs = DatabaseSQL.select(Query.getSimpleSelect(NOME_TABELLA_MERCE_VENDUTA));
 		
-		try {
-			ResultSet rs = DatabaseSQL.select(Query.getSimpleSelect(NOME_TABELLA_MERCE_VENDUTA));
+		while(rs.next()) {
 			
-			while(rs.next()) {
+			/*
+			 * Inizialmente interrogo l'HashMap per ottenere, in base al codice vendita passato in input, un Set di MerceVenduta;
+			 * Successivamente:
+			 * 
+			 * - se l'HashMap ha ritornato null, quindi non conteneva quel codice vendita passato in input, si crea un nuovo
+			 *   Set, si riempie con il nuovo oggetto MerceVenduta ritornato e si aggiunge, insieme al codice vendita sconosciuto,
+			 *   nell'HashMap;
+			 * 
+			 * - se l'HashMap non ha ritornato null, quindi conteneva già quel codice vendita passato in input, ritorna un riferiemento
+			 *   al Set di MerceVenduta, che sarà usato per aggiungere il nuovo oggetto MerceVenduta ritornato dal database.
+			 */
+			Set<MerceVenduta> setMerce = merce.get(rs.getInt(CampiTabellaMerceVenduta.codVendita.toString()));
+			
+			if (setMerce == null) {
 				
-				/*
-				 * Inizialmente interrogo l'HashMap per ottenere, in base al codice vendita passato in input, un Set di MerceVenduta;
-				 * Successivamente:
-				 * 
-				 * - se l'HashMap ha ritornato null, quindi non conteneva quel codice vendita passato in input, si crea un nuovo
-				 *   Set, si riempie con il nuovo oggetto MerceVenduta ritornato e si aggiunge, insieme al codice vendita sconosciuto,
-				 *   nell'HashMap;
-				 * 
-				 * - se l'HashMap non ha ritornato null, quindi conteneva già quel codice vendita passato in input, ritorna un riferiemento
-				 *   al Set di MerceVenduta, che sarà usato per aggiungere il nuovo oggetto MerceVenduta ritornato dal database.
-				 */
-				try {
-					Set<MerceVenduta> setMerce = merce.get(rs.getInt(CampiTabellaMerceVenduta.codVendita.toString()));
-					
-					if (setMerce == null) {
-						
-						setMerce = new HashSet<MerceVenduta>();
-						
-						setMerce.add(new MerceVenduta(gb.getBulloneByCodice(rs.getInt(CampiTabellaMerceVenduta.bullone.toString())), 
-                                                      rs.getInt(CampiTabellaMerceVenduta.numeroBulloni.toString()), 
-                                                      rs.getDouble(CampiTabellaMerceVenduta.prezzoBulloni.toString()), 
-                                                      rs.getDouble(CampiTabellaMerceVenduta.prezzoVenditaBullone.toString())
-                                                      ));
-						
-						merce.put(rs.getInt(CampiTabellaMerceVenduta.codVendita.toString()), setMerce);
-					}
-					else {
-						setMerce.add(new MerceVenduta(gb.getBulloneByCodice(rs.getInt(CampiTabellaMerceVenduta.bullone.toString())), 
-                                                      rs.getInt(CampiTabellaMerceVenduta.numeroBulloni.toString()), 
-                                                      rs.getDouble(CampiTabellaMerceVenduta.prezzoBulloni.toString()), 
-                                                      rs.getDouble(CampiTabellaMerceVenduta.prezzoVenditaBullone.toString())
-                                                      ));
-					}
-				}
-				catch (GestoreBulloniException e) {
-					System.err.println(e.getMessage());
-				}
-				catch (VenditaException e) {
-					System.err.println(e.getMessage());
-				}
+				setMerce = new HashSet<MerceVenduta>();
 				
+				setMerce.add(new MerceVenduta(gb.getBulloneByCodice(rs.getInt(CampiTabellaMerceVenduta.bullone.toString())), 
+                                              rs.getInt(CampiTabellaMerceVenduta.numeroBulloni.toString()), 
+                                              rs.getDouble(CampiTabellaMerceVenduta.prezzoBulloni.toString()), 
+                                              rs.getDouble(CampiTabellaMerceVenduta.prezzoVenditaBullone.toString())
+                                              ));
+				
+				merce.put(rs.getInt(CampiTabellaMerceVenduta.codVendita.toString()), setMerce);
+			}
+			else {
+				setMerce.add(new MerceVenduta(gb.getBulloneByCodice(rs.getInt(CampiTabellaMerceVenduta.bullone.toString())), 
+                                              rs.getInt(CampiTabellaMerceVenduta.numeroBulloni.toString()), 
+                                              rs.getDouble(CampiTabellaMerceVenduta.prezzoBulloni.toString()), 
+                                              rs.getDouble(CampiTabellaMerceVenduta.prezzoVenditaBullone.toString())
+                                              ));
 			}
 			
-			DatabaseSQL.chiudiConnessione();
-			
 		}
-		catch (DatabaseSQLException e) {
-			System.err.println(e.getMessage());
-		}
-		catch (SQLException e) {
-			System.err.println(e.getMessage());
-		}
+		
+		DatabaseSQL.chiudiConnessione();
 		
 		return merce;
 	}
@@ -354,7 +316,7 @@ public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendit
 	/**
 	 * {@inheritDoc}
 	 */
-	public void aggiungiVendita(Vendita<MerceVenduta> vendita) throws GestoreVenditaException {
+	public void aggiungiVendita(Vendita<MerceVenduta> vendita) throws GestoreVenditaException, ExceptionGestoreImpiegato, DatabaseSQLException, SQLException {
 		
 		// controllo che l'oggetto non sia nullo
 		if (vendita == null)
@@ -411,19 +373,11 @@ public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendit
 					                         ((Double)vendita.getPrezzoVenditaTotale()).toString(),
 					                         ((Integer)vendita.getQuantitaMerceTotale()).toString()};
 			
-			try {
-				// eseguo la insert nella tabella vendita del database
-				DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_VENDITA, valoriTabellaVendita));
-				
-				// chiamo il metodo che inserisce opportunatamente il Set di MerceVenduta nel database aprendo un solo canale TCP
-				aggiungiMerceVenduta(vendita.getMerceVenduta(), vendita);
-			}
-			catch (DatabaseSQLException e) {
-				System.err.println(e.getMessage());
-			}
-			catch (SQLException e) {
-				System.err.println(e.getMessage());
-			}
+			// eseguo la insert nella tabella vendita del database
+			DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_VENDITA, valoriTabellaVendita));
+			
+			// chiamo il metodo che inserisce opportunatamente il Set di MerceVenduta nel database aprendo un solo canale TCP
+			aggiungiMerceVenduta(vendita.getMerceVenduta(), vendita);
 			
 		}
 	}
@@ -461,7 +415,7 @@ public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendit
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean updateNumeroBulloniVendutiByCodici(int codVendita, int codBullone, int nuovoNumero) throws GestoreVenditaException {
+	public boolean updateNumeroBulloniVendutiByCodici(int codVendita, int codBullone, int nuovoNumero) throws GestoreVenditaException, ExceptionGestoreImpiegato, DatabaseSQLException, SQLException {
 		
 		boolean codiceTrovato = false;
 		
@@ -532,46 +486,38 @@ public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendit
 		}
 		
 		// inizio aggiornamento nel database
-		try {
-			// aggiorno nel database il numero dei bulloni totali nella tabella Vendita
-			DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_VENDITA, 
-					                                      CampiTabellaVendita.numeroBulloniTotali.toString(), 
-					                                      ((Integer)venditaReale.getQuantitaMerceTotale()).toString(), 
-					                                      CampiTabellaVendita.codVendita.toString(), 
-					                                      ((Integer)codVendita).toString()));
-			
-			// aggiorno nel database il prezzo di vendita totale nella tabella Vendita
-			DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_VENDITA, 
-                                                          CampiTabellaVendita.prezzoVenditaTotale.toString(), 
-                                                          ((Double)venditaReale.getPrezzoVenditaTotale()).toString(), 
-                                                          CampiTabellaVendita.codVendita.toString(), 
-                                                          ((Integer)codVendita).toString()));
-			
-			// aggiorno nel database il numero dei bulloni totali di quello specifico bullone nella tabella MerceVenduta
-			DatabaseSQL.update(Query.getSimpleUpdateByDoubleKey(NOME_TABELLA_MERCE_VENDUTA, 
-			                                                    CampiTabellaMerceVenduta.numeroBulloni.toString(), 
-			                                                    ((Integer)merce.getNumeroBulloni()).toString(), 
-			                                                    CampiTabellaMerceVenduta.codVendita.toString(), 
-			                                                    ((Integer)venditaReale.getCodVendita()).toString(), 
-			                                                    CampiTabellaMerceVenduta.bullone.toString(), 
-			                                                    ((Integer)merce.getCodiceBullone()).toString()));
-			
-			// aggiorno nel database il prezzo di vendita totale di quello specifico bullone nella tabella MerceVenduta
-			DatabaseSQL.update(Query.getSimpleUpdateByDoubleKey(NOME_TABELLA_MERCE_VENDUTA, 
-                                                                CampiTabellaMerceVenduta.prezzoBulloni.toString(), 
-                                                                ((Double)merce.getPrezzoBulloni()).toString(), 
-                                                                CampiTabellaMerceVenduta.codVendita.toString(), 
-                                                                ((Integer)venditaReale.getCodVendita()).toString(), 
-                                                                CampiTabellaMerceVenduta.bullone.toString(), 
-                                                                ((Integer)merce.getCodiceBullone()).toString()));
-		}
-		catch (DatabaseSQLException e) {
-			System.err.println(e.getMessage());
-		}
-		catch (SQLException e) {
-			System.err.println(e.getMessage());
-		}
+		// aggiorno nel database il numero dei bulloni totali nella tabella Vendita
+		DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_VENDITA, 
+				                                      CampiTabellaVendita.numeroBulloniTotali.toString(), 
+				                                      ((Integer)venditaReale.getQuantitaMerceTotale()).toString(), 
+				                                      CampiTabellaVendita.codVendita.toString(), 
+				                                      ((Integer)codVendita).toString()));
 		
+		// aggiorno nel database il prezzo di vendita totale nella tabella Vendita
+		DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_VENDITA, 
+                                                      CampiTabellaVendita.prezzoVenditaTotale.toString(), 
+                                                      ((Double)venditaReale.getPrezzoVenditaTotale()).toString(), 
+                                                      CampiTabellaVendita.codVendita.toString(), 
+                                                      ((Integer)codVendita).toString()));
+		
+		// aggiorno nel database il numero dei bulloni totali di quello specifico bullone nella tabella MerceVenduta
+		DatabaseSQL.update(Query.getSimpleUpdateByDoubleKey(NOME_TABELLA_MERCE_VENDUTA, 
+		                                                    CampiTabellaMerceVenduta.numeroBulloni.toString(), 
+		                                                    ((Integer)merce.getNumeroBulloni()).toString(), 
+		                                                    CampiTabellaMerceVenduta.codVendita.toString(), 
+		                                                    ((Integer)venditaReale.getCodVendita()).toString(), 
+		                                                    CampiTabellaMerceVenduta.bullone.toString(), 
+		                                                    ((Integer)merce.getCodiceBullone()).toString()));
+		
+		// aggiorno nel database il prezzo di vendita totale di quello specifico bullone nella tabella MerceVenduta
+		DatabaseSQL.update(Query.getSimpleUpdateByDoubleKey(NOME_TABELLA_MERCE_VENDUTA, 
+                                                            CampiTabellaMerceVenduta.prezzoBulloni.toString(), 
+                                                            ((Double)merce.getPrezzoBulloni()).toString(), 
+                                                            CampiTabellaMerceVenduta.codVendita.toString(), 
+                                                            ((Integer)venditaReale.getCodVendita()).toString(), 
+                                                            CampiTabellaMerceVenduta.bullone.toString(), 
+                                                            ((Integer)merce.getCodiceBullone()).toString()));
+	
 		return codiceTrovato;
 	}
 	
@@ -581,7 +527,7 @@ public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendit
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean checkNumeroBulloniVendutiImpiegato(int impiegato, ChiaveImpiegatoData cid, ChiaveImpiegatoAnno cia, int nuovaQuantitaCIA, int nuovaQuantitaCID) {
+	public boolean checkNumeroBulloniVendutiImpiegato(int impiegato, ChiaveImpiegatoData cid, ChiaveImpiegatoAnno cia, int nuovaQuantitaCIA, int nuovaQuantitaCID) throws ExceptionGestoreImpiegato {
 		
 		// risultato del metodo
 		boolean risultato = false;
@@ -589,21 +535,16 @@ public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendit
 		// impiegato responsabile di questa vendita
 		ImpiegatoBulloni imp = null;
 			
-		try {
-			imp = gi.getImpiegatoByID(impiegato);
+		imp = gi.getImpiegatoByID(impiegato);
 
-			if (nuovaQuantitaCIA <= imp.getBulloniVendibiliAnnualmente()) {
+		if (nuovaQuantitaCIA <= imp.getBulloniVendibiliAnnualmente()) {
+			
+			if (nuovaQuantitaCID <= ImpiegatoBulloni.getBulloniVendibiliGiornalmente()) {
 				
-				if (nuovaQuantitaCID <= ImpiegatoBulloni.getBulloniVendibiliGiornalmente()) {
-					
-					impiegatoData.put(cid, nuovaQuantitaCID);
-					impiegatoAnno.put(cia, nuovaQuantitaCIA);
-					risultato = true;
-				}
+				impiegatoData.put(cid, nuovaQuantitaCID);
+				impiegatoAnno.put(cia, nuovaQuantitaCIA);
+				risultato = true;
 			}
-		}
-		catch (ExceptionGestoreImpiegato e) {
-			System.err.println(e.getMessage());
 		}
 		
 		return risultato;
@@ -615,7 +556,7 @@ public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendit
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean rimuoviVenditaByCodice(int codiceVendita) {
+	public boolean rimuoviVenditaByCodice(int codiceVendita) throws GestoreVenditaException, DatabaseSQLException, SQLException {
 		
 		boolean codiceTrovato = false;
 		
@@ -629,35 +570,21 @@ public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendit
 		 * allora non esiste alcuna vendita con questo codice all'interno del Set;
 		 * se il metodo remove rimuove con successo l'oggetto dal set originale, allora
 		 * si procede alla rimozione dal database */
-		try {
+		vendita = this.getVenditaByCodice(codiceVendita);
+		cid = new ChiaveImpiegatoData(vendita.getResponsabileVendita(), vendita.getData());
+		cia = new ChiaveImpiegatoAnno(vendita.getResponsabileVendita(), vendita.getData().getAnno());
+		
+		if (vendite.remove(vendita)) {
 			
-			vendita = this.getVenditaByCodice(codiceVendita);
-			cid = new ChiaveImpiegatoData(vendita.getResponsabileVendita(), vendita.getData());
-			cia = new ChiaveImpiegatoAnno(vendita.getResponsabileVendita(), vendita.getData().getAnno());
+			// rimuovo la quantità di bulloni venduti salvata nei due HashMap che riguarda la vendita appena eliminata
+			impiegatoData.put(cid, impiegatoData.get(cid) - vendita.getQuantitaMerceTotale());
+			impiegatoAnno.put(cia, impiegatoAnno.get(cia) - vendita.getQuantitaMerceTotale());
 			
-			if (vendite.remove(vendita)) {
-				
-				// rimuovo la quantità di bulloni venduti salvata nei due HashMap che riguarda la vendita appena eliminata
-				impiegatoData.put(cid, impiegatoData.get(cid) - vendita.getQuantitaMerceTotale());
-				impiegatoAnno.put(cia, impiegatoAnno.get(cia) - vendita.getQuantitaMerceTotale());
-				
-				codiceTrovato = true;
-				
-				try {
-					/* eseguo una delete nel database della vendita scelta. Nel database, una eliminazione di una vendita si ripercuote
-					 * anche sulle corrispondenti tuple in MerceVenduta, quindi non c'è bisogno di agire anche sulla tabella MerceVenduta */
-					DatabaseSQL.delete(Query.getSimpleDelete(NOME_TABELLA_VENDITA, CampiTabellaVendita.codVendita.toString(), ((Integer)codiceVendita).toString()));
-				}
-				catch (DatabaseSQLException e) {
-					System.err.println(e.getMessage());
-				}
-				catch (SQLException e) {
-					System.err.println(e.getMessage());
-				}
-			}
-		}
-		catch (GestoreVenditaException e) {
-			System.err.println(e.getMessage());
+			codiceTrovato = true;
+	
+			/* eseguo una delete nel database della vendita scelta. Nel database, una eliminazione di una vendita si ripercuote
+			 * anche sulle corrispondenti tuple in MerceVenduta, quindi non c'è bisogno di agire anche sulla tabella MerceVenduta */
+			DatabaseSQL.delete(Query.getSimpleDelete(NOME_TABELLA_VENDITA, CampiTabellaVendita.codVendita.toString(), ((Integer)codiceVendita).toString()));
 		}
 		
 		return codiceTrovato;

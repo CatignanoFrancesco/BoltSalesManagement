@@ -1,5 +1,9 @@
 package gestori.gestorevendite;
 
+import java.sql.SQLException;
+
+import databaseSQL.exception.DatabaseSQLException;
+import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
 import gestori.gestorevendite.exception.GestoreVenditaException;
 import vendita.MerceVenduta;
 import vendita.Vendita;
@@ -20,7 +24,7 @@ public interface InserimentoVendite {
 	 * @param vendita oggetto vendita da inserire nel database
 	 * @throws GestoreVenditaException
 	 */
-	public void aggiungiVendita(Vendita<MerceVenduta> vendita) throws GestoreVenditaException;
+	public void aggiungiVendita(Vendita<MerceVenduta> vendita) throws GestoreVenditaException, ExceptionGestoreImpiegato, DatabaseSQLException, SQLException;
 	
 	
 	/**
