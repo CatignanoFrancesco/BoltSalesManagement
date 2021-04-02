@@ -3,6 +3,7 @@
  * Contiene:
  * - BodyBulloni;
  * - SimpleInfoBullonePanel
+ * - InfoBulloneFrame
  * 
  * @author Catignano Francesco
  */
