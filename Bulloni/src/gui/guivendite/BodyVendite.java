@@ -51,7 +51,7 @@ public class BodyVendite extends JPanel {
 	/** coordinata y dello scrollPane */
 	private static final int Y_SCROLLPANE = 50;
 	/** larghezza dello scrollPane */
-	private static final int WIDTH_SCROLLPANE = 970;
+	private static final int WIDTH_SCROLLPANE = 975;
 	/** lunghezza dello scrollPane */
 	private static final int HEIGHT_SCROLLPANE = 507;
 	
@@ -60,6 +60,7 @@ public class BodyVendite extends JPanel {
 	private JPanel panel;
 	private JLabel codiceLabel;
 	private JLabel impiegatoLabel;
+	private JLabel dataLabel;
 	private JLabel quantitaTotaleBulloniLabel;
 	private JLabel prezzoTotaleBulloniLabel;
 	private JLabel merceVendutaLabel;
@@ -141,7 +142,7 @@ public class BodyVendite extends JPanel {
 		codiceLabel = new JLabel("Codice");
 		codiceLabel.setForeground(Color.red);
 		GridBagConstraints gbc_codiceLabel = new GridBagConstraints();
-		gbc_codiceLabel.insets = new Insets(0, 3, 5, 8);
+		gbc_codiceLabel.insets = new Insets(5, 5, 5, 8);
 		gbc_codiceLabel.gridx = 0;
 		gbc_codiceLabel.gridy = 0;
 		panel.add(codiceLabel, gbc_codiceLabel);
@@ -149,32 +150,40 @@ public class BodyVendite extends JPanel {
 		impiegatoLabel = new JLabel("Impiegato");
 		impiegatoLabel.setForeground(Color.red);
 		GridBagConstraints gbc_impiegatoLabel = new GridBagConstraints();
-		gbc_impiegatoLabel.insets = new Insets(0, 3, 5, 8);
+		gbc_impiegatoLabel.insets = new Insets(5, 5, 5, 8);
 		gbc_impiegatoLabel.gridx = 1;
 		gbc_impiegatoLabel.gridy = 0;
 		panel.add(impiegatoLabel, gbc_impiegatoLabel);
 		
+		dataLabel = new JLabel("Data_vendita");
+		dataLabel.setForeground(Color.red);
+		GridBagConstraints gbc_dataLabel = new GridBagConstraints();
+		gbc_dataLabel.insets = new Insets(5, 5, 5, 8);
+		gbc_dataLabel.gridx = 2;
+		gbc_dataLabel.gridy = 0;
+		panel.add(dataLabel, gbc_dataLabel);
+		
 		quantitaTotaleBulloniLabel = new JLabel("Quantita'_totale_bulloni");
 		quantitaTotaleBulloniLabel.setForeground(Color.red);
 		GridBagConstraints gbc_quantitaTotaleBulloniLabel = new GridBagConstraints();
-		gbc_quantitaTotaleBulloniLabel.insets = new Insets(0, 3, 5, 8);
-		gbc_quantitaTotaleBulloniLabel.gridx = 2;
+		gbc_quantitaTotaleBulloniLabel.insets = new Insets(5, 5, 5, 8);
+		gbc_quantitaTotaleBulloniLabel.gridx = 3;
 		gbc_quantitaTotaleBulloniLabel.gridy = 0;
 		panel.add(quantitaTotaleBulloniLabel, gbc_quantitaTotaleBulloniLabel);
 		
 		prezzoTotaleBulloniLabel = new JLabel("Prezzo_totale_bulloni");
 		prezzoTotaleBulloniLabel.setForeground(Color.red);
 		GridBagConstraints gbc_prezzoTotaleBulloniLabel = new GridBagConstraints();
-		gbc_prezzoTotaleBulloniLabel.insets = new Insets(0, 3, 5, 8);
-		gbc_prezzoTotaleBulloniLabel.gridx = 3;
+		gbc_prezzoTotaleBulloniLabel.insets = new Insets(5, 5, 5, 8);
+		gbc_prezzoTotaleBulloniLabel.gridx = 4;
 		gbc_prezzoTotaleBulloniLabel.gridy = 0;
 		panel.add(prezzoTotaleBulloniLabel, gbc_prezzoTotaleBulloniLabel);
 		
 		merceVendutaLabel = new JLabel("Merce_venduta");
 		merceVendutaLabel.setForeground(Color.red);
 		GridBagConstraints gbc_merceVendutaLabel = new GridBagConstraints();
-		gbc_merceVendutaLabel.insets = new Insets(0, 3, 5, 8);
-		gbc_merceVendutaLabel.gridx = 4;
+		gbc_merceVendutaLabel.insets = new Insets(5, 5, 5, 8);
+		gbc_merceVendutaLabel.gridx = 5;
 		gbc_merceVendutaLabel.gridy = 0;
 		panel.add(merceVendutaLabel, gbc_merceVendutaLabel);
 	}
@@ -259,6 +268,7 @@ public class BodyVendite extends JPanel {
 		// oggetti componenti della lista di vendite
 		JLabel[] codLabel = new JLabel[DIMENSIONE];
 		JLabel[] matricolaImpLabel = new JLabel[DIMENSIONE];
+		JLabel[] dataVenditaLabel = new JLabel[DIMENSIONE];
 		JLabel[] quantitaTotLabel = new JLabel[DIMENSIONE];
 		JLabel[] prezzoTotLabel = new JLabel[DIMENSIONE];
 		JButton[] visualButton = new JButton[DIMENSIONE];
@@ -286,6 +296,13 @@ public class BodyVendite extends JPanel {
 			gbc_matricolaImpLabel.gridx = ++posizioneX;
 			gbc_matricolaImpLabel.gridy = i+1;
 			panel.add(matricolaImpLabel[i], gbc_matricolaImpLabel);
+			
+			dataVenditaLabel[i] = new JLabel(vendita.getData().toLocalDate().toString());
+			GridBagConstraints gbc_dataVenditaLabel = new GridBagConstraints();
+			gbc_dataVenditaLabel.insets = new Insets(0, 0, 5 ,1);
+			gbc_dataVenditaLabel.gridx = ++posizioneX;
+			gbc_dataVenditaLabel.gridy = i+1;
+			panel.add(dataVenditaLabel[i], gbc_dataVenditaLabel);
 			
 			// stampo la quantita' totale di merce venduta nella lista
 			quantitaTotLabel[i] = new JLabel(((Integer)vendita.getQuantitaMerceTotale()).toString());
@@ -315,7 +332,7 @@ public class BodyVendite extends JPanel {
 			// pulsate che permette di visualizzare tutte le info sull'impiegato che ha effettuato la vendita in un'apposita finestra
 			infoImpiegatoButton[i] = new JButton("Impiegato");
 			GridBagConstraints gbc_infoImpiegatoButton = new GridBagConstraints();
-			gbc_infoImpiegatoButton.insets = new Insets(0, 0, 5, 0);
+			gbc_infoImpiegatoButton.insets = new Insets(0, 0, 5, 5);
 			gbc_infoImpiegatoButton.gridx = ++posizioneX;
 			gbc_infoImpiegatoButton.gridy = i+1;
 			infoImpiegatoButton[i].addActionListener(new GestoreButton(gestoreVendite, mainMenu, matricolaImpLabel[i].getText()));
@@ -326,7 +343,7 @@ public class BodyVendite extends JPanel {
 			deleteButton[i].setBackground(Color.red);
 			deleteButton[i].setForeground(Color.white);
 			GridBagConstraints gbc_deleteButton = new GridBagConstraints();
-			gbc_deleteButton.insets = new Insets(0, 0, 5, 25);
+			gbc_deleteButton.insets = new Insets(0, 15, 5, 25);
 			gbc_deleteButton.gridx = ++posizioneX;
 			gbc_deleteButton.gridy = i+1;
 			deleteButton[i].addActionListener(new GestoreButton(gestoreVendite, mainMenu, codLabel[i].getText()));
