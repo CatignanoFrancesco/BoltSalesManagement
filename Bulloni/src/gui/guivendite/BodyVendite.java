@@ -19,6 +19,7 @@ import javax.swing.ScrollPaneConstants;
 
 import gestori.gestoreImpiegati.GestoreImpiegatiDb;
 import gestori.gestorevendite.ContainerVendite;
+import gestori.gestorevendite.InserimentoVendite;
 import gestori.gestorevendite.exception.GestoreVenditaException;
 import gestori.gestoribulloni.GestoreBulloni;
 import vendita.MerceVenduta;
@@ -102,6 +103,8 @@ public class BodyVendite extends JPanel {
 		catch (GestoreVenditaException t) {
 			JOptionPane.showMessageDialog(mainMenu, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 		}
+		
+		setVisible(true);
 	}
 	
 	
@@ -186,7 +189,8 @@ public class BodyVendite extends JPanel {
 		aggiungiVenditaButton = new JButton("Aggiungi vendita");
 		aggiungiVenditaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// creare InputForm
+				InputForm inpf = new InputForm(mainMenu, gestoreVendite, gestoreImpiegati, gestoreBulloni);
+				inpf.setVisible(true);
 				mainMenu.setEnabled(false);
 			}
 		});
@@ -203,7 +207,8 @@ public class BodyVendite extends JPanel {
 		cercaPerButton = new JButton("Cerca per...");
 		cercaPerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// creare SelezionaRicerca
+				SelezionaRicerca sr = new SelezionaRicerca(gestoreVendite, mainMenu, panel, istanzaCorrente);
+				sr.setVisible(true);
 				mainMenu.setEnabled(false);
 			}
 		});

@@ -70,7 +70,7 @@ public class MainWindow extends JFrame {
 		try {
 			 window = new MainWindow();
 			 
-		} catch (Exception e) {
+		} catch (DatabaseSQLException | SQLException e) {
 			
 			JOptionPane.showMessageDialog(window, e.getMessage(), "exception", JOptionPane.ERROR_MESSAGE);
 		}
