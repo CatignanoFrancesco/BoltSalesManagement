@@ -32,10 +32,10 @@ import gestori.gestorevendite.exception.*;
 public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendite, ModificaVendite, EliminazioneVendite, ContainerVendite {
 	
 	// gestore dei bulloni che si interfaccia con la parte del database che riguarda i bulloni
-	GestoreBulloni gb;
+	private GestoreBulloni gb;
 	
 	// gestore degli impiegati che si interfaccia con la parte del database che riguarda gli impiegati
-	GestoreImpiegatiDb gi;
+	private GestoreImpiegatiDb gi;
 	
 	/** Set contenente oggetti VenditaBulloni prelevati dal database */
 	private Set<Vendita<MerceVenduta>> vendite = new HashSet<Vendita<MerceVenduta>>();

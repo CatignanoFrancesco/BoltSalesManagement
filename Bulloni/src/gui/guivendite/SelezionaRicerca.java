@@ -4,8 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
@@ -19,6 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import gestori.gestorevendite.VisualizzazioneVendite;
+import gestori.gestorevendite.exception.GestoreVenditaException;
+import utility.Data;
 import vendita.MerceVenduta;
 import vendita.Vendita;
 
@@ -126,7 +130,32 @@ public class SelezionaRicerca extends JFrame implements WindowListener {
 		cercaPerCodiceVenditaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				
+				// utilizzo il gestore vendite per cercare un vendita con il codice inserito;
+				// se non è stato inserito nulla verrà segnalato l'errore
+				if (!codiceVenditaTextField.getText().trim().equals("")) {
+					try {
+						int codiceVendita = Integer.parseUnsignedInt(codiceVenditaTextField.getText().trim());
+						
+						Vendita<MerceVenduta> vendita = gestoreVendite.getVenditaByCodice(codiceVendita);
+						
+						Set<Vendita<MerceVenduta>> vendite = new HashSet<Vendita<MerceVenduta>>(1);
+						vendite.add(vendita);
+						
+						istanzaCorrente.printListaVendite(vendite);
+						
+						mainJFrame.setEnabled(true);
+						dispose();
+					}
+					catch (NumberFormatException t) {
+						JOptionPane.showMessageDialog(finestraCorrente, "Non e' stato inserito un codice numerico.", "Errore", JOptionPane.ERROR_MESSAGE);
+					} 
+					catch (GestoreVenditaException t) {
+						JOptionPane.showMessageDialog(finestraCorrente, "Nessuna vendita corrisponde a questo codice.", "Attenzione", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(finestraCorrente, "E' necessario inserire un numero nell'apposita area.", "Attenzione", JOptionPane.ERROR_MESSAGE);
+				}	
 			}
 		});
 		getContentPane().add(cercaPerCodiceVenditaButton);
@@ -158,6 +187,31 @@ public class SelezionaRicerca extends JFrame implements WindowListener {
 		cercaPerMatricolaImpiegatoButton.setBounds(10, 115, 88, 31);
 		cercaPerMatricolaImpiegatoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				// utilizzo il gestore vendite per cercare un vendita con la matricola dell'impiegato inserita;
+				// se non è stato inserito nulla verrà segnalato l'errore
+				if (!matricolaImpiegatoTextField.getText().trim().equals("")) {
+					try {
+						int matricolaImpiegato = Integer.parseUnsignedInt(matricolaImpiegatoTextField.getText().trim());
+						
+						Set<Vendita<MerceVenduta>> vendite = new HashSet<Vendita<MerceVenduta>>();
+						vendite.addAll(gestoreVendite.getVenditeByImpiegato(matricolaImpiegato));
+						
+						istanzaCorrente.printListaVendite(vendite);
+						
+						mainJFrame.setEnabled(true);
+						dispose();
+					}
+					catch (NumberFormatException t) {
+						JOptionPane.showMessageDialog(finestraCorrente, "Non e' stato inserito un codice numerico.", "Errore", JOptionPane.ERROR_MESSAGE);
+					} 
+					catch (GestoreVenditaException t) {
+						JOptionPane.showMessageDialog(finestraCorrente, "Nessuna vendita salvata per questo impiegato.", "Attenzione", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(finestraCorrente, "E' necessario inserire un numero nell'apposita area.", "Attenzione", JOptionPane.ERROR_MESSAGE);
+				}
 				
 			}
 		});
@@ -227,29 +281,39 @@ public class SelezionaRicerca extends JFrame implements WindowListener {
 		cercaPerDataVenditaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				Integer giorno = (Integer)comboBoxGiorno.getSelectedItem();
+				Integer mese = (Integer)comboBoxMese.getSelectedItem();
+				Integer anno = (Integer)comboBoxAnno.getSelectedItem();
+				
+				// utilizzo il gestore vendite per cercare un vendita con la data inserita;
+				// se non è stato inserito nulla verrà segnalato l'errore
+				if ((giorno != 0) && (mese != 0) && (anno != 0)) {
+					try {
+						Data dataVendita = new Data(giorno, mese, anno);
+						
+						Set<Vendita<MerceVenduta>> vendite = new HashSet<Vendita<MerceVenduta>>();
+						vendite.addAll(gestoreVendite.getVenditeByData(dataVendita));
+						
+						istanzaCorrente.printListaVendite(vendite);
+						
+						mainJFrame.setEnabled(true);
+						dispose();
+					}
+					catch (DateTimeException t) {
+						JOptionPane.showMessageDialog(finestraCorrente, "Data inserita non valida.", "Errore", JOptionPane.ERROR_MESSAGE);
+					} 
+					catch (GestoreVenditaException t) {
+						JOptionPane.showMessageDialog(finestraCorrente, "Nessuna vendita salvata in questa data.", "Attenzione", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(finestraCorrente, "E' necessario selezionare una data reale.", "Attenzione", JOptionPane.ERROR_MESSAGE);
+				}
 				
 			}
 		});
 		getContentPane().add(cercaPerDataVenditaButton);
 		
-	}
-	
-	
-	
-	/**
-	 * Metodo che stampa la lista di risultati oppure avvisa l'utente che non ci sono risultati per la ricerca
-	 * 
-	 * @param vendite set di vendite prodotto dalla ricerca
-	 */
-	public void stampaListaRisultato(Set<Vendita<MerceVenduta>> vendite) {
-		
-		if (vendite.isEmpty())
-			JOptionPane.showMessageDialog(finestraCorrente, "Nessuna vendita corrisponde al parametro cercato.", "Warning", JOptionPane.ERROR_MESSAGE);
-		else {
-			this.mainJFrame.setEnabled(true);
-			this.istanzaCorrente.printListaVendite(vendite);
-			dispose();
-		}
 	}
 	
 	

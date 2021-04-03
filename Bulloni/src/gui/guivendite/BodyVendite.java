@@ -349,7 +349,7 @@ public class BodyVendite extends JPanel {
 			gbc_deleteButton.insets = new Insets(0, 15, 5, 25);
 			gbc_deleteButton.gridx = ++posizioneX;
 			gbc_deleteButton.gridy = i+1;
-			deleteButton[i].addActionListener(new GestoreButton(gestoreVendite, mainMenu, codLabel[i].getText()));
+			deleteButton[i].addActionListener(new GestoreButton(gestoreVendite, mainMenu, codLabel[i].getText(), "", istanzaCorrente));
 			panel.add(deleteButton[i], gbc_deleteButton);
 			
 			i++;
