@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 
 import gestori.gestorevendite.ContainerVendite;
 import gestori.gestorevendite.ModificaVendite;
+import gestori.gestorevendite.VisualizzazioneVendite;
 import gestori.gestoribulloni.VisualizzaBulloni;
 import vendita.MerceVenduta;
 
@@ -58,8 +59,12 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 	private final String titoloFinestra = "Merce venduta";
 	
 	/** gestore delle vendite con interfaccia contenente i metodi di modifica */
-	private ModificaVendite gestoreVendite;
+	private ModificaVendite gvModifica;
 	
+	/** gestore delle vendite con interfaccia contenente i metodi di visualizzazione */
+	private VisualizzazioneVendite gvVisualizzazione;
+	
+	/** gestore dei bulloni con interfaccia contenente i metodi di visualizzazione */
 	private VisualizzaBulloni gestoreBulloni;
 	
 	/** codice univoco della vendita alla quale il set di merce venduta è associato */
@@ -67,6 +72,9 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 	
 	/** set di merce venduta associata alla vendita selezionata */
 	private Set<MerceVenduta> merce;
+	
+	/** istanza corrente del body vendite */
+	private BodyVendite istanzaCorrente;
 	
 	/** oltre questa soglia, il pannello contenente la lista cambierà tipo di layout, in modo da attivare la scrollbar senza problemi di layout */
 	private static final int SOGLIA_MASSIMA_LISTA_MERCE = 13;
@@ -80,12 +88,14 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 	 * @param codiceVendita codice univoco della vendita selezionata
 	 * @param merce set di merce venduta nella vendita selezionata
 	 */
-	public VisualizzaMerceVenduta(JFrame mainJF, ModificaVendite gestoreVendite, VisualizzaBulloni gestoreBulloni, int codiceVendita, Set<MerceVenduta> merce) {
+	public VisualizzaMerceVenduta(JFrame mainJF, ModificaVendite gvModifica, VisualizzazioneVendite gvVisualizzazione, VisualizzaBulloni gestoreBulloni, int codiceVendita, Set<MerceVenduta> merce, BodyVendite istanzaCorrente) {
 		this.mainJFrame = mainJF;
-		this.gestoreVendite = gestoreVendite;
+		this.gvModifica = gvModifica;
+		this.gvVisualizzazione = gvVisualizzazione;
 		this.gestoreBulloni = gestoreBulloni;
 		this.codiceVendita = codiceVendita;
 		this.merce = merce;
+		this.istanzaCorrente = istanzaCorrente;
 		
 		inizializza();
 		printMerceVenduta();
@@ -234,7 +244,7 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 			gbc_modificaButton.insets = new Insets(0, 0, 5, 1);
 			gbc_modificaButton.gridx = ++x;
 			gbc_modificaButton.gridy = i+1;
-			modificaButton[i].addActionListener(new GestoreButton((ContainerVendite)gestoreVendite, thisFrame, ((Integer)codiceVendita).toString(), codBullone[i].getText()));
+			modificaButton[i].addActionListener(new GestoreButton((ContainerVendite)gvModifica, thisFrame, ((Integer)codiceVendita).toString(), codBullone[i].getText()));
 			panel.add(modificaButton[i], gbc_modificaButton);
 			
 			// pulsante che permette di visualizzare tutte le informazioni sul bullone corrispondente
@@ -243,7 +253,7 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 			gbc_infoButton.insets = new Insets(0, 0, 5, 20);
 			gbc_infoButton.gridx = ++x;
 			gbc_infoButton.gridy = i+1;
-			infoButton[i].addActionListener(new GestoreButton((ContainerVendite)gestoreVendite, gestoreBulloni, thisFrame, codBullone[i].getText()));
+			infoButton[i].addActionListener(new GestoreButton((ContainerVendite)gvModifica, gestoreBulloni, thisFrame, codBullone[i].getText(), istanzaCorrente));
 			// new GestoreButton((ContainerVendite)gestoreVendite, gestoreBulloni, thisFrame, codBullone[i].getText())
 			panel.add(infoButton[i], gbc_infoButton);
 			

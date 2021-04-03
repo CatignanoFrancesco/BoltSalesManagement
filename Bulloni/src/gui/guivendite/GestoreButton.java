@@ -42,6 +42,9 @@ public class GestoreButton implements ActionListener {
 	private VisualizzaBulloni gestoreBulloni;
 	
 	
+	private BodyVendite istanzaCorrente;
+	
+	
 	
 	/**
 	 * Costruttore della classe GestoreButton
@@ -66,11 +69,12 @@ public class GestoreButton implements ActionListener {
 	 * @param mainMenu finestra grafica padre
 	 * @param codice codice della tupla nella quale si clicca il pulsante
 	 */
-	public GestoreButton(ContainerVendite gestoreVendite, VisualizzaBulloni gestoreBulloni, JFrame mainMenu, String codice) {
+	public GestoreButton(ContainerVendite gestoreVendite, VisualizzaBulloni gestoreBulloni, JFrame mainMenu, String codice, BodyVendite istanzaCorrente) {
 		this.gestoreVendite = gestoreVendite;
 		this.gestoreBulloni = gestoreBulloni;
 		this.mainMenu = mainMenu;
 		this.codice = codice;
+		this.istanzaCorrente = istanzaCorrente;
 	}
 	
 	
@@ -99,7 +103,7 @@ public class GestoreButton implements ActionListener {
 		
 		if (e.getActionCommand().equals("Info merce")) {
 			
-			if (this.gestoreBulloni != null) {
+			if (this.gestoreBulloni != null && this.istanzaCorrente != null) {
 				
 				// recupero la vendita che ha quel preciso codice e da essa recupero il set di merce venduta
 				try {
@@ -108,7 +112,7 @@ public class GestoreButton implements ActionListener {
 					Set<MerceVenduta> merce = vendita.getMerceVenduta();
 					
 					// creo la finestra che permette di visualizzare la lista di merce venduta, modificare la vendita e visualizzare tutte le info del bullone venduto
-					VisualizzaMerceVenduta mvm = new VisualizzaMerceVenduta(mainMenu, gestoreVendite, gestoreBulloni, Integer.parseInt(codice), merce);
+					VisualizzaMerceVenduta mvm = new VisualizzaMerceVenduta(mainMenu, gestoreVendite, gestoreVendite, gestoreBulloni, Integer.parseInt(codice), merce, istanzaCorrente);
 					mvm.setVisible(true);
 					mainMenu.setEnabled(false);
 				} 

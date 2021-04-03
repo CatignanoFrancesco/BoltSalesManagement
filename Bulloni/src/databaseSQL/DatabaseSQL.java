@@ -128,11 +128,11 @@ public class DatabaseSQL {
 		
 		/* se la regex non è rispettata dalla query passata in input, solleva un eccezione di tipo 
 		 * DatabaseSQLException con un messaggio personalizzato per il tipo di errore specifico */
-		Pattern p = Pattern.compile(insertRegex);
+		/*Pattern p = Pattern.compile(insertRegex);
 		Matcher m = p.matcher(query);
 		if (!m.matches()) {
 			throw new DatabaseSQLException(MsgErrore.ERRORE_REGEX_INSERT, new DatabaseSQLException());
-		}
+		}*/
 		
 		Connection conn = apriConnessione();
 		PreparedStatement pst = conn.prepareStatement(query);
