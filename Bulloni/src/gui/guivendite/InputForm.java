@@ -56,7 +56,7 @@ public class InputForm extends JFrame implements WindowListener {
 	/** coordinata y della finestra */
 	private static final int Y = 100;
 	/** larghezza della finestra */
-	private static final int WIDTH = 450;
+	private static final int WIDTH = 640;
 	/** lunghezza della finestra */
 	private static final int HEIGHT = 404;
 	private int numeroBulloni;
@@ -155,18 +155,9 @@ public class InputForm extends JFrame implements WindowListener {
 		
 		// creo una label informativa per l'utente
 		headerLabel = new JLabel("Compila tutti i campi per aggiungere una nuova vendita:");
-		headerLabel.setBounds(10, 10, 346, 13);
+		headerLabel.setBounds(10, 10, 405, 16);
 		getContentPane().add(headerLabel);
 		
-		// pannello con layout di tipo griglia, che conterrà i bulloni da scegliere per la vendita
-		panel = new JPanel();
-		scrollPane.setViewportView(panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{0, 0, 0};
-		gbl_panel.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
 	}
 	
 	
@@ -179,7 +170,7 @@ public class InputForm extends JFrame implements WindowListener {
 		
 		// label corrispondente al codice della vendita
 		codiceVenditaLabel = new JLabel("Codice vendita:");
-		codiceVenditaLabel.setBounds(10, 55, 95, 13);
+		codiceVenditaLabel.setBounds(10, 55, 130, 16);
 		getContentPane().add(codiceVenditaLabel);
 		
 		// text field per contenere il codice della vendita;
@@ -187,7 +178,7 @@ public class InputForm extends JFrame implements WindowListener {
 		codiceVenditaLabel.setLabelFor(codiceVenditaTextField);
 		codiceVenditaTextField.setText(((Integer)gestoreVendite.getCodVenditaAutomatico()).toString());
 		codiceVenditaTextField.setEditable(false);
-		codiceVenditaTextField.setBounds(104, 52, 69, 19);
+		codiceVenditaTextField.setBounds(130, 52, 80, 19);
 		getContentPane().add(codiceVenditaTextField);
 		codiceVenditaTextField.setColumns(10);
 		
@@ -203,30 +194,30 @@ public class InputForm extends JFrame implements WindowListener {
 		
 		// label corrispondente alla data della vendita
 		dataVenditaLabel = new JLabel("Data vendita:");
-		dataVenditaLabel.setBounds(10, 110, 83, 13);
+		dataVenditaLabel.setBounds(10, 110, 100, 16);
 		getContentPane().add(dataVenditaLabel);
 		
 		// menu combobox èer scegliere il giorno del mese
 		giornoComboBox = new JComboBox<Integer>();
 		giornoComboBox.setModel(new DefaultComboBoxModel<Integer>(new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31}));
-		giornoComboBox.setBounds(104, 106, 37, 21);
+		giornoComboBox.setBounds(130, 106, 50, 21);
 		getContentPane().add(giornoComboBox);
 		
 		// label corrispondente al giorno del mese
 		giornoLabel = new JLabel("Giorno:");
-		giornoLabel.setBounds(104, 90, 45, 13);
+		giornoLabel.setBounds(130, 90, 60, 13);
 		getContentPane().add(giornoLabel);
-		meseLabel.setLabelFor(giornoComboBox);
+		giornoLabel.setLabelFor(giornoComboBox);
 		
 		// menu combobox per scegliere il mese dell'anno
 		meseComboBox = new JComboBox<Integer>();
 		meseComboBox.setModel(new DefaultComboBoxModel<Integer>(new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12}));
-		meseComboBox.setBounds(156, 106, 37, 21);
+		meseComboBox.setBounds(208, 106, 50, 21);
 		getContentPane().add(meseComboBox);
 		
 		// label corrispondente al mese dell'anno
 		meseLabel = new JLabel("Mese:");
-		meseLabel.setBounds(156, 90, 45, 13);
+		meseLabel.setBounds(208, 90, 60, 13);
 		getContentPane().add(meseLabel);
 		meseLabel.setLabelFor(meseComboBox);
 		
@@ -239,12 +230,12 @@ public class InputForm extends JFrame implements WindowListener {
 		// menu combobox per scegliere l'anno
 		annoComboBox = new JComboBox<Integer>();
 		annoComboBox.setModel(new DefaultComboBoxModel<Integer>(listaAnni.toArray(new Integer[0])));
-		annoComboBox.setBounds(208, 106, 53, 21);
+		annoComboBox.setBounds(286, 106, 70, 21);
 		getContentPane().add(annoComboBox);
 		
 		// label corrispondente all'anno
 		annoLabel = new JLabel("Anno:");
-		annoLabel.setBounds(208, 90, 45, 13);
+		annoLabel.setBounds(286, 90, 60, 13);
 		getContentPane().add(annoLabel);
 		annoLabel.setLabelFor(annoComboBox);
 		
@@ -265,7 +256,7 @@ public class InputForm extends JFrame implements WindowListener {
 		
 		// label corrispondente alla matricola dell'impiegato che ha effettuato la vendita
 		impiegatoLabel = new JLabel("Matricola impiegato:");
-		impiegatoLabel.setBounds(10, 165, 120, 13);
+		impiegatoLabel.setBounds(10, 165, 150, 16);
 		getContentPane().add(impiegatoLabel);
 		
 		// ricavo le matricole di tutti gli impiegati e le salvo in un array di Integer, cosi' da poterle inserire in un menu combobox
@@ -278,7 +269,7 @@ public class InputForm extends JFrame implements WindowListener {
 		impiegatoComboBox = new JComboBox<Integer>();
 		impiegatoLabel.setLabelFor(impiegatoComboBox);
 		impiegatoComboBox.setModel(new DefaultComboBoxModel<Integer>(matricoleImpiegato));
-		impiegatoComboBox.setBounds(140, 161, 53, 21);
+		impiegatoComboBox.setBounds(170, 161, 70, 21);
 		getContentPane().add(impiegatoComboBox);
 		
 	}
@@ -295,16 +286,26 @@ public class InputForm extends JFrame implements WindowListener {
 		
 		// label corrispondente ai bulloni da vendere
 		bulloniLabel = new JLabel("Seleziona i bulloni da vendere:");
-		bulloniLabel.setBounds(10, 219, 198, 13);
+		bulloniLabel.setBounds(10, 219, 300, 13);
 		getContentPane().add(bulloniLabel);
 		
 		// pannello scorrevole che conterrà un panello con layout di tipo griglia
 		scrollPane = new JScrollPane();
 		bulloniLabel.setLabelFor(scrollPane);
 		scrollPane.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		scrollPane.setBounds(10, 242, 251, 103);
+		scrollPane.setBounds(10, 242, 440, 103);
 		getContentPane().add(scrollPane);
 		
+		// pannello con layout di tipo griglia, che conterrà i bulloni da scegliere per la vendita
+		panel = new JPanel();
+		scrollPane.setViewportView(panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{0, 0, 0};
+		gbl_panel.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
+
 		numeroBulloni = bulloni.size();  // numero di bulloni da mostrare
 		codiceLabel = new JLabel[numeroBulloni];
 		tipoBulloneLabel = new JLabel[numeroBulloni];
@@ -323,7 +324,7 @@ public class InputForm extends JFrame implements WindowListener {
 			// nella griglia indica il codice del bullone
 			codiceLabel[i] = new JLabel(((Integer)bullone.getCodice()).toString());
 			GridBagConstraints gbc_codiceLabel = new GridBagConstraints();
-			gbc_codiceLabel.insets = new Insets(0, 2, 5, 5);
+			gbc_codiceLabel.insets = new Insets(5, 15, 5, 5);
 			gbc_codiceLabel.gridx = x;
 			gbc_codiceLabel.gridy = i;
 			panel.add(codiceLabel[i], gbc_codiceLabel);
@@ -331,7 +332,7 @@ public class InputForm extends JFrame implements WindowListener {
 			// nella griglia indica il tipo del bullone
 			tipoBulloneLabel[i] = new JLabel(bullone.getClass().getSimpleName());
 			GridBagConstraints gbc_tipoBulloneLabel = new GridBagConstraints();
-			gbc_tipoBulloneLabel.insets = new Insets(0, 30, 5, 5);
+			gbc_tipoBulloneLabel.insets = new Insets(5, 15, 5, 5);
 			gbc_tipoBulloneLabel.gridx = ++x;
 			gbc_tipoBulloneLabel.gridy = i;
 			panel.add(tipoBulloneLabel[i], gbc_tipoBulloneLabel);
@@ -339,7 +340,7 @@ public class InputForm extends JFrame implements WindowListener {
 			// nella griglia indica il luogo di produzione del bullone
 			luogoProduzioneLabel[i] = new JLabel(bullone.getLuogoProduzione());
 			GridBagConstraints gbc_luogoProduzioneLabel = new GridBagConstraints();
-			gbc_luogoProduzioneLabel.insets = new Insets(0, 30, 5, 5);
+			gbc_luogoProduzioneLabel.insets = new Insets(5, 15, 5, 5);
 			gbc_luogoProduzioneLabel.gridx = ++x;
 			gbc_luogoProduzioneLabel.gridy = i;
 			panel.add(luogoProduzioneLabel[i], gbc_luogoProduzioneLabel);
@@ -347,7 +348,7 @@ public class InputForm extends JFrame implements WindowListener {
 			// nella griglia indica il prezzo di un singolo bullone
 			prezzoLabel[i] = new JLabel(((Double)bullone.getPrezzo()).toString());
 			GridBagConstraints gbc_prezzoLabel = new GridBagConstraints();
-			gbc_prezzoLabel.insets = new Insets(0, 0, 5, 5);
+			gbc_prezzoLabel.insets = new Insets(5, 15, 5, 5);
 			gbc_prezzoLabel.gridx = ++x;
 			gbc_prezzoLabel.gridy = i;
 			panel.add(prezzoLabel[i], gbc_prezzoLabel);
@@ -358,7 +359,7 @@ public class InputForm extends JFrame implements WindowListener {
 			// nella griglia indica il contatore di bulloni da vendere con questo codice
 			quantitaSpinner[i] = new JSpinner(modelSpinner[i]);
 			GridBagConstraints gbc_quantitaSpinner = new GridBagConstraints();
-			gbc_quantitaSpinner.insets = new Insets(0, 0, 5, 10);
+			gbc_quantitaSpinner.insets = new Insets(5, 15, 5, 15);
 			gbc_quantitaSpinner.gridx = ++x;
 			gbc_quantitaSpinner.gridy = i;
 			panel.add(quantitaSpinner[i], gbc_quantitaSpinner);
@@ -437,7 +438,7 @@ public class InputForm extends JFrame implements WindowListener {
 				
 			}
 		});
-		aggiungiVenditaButton.setBounds(285, 315, 129, 30);
+		aggiungiVenditaButton.setBounds(465, 315, 165, 30);
 		getContentPane().add(aggiungiVenditaButton);
 		
 	}

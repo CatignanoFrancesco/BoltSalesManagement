@@ -42,7 +42,7 @@ public class BodyVendite extends JPanel {
 	/** coordinata y del body */
 	private static final int Y_BODY = 100;
 	/** larghezza del body */
-	private static final int WIDTH_BODY = 750;
+	private static final int WIDTH_BODY = 950;
 	/** lunghezza del body */
 	private static final int HEIGHT_BODY = 652;
 	
@@ -51,7 +51,7 @@ public class BodyVendite extends JPanel {
 	/** coordinata y dello scrollPane */
 	private static final int Y_SCROLLPANE = 50;
 	/** larghezza dello scrollPane */
-	private static final int WIDTH_SCROLLPANE = 768;
+	private static final int WIDTH_SCROLLPANE = 970;
 	/** lunghezza dello scrollPane */
 	private static final int HEIGHT_SCROLLPANE = 507;
 	
@@ -194,7 +194,7 @@ public class BodyVendite extends JPanel {
 				mainMenu.setEnabled(false);
 			}
 		});
-		aggiungiVenditaButton.setBounds(10, 565, 136, 30);
+		aggiungiVenditaButton.setBounds(10, 565, 165, 30);
 		add(aggiungiVenditaButton);
 	}
 	
@@ -212,7 +212,7 @@ public class BodyVendite extends JPanel {
 				mainMenu.setEnabled(false);
 			}
 		});
-		cercaPerButton.setBounds(10, 10, 118, 30);
+		cercaPerButton.setBounds(10, 10, 130, 30);
 		add(cercaPerButton);
 	}
 	
@@ -235,7 +235,7 @@ public class BodyVendite extends JPanel {
 				}
 			}
 		});
-		visualizzaTuttoButton.setBounds(657, 10, 120, 30);
+		visualizzaTuttoButton.setBounds(657, 10, 140, 30);
 		add(visualizzaTuttoButton);
 	}
 	

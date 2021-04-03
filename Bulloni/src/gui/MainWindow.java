@@ -20,7 +20,7 @@ import databaseSQL.exception.DatabaseSQLException;
 
 public class MainWindow extends JFrame {
 
-	static private final int MIN_WIDTH_WINDOW = 800;
+	static private final int MIN_WIDTH_WINDOW = 1000;
 	static private final int MIN_HEIGHT_WINDOW = 700;
 
 	static private Dimension minDimensione = new Dimension(MIN_WIDTH_WINDOW, MIN_HEIGHT_WINDOW);
