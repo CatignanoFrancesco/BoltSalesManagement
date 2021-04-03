@@ -389,8 +389,6 @@ public class InputForm extends JFrame implements WindowListener {
 		aggiungiVenditaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				boolean aggiungi = false;
-				
 				Data data = null;
 				ImpiegatoBulloni impiegato = null;
 				
@@ -412,47 +410,37 @@ public class InputForm extends JFrame implements WindowListener {
 					
 					vendita = new VenditaBulloni(Integer.parseUnsignedInt(codiceVenditaTextField.getText()), data, impiegato, merce);
 					
+					/* tento di aggiungere la vendita al set del gestore vendite e nel database, ma se
+					 * e' stata sollevata una qualsiasi eccezione precedentemente, la vendita non verrà aggiunta */
+					gvInserimento.aggiungiVendita(vendita);
+					
+					// ristampo la lista di vendite nel pannello principale e chiudo questa finestra
+					istanzaCorrente.printListaVendite(gvVisualizzazione.getVendite());
+					mainJFrame.setEnabled(true);
+					dispose();
+					
 				}
 				catch (DateTimeException f) {
-					aggiungi = true;
 					JOptionPane.showMessageDialog(finestraCorrente, "Data inserita non valida.", "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 				catch (ExceptionGestoreImpiegato t) {
-					aggiungi = true;
 					JOptionPane.showMessageDialog(finestraCorrente, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 				catch (VenditaException f) {
-					aggiungi = true;
 					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 				catch (GestoreBulloniException f) {
-					aggiungi = true;
 					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
-				
-				/** tento di aggiungere la vendita al set del gestore vendite e nel database, ma se
-				 * e' stata sollevata una qualsiasi eccezione precedentemente, la vendita non verrà aggiunta */
-				if (!aggiungi) {
-					try {
-						gvInserimento.aggiungiVendita(vendita);
-						istanzaCorrente.printListaVendite(gvVisualizzazione.getVendite());
-						mainJFrame.setEnabled(true);
-						dispose();
-					} 
-					catch (GestoreVenditaException f) {
-						JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-					} 
-					catch (ExceptionGestoreImpiegato f) {
-						JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-					} 
-					catch (DatabaseSQLException f) {
-						JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-					} 
-					catch (SQLException f) {
-						JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-					}
+				catch (GestoreVenditaException f) {
+					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+				} 
+				catch (DatabaseSQLException f) {
+					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+				} 
+				catch (SQLException f) {
+					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
-				
 			}
 		});
 		aggiungiVenditaButton.setBounds(465, 315, 165, 30);
