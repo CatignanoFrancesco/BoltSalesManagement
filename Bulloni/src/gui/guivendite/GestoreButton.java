@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.util.Set;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import gestori.gestorevendite.ContainerVendite;
@@ -86,11 +85,12 @@ public class GestoreButton implements ActionListener {
 	 * @param mainMenu finestra grafica padre
 	 * @param codice codice della tupla nella quale si clicca il pulsante
 	 */
-	public GestoreButton(ContainerVendite gestoreVendite, JFrame mainMenu, String codice, String secondoCodice) {
+	public GestoreButton(ContainerVendite gestoreVendite, JFrame mainMenu, String codice, String secondoCodice, BodyVendite istanzaCorrente) {
 		this.gestoreVendite = gestoreVendite;
 		this.mainMenu = mainMenu;
 		this.codice = codice;
 		this.secondoCodice = secondoCodice;
+		this.istanzaCorrente = istanzaCorrente;
 	}
 	
 	
@@ -103,7 +103,7 @@ public class GestoreButton implements ActionListener {
 		
 		if (e.getActionCommand().equals("Info merce")) {
 			
-			if (this.gestoreBulloni != null && this.istanzaCorrente != null) {
+			if ((this.gestoreBulloni != null) && (this.istanzaCorrente != null)) {
 				
 				// recupero la vendita che ha quel preciso codice e da essa recupero il set di merce venduta
 				try {
@@ -112,7 +112,7 @@ public class GestoreButton implements ActionListener {
 					Set<MerceVenduta> merce = vendita.getMerceVenduta();
 					
 					// creo la finestra che permette di visualizzare la lista di merce venduta, modificare la vendita e visualizzare tutte le info del bullone venduto
-					VisualizzaMerceVenduta mvm = new VisualizzaMerceVenduta(mainMenu, gestoreVendite, gestoreVendite, gestoreBulloni, Integer.parseInt(codice), merce, istanzaCorrente);
+					VisualizzaMerceVenduta mvm = new VisualizzaMerceVenduta(mainMenu, gestoreVendite, gestoreBulloni, Integer.parseInt(codice), merce, istanzaCorrente);
 					mvm.setVisible(true);
 					mainMenu.setEnabled(false);
 				} 
@@ -130,9 +130,9 @@ public class GestoreButton implements ActionListener {
 		}
 		else if (e.getActionCommand().equals("Modifica")) {
 			
-			if (secondoCodice != null) {
+			if ((this.secondoCodice != null) && (this.istanzaCorrente != null)) {
 
-				ModificaVenditaBullone mvb = new ModificaVenditaBullone(mainMenu, (ModificaVendite)gestoreVendite, Integer.parseUnsignedInt(codice), Integer.parseUnsignedInt(secondoCodice));
+				ModificaVenditaBullone mvb = new ModificaVenditaBullone(mainMenu, (ModificaVendite)gestoreVendite, Integer.parseUnsignedInt(codice), Integer.parseUnsignedInt(secondoCodice), istanzaCorrente);
 				mvb.setVisible(true);
 				mainMenu.setEnabled(false);
 			}

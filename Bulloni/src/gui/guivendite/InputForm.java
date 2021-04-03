@@ -10,7 +10,6 @@ import java.awt.event.WindowListener;
 import java.sql.SQLException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -100,11 +99,8 @@ public class InputForm extends JFrame implements WindowListener {
 	private final String titoloFinestra = "Aggiungi vendita";
 	
 	/** gestore delle vendite con interfaccia contenente i metodi di inserimento */
-	private InserimentoVendite gvInserimento;
-	
-	/** gestore delle vendite con interfaccia contenente i metodi di visualizzazione */
-	private VisualizzazioneVendite gvVisualizzazione;
-	
+	private InserimentoVendite gestoreVendite;
+
 	/** gestore degli impiegati con interfaccia di visualizzazione */
 	private GestoreImpiegatiDb gestoreImpiegati;
 	
@@ -122,7 +118,7 @@ public class InputForm extends JFrame implements WindowListener {
 	 * @param gestoreImpiegati gestore contenente tutti gli impiegati presi dal database
 	 * @param gestoreBulloni gestore contenente tutti i bulloni presi dal database
 	 */
-	public InputForm(JFrame mainJF, InserimentoVendite gvInserimento, VisualizzazioneVendite gvVisualizzazione, GestoreImpiegatiDb gestoreImpiegati, GestoreBulloni gestoreBulloni, BodyVendite istanzaCorrente) {
+	public InputForm(JFrame mainJF, InserimentoVendite gestoreVendite, GestoreImpiegatiDb gestoreImpiegati, GestoreBulloni gestoreBulloni, BodyVendite istanzaCorrente) {
 		
 		if (gestoreImpiegati.localSetIsEmpty() || gestoreBulloni.isEmpty()) {
 			JOptionPane.showMessageDialog(mainJF, "Impossibile aggiungere una vendita, non ci sono impiegati o bulloni registrati.", "Warning", JOptionPane.ERROR_MESSAGE);
@@ -131,8 +127,7 @@ public class InputForm extends JFrame implements WindowListener {
 		}
 		
 		this.mainJFrame = mainJF;
-		this.gvInserimento = gvInserimento;
-		this.gvVisualizzazione = gvVisualizzazione;
+		this.gestoreVendite = gestoreVendite;
 		this.gestoreImpiegati = gestoreImpiegati;
 		this.gestoreBulloni = (VisualizzaBulloni)gestoreBulloni;
 		this.istanzaCorrente = istanzaCorrente;
@@ -185,7 +180,7 @@ public class InputForm extends JFrame implements WindowListener {
 		// text field per contenere il codice della vendita;
 		codiceVenditaTextField = new JTextField();
 		codiceVenditaLabel.setLabelFor(codiceVenditaTextField);
-		codiceVenditaTextField.setText(((Integer)gvInserimento.getCodVenditaAutomatico()).toString());
+		codiceVenditaTextField.setText(((Integer)gestoreVendite.getCodVenditaAutomatico()).toString());
 		codiceVenditaTextField.setEditable(false);
 		codiceVenditaTextField.setBounds(130, 52, 80, 19);
 		getContentPane().add(codiceVenditaTextField);
@@ -412,10 +407,10 @@ public class InputForm extends JFrame implements WindowListener {
 					
 					/* tento di aggiungere la vendita al set del gestore vendite e nel database, ma se
 					 * e' stata sollevata una qualsiasi eccezione precedentemente, la vendita non verrà aggiunta */
-					gvInserimento.aggiungiVendita(vendita);
+					gestoreVendite.aggiungiVendita(vendita);
 					
 					// ristampo la lista di vendite nel pannello principale e chiudo questa finestra
-					istanzaCorrente.printListaVendite(gvVisualizzazione.getVendite());
+					istanzaCorrente.printListaVendite(((VisualizzazioneVendite)gestoreVendite).getVendite());
 					mainJFrame.setEnabled(true);
 					dispose();
 					

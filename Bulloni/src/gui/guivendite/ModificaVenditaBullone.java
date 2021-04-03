@@ -52,6 +52,9 @@ public class ModificaVenditaBullone extends JFrame implements WindowListener {
 	/** codice del bullone selezionato per la modifica nella vendita */
 	private int codiceBullone;
 	
+	/** istanza corrente del body vendite */
+	private BodyVendite istanzaCorrente;
+	
 	
 	
 	/**
@@ -62,11 +65,12 @@ public class ModificaVenditaBullone extends JFrame implements WindowListener {
 	 * @param codiceVendita codice della vendita selezionata per la modifica 
 	 * @param codiceBullone codice del bullone selezionato per la modifica nella vendita
 	 */
-	public ModificaVenditaBullone(JFrame mFrame, ModificaVendite gestoreVendite, int codiceVendita, int codiceBullone) {
+	public ModificaVenditaBullone(JFrame mFrame, ModificaVendite gestoreVendite, int codiceVendita, int codiceBullone, BodyVendite istanzaCorrente) {
 		this.mainJFrame = mFrame;
 		this.gestoreVendite = gestoreVendite;
 		this.codiceVendita = codiceVendita;
 		this.codiceBullone = codiceBullone;
+		this.istanzaCorrente = istanzaCorrente;
 		
 		inizializza();
 		createModificaButton();
@@ -113,10 +117,18 @@ public class ModificaVenditaBullone extends JFrame implements WindowListener {
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
-					gestoreVendite.updateNumeroBulloniVendutiByCodici(codiceVendita, codiceBullone, Integer.parseUnsignedInt(textField.getText()));
+					int nuovoNumeroBulloni = Integer.parseUnsignedInt(textField.getText());
+					
+					gestoreVendite.updateNumeroBulloniVendutiByCodici(codiceVendita, codiceBullone, nuovoNumeroBulloni);
+					
+					istanzaCorrente.printListaVendite(((VisualizzazioneVendite)gestoreVendite).getVendite());
+					
+					((VisualizzaMerceVenduta)mainJFrame).printMerceVenduta(((VisualizzazioneVendite)gestoreVendite).getVenditaByCodice(codiceVendita).getMerceVenduta());
+					mainJFrame.setEnabled(true);
+					dispose();
 				}
 				catch (NumberFormatException t) {
-					JOptionPane.showMessageDialog(finestraCorrente, "E' stato inserito un numero negativo oppure non e' stato inserito un numero.", "Exception", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(finestraCorrente, "Non e' stato inserito un numero (positivo e senza virgola/punto).", "Exception", JOptionPane.ERROR_MESSAGE);
 				} 
 				catch (GestoreVenditaException t) {
 					JOptionPane.showMessageDialog(finestraCorrente, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);

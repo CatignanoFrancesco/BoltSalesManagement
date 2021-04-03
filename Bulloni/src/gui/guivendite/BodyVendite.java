@@ -20,7 +20,6 @@ import javax.swing.ScrollPaneConstants;
 import gestori.gestoreImpiegati.GestoreImpiegatiDb;
 import gestori.gestorevendite.ContainerVendite;
 import gestori.gestorevendite.InserimentoVendite;
-import gestori.gestorevendite.VisualizzazioneVendite;
 import gestori.gestorevendite.exception.GestoreVenditaException;
 import gestori.gestoribulloni.GestoreBulloni;
 import vendita.MerceVenduta;
@@ -199,7 +198,7 @@ public class BodyVendite extends JPanel {
 		aggiungiVenditaButton = new JButton("Aggiungi vendita");
 		aggiungiVenditaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InputForm inpf = new InputForm(mainMenu, (InserimentoVendite)gestoreVendite, (VisualizzazioneVendite)gestoreVendite, gestoreImpiegati, gestoreBulloni, istanzaCorrente);
+				InputForm inpf = new InputForm(mainMenu, (InserimentoVendite)gestoreVendite, gestoreImpiegati, gestoreBulloni, istanzaCorrente);
 				inpf.setVisible(true);
 				mainMenu.setEnabled(false);
 			}

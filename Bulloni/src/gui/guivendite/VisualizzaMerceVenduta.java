@@ -16,7 +16,6 @@ import javax.swing.JScrollPane;
 
 import gestori.gestorevendite.ContainerVendite;
 import gestori.gestorevendite.ModificaVendite;
-import gestori.gestorevendite.VisualizzazioneVendite;
 import gestori.gestoribulloni.VisualizzaBulloni;
 import vendita.MerceVenduta;
 
@@ -59,10 +58,7 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 	private final String titoloFinestra = "Merce venduta";
 	
 	/** gestore delle vendite con interfaccia contenente i metodi di modifica */
-	private ModificaVendite gvModifica;
-	
-	/** gestore delle vendite con interfaccia contenente i metodi di visualizzazione */
-	private VisualizzazioneVendite gvVisualizzazione;
+	private ModificaVendite gestoreVendite;
 	
 	/** gestore dei bulloni con interfaccia contenente i metodi di visualizzazione */
 	private VisualizzaBulloni gestoreBulloni;
@@ -88,17 +84,16 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 	 * @param codiceVendita codice univoco della vendita selezionata
 	 * @param merce set di merce venduta nella vendita selezionata
 	 */
-	public VisualizzaMerceVenduta(JFrame mainJF, ModificaVendite gvModifica, VisualizzazioneVendite gvVisualizzazione, VisualizzaBulloni gestoreBulloni, int codiceVendita, Set<MerceVenduta> merce, BodyVendite istanzaCorrente) {
+	public VisualizzaMerceVenduta(JFrame mainJF, ModificaVendite gestoreVendite, VisualizzaBulloni gestoreBulloni, int codiceVendita, Set<MerceVenduta> merce, BodyVendite istanzaCorrente) {
 		this.mainJFrame = mainJF;
-		this.gvModifica = gvModifica;
-		this.gvVisualizzazione = gvVisualizzazione;
+		this.gestoreVendite = gestoreVendite;
 		this.gestoreBulloni = gestoreBulloni;
 		this.codiceVendita = codiceVendita;
 		this.merce = merce;
 		this.istanzaCorrente = istanzaCorrente;
 		
 		inizializza();
-		printMerceVenduta();
+		printMerceVenduta(this.merce);
 		
 	}
 	
@@ -178,7 +173,10 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 	/**
 	 * Metodo che stampa la lista di merce venduta corrispondente alla vendita selezionata nella finestra precedente
 	 */
-	private void printMerceVenduta() {
+	public void printMerceVenduta(Set<MerceVenduta> merce) {
+		
+		// rimuove tutto dal pannello
+		panel.removeAll();
 		
 		// stampa le intestazioni delle colonne per la lista di merce venduta
 		createInstestazioniColonne();
@@ -244,7 +242,7 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 			gbc_modificaButton.insets = new Insets(0, 0, 5, 1);
 			gbc_modificaButton.gridx = ++x;
 			gbc_modificaButton.gridy = i+1;
-			modificaButton[i].addActionListener(new GestoreButton((ContainerVendite)gvModifica, thisFrame, ((Integer)codiceVendita).toString(), codBullone[i].getText()));
+			modificaButton[i].addActionListener(new GestoreButton((ContainerVendite)gestoreVendite, thisFrame, ((Integer)codiceVendita).toString(), codBullone[i].getText(), istanzaCorrente));
 			panel.add(modificaButton[i], gbc_modificaButton);
 			
 			// pulsante che permette di visualizzare tutte le informazioni sul bullone corrispondente
@@ -253,7 +251,7 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 			gbc_infoButton.insets = new Insets(0, 0, 5, 20);
 			gbc_infoButton.gridx = ++x;
 			gbc_infoButton.gridy = i+1;
-			infoButton[i].addActionListener(new GestoreButton((ContainerVendite)gvModifica, gestoreBulloni, thisFrame, codBullone[i].getText(), istanzaCorrente));
+			infoButton[i].addActionListener(new GestoreButton((ContainerVendite)gestoreVendite, gestoreBulloni, thisFrame, codBullone[i].getText(), istanzaCorrente));
 			// new GestoreButton((ContainerVendite)gestoreVendite, gestoreBulloni, thisFrame, codBullone[i].getText())
 			panel.add(infoButton[i], gbc_infoButton);
 			
