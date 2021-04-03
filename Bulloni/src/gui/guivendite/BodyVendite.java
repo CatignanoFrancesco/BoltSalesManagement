@@ -326,7 +326,7 @@ public class BodyVendite extends JPanel {
 			gbc_visualButton.insets = new Insets(0, 0, 5, 0);
 			gbc_visualButton.gridx = ++posizioneX;
 			gbc_visualButton.gridy = i+1;
-			visualButton[i].addActionListener(new GestoreButton(gestoreVendite, mainMenu, codLabel[i].getText()));
+			visualButton[i].addActionListener(new GestoreButton(gestoreVendite, gestoreBulloni, mainMenu, codLabel[i].getText()));
 			panel.add(visualButton[i], gbc_visualButton);
 			
 			// pulsate che permette di visualizzare tutte le info sull'impiegato che ha effettuato la vendita in un'apposita finestra

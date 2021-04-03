@@ -31,7 +31,7 @@ public class ModificaVenditaBullone extends JFrame implements WindowListener {
 	/** coordinata y della finestra */
 	private static final int Y = 100;
 	/** larghezza della finestra */
-	private static final int WIDTH = 360;
+	private static final int WIDTH = 380;
 	/** lunghezza della finestra */
 	private static final int HEIGHT = 126;
 	
@@ -98,11 +98,11 @@ public class ModificaVenditaBullone extends JFrame implements WindowListener {
 	public void createModificaButton() {
 		
 		messaggioPrincipale = new JLabel("Inserisci una nuova quantita' di bulloni venduti:");
-		messaggioPrincipale.setBounds(10, 5, 323, 13);
+		messaggioPrincipale.setBounds(10, 5, 350, 13);
 		getContentPane().add(messaggioPrincipale);
 		
 		textField = new JTextField();
-		textField.setBounds(110, 28, 150, 25);
+		textField.setBounds(110, 28, 220, 25);
 		getContentPane().add(textField);
 		textField.setColumns(10);
 		

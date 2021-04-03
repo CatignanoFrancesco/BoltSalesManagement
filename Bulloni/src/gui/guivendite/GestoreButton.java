@@ -99,19 +99,22 @@ public class GestoreButton implements ActionListener {
 		
 		if (e.getActionCommand().equals("Info merce")) {
 			
-			// recupero la vendita che ha quel preciso codice e da essa recupero il set di merce venduta
-			try {
-				Vendita<MerceVenduta> vendita = gestoreVendite.getVenditaByCodice(Integer.parseInt(codice));
+			if (this.gestoreBulloni != null) {
 				
-				Set<MerceVenduta> merce = vendita.getMerceVenduta();
-				
-				// creo la finestra che permette di visualizzare la lista di merce venduta, modificare la vendita e visualizzare tutte le info del bullone venduto
-				VisualizzaMerceVenduta mvm = new VisualizzaMerceVenduta(mainMenu, gestoreVendite, Integer.parseInt(codice), merce);
-				mvm.setVisible(true);
-				mainMenu.setEnabled(false);
-			} 
-			catch (GestoreVenditaException t) {
-				JOptionPane.showMessageDialog(mainMenu, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+				// recupero la vendita che ha quel preciso codice e da essa recupero il set di merce venduta
+				try {
+					Vendita<MerceVenduta> vendita = gestoreVendite.getVenditaByCodice(Integer.parseInt(codice));
+					
+					Set<MerceVenduta> merce = vendita.getMerceVenduta();
+					
+					// creo la finestra che permette di visualizzare la lista di merce venduta, modificare la vendita e visualizzare tutte le info del bullone venduto
+					VisualizzaMerceVenduta mvm = new VisualizzaMerceVenduta(mainMenu, gestoreVendite, gestoreBulloni, Integer.parseInt(codice), merce);
+					mvm.setVisible(true);
+					mainMenu.setEnabled(false);
+				} 
+				catch (GestoreVenditaException t) {
+					JOptionPane.showMessageDialog(mainMenu, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 			
 		}
