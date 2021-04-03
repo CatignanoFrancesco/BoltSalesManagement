@@ -203,7 +203,7 @@ public class BodyVendite extends JPanel {
 				mainMenu.setEnabled(false);
 			}
 		});
-		aggiungiVenditaButton.setBounds(10, 565, 165, 30);
+		aggiungiVenditaButton.setBounds(10, 575, 165, 30);
 		add(aggiungiVenditaButton);
 	}
 	
@@ -221,7 +221,7 @@ public class BodyVendite extends JPanel {
 				mainMenu.setEnabled(false);
 			}
 		});
-		cercaPerButton.setBounds(10, 10, 130, 30);
+		cercaPerButton.setBounds(10, 10, 145, 30);
 		add(cercaPerButton);
 	}
 	
@@ -244,7 +244,7 @@ public class BodyVendite extends JPanel {
 				}
 			}
 		});
-		visualizzaTuttoButton.setBounds(657, 10, 140, 30);
+		visualizzaTuttoButton.setBounds(812, 10, 170, 30);
 		add(visualizzaTuttoButton);
 	}
 	

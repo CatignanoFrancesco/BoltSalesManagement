@@ -35,7 +35,7 @@ public class SelezionaRicerca extends JFrame implements WindowListener {
 	/** coordinata y della finestra */
 	private static final int Y = 100;
 	/** larghezza della finestra */
-	private static final int WIDTH = 325;
+	private static final int WIDTH = 370;
 	/** lunghezza della finestra */
 	private static final int HEIGHT = 297;
 	
@@ -177,30 +177,30 @@ public class SelezionaRicerca extends JFrame implements WindowListener {
 		
 		// label corrispondente alla data della vendita
 		dataVenditaLabel = new JLabel("Data vendita:");
-		dataVenditaLabel.setBounds(10, 180, 118, 13);
+		dataVenditaLabel.setBounds(10, 180, 118, 16);
 		getContentPane().add(dataVenditaLabel);
 		
 		// menu combobox èer scegliere il giorno del mese
 		comboBoxGiorno = new JComboBox<Integer>();
-		comboBoxGiorno.setBounds(120, 205, 40, 26);
-		comboBoxGiorno.setModel(new DefaultComboBoxModel<Integer>(new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31}));
+		comboBoxGiorno.setBounds(135, 205, 60, 26);
+		comboBoxGiorno.setModel(new DefaultComboBoxModel<Integer>(new Integer[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31}));
 		getContentPane().add(comboBoxGiorno);
 		
 		// label corrispondente al giorno del mese
 		giornoLabel = new JLabel("Giorno:");
 		giornoLabel.setLabelFor(comboBoxGiorno);
-		giornoLabel.setBounds(120, 180, 53, 13);
+		giornoLabel.setBounds(135, 183, 53, 13);
 		getContentPane().add(giornoLabel);
 		
 		// menu combobox per scegliere il mese dell'anno
 		comboBoxMese = new JComboBox<Integer>();
-		comboBoxMese.setModel(new DefaultComboBoxModel<Integer>(new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12}));
-		comboBoxMese.setBounds(177, 205, 40, 26);
+		comboBoxMese.setModel(new DefaultComboBoxModel<Integer>(new Integer[]{0,1,2,3,4,5,6,7,8,9,10,11,12}));
+		comboBoxMese.setBounds(212, 205, 60, 26);
 		getContentPane().add(comboBoxMese);
 		
 		// label corrispondente al mese dell'anno
 		meseLabel = new JLabel("Mese:");
-		meseLabel.setBounds(177, 180, 53, 13);
+		meseLabel.setBounds(212, 183, 53, 13);
 		getContentPane().add(meseLabel);
 		meseLabel.setLabelFor(comboBoxMese);
 		
@@ -209,16 +209,17 @@ public class SelezionaRicerca extends JFrame implements WindowListener {
 		for (int i = 1930; i <= LocalDate.now().getYear(); i++) {
 			listaAnni.add(i);
 		}
+		listaAnni.add(0, 0);
 		
 		// menu combobox per scegliere l'anno
 		comboBoxAnno = new JComboBox<Integer>();
 		comboBoxAnno.setModel(new DefaultComboBoxModel<Integer>(listaAnni.toArray(new Integer[0])));
-		comboBoxAnno.setBounds(235, 205, 52, 26);
+		comboBoxAnno.setBounds(290, 205, 65, 26);
 		getContentPane().add(comboBoxAnno);
 		
 		// label corrispondente all'anno
 		annoLabel = new JLabel("Anno:");
-		annoLabel.setBounds(235, 180, 53, 13);
+		annoLabel.setBounds(290, 183, 53, 13);
 		getContentPane().add(annoLabel);
 		annoLabel.setLabelFor(comboBoxAnno);
 		

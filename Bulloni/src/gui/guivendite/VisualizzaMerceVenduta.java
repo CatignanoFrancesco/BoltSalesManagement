@@ -31,7 +31,7 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 	/** coordinata y della finestra */
 	private static final int Y = 100;
 	/** larghezza della finestra */
-	private static final int WIDTH = 770;
+	private static final int WIDTH = 870;
 	/** lunghezza della finestra */
 	private static final int HEIGHT = 345;
 	
@@ -40,7 +40,7 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 	/** coordinata y dello scrollPane */
 	private static final int Y_SCROLLPANE = 10;
 	/** larghezza dello scrollPane */
-	private static final int WIDTH_SCROLLPANE = 737;
+	private static final int WIDTH_SCROLLPANE = 850;
 	/** lunghezza dello scrollPane */
 	private static final int HEIGHT_SCROLLPANE = 280;
 	
