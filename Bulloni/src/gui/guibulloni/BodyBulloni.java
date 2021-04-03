@@ -3,6 +3,8 @@ package gui.guibulloni;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Set;
 
 import javax.swing.BoxLayout;
@@ -14,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import bulloni.Bullone;
+import gestori.gestoribulloni.AggiungiBulloni;
 import gestori.gestoribulloni.ModificaBulloni;
 import gestori.gestoribulloni.VisualizzaBulloni;
 import gestori.gestoribulloni.exception.GestoreBulloniException;
@@ -25,7 +28,7 @@ import gestori.gestoribulloni.exception.GestoreBulloniException;
  * 
  * @author Catignano Francesco
  */
-public class BodyBulloni extends JPanel {
+public class BodyBulloni extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	private static final int MAX_WIDTH = 750;
@@ -105,6 +108,20 @@ public class BodyBulloni extends JPanel {
 	
 	
 	/*
+	 * Trigger dei bottoni
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// Bottone per l'aggiunta di un bullone
+		if(e.getSource()==this.btnAggiungiBullone) {
+			this.mainFrame.setEnabled(false);
+			AggiungiBulloneFrame aggiungiBulloneFrame = new AggiungiBulloneFrame(this.mainFrame, this, (AggiungiBulloni)this.visualizzaBulloni);
+			aggiungiBulloneFrame.setVisible(true);
+		}
+	}
+	
+	
+	/*
 	 *------------------
 	 *  METODI PRIVATI
 	 *------------------
@@ -151,7 +168,7 @@ public class BodyBulloni extends JPanel {
 		 */
 		this.btnAggiungiBullone.setText("+ Aggiungi un bullone");
 		this.footerPanel.add(this.btnAggiungiBullone);
-		// Aggiungere action listener
+		this.btnAggiungiBullone.addActionListener(this);
 	}
 	
 	
@@ -231,4 +248,5 @@ public class BodyBulloni extends JPanel {
 			posY++;
 		}
 	}
+
 }
