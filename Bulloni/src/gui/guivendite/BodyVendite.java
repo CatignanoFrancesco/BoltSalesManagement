@@ -20,6 +20,7 @@ import javax.swing.ScrollPaneConstants;
 import gestori.gestoreImpiegati.GestoreImpiegatiDb;
 import gestori.gestorevendite.ContainerVendite;
 import gestori.gestorevendite.InserimentoVendite;
+import gestori.gestorevendite.VisualizzazioneVendite;
 import gestori.gestorevendite.exception.GestoreVenditaException;
 import gestori.gestoribulloni.GestoreBulloni;
 import vendita.MerceVenduta;
@@ -198,7 +199,7 @@ public class BodyVendite extends JPanel {
 		aggiungiVenditaButton = new JButton("Aggiungi vendita");
 		aggiungiVenditaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InputForm inpf = new InputForm(mainMenu, gestoreVendite, gestoreImpiegati, gestoreBulloni);
+				InputForm inpf = new InputForm(mainMenu, (InserimentoVendite)gestoreVendite, (VisualizzazioneVendite)gestoreVendite, gestoreImpiegati, gestoreBulloni, istanzaCorrente);
 				inpf.setVisible(true);
 				mainMenu.setEnabled(false);
 			}
@@ -216,7 +217,7 @@ public class BodyVendite extends JPanel {
 		cercaPerButton = new JButton("Cerca per...");
 		cercaPerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SelezionaRicerca sr = new SelezionaRicerca(gestoreVendite, mainMenu, panel, istanzaCorrente);
+				SelezionaRicerca sr = new SelezionaRicerca(gestoreVendite, mainMenu, istanzaCorrente);
 				sr.setVisible(true);
 				mainMenu.setEnabled(false);
 			}
@@ -253,6 +254,9 @@ public class BodyVendite extends JPanel {
 	 * Metodo che stampa una lista di vendite
 	 */
 	public void printListaVendite(Set<Vendita<MerceVenduta>> vendite) {
+		
+		// rimuove tutto dal pannello
+		panel.removeAll();
 		
 		// stampa le intestazioni delle colonne per la lista di vendite
 		printIntestazioniColonne();

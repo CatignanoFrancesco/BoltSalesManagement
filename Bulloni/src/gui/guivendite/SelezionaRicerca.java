@@ -41,7 +41,6 @@ public class SelezionaRicerca extends JFrame implements WindowListener {
 	
 	private JFrame mainJFrame;
 	private BodyVendite istanzaCorrente;
-	private JPanel listaPanel;
 	private JLabel codiceVenditaLabel;
 	private JLabel matricolaImpiegatoLabel;
 	private JLabel dataVenditaLabel;
@@ -70,13 +69,11 @@ public class SelezionaRicerca extends JFrame implements WindowListener {
 	 * 
 	 * @param gestoreVendite gestore contenente tutte le vendite prese da database
 	 * @param mainJF finestra principale da bloccare
-	 * @param listaPanel pannello in cui è presente la lista di vendite in BodyVendite
 	 * @param istanzaCorrente istanza in uso del pannello BodyVendite
 	 */
-	public SelezionaRicerca(VisualizzazioneVendite gestoreVendite, JFrame mainJF, JPanel listaPanel, BodyVendite istanzaCorrente) {
+	public SelezionaRicerca(VisualizzazioneVendite gestoreVendite, JFrame mainJF, BodyVendite istanzaCorrente) {
 		this.gestoreVendite = gestoreVendite;
 		this.mainJFrame = mainJF;
-		this.listaPanel = listaPanel;
 		this.istanzaCorrente = istanzaCorrente;
 		
 		inizializza();
@@ -250,7 +247,6 @@ public class SelezionaRicerca extends JFrame implements WindowListener {
 			JOptionPane.showMessageDialog(finestraCorrente, "Nessuna vendita corrisponde al parametro cercato.", "Warning", JOptionPane.ERROR_MESSAGE);
 		else {
 			this.mainJFrame.setEnabled(true);
-			this.listaPanel.removeAll();
 			this.istanzaCorrente.printListaVendite(vendite);
 			dispose();
 		}

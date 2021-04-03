@@ -8,7 +8,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.SQLException;
+import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,6 +34,7 @@ import databaseSQL.exception.DatabaseSQLException;
 import gestori.gestoreImpiegati.GestoreImpiegatiDb;
 import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
 import gestori.gestorevendite.InserimentoVendite;
+import gestori.gestorevendite.VisualizzazioneVendite;
 import gestori.gestorevendite.exception.GestoreVenditaException;
 import gestori.gestoribulloni.GestoreBulloni;
 import gestori.gestoribulloni.VisualizzaBulloni;
@@ -80,6 +83,7 @@ public class InputForm extends JFrame implements WindowListener {
 	private JButton aggiungiVenditaButton;
 	private JScrollPane scrollPane;
 	private JPanel panel;
+	private BodyVendite istanzaCorrente;
 	private JFrame finestraCorrente = this;
 	
 	/** conterrà i codici dei bulloni */
@@ -96,7 +100,10 @@ public class InputForm extends JFrame implements WindowListener {
 	private final String titoloFinestra = "Aggiungi vendita";
 	
 	/** gestore delle vendite con interfaccia contenente i metodi di inserimento */
-	private InserimentoVendite gestoreVendite;
+	private InserimentoVendite gvInserimento;
+	
+	/** gestore delle vendite con interfaccia contenente i metodi di visualizzazione */
+	private VisualizzazioneVendite gvVisualizzazione;
 	
 	/** gestore degli impiegati con interfaccia di visualizzazione */
 	private GestoreImpiegatiDb gestoreImpiegati;
@@ -111,11 +118,11 @@ public class InputForm extends JFrame implements WindowListener {
 	 * gestori impiegati e bulloni non sia vuoti
 	 * 
 	 * @param mainJF finestra principale da bloccare
-	 * @param gestoreVendite gestore contenente tutte le vendite prese da database
+	 * @param gvInserimento gestore contenente tutte le vendite prese da database
 	 * @param gestoreImpiegati gestore contenente tutti gli impiegati presi dal database
 	 * @param gestoreBulloni gestore contenente tutti i bulloni presi dal database
 	 */
-	public InputForm(JFrame mainJF, InserimentoVendite gestoreVendite, GestoreImpiegatiDb gestoreImpiegati, GestoreBulloni gestoreBulloni) {
+	public InputForm(JFrame mainJF, InserimentoVendite gvInserimento, VisualizzazioneVendite gvVisualizzazione, GestoreImpiegatiDb gestoreImpiegati, GestoreBulloni gestoreBulloni, BodyVendite istanzaCorrente) {
 		
 		if (gestoreImpiegati.localSetIsEmpty() || gestoreBulloni.isEmpty()) {
 			JOptionPane.showMessageDialog(mainJF, "Impossibile aggiungere una vendita, non ci sono impiegati o bulloni registrati.", "Warning", JOptionPane.ERROR_MESSAGE);
@@ -124,9 +131,11 @@ public class InputForm extends JFrame implements WindowListener {
 		}
 		
 		this.mainJFrame = mainJF;
-		this.gestoreVendite = gestoreVendite;
+		this.gvInserimento = gvInserimento;
+		this.gvVisualizzazione = gvVisualizzazione;
 		this.gestoreImpiegati = gestoreImpiegati;
 		this.gestoreBulloni = (VisualizzaBulloni)gestoreBulloni;
+		this.istanzaCorrente = istanzaCorrente;
 		
 		inizializza();
 		createFormCodiceVendita();
@@ -176,7 +185,7 @@ public class InputForm extends JFrame implements WindowListener {
 		// text field per contenere il codice della vendita;
 		codiceVenditaTextField = new JTextField();
 		codiceVenditaLabel.setLabelFor(codiceVenditaTextField);
-		codiceVenditaTextField.setText(((Integer)gestoreVendite.getCodVenditaAutomatico()).toString());
+		codiceVenditaTextField.setText(((Integer)gvInserimento.getCodVenditaAutomatico()).toString());
 		codiceVenditaTextField.setEditable(false);
 		codiceVenditaTextField.setBounds(130, 52, 80, 19);
 		getContentPane().add(codiceVenditaTextField);
@@ -380,60 +389,68 @@ public class InputForm extends JFrame implements WindowListener {
 		aggiungiVenditaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				// int codVendita, Data data, Impiegato impiegato, Set<MerceVenduta> merce
+				boolean aggiungi = false;
 				
-				Data data = new Data((Integer)giornoComboBox.getSelectedItem(), (Integer)meseComboBox.getSelectedItem(), (Integer)annoComboBox.getSelectedItem());
+				Data data = null;
 				ImpiegatoBulloni impiegato = null;
-				
-				try {
-					impiegato = gestoreImpiegati.getImpiegatoByID((Integer)impiegatoComboBox.getSelectedItem());
-				} catch (ExceptionGestoreImpiegato t) {
-					/* questa eccezione non dovrebbe mai essere sollevata, perché usando un'unica istanza del gestore 
-					 * impiegati per tutto il programma, avrò sempre a disposizione tutti e soli gli impiegati salvati
-					 * nel database e nell'unico set di impiegati originale */
-					JOptionPane.showMessageDialog(finestraCorrente, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-				}
 				
 				// costruisco il set di merce venduta da inserire nella vendita
 				Set<MerceVenduta> merce = new HashSet<MerceVenduta>();
+				
+				// costruisco la vendita utilizzando gli oggetti costruiti in precedenza
+				Vendita<MerceVenduta> vendita = null;
+				
 				try {
+					data = new Data((Integer)giornoComboBox.getSelectedItem(), (Integer)meseComboBox.getSelectedItem(), (Integer)annoComboBox.getSelectedItem());
+					
+					impiegato = gestoreImpiegati.getImpiegatoByID((Integer)impiegatoComboBox.getSelectedItem());
+					
 					for (int i = 0; i < numeroBulloni; i++) {
 						if ((Integer)quantitaSpinner[i].getValue() > 0)
 							merce.add(new MerceVenduta(gestoreBulloni.getBulloneByCodice(Integer.parseUnsignedInt(codiceLabel[i].getText())), (Integer)quantitaSpinner[i].getValue()));
 					}
+					
+					vendita = new VenditaBulloni(Integer.parseUnsignedInt(codiceVenditaTextField.getText()), data, impiegato, merce);
+					
+				}
+				catch (DateTimeException f) {
+					aggiungi = true;
+					JOptionPane.showMessageDialog(finestraCorrente, "Data inserita non valida.", "Exception", JOptionPane.ERROR_MESSAGE);
+				}
+				catch (ExceptionGestoreImpiegato t) {
+					aggiungi = true;
+					JOptionPane.showMessageDialog(finestraCorrente, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 				catch (VenditaException f) {
+					aggiungi = true;
 					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 				catch (GestoreBulloniException f) {
+					aggiungi = true;
 					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 				
-				// costruisco la vendita utilizzando gli oggetti costruiti in precedenza
-				Vendita<MerceVenduta> vendita = null;
-				try {
-					vendita = new VenditaBulloni(Integer.parseUnsignedInt(codiceVenditaTextField.getText()), data, impiegato, merce);
-				} 
-				catch (VenditaException f) {
-					// questo messaggio di errore non dovrebbe mai essere mostrato, perche' ci sono diversi controlli fatti in precedenza
-					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-				}
-				
-				// tento di aggiungere la vendita al set del gestore vendite e nel database
-				try {
-					gestoreVendite.aggiungiVendita(vendita);
-				} 
-				catch (GestoreVenditaException f) {
-					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-				} 
-				catch (ExceptionGestoreImpiegato f) {
-					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-				} 
-				catch (DatabaseSQLException f) {
-					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-				} 
-				catch (SQLException f) {
-					JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+				/** tento di aggiungere la vendita al set del gestore vendite e nel database, ma se
+				 * e' stata sollevata una qualsiasi eccezione precedentemente, la vendita non verrà aggiunta */
+				if (!aggiungi) {
+					try {
+						gvInserimento.aggiungiVendita(vendita);
+						istanzaCorrente.printListaVendite(gvVisualizzazione.getVendite());
+						mainJFrame.setEnabled(true);
+						dispose();
+					} 
+					catch (GestoreVenditaException f) {
+						JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+					} 
+					catch (ExceptionGestoreImpiegato f) {
+						JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+					} 
+					catch (DatabaseSQLException f) {
+						JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+					} 
+					catch (SQLException f) {
+						JOptionPane.showMessageDialog(finestraCorrente, f.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 				
 			}
