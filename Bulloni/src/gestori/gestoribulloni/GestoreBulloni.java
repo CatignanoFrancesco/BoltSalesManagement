@@ -205,6 +205,14 @@ public class GestoreBulloni implements ContainerBulloni {
 	}
 	
 	
+	/**{@inheritDoc}
+	 * 
+	 */
+	public int getCodBulloneAutomatico() {
+		return codBulloneAutomatico;
+	}
+	
+	
 	
 	/*
 	 * ------------------------------------------

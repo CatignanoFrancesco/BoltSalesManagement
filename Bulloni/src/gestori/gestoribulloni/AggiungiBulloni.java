@@ -26,4 +26,12 @@ public interface AggiungiBulloni {
 	 * @throws SQLException L'eccezione sollevata quando ci sono errori con la connessione al database o con l'esecuzione di query.
 	 */
 	public void newBulloneGrano(Bullone b) throws GestoreBulloniException, BulloneException, DatabaseSQLException, SQLException;
+	
+	
+	/**
+	 * Metodo per restituire il codice del prossimo bullone da aggiungere. Questo metodo torna utile per evitare fallimenti nell'aggiunta di un bullone
+	 * a causa del codice che non e' univoco.
+	 * @return codBulloneAutomatico Il codice del prossimo bullone da aggiungere.
+	 */
+	public int getCodBulloneAutomatico();
 }
