@@ -103,8 +103,7 @@ public class BodyVendite extends JPanel {
 			printListaVendite(gestoreVendite.getVendite());
 		}
 		catch (GestoreVenditaException t) {
-			Set<Vendita<MerceVenduta>> setVuoto = new HashSet<Vendita<MerceVenduta>>();
-			printListaVendite(setVuoto);
+			printListaVendite(new HashSet<Vendita<MerceVenduta>>());
 		}
 		
 		setVisible(true);
@@ -218,9 +217,16 @@ public class BodyVendite extends JPanel {
 		cercaPerButton = new JButton("Cerca per...");
 		cercaPerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SelezionaRicerca sr = new SelezionaRicerca(gestoreVendite, mainMenu, istanzaCorrente);
-				sr.setVisible(true);
-				mainMenu.setEnabled(false);
+				
+				if (!gestoreVendite.isEmpty()) {
+					
+					SelezionaRicerca sr = new SelezionaRicerca(gestoreVendite, mainMenu, istanzaCorrente);
+					sr.setVisible(true);
+					mainMenu.setEnabled(false);
+				}
+				else 
+					JOptionPane.showMessageDialog(mainMenu, "Non ci sono vendite da mostrare.", "Attenzione", JOptionPane.ERROR_MESSAGE);
+				
 			}
 		});
 		cercaPerButton.setBounds(10, 10, 145, 30);
@@ -261,12 +267,25 @@ public class BodyVendite extends JPanel {
 		
 		// se la lista e' vuota, stampo una JLabel di avviso
 		if (vendite.isEmpty()) {
-			/*JLabel avvisoListaVuota = new JLabel("Non ci sono vendite da mostrare.");
+			
+			// ricreo lo scrollPane, altrimeti non stamparebbe la label di avviso dopo l'eliminazione dell'ultima vendita nella lista
+			scrollPane.setColumnHeaderView(panel);
+			GridBagLayout gbl_panel = new GridBagLayout();
+			gbl_panel.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
+			gbl_panel.rowHeights = new int[]{0, 0, 0};
+			gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+			gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+			panel.setLayout(gbl_panel);
+			
+			/* label per avvisare che non ci sono vendite da mostrare;
+			 * appare quando all'avvio del programma non ci sono label e
+			 * dopo l'eliminazione dell'ultima vendita nella lista */
+			JLabel avvisoListaVuota = new JLabel("Non ci sono vendite da mostrare.");
 			GridBagConstraints gbc_avvisoListaVuota = new GridBagConstraints();
 			gbc_avvisoListaVuota.insets = new Insets(5, 5, 5, 5);
 			gbc_avvisoListaVuota.gridx = 0;
 			gbc_avvisoListaVuota.gridy = 0;
-			panel.add(avvisoListaVuota, gbc_avvisoListaVuota);*/
+			panel.add(avvisoListaVuota, gbc_avvisoListaVuota);
 		}
 		else {
 			// stampa le intestazioni delle colonne per la lista di vendite

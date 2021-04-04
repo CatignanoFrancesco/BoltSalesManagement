@@ -3,6 +3,7 @@ package gui.guivendite;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.JFrame;
@@ -220,7 +221,8 @@ public class GestoreButton implements ActionListener {
 			JOptionPane.showMessageDialog(mainMenu, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 		} 
 		catch (GestoreVenditaException e) {
-			JOptionPane.showMessageDialog(mainMenu, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+			istanzaCorrente.printListaVendite(new HashSet<Vendita<MerceVenduta>>());
+			mainMenu.setEnabled(true);
 		} 
 		catch (DatabaseSQLException e) {
 			JOptionPane.showMessageDialog(mainMenu, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
