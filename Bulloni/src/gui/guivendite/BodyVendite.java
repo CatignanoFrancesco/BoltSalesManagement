@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.JButton;
@@ -102,7 +103,8 @@ public class BodyVendite extends JPanel {
 			printListaVendite(gestoreVendite.getVendite());
 		}
 		catch (GestoreVenditaException t) {
-			JOptionPane.showMessageDialog(mainMenu, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+			Set<Vendita<MerceVenduta>> setVuoto = new HashSet<Vendita<MerceVenduta>>();
+			printListaVendite(setVuoto);
 		}
 		
 		setVisible(true);
@@ -257,104 +259,114 @@ public class BodyVendite extends JPanel {
 		// rimuove tutto dal pannello
 		panel.removeAll();
 		
-		// stampa le intestazioni delle colonne per la lista di vendite
-		printIntestazioniColonne();
-		
-		final int DIMENSIONE = vendite.size();
-		
-		// controllo necessario per mantenere un layout visivamente corretto quando si supera un certo numero di vendite
-		if (DIMENSIONE >= SOGLIA_MASSIMA_LISTA_VENDITE)
-			scrollPane.setViewportView(panel);
-		else
-			scrollPane.setColumnHeaderView(panel);
-		
-		// oggetti componenti della lista di vendite
-		JLabel[] codLabel = new JLabel[DIMENSIONE];
-		JLabel[] matricolaImpLabel = new JLabel[DIMENSIONE];
-		JLabel[] dataVenditaLabel = new JLabel[DIMENSIONE];
-		JLabel[] quantitaTotLabel = new JLabel[DIMENSIONE];
-		JLabel[] prezzoTotLabel = new JLabel[DIMENSIONE];
-		JButton[] visualButton = new JButton[DIMENSIONE];
-		JButton[] infoImpiegatoButton = new JButton[DIMENSIONE];
-		JButton[] deleteButton = new JButton[DIMENSIONE];
-		int posizioneX = 0;
-		int i = 0;
-		
-		for (Vendita<MerceVenduta> vendita : vendite) {
-			
-			posizioneX = 0;
-			
-			// stampo i codici vendita nella lista
-			codLabel[i] = new JLabel(((Integer)vendita.getCodVendita()).toString());
-			GridBagConstraints gbc_codLabel = new GridBagConstraints();
-			gbc_codLabel.insets = new Insets(0, 2, 5, 5);
-			gbc_codLabel.gridx = posizioneX;
-			gbc_codLabel.gridy = i+1;
-			panel.add(codLabel[i], gbc_codLabel);
-			
-			// stampo le matricole degli impiegati nella lista
-			matricolaImpLabel[i] = new JLabel(((Integer)vendita.getResponsabileVendita()).toString());
-			GridBagConstraints gbc_matricolaImpLabel = new GridBagConstraints();
-			gbc_matricolaImpLabel.insets = new Insets(0, 0, 5 ,1);
-			gbc_matricolaImpLabel.gridx = ++posizioneX;
-			gbc_matricolaImpLabel.gridy = i+1;
-			panel.add(matricolaImpLabel[i], gbc_matricolaImpLabel);
-			
-			dataVenditaLabel[i] = new JLabel(vendita.getData().toLocalDate().toString());
-			GridBagConstraints gbc_dataVenditaLabel = new GridBagConstraints();
-			gbc_dataVenditaLabel.insets = new Insets(0, 0, 5 ,1);
-			gbc_dataVenditaLabel.gridx = ++posizioneX;
-			gbc_dataVenditaLabel.gridy = i+1;
-			panel.add(dataVenditaLabel[i], gbc_dataVenditaLabel);
-			
-			// stampo la quantita' totale di merce venduta nella lista
-			quantitaTotLabel[i] = new JLabel(((Integer)vendita.getQuantitaMerceTotale()).toString());
-			GridBagConstraints gbc_quantitaTotLabel = new GridBagConstraints();
-			gbc_quantitaTotLabel.insets = new Insets(0, 0, 5, 1);
-			gbc_quantitaTotLabel.gridx = ++posizioneX;
-			gbc_quantitaTotLabel.gridy = i+1;
-			panel.add(quantitaTotLabel[i], gbc_quantitaTotLabel);
-			
-			// stampo il prezzo totale della merce venduta nella lista
-			prezzoTotLabel[i] = new JLabel(((Double)vendita.getPrezzoVenditaTotale()).toString());
-			GridBagConstraints gbc_prezzoTotLabel = new GridBagConstraints();
-			gbc_prezzoTotLabel.insets = new Insets(0, 0, 5, 1);
-			gbc_prezzoTotLabel.gridx = ++posizioneX;
-			gbc_prezzoTotLabel.gridy = i+1;
-			panel.add(prezzoTotLabel[i], gbc_prezzoTotLabel);
-			
-			// pulsante che permette di visualizzare tutte le info sulla merce venduta tramite un'apposita finestra
-			visualButton[i] = new JButton("Info merce");
-			GridBagConstraints gbc_visualButton = new GridBagConstraints();
-			gbc_visualButton.insets = new Insets(0, 0, 5, 0);
-			gbc_visualButton.gridx = ++posizioneX;
-			gbc_visualButton.gridy = i+1;
-			visualButton[i].addActionListener(new GestoreButton(gestoreVendite, gestoreBulloni, mainMenu, codLabel[i].getText(), istanzaCorrente));
-			panel.add(visualButton[i], gbc_visualButton);
-			
-			// pulsate che permette di visualizzare tutte le info sull'impiegato che ha effettuato la vendita in un'apposita finestra
-			infoImpiegatoButton[i] = new JButton("Impiegato");
-			GridBagConstraints gbc_infoImpiegatoButton = new GridBagConstraints();
-			gbc_infoImpiegatoButton.insets = new Insets(0, 0, 5, 5);
-			gbc_infoImpiegatoButton.gridx = ++posizioneX;
-			gbc_infoImpiegatoButton.gridy = i+1;
-			infoImpiegatoButton[i].addActionListener(new GestoreButton(gestoreVendite, mainMenu, matricolaImpLabel[i].getText()));
-			panel.add(infoImpiegatoButton[i], gbc_infoImpiegatoButton);
-			
-			// pulsante che permette di eliminare questa vendita dal set originale, dal database e dalla lista
-			deleteButton[i] = new JButton("Elimina");
-			deleteButton[i].setBackground(Color.red);
-			deleteButton[i].setForeground(Color.white);
-			GridBagConstraints gbc_deleteButton = new GridBagConstraints();
-			gbc_deleteButton.insets = new Insets(0, 15, 5, 25);
-			gbc_deleteButton.gridx = ++posizioneX;
-			gbc_deleteButton.gridy = i+1;
-			deleteButton[i].addActionListener(new GestoreButton(gestoreVendite, mainMenu, codLabel[i].getText(), "", istanzaCorrente));
-			panel.add(deleteButton[i], gbc_deleteButton);
-			
-			i++;
+		// se la lista e' vuota, stampo una JLabel di avviso
+		if (vendite.isEmpty()) {
+			/*JLabel avvisoListaVuota = new JLabel("Non ci sono vendite da mostrare.");
+			GridBagConstraints gbc_avvisoListaVuota = new GridBagConstraints();
+			gbc_avvisoListaVuota.insets = new Insets(5, 5, 5, 5);
+			gbc_avvisoListaVuota.gridx = 0;
+			gbc_avvisoListaVuota.gridy = 0;
+			panel.add(avvisoListaVuota, gbc_avvisoListaVuota);*/
 		}
-		
+		else {
+			// stampa le intestazioni delle colonne per la lista di vendite
+			printIntestazioniColonne();
+			
+			final int DIMENSIONE = vendite.size();
+			
+			// controllo necessario per mantenere un layout visivamente corretto quando si supera un certo numero di vendite
+			if (DIMENSIONE >= SOGLIA_MASSIMA_LISTA_VENDITE)
+				scrollPane.setViewportView(panel);
+			else
+				scrollPane.setColumnHeaderView(panel);
+			
+			// oggetti componenti della lista di vendite
+			JLabel[] codLabel = new JLabel[DIMENSIONE];
+			JLabel[] matricolaImpLabel = new JLabel[DIMENSIONE];
+			JLabel[] dataVenditaLabel = new JLabel[DIMENSIONE];
+			JLabel[] quantitaTotLabel = new JLabel[DIMENSIONE];
+			JLabel[] prezzoTotLabel = new JLabel[DIMENSIONE];
+			JButton[] visualButton = new JButton[DIMENSIONE];
+			JButton[] infoImpiegatoButton = new JButton[DIMENSIONE];
+			JButton[] deleteButton = new JButton[DIMENSIONE];
+			int posizioneX = 0;
+			int i = 0;
+			
+			for (Vendita<MerceVenduta> vendita : vendite) {
+				
+				posizioneX = 0;
+				
+				// stampo i codici vendita nella lista
+				codLabel[i] = new JLabel(((Integer)vendita.getCodVendita()).toString());
+				GridBagConstraints gbc_codLabel = new GridBagConstraints();
+				gbc_codLabel.insets = new Insets(0, 2, 5, 5);
+				gbc_codLabel.gridx = posizioneX;
+				gbc_codLabel.gridy = i+1;
+				panel.add(codLabel[i], gbc_codLabel);
+				
+				// stampo le matricole degli impiegati nella lista
+				matricolaImpLabel[i] = new JLabel(((Integer)vendita.getResponsabileVendita()).toString());
+				GridBagConstraints gbc_matricolaImpLabel = new GridBagConstraints();
+				gbc_matricolaImpLabel.insets = new Insets(0, 0, 5 ,1);
+				gbc_matricolaImpLabel.gridx = ++posizioneX;
+				gbc_matricolaImpLabel.gridy = i+1;
+				panel.add(matricolaImpLabel[i], gbc_matricolaImpLabel);
+				
+				dataVenditaLabel[i] = new JLabel(vendita.getData().toLocalDate().toString());
+				GridBagConstraints gbc_dataVenditaLabel = new GridBagConstraints();
+				gbc_dataVenditaLabel.insets = new Insets(0, 0, 5 ,1);
+				gbc_dataVenditaLabel.gridx = ++posizioneX;
+				gbc_dataVenditaLabel.gridy = i+1;
+				panel.add(dataVenditaLabel[i], gbc_dataVenditaLabel);
+				
+				// stampo la quantita' totale di merce venduta nella lista
+				quantitaTotLabel[i] = new JLabel(((Integer)vendita.getQuantitaMerceTotale()).toString());
+				GridBagConstraints gbc_quantitaTotLabel = new GridBagConstraints();
+				gbc_quantitaTotLabel.insets = new Insets(0, 0, 5, 1);
+				gbc_quantitaTotLabel.gridx = ++posizioneX;
+				gbc_quantitaTotLabel.gridy = i+1;
+				panel.add(quantitaTotLabel[i], gbc_quantitaTotLabel);
+				
+				// stampo il prezzo totale della merce venduta nella lista
+				prezzoTotLabel[i] = new JLabel(((Double)vendita.getPrezzoVenditaTotale()).toString());
+				GridBagConstraints gbc_prezzoTotLabel = new GridBagConstraints();
+				gbc_prezzoTotLabel.insets = new Insets(0, 0, 5, 1);
+				gbc_prezzoTotLabel.gridx = ++posizioneX;
+				gbc_prezzoTotLabel.gridy = i+1;
+				panel.add(prezzoTotLabel[i], gbc_prezzoTotLabel);
+				
+				// pulsante che permette di visualizzare tutte le info sulla merce venduta tramite un'apposita finestra
+				visualButton[i] = new JButton("Info merce");
+				GridBagConstraints gbc_visualButton = new GridBagConstraints();
+				gbc_visualButton.insets = new Insets(0, 0, 5, 0);
+				gbc_visualButton.gridx = ++posizioneX;
+				gbc_visualButton.gridy = i+1;
+				visualButton[i].addActionListener(new GestoreButton(gestoreVendite, gestoreBulloni, mainMenu, codLabel[i].getText(), istanzaCorrente));
+				panel.add(visualButton[i], gbc_visualButton);
+				
+				// pulsate che permette di visualizzare tutte le info sull'impiegato che ha effettuato la vendita in un'apposita finestra
+				infoImpiegatoButton[i] = new JButton("Impiegato");
+				GridBagConstraints gbc_infoImpiegatoButton = new GridBagConstraints();
+				gbc_infoImpiegatoButton.insets = new Insets(0, 0, 5, 5);
+				gbc_infoImpiegatoButton.gridx = ++posizioneX;
+				gbc_infoImpiegatoButton.gridy = i+1;
+				infoImpiegatoButton[i].addActionListener(new GestoreButton(gestoreVendite, mainMenu, matricolaImpLabel[i].getText()));
+				panel.add(infoImpiegatoButton[i], gbc_infoImpiegatoButton);
+				
+				// pulsante che permette di eliminare questa vendita dal set originale, dal database e dalla lista
+				deleteButton[i] = new JButton("Elimina");
+				deleteButton[i].setBackground(Color.red);
+				deleteButton[i].setForeground(Color.white);
+				GridBagConstraints gbc_deleteButton = new GridBagConstraints();
+				gbc_deleteButton.insets = new Insets(0, 15, 5, 25);
+				gbc_deleteButton.gridx = ++posizioneX;
+				gbc_deleteButton.gridy = i+1;
+				deleteButton[i].addActionListener(new GestoreButton(gestoreVendite, mainMenu, codLabel[i].getText(), "", istanzaCorrente));
+				panel.add(deleteButton[i], gbc_deleteButton);
+				
+				i++;
+			}
+		}
 	}
 
 }
