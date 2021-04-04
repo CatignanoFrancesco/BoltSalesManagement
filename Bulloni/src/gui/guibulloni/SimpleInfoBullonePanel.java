@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 
 import databaseSQL.exception.DatabaseSQLException;
 import gestori.gestoribulloni.ModificaBulloni;
-import gestori.gestoribulloni.VisualizzaBulloni;
 import gestori.gestoribulloni.exception.GestoreBulloniException;
 
 /**
@@ -80,9 +79,9 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 		gbcForSimpleInfoBullonePanel.gridy = 0;
 		
 		GridBagLayout gblForSimpleInfoBullonePanel = new GridBagLayout();
-		gblForSimpleInfoBullonePanel.columnWidths = new int[] {0, 20, 0, 20, 0, 200, 0, 0, 0, 0};
+		gblForSimpleInfoBullonePanel.columnWidths = new int[] {40, 30, 30, 30, 40, 30, 30, 30, 30, 30, 30};
 		gblForSimpleInfoBullonePanel.rowHeights = new int[] {0};
-		gblForSimpleInfoBullonePanel.columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		gblForSimpleInfoBullonePanel.columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		gblForSimpleInfoBullonePanel.rowWeights = new double[] {0.0};
 		
 		this.setLayout(gblForSimpleInfoBullonePanel);
@@ -153,8 +152,7 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 		GridBagConstraints gbcForLblCodice = new GridBagConstraints();
 		gbcForLblCodice.gridx = 0;
 		gbcForLblCodice.gridy = 0;
-		gbcForLblCodice.anchor = GridBagConstraints.LINE_START;
-		gbcForLblCodice.insets = new Insets(5, 5, 5, 20);
+		gbcForLblCodice.insets = new Insets(5, 0, 5, 20);
 		this.add(this.lblCodice, gbcForLblCodice);
 		
 		/*
@@ -164,8 +162,7 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 		GridBagConstraints gbcForLblTipoBullone = new GridBagConstraints();
 		gbcForLblTipoBullone.gridx = 2;
 		gbcForLblTipoBullone.gridy = 0;
-		gbcForLblTipoBullone.anchor = GridBagConstraints.LINE_START;
-		gbcForLblTipoBullone.insets = new Insets(5, 5, 5, 20);
+		gbcForLblTipoBullone.insets = new Insets(5, 0, 5, 20);
 		this.add(this.lblTipoBullone, gbcForLblTipoBullone);
 		
 		/*
@@ -175,8 +172,7 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 		GridBagConstraints gbcForlblPrezzo = new GridBagConstraints();
 		gbcForlblPrezzo.gridx = 4;
 		gbcForlblPrezzo.gridy = 0;
-		gbcForlblPrezzo.anchor = GridBagConstraints.LINE_START;
-		gbcForlblPrezzo.insets = new Insets(5, 5, 5, 20);
+		gbcForlblPrezzo.insets = new Insets(5, 0, 5, 350);
 		this.add(this.lblPrezzo, gbcForlblPrezzo);
 	}
 	
@@ -194,10 +190,9 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 		 */
 		this.btnInformazioni.setText("Informazioni");
 		GridBagConstraints gbcForBtnInformazioni = new GridBagConstraints();
-		gbcForBtnInformazioni.gridx = 7;
+		gbcForBtnInformazioni.gridx = 8;
 		gbcForBtnInformazioni.gridy = 0;
-		gbcForBtnInformazioni.anchor = GridBagConstraints.LINE_START;
-		gbcForBtnInformazioni.insets = new Insets(5, 5, 5, 5);
+		gbcForBtnInformazioni.insets = new Insets(5, 0, 5, 5);
 		this.add(this.btnInformazioni, gbcForBtnInformazioni);
 		this.btnInformazioni.addActionListener(this);
 		
@@ -206,10 +201,9 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 		 */
 		this.btnModifica.setText("Modifica");
 		GridBagConstraints gbcForBtnModifica = new GridBagConstraints();
-		gbcForBtnModifica.gridx = 8;
+		gbcForBtnModifica.gridx = 9;
 		gbcForBtnModifica.gridy = 0;
-		gbcForBtnModifica.anchor = GridBagConstraints.LINE_START;
-		gbcForBtnModifica.insets = new Insets(5, 5, 5, 5);
+		gbcForBtnModifica.insets = new Insets(5, 0, 5, 5);
 		this.add(this.btnModifica, gbcForBtnModifica);
 		// Aggiungere action listener
 		
@@ -220,10 +214,9 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 		this.btnElimina.setBackground(Color.RED);
 		this.btnElimina.setForeground(Color.WHITE);
 		GridBagConstraints gbcForBtnElimina = new GridBagConstraints();
-		gbcForBtnElimina.gridx = 9;
+		gbcForBtnElimina.gridx = 10;
 		gbcForBtnElimina.gridy = 0;
-		gbcForBtnElimina.anchor = GridBagConstraints.LINE_START;
-		gbcForBtnElimina.insets = new Insets(5, 5, 5, 5);
+		gbcForBtnElimina.insets = new Insets(5, 0, 5, 5);
 		this.add(this.btnElimina, gbcForBtnElimina);
 		this.btnElimina.addActionListener(this);
 	}
