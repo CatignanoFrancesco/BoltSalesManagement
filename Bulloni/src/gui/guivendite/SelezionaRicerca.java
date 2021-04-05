@@ -27,7 +27,9 @@ import vendita.Vendita;
 
 /**
  * @author GiannettaGerardo
- *
+ * 
+ * Classe che rappresenta una finestra grafica che permette di selezionare
+ * una ricerca di vendite per codice vendita, matricola impiegato o data vendita
  */
 public class SelezionaRicerca extends JFrame implements WindowListener {
 
@@ -169,7 +171,7 @@ public class SelezionaRicerca extends JFrame implements WindowListener {
 	public void createCercaPerMatricolaImpiegatoButton() {
 		
 		matricolaImpiegatoLabel = new JLabel("Matricola impiegato:");
-		matricolaImpiegatoLabel.setBounds(10, 92, 163, 13);
+		matricolaImpiegatoLabel.setBounds(10, 92, 163, 16);
 		getContentPane().add(matricolaImpiegatoLabel);
 		
 		// area di testo in cui si potrà inserire la matricola dell'impiegato

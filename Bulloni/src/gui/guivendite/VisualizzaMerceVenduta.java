@@ -21,7 +21,11 @@ import vendita.MerceVenduta;
 
 /**
  * @author GiannettaGerardo
- *
+ * 
+ * Classe che rappresenta una finestra grafica che permette di visualizzare 
+ * la lista di merce venduta associata ad una vendita specifica precedentemente scelta;
+ * da questa lista sarà possibile anche modificare la merce venduta e visualizzare
+ * i dettagli sui bulloni venduti
  */
 public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 

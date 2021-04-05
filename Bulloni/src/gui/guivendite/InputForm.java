@@ -48,6 +48,8 @@ import vendita.exception.VenditaException;
 /**
  * @author GiannettaGerardo
  *
+ * Classe che rappresenta una finestra grafica che permette di aggiungere 
+ * una nuova vendita al gestore vendite tramite un form di input apposito
  */
 public class InputForm extends JFrame implements WindowListener {
 
@@ -58,10 +60,9 @@ public class InputForm extends JFrame implements WindowListener {
 	/** coordinata y della finestra */
 	private static final int Y = 100;
 	/** larghezza della finestra */
-	private static final int WIDTH = 640;
+	private static final int WIDTH = 700;
 	/** lunghezza della finestra */
 	private static final int HEIGHT = 404;
-	private int numeroBulloni;
 	
 	// oggetti per creare l'interfaccia grafica
 	private JTextField codiceVenditaTextField;
@@ -109,6 +110,9 @@ public class InputForm extends JFrame implements WindowListener {
 	
 	/** i bulloni disponibili ritornati dal gestore dei bulloni */
 	private Set<Bullone> bulloni;
+	
+	/** numero di bulloni presenti nell'apposito set del gestore bulloni */
+	private int numeroBulloni;
 	
 	
 	/**
@@ -308,7 +312,7 @@ public class InputForm extends JFrame implements WindowListener {
 		scrollPane = new JScrollPane();
 		bulloniLabel.setLabelFor(scrollPane);
 		scrollPane.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		scrollPane.setBounds(10, 242, 440, 103);
+		scrollPane.setBounds(10, 242, 500, 103);
 		getContentPane().add(scrollPane);
 		
 		// pannello con layout di tipo griglia, che conterrà i bulloni da scegliere per la vendita
@@ -449,7 +453,7 @@ public class InputForm extends JFrame implements WindowListener {
 				}
 			}
 		});
-		aggiungiVenditaButton.setBounds(465, 315, 165, 30);
+		aggiungiVenditaButton.setBounds(525, 315, 165, 30);
 		getContentPane().add(aggiungiVenditaButton);
 		
 	}

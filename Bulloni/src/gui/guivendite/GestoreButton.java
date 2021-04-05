@@ -24,7 +24,8 @@ import vendita.Vendita;
 /**
  * @author GiannettaGerardo
  *
- * Classe che gestisce tutti i pulsanti delle liste che le interfacce grafiche mostrano
+ * Classe che gestisce tutti i pulsanti delle liste che le interfacce grafiche mostrano;
+ * precisamente le liste gestite sono presenti nelle classi BodyVendite e VisualizzaMerceVenduta
  */
 public class GestoreButton implements ActionListener {
 
