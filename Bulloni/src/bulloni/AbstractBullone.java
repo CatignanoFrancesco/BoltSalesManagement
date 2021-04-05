@@ -273,18 +273,19 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 	 */
 	@Override
 	public String[] getInfo() {
-		String[] info = new String[] { this.getClass().getSimpleName(),	// Tipo
-									   ((Integer)this.codice).toString(),	// Codice
-									   this.dataProduzione.toFormattedDate(),	// Data di produzione
-									   this.luogoProduzione,	// Luogo di produzione
-									   ((Double)this.peso).toString(),	// Peso
-									   ((Double)this.prezzo).toString(),	// Prezzo
-									   this.materiale.toString(),	// Materiale
-									   ((Double)this.lunghezza).toString(),	// Lunghezza
-									   ((Double)this.diametroVite).toString(),	// Diametro della vite
-									   ((Double)this.diametroDado).toString(),	// Diametro del dado
-									   this.innesto.toString()	// Innesto
-									  };
+		String tipo = this.getClass().getSimpleName();
+		String codice = Integer.toString(this.codice);
+		String dataProduzione = this.dataProduzione.toFormattedDate();
+		String luogoProduzione = this.luogoProduzione;
+		String peso = Double.toString(this.peso);
+		String prezzo = (Double.toString(this.prezzo).length()==3) ? Double.toString(this.prezzo) + "0" : Double.toString(this.prezzo);
+		String materiale = this.materiale.toString();
+		String lunghezza = Double.toString(this.lunghezza);
+		String diametroVite = Double.toString(this.diametroVite);
+		String diametroDado = Double.toString(this.diametroDado);
+		String innesto = this.innesto.toString();
+		
+		String[] info = new String[] {tipo, codice, dataProduzione, luogoProduzione, peso, prezzo, materiale, lunghezza, diametroVite, diametroDado, innesto};
 		return info;
 	}
 	
