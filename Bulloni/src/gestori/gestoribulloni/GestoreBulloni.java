@@ -161,6 +161,26 @@ public class GestoreBulloni implements ContainerBulloni {
 	
 	
 	/**{@inheritDoc}
+	 * 
+	 */
+	public Set<Bullone> getBulloniByAnno(int anno) throws GestoreBulloniException {
+		Set<Bullone> bulloni = new HashSet<Bullone>();
+		
+		for(Bullone b : this.bulloni) {
+			if(b.getDataProduzione().getAnno()==anno) {
+				bulloni.add(b);
+			}
+		}
+		
+		if(bulloni.isEmpty()) {
+			throw new GestoreBulloniException(MsgErrore.BULLONE_NON_TROVATO, new GestoreBulloniException());
+		} else {
+			return bulloni;
+		}
+	}
+	
+	
+	/**{@inheritDoc}
 	 *
 	 */
 	public String[] getInfoBulloneByCodice(int codice) throws GestoreBulloniException {

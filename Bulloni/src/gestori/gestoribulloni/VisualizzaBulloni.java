@@ -61,6 +61,15 @@ public interface VisualizzaBulloni {
 	public Bullone getBulloneByCodice(int codice) throws GestoreBulloniException;
 	
 	/**
+	 * Restituisce un set di bulloni il cui anno di produzione coincide con l'anno ricevuto come parametro.
+	 * Se il set e' vuoto, viene sollevata un'eccezione.
+	 * @param anno L'anno di produzione dei bulloni da ricercare.
+	 * @return bulloni Il set di bulloni cercato.
+	 * @throws GestoreBulloniException L'eccezione sollevata se il set di bulloni e' vuoto (cioe' se non esistono bulloni corrispondenti a quell'anno).
+	 */
+	public Set<Bullone> getBulloniByAnno(int anno) throws GestoreBulloniException;
+	
+	/**
 	 * Questo metodo controlla lo stato del set interno "bulloni" per accertarsi che ci siano dei bulloni all'interno.
 	 * @return true se il set e' vuoto, false altrimenti.
 	 */
