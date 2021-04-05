@@ -70,6 +70,7 @@ public class ModificaBulloneFrame extends JFrame implements WindowListener, Acti
 		mainFrame = finestraPrincipale;
 		mainPanel = pannelloPrincipale;
 		modificaBulloni = modBulloni;
+		this.codBullone = codBullone;
 		
 		/*
 		 * Impostazioni generali finestra
