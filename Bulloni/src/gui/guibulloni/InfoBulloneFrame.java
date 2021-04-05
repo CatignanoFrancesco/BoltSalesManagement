@@ -68,6 +68,7 @@ public class InfoBulloneFrame extends JFrame implements WindowListener {
 		
 		this.setTitle("Informazioni bullone");
 		this.setResizable(false);
+		this.setAlwaysOnTop(true);
 		this.setBounds(100, 100, MAX_WIDTH, MAX_HEIGHT);
 		this.getContentPane().setLayout(new BorderLayout());
 		this.addWindowListener(this);
