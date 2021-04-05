@@ -5,6 +5,7 @@
  * - AggiungiBulloneFrame
  * - SimpleInfoBullonePanel
  * - InfoBulloneFrame
+ * - ModificaBulloneFrame
  * 
  * @author Catignano Francesco
  */
