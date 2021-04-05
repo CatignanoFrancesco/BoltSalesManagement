@@ -41,6 +41,13 @@ public interface VisualizzaBulloni {
 	public String[] getInfoBulloneByCodice(int codice) throws GestoreBulloniException;
 	
 	/**
+	 * Questo metodo cerca nel set di bulloni tutti i bulloni che non sono stati eliminati e restituisce un set.
+	 * Il set contiene solo i cloni dei bulloni.
+	 * @return bulloniDisponibili, il set di bulloni che non sono stati eliminati.
+	 */
+	public Set<Bullone> getBulloniDisponibili();
+	
+	/**
 	 * Restituisce una copia del bullone, partendo da un codice ricevuto in input.
 	 * Effettua una ricerca nel set confrontando il codice ricevuto in input con il codice
 	 * di ogni bullone presente nel set. Se trova il bullone lo restituisce,

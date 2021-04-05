@@ -127,6 +127,22 @@ public class GestoreBulloni implements ContainerBulloni {
 	/**{@inheritDoc}
 	 * 
 	 */
+	public Set<Bullone> getBulloniDisponibili() {
+		Set<Bullone> bulloniDisponibili = new HashSet<Bullone>();
+		
+		for(Bullone b : this.bulloni) {
+			if(!b.isEliminato()) {
+				bulloniDisponibili.add(b);
+			}
+		}
+		
+		return bulloniDisponibili;
+	}
+	
+	
+	/**{@inheritDoc}
+	 * 
+	 */
 	public Bullone getBulloneByCodice(int codice) throws GestoreBulloniException {
 		boolean trovato = false;
 		
