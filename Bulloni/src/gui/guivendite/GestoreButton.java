@@ -75,7 +75,7 @@ public class GestoreButton implements ActionListener {
 	 * @param gestoreVendite gestore contenente tutte le vendite prese da database
 	 * @param gestoreBulloni gestore contenente tutti i bulloni presi dal database
 	 * @param mainMenu finestra grafica padre
-	 * @param finestra
+	 * @param finestra finestra grafica JDialog
 	 * @param codice codice della tupla nella quale si clicca il pulsante
 	 * @param istanzaCorrente istanza corrente del body vendite 
 	 */
@@ -95,7 +95,7 @@ public class GestoreButton implements ActionListener {
 	 * 
 	 * @param gestoreVendite gestore contenente tutte le vendite prese da database
 	 * @param mainMenu finestra grafica padre
-	 * @param finestra
+	 * @param finestra finestra grafica JDialog
 	 * @param codice codice della tupla nella quale si clicca il pulsante
 	 * @param secondoCodice secondo codice della tupla nella quale si clicca il pulsante
 	 * @param istanzaCorrente istanza corrente del body vendite 
