@@ -41,7 +41,7 @@ public class DatabaseSQL {
 	 * insert into tabella values ('qualcosa')
 	 * insert into tabella values ('qualcosa', 'numero') 
 	 * insert into tabella values ('qualcosa'), ('qualcosaAncora', 'fine') */
-	private static final String insertRegex = "(insert into \\w+ values ([(]('(\\p{Graph})+', )*'\\p{Graph}+'[)], )*([(]('(\\p{Graph})+', )*'\\p{Graph}+'[)]))";
+	private static final String insertRegex = "(insert into \\w+ values ([(]('(\\p{ASCII})+', )*'\\p{ASCII}+'[)], )*([(]('(\\p{ASCII})+', )*'\\p{ASCII}+'[)]))";
 	
 	/** Questa espressione regolare accetta stringa del tipo:
 	 * update tabella set campo='numero'
@@ -53,7 +53,7 @@ public class DatabaseSQL {
 	/** Questa espressione regolare accetta stringa del tipo:
 	 * delete from tabella where campo='qualcosa'
 	 * delete from tabella where campo = 'numero' */
-	private static final String deleteRegex = "(delete from \\w+ where \\w+((=)|( = ))'(\\p{Graph})+')";
+	private static final String deleteRegex = "(delete from \\w+ where \\w+((=)|( = ))'(\\p{ASCII})+')";
 	
 
 	/**
@@ -128,11 +128,11 @@ public class DatabaseSQL {
 		
 		/* se la regex non è rispettata dalla query passata in input, solleva un eccezione di tipo 
 		 * DatabaseSQLException con un messaggio personalizzato per il tipo di errore specifico */
-		/*Pattern p = Pattern.compile(insertRegex);
+		Pattern p = Pattern.compile(insertRegex);
 		Matcher m = p.matcher(query);
 		if (!m.matches()) {
 			throw new DatabaseSQLException(MsgErrore.ERRORE_REGEX_INSERT, new DatabaseSQLException());
-		}*/
+		}
 		
 		Connection conn = apriConnessione();
 		PreparedStatement pst = conn.prepareStatement(query);
