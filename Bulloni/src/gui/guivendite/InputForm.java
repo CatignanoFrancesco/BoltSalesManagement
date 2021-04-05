@@ -107,6 +107,9 @@ public class InputForm extends JFrame implements WindowListener {
 	/** gestore dei bulloni con interfaccia di visualizzazione */
 	private VisualizzaBulloni gestoreBulloni;
 	
+	/** i bulloni disponibili ritornati dal gestore dei bulloni */
+	private Set<Bullone> bulloni;
+	
 	
 	/**
 	 * Costruttore della finestra per aggiungere una vendita;
@@ -126,6 +129,15 @@ public class InputForm extends JFrame implements WindowListener {
 			dispose();
 		}
 		
+		// recupero i bulloni dal gestore corrispondente
+		bulloni = gestoreBulloni.getBulloniDisponibili();
+		if (bulloni.isEmpty()) {
+			JOptionPane.showMessageDialog(mainJF, "Impossibile aggiungere una vendita, non ci sono impiegati o bulloni registrati.", "Warning", JOptionPane.ERROR_MESSAGE);
+			this.mainJFrame.setEnabled(true);
+			dispose();
+		}
+		
+		
 		this.mainJFrame = mainJF;
 		this.gestoreVendite = gestoreVendite;
 		this.gestoreImpiegati = gestoreImpiegati;
@@ -138,6 +150,8 @@ public class InputForm extends JFrame implements WindowListener {
 		createFormMatricolaImpiegato();
 		createFormBulloniDaVendere();
 		createAggiungiVenditaButton();
+		
+		setVisible(true);
 		
 	}
 	
@@ -284,9 +298,6 @@ public class InputForm extends JFrame implements WindowListener {
 	 * Metodo che crea il form per selezionare i bulloni da vendere e la quantità
 	 */
 	public void createFormBulloniDaVendere() {
-		
-		// recupero i bulloni dal gestore corrispondente
-		Set<Bullone> bulloni = gestoreBulloni.getAll();
 		
 		// label corrispondente ai bulloni da vendere
 		bulloniLabel = new JLabel("Seleziona i bulloni da vendere:");

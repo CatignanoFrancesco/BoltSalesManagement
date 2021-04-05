@@ -199,8 +199,8 @@ public class BodyVendite extends JPanel {
 		aggiungiVenditaButton = new JButton("Aggiungi vendita");
 		aggiungiVenditaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				@SuppressWarnings("unused")
 				InputForm inpf = new InputForm(mainMenu, (InserimentoVendite)gestoreVendite, gestoreImpiegati, gestoreBulloni, istanzaCorrente);
-				inpf.setVisible(true);
 				mainMenu.setEnabled(false);
 			}
 		});
