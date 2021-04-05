@@ -241,7 +241,7 @@ public class InputForm extends JFrame implements WindowListener {
 		
 		// creo una lista di anni che vanno dal 1930 ad oggi; questa lista andrà inserita nella combobox degli anni sottoforma di array
 		ArrayList<Integer> listaAnni = new ArrayList<Integer>(100);
-		for (int i = 1930; i <= LocalDate.now().getYear(); i++) {
+		for (int i = LocalDate.now().getYear(); i >= 1930; i--) {
 			listaAnni.add(i);
 		}
 		

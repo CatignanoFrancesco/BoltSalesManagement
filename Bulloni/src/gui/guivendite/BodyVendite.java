@@ -199,7 +199,6 @@ public class BodyVendite extends JPanel {
 		aggiungiVenditaButton = new JButton("Aggiungi vendita");
 		aggiungiVenditaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				@SuppressWarnings("unused")
 				InputForm inpf = new InputForm(mainMenu, (InserimentoVendite)gestoreVendite, gestoreImpiegati, gestoreBulloni, istanzaCorrente);
 				mainMenu.setEnabled(false);
 			}
@@ -248,6 +247,7 @@ public class BodyVendite extends JPanel {
 					printListaVendite(gestoreVendite.getVendite());
 				}
 				catch (GestoreVenditaException t) {
+					printListaVendite(new HashSet<Vendita<MerceVenduta>>());
 					JOptionPane.showMessageDialog(mainMenu, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 				}
 			}
