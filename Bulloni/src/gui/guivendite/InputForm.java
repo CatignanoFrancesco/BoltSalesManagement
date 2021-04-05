@@ -5,8 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+
 import java.sql.SQLException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -17,7 +16,7 @@ import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -51,7 +50,7 @@ import vendita.exception.VenditaException;
  * Classe che rappresenta una finestra grafica che permette di aggiungere 
  * una nuova vendita al gestore vendite tramite un form di input apposito
  */
-public class InputForm extends JFrame implements WindowListener {
+public class InputForm extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -66,7 +65,6 @@ public class InputForm extends JFrame implements WindowListener {
 	
 	// oggetti per creare l'interfaccia grafica
 	private JTextField codiceVenditaTextField;
-	private JFrame mainJFrame;
 	private Integer[] matricoleImpiegato;
 	private JLabel headerLabel;
 	private JLabel codiceVenditaLabel;
@@ -84,7 +82,7 @@ public class InputForm extends JFrame implements WindowListener {
 	private JScrollPane scrollPane;
 	private JPanel panel;
 	private BodyVendite istanzaCorrente;
-	private JFrame finestraCorrente = this;
+	private JDialog finestraCorrente = this;
 	
 	/** conterrà i codici dei bulloni */
 	private JLabel[] codiceLabel;
@@ -108,9 +106,6 @@ public class InputForm extends JFrame implements WindowListener {
 	/** gestore dei bulloni con interfaccia di visualizzazione */
 	private VisualizzaBulloni gestoreBulloni;
 	
-	/** i bulloni disponibili ritornati dal gestore dei bulloni */
-	private Set<Bullone> bulloni;
-	
 	/** numero di bulloni presenti nell'apposito set del gestore bulloni */
 	private int numeroBulloni;
 	
@@ -120,29 +115,12 @@ public class InputForm extends JFrame implements WindowListener {
 	 * Controlla prima di tutto che una vendita sia aggiungibile, e lo fa controllando che i set dei
 	 * gestori impiegati e bulloni non sia vuoti
 	 * 
-	 * @param mainJF finestra principale da bloccare
 	 * @param gvInserimento gestore contenente tutte le vendite prese da database
 	 * @param gestoreImpiegati gestore contenente tutti gli impiegati presi dal database
 	 * @param gestoreBulloni gestore contenente tutti i bulloni presi dal database
 	 */
-	public InputForm(JFrame mainJF, InserimentoVendite gestoreVendite, GestoreImpiegatiDb gestoreImpiegati, GestoreBulloni gestoreBulloni, BodyVendite istanzaCorrente) {
+	public InputForm(InserimentoVendite gestoreVendite, GestoreImpiegatiDb gestoreImpiegati, GestoreBulloni gestoreBulloni, BodyVendite istanzaCorrente) {
 		
-		if (gestoreImpiegati.localSetIsEmpty() || gestoreBulloni.isEmpty()) {
-			JOptionPane.showMessageDialog(mainJF, "Impossibile aggiungere una vendita, non ci sono impiegati o bulloni registrati.", "Warning", JOptionPane.ERROR_MESSAGE);
-			this.mainJFrame.setEnabled(true);
-			dispose();
-		}
-		
-		// recupero i bulloni dal gestore corrispondente
-		bulloni = gestoreBulloni.getBulloniDisponibili();
-		if (bulloni.isEmpty()) {
-			JOptionPane.showMessageDialog(mainJF, "Impossibile aggiungere una vendita, non ci sono impiegati o bulloni registrati.", "Warning", JOptionPane.ERROR_MESSAGE);
-			this.mainJFrame.setEnabled(true);
-			dispose();
-		}
-		
-		
-		this.mainJFrame = mainJF;
 		this.gestoreVendite = gestoreVendite;
 		this.gestoreImpiegati = gestoreImpiegati;
 		this.gestoreBulloni = (VisualizzaBulloni)gestoreBulloni;
@@ -155,8 +133,6 @@ public class InputForm extends JFrame implements WindowListener {
 		createFormBulloniDaVendere();
 		createAggiungiVenditaButton();
 		
-		setVisible(true);
-		
 	}
 	
 	
@@ -167,12 +143,12 @@ public class InputForm extends JFrame implements WindowListener {
 	private void inizializza() {
 		
 		// creo la finestra
+		setModal(true);
 		setResizable(false);
 		setAlwaysOnTop(true);
-		addWindowListener(this);
 		setTitle(titoloFinestra);
 		setBounds(X, Y, WIDTH, HEIGHT);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
 		// creo una label informativa per l'utente
@@ -325,6 +301,7 @@ public class InputForm extends JFrame implements WindowListener {
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 
+		Set<Bullone> bulloni = gestoreBulloni.getBulloniDisponibili();
 		numeroBulloni = bulloni.size();  // numero di bulloni da mostrare
 		codiceLabel = new JLabel[numeroBulloni];
 		tipoBulloneLabel = new JLabel[numeroBulloni];
@@ -414,7 +391,8 @@ public class InputForm extends JFrame implements WindowListener {
 					impiegato = gestoreImpiegati.getImpiegatoByID((Integer)impiegatoComboBox.getSelectedItem());
 					
 					for (int i = 0; i < numeroBulloni; i++) {
-						if ((Integer)quantitaSpinner[i].getValue() > 0)
+						Integer numeroJSpinner = (Integer)quantitaSpinner[i].getValue();
+						if ((numeroJSpinner > 0) && (numeroJSpinner <= 500))
 							merce.add(new MerceVenduta(gestoreBulloni.getBulloneByCodice(Integer.parseUnsignedInt(codiceLabel[i].getText())), (Integer)quantitaSpinner[i].getValue()));
 					}
 					
@@ -426,7 +404,6 @@ public class InputForm extends JFrame implements WindowListener {
 					
 					// ristampo la lista di vendite nel pannello principale e chiudo questa finestra
 					istanzaCorrente.printListaVendite(((VisualizzazioneVendite)gestoreVendite).getVendite());
-					mainJFrame.setEnabled(true);
 					dispose();
 					
 				}
@@ -457,50 +434,5 @@ public class InputForm extends JFrame implements WindowListener {
 		getContentPane().add(aggiungiVenditaButton);
 		
 	}
-	
-	
-
-	@Override
-	/**
-	 * Metodo che alla chiusura di questa finestra, riattiva la finestra precedente
-	 */
-	public void windowClosing(WindowEvent e) {
-		if (this.mainJFrame != null) {
-			this.mainJFrame.setEnabled(true);
-		}
-
-	}
-
-
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowOpened(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowClosed(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowIconified(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowDeiconified(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowActivated(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowDeactivated(WindowEvent e) {}
 
 }

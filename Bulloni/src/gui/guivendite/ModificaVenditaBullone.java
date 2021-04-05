@@ -2,12 +2,10 @@ package gui.guivendite;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -24,7 +22,7 @@ import gestori.gestorevendite.exception.GestoreVenditaException;
  * Classe che rappresenta una finestra grafica che permette di modificare 
  * la merce venduta in una specifica vendita
  */
-public class ModificaVenditaBullone extends JFrame implements WindowListener {
+public class ModificaVenditaBullone extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -37,11 +35,11 @@ public class ModificaVenditaBullone extends JFrame implements WindowListener {
 	/** lunghezza della finestra */
 	private static final int HEIGHT = 126;
 	
-	private JFrame mainJFrame;
+	private JDialog mainJDialog;
 	private JTextField textField;
 	private JLabel messaggioPrincipale;
 	private JButton modificaButton;
-	private JFrame finestraCorrente = this;
+	private JDialog finestraCorrente = this;
 	/** titolo della finestra grafica */
 	private final String titoloFinestra = "Modifica";
 	
@@ -67,8 +65,8 @@ public class ModificaVenditaBullone extends JFrame implements WindowListener {
 	 * @param codiceVendita codice della vendita selezionata per la modifica 
 	 * @param codiceBullone codice del bullone selezionato per la modifica nella vendita
 	 */
-	public ModificaVenditaBullone(JFrame mFrame, ModificaVendite gestoreVendite, int codiceVendita, int codiceBullone, BodyVendite istanzaCorrente) {
-		this.mainJFrame = mFrame;
+	public ModificaVenditaBullone(JDialog mDialog, ModificaVendite gestoreVendite, int codiceVendita, int codiceBullone, BodyVendite istanzaCorrente) {
+		this.mainJDialog = mDialog;
 		this.gestoreVendite = gestoreVendite;
 		this.codiceVendita = codiceVendita;
 		this.codiceBullone = codiceBullone;
@@ -87,12 +85,12 @@ public class ModificaVenditaBullone extends JFrame implements WindowListener {
 	public void inizializza() {
 		
 		// creo la finestra
+		setModal(true);
 		setResizable(false);
 		setAlwaysOnTop(true);
-		addWindowListener(this);
 		setTitle(titoloFinestra);
 		setBounds(X, Y, WIDTH, HEIGHT);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 	}
 	
@@ -125,8 +123,7 @@ public class ModificaVenditaBullone extends JFrame implements WindowListener {
 					
 					istanzaCorrente.printListaVendite(((VisualizzazioneVendite)gestoreVendite).getVendite());
 					
-					((VisualizzaMerceVenduta)mainJFrame).printMerceVenduta(((VisualizzazioneVendite)gestoreVendite).getVenditaByCodice(codiceVendita).getMerceVenduta());
-					mainJFrame.setEnabled(true);
+					((VisualizzaMerceVenduta)mainJDialog).printMerceVenduta(((VisualizzazioneVendite)gestoreVendite).getVenditaByCodice(codiceVendita).getMerceVenduta());
 					dispose();
 				}
 				catch (NumberFormatException t) {
@@ -150,50 +147,4 @@ public class ModificaVenditaBullone extends JFrame implements WindowListener {
 		getContentPane().add(modificaButton);
 		
 	}
-	
-	
-	
-	@Override
-	/**
-	 * Metodo che alla chiusura di questa finestra, riattiva la finestra precedente
-	 */
-	public void windowClosing(WindowEvent e) {
-		if (this.mainJFrame != null) {
-			this.mainJFrame.setEnabled(true);
-		}
-
-	}
-
-
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowOpened(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowClosed(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowIconified(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowDeiconified(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowActivated(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowDeactivated(WindowEvent e) {}
-
 }

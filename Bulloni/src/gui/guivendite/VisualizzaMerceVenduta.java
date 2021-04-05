@@ -4,12 +4,10 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.Set;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -21,13 +19,9 @@ import vendita.MerceVenduta;
 
 /**
  * @author GiannettaGerardo
- * 
- * Classe che rappresenta una finestra grafica che permette di visualizzare 
- * la lista di merce venduta associata ad una vendita specifica precedentemente scelta;
- * da questa lista sarà possibile anche modificare la merce venduta e visualizzare
- * i dettagli sui bulloni venduti
+ *
  */
-public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
+public class VisualizzaMerceVenduta extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -50,8 +44,7 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 	private static final int HEIGHT_SCROLLPANE = 280;
 	
 	// oggetti per creare l'interfaccia grafica
-	private JFrame mainJFrame;
-	private JFrame thisFrame = this;
+	private JDialog thisDialog = this;
 	private JScrollPane scrollPane;
 	private JPanel panel;
 	private JLabel codiceBulloneLabel;
@@ -88,8 +81,7 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 	 * @param codiceVendita codice univoco della vendita selezionata
 	 * @param merce set di merce venduta nella vendita selezionata
 	 */
-	public VisualizzaMerceVenduta(JFrame mainJF, ModificaVendite gestoreVendite, VisualizzaBulloni gestoreBulloni, int codiceVendita, Set<MerceVenduta> merce, BodyVendite istanzaCorrente) {
-		this.mainJFrame = mainJF;
+	public VisualizzaMerceVenduta(ModificaVendite gestoreVendite, VisualizzaBulloni gestoreBulloni, int codiceVendita, Set<MerceVenduta> merce, BodyVendite istanzaCorrente) {
 		this.gestoreVendite = gestoreVendite;
 		this.gestoreBulloni = gestoreBulloni;
 		this.codiceVendita = codiceVendita;
@@ -109,12 +101,12 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 	public void inizializza() {
 		
 		// creo la finestra
+		setModal(true);
 		setResizable(false);
 		setAlwaysOnTop(true);
-		addWindowListener(this);
 		setTitle(titoloFinestra);
 		setBounds(X, Y, WIDTH, HEIGHT);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
 		scrollPane = new JScrollPane();
@@ -246,7 +238,7 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 			gbc_modificaButton.insets = new Insets(0, 0, 5, 1);
 			gbc_modificaButton.gridx = ++x;
 			gbc_modificaButton.gridy = i+1;
-			modificaButton[i].addActionListener(new GestoreButton((ContainerVendite)gestoreVendite, thisFrame, ((Integer)codiceVendita).toString(), codBullone[i].getText(), istanzaCorrente));
+			modificaButton[i].addActionListener(new GestoreButton((ContainerVendite)gestoreVendite, null, thisDialog, ((Integer)codiceVendita).toString(), codBullone[i].getText(), istanzaCorrente));
 			panel.add(modificaButton[i], gbc_modificaButton);
 			
 			// pulsante che permette di visualizzare tutte le informazioni sul bullone corrispondente
@@ -255,57 +247,11 @@ public class VisualizzaMerceVenduta extends JFrame implements WindowListener {
 			gbc_infoButton.insets = new Insets(0, 0, 5, 20);
 			gbc_infoButton.gridx = ++x;
 			gbc_infoButton.gridy = i+1;
-			infoButton[i].addActionListener(new GestoreButton((ContainerVendite)gestoreVendite, gestoreBulloni, thisFrame, codBullone[i].getText(), istanzaCorrente));
-			// new GestoreButton((ContainerVendite)gestoreVendite, gestoreBulloni, thisFrame, codBullone[i].getText())
+			infoButton[i].addActionListener(new GestoreButton((ContainerVendite)gestoreVendite, gestoreBulloni, null, thisDialog, codBullone[i].getText(), istanzaCorrente));
 			panel.add(infoButton[i], gbc_infoButton);
 			
 			i++;
 		}
 		
 	}
-	
-	
-	@Override
-	/**
-	 * Metodo che alla chiusura di questa finestra, riattiva la finestra precedente
-	 */
-	public void windowClosing(WindowEvent e) {
-		if (this.mainJFrame != null) {
-			this.mainJFrame.setEnabled(true);
-		}
-
-	}
-
-
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowOpened(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowClosed(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowIconified(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowDeiconified(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowActivated(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowDeactivated(WindowEvent e) {}
-
 }

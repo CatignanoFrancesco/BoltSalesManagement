@@ -21,7 +21,7 @@ public class MsgErroreVendita {
 	public static final String DATA_NON_REALE = "La data di vendita non corrisponde ad una data reale.";
 	
 	/** Messaggio di errore nel caso il Set passato in input al costruttore, contenente la merce venduta, sia vuoto o nullo */
-	public static final String MERCE_VENDUTA_NULLA = "L'insieme contenente la merce venduta è vuoto o nullo.";
+	public static final String MERCE_VENDUTA_NULLA = "Non è stata selezionata la merce per questa vendita.";
 	
 	/** Messaggio di errore nel caso il responsabile vendita passato in input al costruttore sia nullo */
 	public static final String RESPONSABILE_VENDITA_NULLO = "Il responsabile della vendita è nullo.";

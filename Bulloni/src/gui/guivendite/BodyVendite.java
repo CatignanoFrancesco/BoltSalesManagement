@@ -199,8 +199,17 @@ public class BodyVendite extends JPanel {
 		aggiungiVenditaButton = new JButton("Aggiungi vendita");
 		aggiungiVenditaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InputForm inpf = new InputForm(mainMenu, (InserimentoVendite)gestoreVendite, gestoreImpiegati, gestoreBulloni, istanzaCorrente);
-				mainMenu.setEnabled(false);
+				
+				if (gestoreImpiegati.localSetIsEmpty() || gestoreBulloni.isEmpty()) {
+					JOptionPane.showMessageDialog(mainMenu, "Impossibile aggiungere una vendita, non ci sono impiegati o bulloni registrati.", "Warning", JOptionPane.ERROR_MESSAGE);
+				}
+				else if ((gestoreBulloni.getBulloniDisponibili()).isEmpty()) {
+					JOptionPane.showMessageDialog(mainMenu, "Impossibile aggiungere una vendita, non ci sono impiegati o bulloni registrati.", "Warning", JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+					InputForm inpf = new InputForm((InserimentoVendite)gestoreVendite, gestoreImpiegati, gestoreBulloni, istanzaCorrente);
+					inpf.setVisible(true);
+				}
 			}
 		});
 		aggiungiVenditaButton.setBounds(10, 575, 165, 30);
@@ -221,7 +230,6 @@ public class BodyVendite extends JPanel {
 					
 					SelezionaRicerca sr = new SelezionaRicerca(gestoreVendite, mainMenu, istanzaCorrente);
 					sr.setVisible(true);
-					mainMenu.setEnabled(false);
 				}
 				else 
 					JOptionPane.showMessageDialog(mainMenu, "Non ci sono vendite da mostrare.", "Attenzione", JOptionPane.ERROR_MESSAGE);
@@ -360,7 +368,7 @@ public class BodyVendite extends JPanel {
 				gbc_visualButton.insets = new Insets(0, 0, 5, 0);
 				gbc_visualButton.gridx = ++posizioneX;
 				gbc_visualButton.gridy = i+1;
-				visualButton[i].addActionListener(new GestoreButton(gestoreVendite, gestoreBulloni, mainMenu, codLabel[i].getText(), istanzaCorrente));
+				visualButton[i].addActionListener(new GestoreButton(gestoreVendite, gestoreBulloni, mainMenu, null, codLabel[i].getText(), istanzaCorrente));
 				panel.add(visualButton[i], gbc_visualButton);
 				
 				// pulsate che permette di visualizzare tutte le info sull'impiegato che ha effettuato la vendita in un'apposita finestra
@@ -380,7 +388,7 @@ public class BodyVendite extends JPanel {
 				gbc_deleteButton.insets = new Insets(0, 15, 5, 25);
 				gbc_deleteButton.gridx = ++posizioneX;
 				gbc_deleteButton.gridy = i+1;
-				deleteButton[i].addActionListener(new GestoreButton(gestoreVendite, mainMenu, codLabel[i].getText(), "", istanzaCorrente));
+				deleteButton[i].addActionListener(new GestoreButton(gestoreVendite, mainMenu, null, codLabel[i].getText(), "", istanzaCorrente));
 				panel.add(deleteButton[i], gbc_deleteButton);
 				
 				i++;

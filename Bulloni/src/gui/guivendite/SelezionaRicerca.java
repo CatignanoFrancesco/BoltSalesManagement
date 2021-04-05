@@ -2,8 +2,6 @@ package gui.guivendite;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,6 +11,7 @@ import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -31,7 +30,7 @@ import vendita.Vendita;
  * Classe che rappresenta una finestra grafica che permette di selezionare
  * una ricerca di vendite per codice vendita, matricola impiegato o data vendita
  */
-public class SelezionaRicerca extends JFrame implements WindowListener {
+public class SelezionaRicerca extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -60,7 +59,7 @@ public class SelezionaRicerca extends JFrame implements WindowListener {
 	private JLabel giornoLabel;
 	private JLabel meseLabel;
 	private JLabel annoLabel;
-	private JFrame finestraCorrente = this;
+	private JDialog finestraCorrente = this;
 	/** titolo della finestra grafica */
 	private final String titoloFinestra = "Ricerca per...";
 	
@@ -96,12 +95,12 @@ public class SelezionaRicerca extends JFrame implements WindowListener {
 	public void inizializza() {
 		
 		// creo la finestra
+		setModal(true);
 		setResizable(false);
 		setAlwaysOnTop(true);
-		addWindowListener(this);
 		setTitle(titoloFinestra);
 		setBounds(X, Y, WIDTH, HEIGHT);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 	}
 	
@@ -316,50 +315,4 @@ public class SelezionaRicerca extends JFrame implements WindowListener {
 		getContentPane().add(cercaPerDataVenditaButton);
 		
 	}
-	
-	
-	
-	@Override
-	/**
-	 * Metodo che alla chiusura di questa finestra, riattiva la finestra precedente
-	 */
-	public void windowClosing(WindowEvent e) {
-		if (this.mainJFrame != null) {
-			this.mainJFrame.setEnabled(true);
-		}
-
-	}
-
-
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowOpened(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowClosed(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowIconified(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowDeiconified(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowActivated(WindowEvent e) {}
-	@Override
-	/**
-	 * Metodo dell'interfaccia WindowListener che non serve, quindi rimarrà vuoto
-	 */
-	public void windowDeactivated(WindowEvent e) {}
-
 }
