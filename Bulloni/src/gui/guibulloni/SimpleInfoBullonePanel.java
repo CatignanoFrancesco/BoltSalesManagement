@@ -97,9 +97,15 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 		// Bottone per mostrare le informazioni
 		if(e.getSource()==this.btnInformazioni) {
 			this.mainFrame.setEnabled(false);
-			this.mainFrame.setFocusable(false);
 			InfoBulloneFrame infoBulloneFrame = new InfoBulloneFrame(this.mainFrame, this.infoBullone);
 			infoBulloneFrame.setVisible(true);
+		}
+		
+		// Bottone per la modifica
+		if(e.getSource()==this.btnModifica) {
+			this.mainFrame.setEnabled(false);
+			ModificaBulloneFrame modificaBulloneFrame = new ModificaBulloneFrame(this.mainFrame, this.mainPanel, this.modificaBulloni, this.codBullone);
+			modificaBulloneFrame.setVisible(true);
 		}
 		
 		// Bottone per l'eliminazione
@@ -205,7 +211,7 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 		gbcForBtnModifica.gridy = 0;
 		gbcForBtnModifica.insets = new Insets(5, 0, 5, 5);
 		this.add(this.btnModifica, gbcForBtnModifica);
-		// Aggiungere action listener
+		this.btnModifica.addActionListener(this);
 		
 		/*
 		 * Bottone "Elimina"
