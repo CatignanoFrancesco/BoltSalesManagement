@@ -132,7 +132,7 @@ public class GestoreBulloni implements ContainerBulloni {
 		
 		for(Bullone b : this.bulloni) {
 			if(!b.isEliminato()) {
-				bulloniDisponibili.add(b);
+				bulloniDisponibili.add((Bullone)b.clone());
 			}
 		}
 		
