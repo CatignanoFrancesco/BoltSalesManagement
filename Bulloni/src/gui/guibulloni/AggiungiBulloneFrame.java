@@ -106,6 +106,7 @@ public class AggiungiBulloneFrame extends JFrame implements WindowListener, Acti
 		this.setTitle("Aggiungi bullone");
 		this.setBounds(100, 100, MAX_WIDTH, MAX_HEIGHT);
 		this.setResizable(false);
+		this.setAlwaysOnTop(true);
 		this.getContentPane().setLayout(new BorderLayout());
 		this.addWindowListener(this);
 		
