@@ -3,18 +3,24 @@ package gui.guibulloni;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import bulloni.Bullone;
 import gestori.gestoribulloni.VisualizzaBulloni;
+import gestori.gestoribulloni.exception.GestoreBulloniException;
 import utility.Data;
 
 /**
@@ -22,7 +28,7 @@ import utility.Data;
  * 
  * @author Catignano Francesco
  */
-public class RicercaBulloneFrame extends JFrame implements WindowListener {
+public class RicercaBulloneFrame extends JFrame implements WindowListener, ActionListener {
 	private static final long serialVersionUID = 1L;
 	private static final int MAX_WIDTH = 320;
 	private static final int MAX_HEIGHT = 200;
@@ -87,6 +93,46 @@ public class RicercaBulloneFrame extends JFrame implements WindowListener {
 	 *-------------------
 	 */
 	
+	/*
+	 * Trigger dei pulsanti
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// Pulsante "cerca per codice"
+		if(e.getSource()==this.btnCercaPerCodice) {
+			int codice = Integer.valueOf(this.txtFieldCercaPerCodice.getText());
+			try {
+				Set<Bullone> bulloniTrovati = new HashSet<Bullone>();
+				bulloniTrovati.add(visualizzaBulloni.getBulloneByCodice(codice));
+				mainPanel.setBtnCercaPerVisible(false);
+				mainPanel.setBtnVisualizzaTuttoVisible(true);
+				mainFrame.setEnabled(true);
+				mainPanel.refresh(bulloniTrovati);
+				this.dispose();
+			}
+			catch(GestoreBulloniException ex) {
+				JOptionPane.showMessageDialog(this, ex.getMessage(), "Errore ricerca!", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		
+		// Pulsante "cerca per anno"
+		if(e.getSource()==this.btnCercaPerAnno) {
+			int anno = (Integer)this.comboBoxCercaPerAnno.getSelectedItem();
+			try {
+				Set<Bullone> bulloniTrovati = new HashSet<Bullone>();
+				bulloniTrovati.addAll(visualizzaBulloni.getBulloniByAnno(anno));
+				mainFrame.setEnabled(true);
+				mainPanel.refresh(bulloniTrovati);
+				mainPanel.setBtnCercaPerVisible(false);
+				mainPanel.setBtnVisualizzaTuttoVisible(true);
+				this.dispose();
+			}
+			catch(GestoreBulloniException ex) {
+				JOptionPane.showMessageDialog(this, ex.getMessage(), "Errore ricerca!", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+	
 	@Override
 	public void windowOpened(WindowEvent e) {}
 
@@ -143,7 +189,7 @@ public class RicercaBulloneFrame extends JFrame implements WindowListener {
 		gbcForBtnCercaPerCodice.anchor = GridBagConstraints.LINE_START;
 		gbcForBtnCercaPerCodice.insets = new Insets(5, 5, 5, 5);
 		this.getContentPane().add(this.btnCercaPerCodice, gbcForBtnCercaPerCodice);
-		// Aggiungere action listener
+		this.btnCercaPerCodice.addActionListener(this);
 		
 		/*
 		 * Text field per la ricerca per codice
@@ -186,7 +232,7 @@ public class RicercaBulloneFrame extends JFrame implements WindowListener {
 		gbcForBtnCercaPerAnno.anchor = GridBagConstraints.LINE_START;
 		gbcForBtnCercaPerAnno.insets = new Insets(5, 5, 5, 5);
 		this.getContentPane().add(this.btnCercaPerAnno, gbcForBtnCercaPerAnno);
-		// Aggiungere action listener
+		this.btnCercaPerAnno.addActionListener(this);
 		
 		/*
 		 * ComboBox per la ricerca per anno

@@ -125,6 +125,33 @@ public class BodyBulloni extends JPanel implements ActionListener {
 			RicercaBulloneFrame ricercaBulloneFrame = new RicercaBulloneFrame(this.mainFrame, this, this.visualizzaBulloni);
 			ricercaBulloneFrame.setVisible(true);
 		}
+		
+		// Bottone per la pulizia dei risultati di ricerca
+		if(e.getSource()==this.btnVisualizzaTutto) {
+			this.refresh();
+			this.btnVisualizzaTutto.setVisible(false);
+			this.btnCercaPer.setVisible(true);
+		}
+	}
+	
+	
+	/**
+	 * Metodo per permettere ad altre finestre di rendere visibile o meno il bottone per la ricerca.
+	 * Ad esempio, quando vengono mostrati dei risultati di una ricerca, il pulsante per la ricerca potrebbe scomparire, a favore del pulsante per visualizzare tutto.
+	 * @param b Il valore booleano per indicare se il bottone e' visibile o meno.
+	 */
+	public void setBtnCercaPerVisible(boolean b) {
+		this.btnCercaPer.setVisible(b);
+	}
+	
+	
+	/**
+	 * Metodo per permettere ad altre finestre di rendere visibile o meno il bottone per visualizzare tutto.
+	 * Ad esempio, quando vengono mostrati dei risultati di una ricerca, il pulsante per la ricerca potrebbe scomparire, a favore del pulsante per visualizzare tutto.
+	 * @param b Il valore booleano per indicare se il bottone e' visibile o meno.
+	 */
+	public void setBtnVisualizzaTuttoVisible(boolean b) {
+		this.btnVisualizzaTutto.setVisible(b);
 	}
 	
 	
@@ -157,8 +184,8 @@ public class BodyBulloni extends JPanel implements ActionListener {
 		 */
 		this.btnVisualizzaTutto.setText("Visualizza tutto");
 		this.pannelloRicerca.add(this.btnVisualizzaTutto);
+		this.btnVisualizzaTutto.addActionListener(this);
 		this.btnVisualizzaTutto.setVisible(false);
-		// Aggiungere action listener
 	}
 	
 	
