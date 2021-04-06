@@ -12,6 +12,7 @@ public class MsgErrore {
 	private static final String CREAZIONE_BULLONE = "Creazione del Bullone: ";
 	
 	public static final String DATA_NON_VALIDA = CREAZIONE_BULLONE + "data non consentita!";
+	public static final String LUOGO_NON_VALIDO = CREAZIONE_BULLONE + "luogo di produzione non consentito!";
 	public static final String PESO_NON_VALIDO = CREAZIONE_BULLONE + "valore relativo al peso non consentito!";
 	public static final String PREZZO_NON_VALIDO = CREAZIONE_BULLONE + "valore realativo al prezzo non consentito!";
 	public static final String LUNGHEZZA_NON_VALIDA = CREAZIONE_BULLONE + "valore realtivo alla lunghezza del bullone non consentito!";

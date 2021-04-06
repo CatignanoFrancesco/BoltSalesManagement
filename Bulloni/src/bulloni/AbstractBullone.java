@@ -1,6 +1,10 @@
 package bulloni;
 
 import utility.Data;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import bulloni.exception.BulloneException;
 import bulloni.exception.MsgErrore;
 
@@ -86,7 +90,12 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 			throw new BulloneException(MsgErrore.DATA_NON_VALIDA, new BulloneException());
 		}
 		
-		this.luogoProduzione = luogoProduzione;
+		// Se il luogo di produzione non e' corretto, viene sollevata un'eccezione
+		if(luogoProduzioneCorretto(luogoProduzione)) {
+			this.luogoProduzione = luogoProduzione;
+		} else {
+			throw new BulloneException(MsgErrore.LUOGO_NON_VALIDO, new BulloneException());
+		}
 		
 		// Se il peso non e' corretto, viene sollevata un'eccezione.
 		if( pesoCorretto(peso) ) {
@@ -377,6 +386,32 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 	 */
 	private boolean dataCorretta(Data data) {
 		return data.compareTo(MIN_DATA)>=0 && data.compareTo(MAX_DATA)<0;
+	}
+	
+	
+	/**
+	 * Operazione a servizio del costruttore per controllare che la il luogo di produzione di un bullone sia corretto.
+	 * Per essere corretto, la stringa non deve contenere caratteri speciali, numeri e non deve essere vuota.
+	 * @param luogoProduzione La stringa da controllare
+	 * @return true se la stringa e' corretta, false altrimenti.
+	 */
+	private boolean luogoProduzioneCorretto(String luogoProduzione) {
+		String caratteriSpeciali = "1234567890!£$%&/()'?^+-*[]{}";
+		
+		// Controllo sulla stringa vuota
+		if(luogoProduzione==null || luogoProduzione.equals("")) {
+			return false;
+		}
+		
+		// Controllo sui numeri e sui caratteri speciali
+		for(int i=0; i<caratteriSpeciali.length(); i++) {
+			Character c = caratteriSpeciali.charAt(i);
+			if(luogoProduzione.contains(c.toString())) {
+				return false;
+			}
+ 		}
+		
+		return true;
 	}
 	
 	
