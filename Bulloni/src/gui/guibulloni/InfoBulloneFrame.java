@@ -5,20 +5,17 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class InfoBulloneFrame extends JFrame implements WindowListener {
+public class InfoBulloneFrame extends JDialog {
 	private static final long serialVersionUID = 1L;
 	
 	private static final int MAX_WIDTH = 350;
 	private static final int MAX_HEIGHT = 450;
 	
-	private JFrame mainFrame;
 	private String[] infoBullone;
 	
 	/*
@@ -62,57 +59,19 @@ public class InfoBulloneFrame extends JFrame implements WindowListener {
 	 * @param mainFrame La finestra principale.
 	 * @param infoBullone Le informazioni da mostrare.
 	 */
-	public InfoBulloneFrame(JFrame mainFrame, String[] infoBullone) {
-		this.mainFrame = mainFrame;
+	public InfoBulloneFrame(String[] infoBullone) {
 		this.infoBullone = infoBullone;
 		
 		this.setTitle("Informazioni bullone");
 		this.setResizable(false);
-		this.setAlwaysOnTop(true);
+		this.setModal(true);
+		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.setBounds(100, 100, MAX_WIDTH, MAX_HEIGHT);
 		this.getContentPane().setLayout(new BorderLayout());
-		this.addWindowListener(this);
 		
 		this.creaTitlePanel();
 		this.creaInfoPanel();
 	}
-	
-	
-	/*
-	 * -----------------
-	 *  METODI PUBBLICI
-	 * -----------------
-	 */
-	
-	@Override
-	public void windowOpened(WindowEvent e) {}
-
-
-	@Override
-	public void windowClosing(WindowEvent e) {
-		this.mainFrame.setEnabled(true);
-		this.mainFrame.setFocusable(true);
-	}
-
-
-	@Override
-	public void windowClosed(WindowEvent e) {}
-
-
-	@Override
-	public void windowIconified(WindowEvent e) {}
-
-
-	@Override
-	public void windowDeiconified(WindowEvent e) {}
-
-
-	@Override
-	public void windowActivated(WindowEvent e) {}
-
-
-	@Override
-	public void windowDeactivated(WindowEvent e) {}
 	
 	
 	/*

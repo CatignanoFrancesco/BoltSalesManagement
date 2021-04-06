@@ -104,6 +104,7 @@ public class BodyBulloni extends JPanel implements ActionListener {
 	public void refresh() {
 		this.listaContainerPanel.removeAll();
 		this.creaListaContainerPanel(this.visualizzaBulloni.getAll());
+		this.btnVisualizzaTutto.setVisible(false);
 	}
 	
 	
@@ -114,15 +115,13 @@ public class BodyBulloni extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// Bottone per l'aggiunta di un bullone
 		if(e.getSource()==this.btnAggiungiBullone) {
-			this.mainFrame.setEnabled(false);
-			AggiungiBulloneFrame aggiungiBulloneFrame = new AggiungiBulloneFrame(this.mainFrame, this, (AggiungiBulloni)this.visualizzaBulloni);
+			AggiungiBulloneFrame aggiungiBulloneFrame = new AggiungiBulloneFrame(this, (AggiungiBulloni)this.visualizzaBulloni);
 			aggiungiBulloneFrame.setVisible(true);
 		}
 		
 		// Bottone per la ricerca
 		if(e.getSource()==this.btnCercaPer) {
-			this.mainFrame.setEnabled(false);
-			RicercaBulloneFrame ricercaBulloneFrame = new RicercaBulloneFrame(this.mainFrame, this, this.visualizzaBulloni);
+			RicercaBulloneFrame ricercaBulloneFrame = new RicercaBulloneFrame(this, this.visualizzaBulloni);
 			ricercaBulloneFrame.setVisible(true);
 		}
 		

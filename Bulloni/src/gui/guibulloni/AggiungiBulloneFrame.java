@@ -7,15 +7,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.sql.SQLException;
 import java.time.DateTimeException;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -37,7 +35,7 @@ import bulloni.BulloneGrano;
  * 
  * @author Catignano Francesco
  */
-public class AggiungiBulloneFrame extends JFrame implements WindowListener, ActionListener {
+public class AggiungiBulloneFrame extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	private static final int MAX_WIDTH = 410;
@@ -45,7 +43,6 @@ public class AggiungiBulloneFrame extends JFrame implements WindowListener, Acti
 	private static final int MIN_ANNO = 1970;
 	private static int MAX_ANNO = Data.getDataAttuale().getAnno();
 	
-	private static JFrame mainFrame;
 	private static BodyBulloni mainPanel;
 	private static AggiungiBulloni aggiungiBulloni;
 	
@@ -98,8 +95,7 @@ public class AggiungiBulloneFrame extends JFrame implements WindowListener, Acti
 	 * @param pannelloPrincipale Il pannello principale (per effettuare le operazioni di refresh).
 	 * @param addBulloni L'interfaccia contenente le operazioni per effettuare l'aggiunta di un bullone.
 	 */
-	public AggiungiBulloneFrame(JFrame finestraPrincipale, BodyBulloni pannelloPrincipale, AggiungiBulloni addBulloni) {
-		mainFrame = finestraPrincipale;
+	public AggiungiBulloneFrame(BodyBulloni pannelloPrincipale, AggiungiBulloni addBulloni) {
 		mainPanel = pannelloPrincipale;
 		aggiungiBulloni = addBulloni;
 		
@@ -107,9 +103,9 @@ public class AggiungiBulloneFrame extends JFrame implements WindowListener, Acti
 		this.setTitle("Aggiungi bullone");
 		this.setBounds(100, 100, MAX_WIDTH, MAX_HEIGHT);
 		this.setResizable(false);
-		this.setAlwaysOnTop(true);
+		this.setModal(true);
+		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.getContentPane().setLayout(new BorderLayout());
-		this.addWindowListener(this);
 		
 		// Creazione e modellazione degli elementi
 		this.creaTitlePanel();
@@ -157,7 +153,6 @@ public class AggiungiBulloneFrame extends JFrame implements WindowListener, Acti
 						BulloneGrano b = new BulloneGrano(codBullone, dataProduzione, luogoProduzione, peso, prezzo, materiale, lunghezza, diametroVite, innesto);
 						aggiungiBulloni.newBulloneGrano(b);
 						// Chiusura finestra e aggiornamento
-						mainFrame.setEnabled(true);
 						mainPanel.refresh();
 						this.dispose();
 						
@@ -179,35 +174,6 @@ public class AggiungiBulloneFrame extends JFrame implements WindowListener, Acti
 			
 		}
 	}
-	
-	@Override
-	public void windowOpened(WindowEvent e) {}
-
-
-	@Override
-	public void windowClosing(WindowEvent e) {
-		mainFrame.setEnabled(true);
-	}
-
-
-	@Override
-	public void windowClosed(WindowEvent e) {}
-
-
-	@Override
-	public void windowIconified(WindowEvent e) {}
-
-
-	@Override
-	public void windowDeiconified(WindowEvent e) {}
-
-
-	@Override
-	public void windowActivated(WindowEvent e) {}
-
-
-	@Override
-	public void windowDeactivated(WindowEvent e) {}
 	
 	
 	/*

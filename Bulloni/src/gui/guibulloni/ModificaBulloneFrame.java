@@ -7,12 +7,10 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -30,12 +28,11 @@ import gestori.gestoribulloni.exception.GestoreBulloniException;
  * @author Catignano Francesco
  *
  */
-public class ModificaBulloneFrame extends JFrame implements WindowListener, ActionListener {
+public class ModificaBulloneFrame extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private static final int MAX_WIDTH = 300;
 	private static final int MAX_HEIGHT = 300;
 	
-	private static JFrame mainFrame;
 	private static BodyBulloni mainPanel;
 	private static ModificaBulloni modificaBulloni;
 	private int codBullone;
@@ -66,8 +63,7 @@ public class ModificaBulloneFrame extends JFrame implements WindowListener, Acti
 	 * @param modBulloni L'interfaccia di modifica dei bulloni.
 	 * @param codBullone Il codice del bullone che si sta modificando.
 	 */
-	public ModificaBulloneFrame(JFrame finestraPrincipale, BodyBulloni pannelloPrincipale, ModificaBulloni modBulloni, int codBullone) {
-		mainFrame = finestraPrincipale;
+	public ModificaBulloneFrame(BodyBulloni pannelloPrincipale, ModificaBulloni modBulloni, int codBullone) {
 		mainPanel = pannelloPrincipale;
 		modificaBulloni = modBulloni;
 		this.codBullone = codBullone;
@@ -77,9 +73,9 @@ public class ModificaBulloneFrame extends JFrame implements WindowListener, Acti
 		 */
 		this.setTitle("Modifica Bullone");
 		this.setResizable(false);
-		this.setAlwaysOnTop(true);
+		this.setModal(true);
+		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.setBounds(100, 100, MAX_WIDTH, MAX_HEIGHT);
-		this.addWindowListener(this);
 		this.getContentPane().setLayout(new BorderLayout());
 		
 		this.creaTitlePanel();
@@ -108,7 +104,6 @@ public class ModificaBulloneFrame extends JFrame implements WindowListener, Acti
 				// Modifica
 				try {
 					modificaBulloni.updatePrezzoBulloneByCodice(this.codBullone, nuovoPrezzo);
-					mainFrame.setEnabled(true);
 					mainPanel.refresh();
 					this.dispose();
 				}
@@ -121,36 +116,6 @@ public class ModificaBulloneFrame extends JFrame implements WindowListener, Acti
 			}
 		}
 	}
-	
-	@Override
-	public void windowOpened(WindowEvent e) {}
-
-
-	@Override
-	public void windowClosing(WindowEvent e) {
-		mainFrame.setEnabled(true);
-		mainPanel.refresh();
-	}
-
-
-	@Override
-	public void windowClosed(WindowEvent e) {}
-
-
-	@Override
-	public void windowIconified(WindowEvent e) {}
-
-
-	@Override
-	public void windowDeiconified(WindowEvent e) {}
-
-
-	@Override
-	public void windowActivated(WindowEvent e) {}
-
-
-	@Override
-	public void windowDeactivated(WindowEvent e) {}
 	
 	
 	/*

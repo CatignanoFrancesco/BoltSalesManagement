@@ -5,14 +5,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,14 +27,13 @@ import utility.Data;
  * 
  * @author Catignano Francesco
  */
-public class RicercaBulloneFrame extends JFrame implements WindowListener, ActionListener {
+public class RicercaBulloneFrame extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private static final int MAX_WIDTH = 320;
 	private static final int MAX_HEIGHT = 200;
 	private static final int MIN_ANNO = 1970;
 	private static int MAX_ANNO = Data.getDataAttuale().getAnno();
 	
-	private static JFrame mainFrame;
 	private static BodyBulloni mainPanel;
 	private static VisualizzaBulloni visualizzaBulloni;
 	
@@ -62,8 +60,7 @@ public class RicercaBulloneFrame extends JFrame implements WindowListener, Actio
 	 * @param pannelloPrincipale Il pannello principale.
 	 * @param visualBulloni L'interfaccia di visualizzazione dei bulloni.
 	 */
-	public RicercaBulloneFrame(JFrame finestraPrincipale, BodyBulloni pannelloPrincipale, VisualizzaBulloni visualBulloni) {
-		mainFrame = finestraPrincipale;
+	public RicercaBulloneFrame(BodyBulloni pannelloPrincipale, VisualizzaBulloni visualBulloni) {
 		mainPanel = pannelloPrincipale;
 		visualizzaBulloni = visualBulloni;
 		
@@ -71,7 +68,8 @@ public class RicercaBulloneFrame extends JFrame implements WindowListener, Actio
 		this.setTitle("Ricerca bullone");
 		this.setBounds(100, 100, MAX_WIDTH, MAX_HEIGHT);
 		this.setResizable(false);
-		this.setAlwaysOnTop(true);
+		this.setModal(true);
+		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		// Creazione layout
@@ -106,7 +104,6 @@ public class RicercaBulloneFrame extends JFrame implements WindowListener, Actio
 				bulloniTrovati.add(visualizzaBulloni.getBulloneByCodice(codice));
 				mainPanel.setBtnCercaPerVisible(false);
 				mainPanel.setBtnVisualizzaTuttoVisible(true);
-				mainFrame.setEnabled(true);
 				mainPanel.refresh(bulloniTrovati);
 				this.dispose();
 			}
@@ -124,7 +121,6 @@ public class RicercaBulloneFrame extends JFrame implements WindowListener, Actio
 			try {
 				Set<Bullone> bulloniTrovati = new HashSet<Bullone>();
 				bulloniTrovati.addAll(visualizzaBulloni.getBulloniByAnno(anno));
-				mainFrame.setEnabled(true);
 				mainPanel.refresh(bulloniTrovati);
 				mainPanel.setBtnCercaPerVisible(false);
 				mainPanel.setBtnVisualizzaTuttoVisible(true);
@@ -135,29 +131,6 @@ public class RicercaBulloneFrame extends JFrame implements WindowListener, Actio
 			}
 		}
 	}
-	
-	@Override
-	public void windowOpened(WindowEvent e) {}
-
-	@Override
-	public void windowClosing(WindowEvent e) {
-		mainFrame.setEnabled(true);
-	}
-
-	@Override
-	public void windowClosed(WindowEvent e) {}
-
-	@Override
-	public void windowIconified(WindowEvent e) {}
-
-	@Override
-	public void windowDeiconified(WindowEvent e) {}
-
-	@Override
-	public void windowActivated(WindowEvent e) {}
-
-	@Override
-	public void windowDeactivated(WindowEvent e) {}
 	
 	
 	/*

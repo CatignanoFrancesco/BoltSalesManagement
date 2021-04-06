@@ -96,15 +96,13 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// Bottone per mostrare le informazioni
 		if(e.getSource()==this.btnInformazioni) {
-			this.mainFrame.setEnabled(false);
-			InfoBulloneFrame infoBulloneFrame = new InfoBulloneFrame(this.mainFrame, this.infoBullone);
+			InfoBulloneFrame infoBulloneFrame = new InfoBulloneFrame(this.infoBullone);
 			infoBulloneFrame.setVisible(true);
 		}
 		
 		// Bottone per la modifica
 		if(e.getSource()==this.btnModifica) {
-			this.mainFrame.setEnabled(false);
-			ModificaBulloneFrame modificaBulloneFrame = new ModificaBulloneFrame(this.mainFrame, this.mainPanel, this.modificaBulloni, this.codBullone);
+			ModificaBulloneFrame modificaBulloneFrame = new ModificaBulloneFrame(this.mainPanel, this.modificaBulloni, this.codBullone);
 			modificaBulloneFrame.setVisible(true);
 		}
 		
