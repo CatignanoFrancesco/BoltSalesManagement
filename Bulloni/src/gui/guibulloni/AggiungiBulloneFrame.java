@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.SQLException;
+import java.time.DateTimeException;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -133,43 +134,48 @@ public class AggiungiBulloneFrame extends JFrame implements WindowListener, Acti
 			/*
 			 * Creazione del bullone
 			 */
-			String tipoBullone = (String)this.comboBoxTipoBullone.getSelectedItem();
-			int codBullone = Integer.valueOf(this.txtFieldCodice.getText());
-			Data dataProduzione = new Data((Integer)this.comboBoxGiorni.getSelectedItem(),	// giorno
-										   this.comboBoxMesi.getSelectedIndex() + 1,	// mese
-										   (Integer)this.comboBoxAnni.getSelectedItem());	// anno
-			String luogoProduzione = this.txtFieldLuogoProduzione.getText();
-			double peso = (Double)this.spinnerPeso.getModel().getValue();
-			double prezzo = (Double)this.spinnerPrezzo.getModel().getValue();
-			Materiale materiale = Materiale.valueOf((String)this.comboBoxMateriale.getSelectedItem());
-			double lunghezza = (Double)this.spinnerLunghezza.getModel().getValue();
-			double diametroVite = (Double)this.spinnerDiametroVite.getModel().getValue();
-			Innesto innesto = Innesto.valueOf((String)this.comboBoxInnesto.getSelectedItem());
-			
-			/*
-			 * Aggiunta del bullone
-			 */
-			switch(tipoBullone) {
-			case "Grano": {
-				try {
-					BulloneGrano b = new BulloneGrano(codBullone, dataProduzione, luogoProduzione, peso, prezzo, materiale, lunghezza, diametroVite, innesto);
-					aggiungiBulloni.newBulloneGrano(b);
-					// Chiusura finestra e aggiornamento
-					mainFrame.setEnabled(true);
-					mainPanel.refresh();
-					this.dispose();
-					
-				} catch (BulloneException ex) {
-					JOptionPane.showMessageDialog(this, ex.getMessage(), "Errore aggiunta bullone", JOptionPane.ERROR_MESSAGE);
-				} catch (GestoreBulloniException ex) {
-					JOptionPane.showMessageDialog(this, ex.getMessage(), "Errore aggiunta bullone", JOptionPane.ERROR_MESSAGE);
-				} catch (DatabaseSQLException ex) {
-					JOptionPane.showMessageDialog(this, ex.getMessage(), "Errore aggiunta bullone", JOptionPane.ERROR_MESSAGE);
-				} catch (SQLException ex) {
-					ex.printStackTrace();
+			try {
+				String tipoBullone = (String)this.comboBoxTipoBullone.getSelectedItem();
+				int codBullone = Integer.valueOf(this.txtFieldCodice.getText());
+				Data dataProduzione = new Data((Integer)this.comboBoxGiorni.getSelectedItem(),	// giorno
+											   this.comboBoxMesi.getSelectedIndex() + 1,	// mese
+											   (Integer)this.comboBoxAnni.getSelectedItem());	// anno
+				String luogoProduzione = this.txtFieldLuogoProduzione.getText();
+				double peso = (Double)this.spinnerPeso.getModel().getValue();
+				double prezzo = (Double)this.spinnerPrezzo.getModel().getValue();
+				Materiale materiale = Materiale.valueOf((String)this.comboBoxMateriale.getSelectedItem());
+				double lunghezza = (Double)this.spinnerLunghezza.getModel().getValue();
+				double diametroVite = (Double)this.spinnerDiametroVite.getModel().getValue();
+				Innesto innesto = Innesto.valueOf((String)this.comboBoxInnesto.getSelectedItem());
+				
+				/*
+				 * Aggiunta del bullone
+				 */
+				switch(tipoBullone) {
+				case "Grano": {
+					try {
+						BulloneGrano b = new BulloneGrano(codBullone, dataProduzione, luogoProduzione, peso, prezzo, materiale, lunghezza, diametroVite, innesto);
+						aggiungiBulloni.newBulloneGrano(b);
+						// Chiusura finestra e aggiornamento
+						mainFrame.setEnabled(true);
+						mainPanel.refresh();
+						this.dispose();
+						
+					} catch (BulloneException ex) {
+						JOptionPane.showMessageDialog(this, ex.getMessage(), "Errore aggiunta bullone", JOptionPane.ERROR_MESSAGE);
+					} catch (GestoreBulloniException ex) {
+						JOptionPane.showMessageDialog(this, ex.getMessage(), "Errore aggiunta bullone", JOptionPane.ERROR_MESSAGE);
+					} catch (DatabaseSQLException ex) {
+						JOptionPane.showMessageDialog(this, ex.getMessage(), "Errore aggiunta bullone", JOptionPane.ERROR_MESSAGE);
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
 				}
+				}	// end switch
 			}
-			}
+			catch(DateTimeException ex) {
+				JOptionPane.showMessageDialog(this, "Inserisci una data esistente!", "Errore aggiunta bullone", JOptionPane.ERROR_MESSAGE);
+			}	// end try-catch
 			
 		}
 	}

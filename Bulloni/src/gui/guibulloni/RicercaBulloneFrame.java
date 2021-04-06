@@ -100,8 +100,8 @@ public class RicercaBulloneFrame extends JFrame implements WindowListener, Actio
 	public void actionPerformed(ActionEvent e) {
 		// Pulsante "cerca per codice"
 		if(e.getSource()==this.btnCercaPerCodice) {
-			int codice = Integer.valueOf(this.txtFieldCercaPerCodice.getText());
 			try {
+				int codice = Integer.valueOf(this.txtFieldCercaPerCodice.getText());
 				Set<Bullone> bulloniTrovati = new HashSet<Bullone>();
 				bulloniTrovati.add(visualizzaBulloni.getBulloneByCodice(codice));
 				mainPanel.setBtnCercaPerVisible(false);
@@ -109,6 +109,9 @@ public class RicercaBulloneFrame extends JFrame implements WindowListener, Actio
 				mainFrame.setEnabled(true);
 				mainPanel.refresh(bulloniTrovati);
 				this.dispose();
+			}
+			catch(NumberFormatException ex) {
+				JOptionPane.showMessageDialog(this, "Inserisci un numero!", "Errore ricerca!", JOptionPane.ERROR_MESSAGE);
 			}
 			catch(GestoreBulloniException ex) {
 				JOptionPane.showMessageDialog(this, ex.getMessage(), "Errore ricerca!", JOptionPane.ERROR_MESSAGE);
