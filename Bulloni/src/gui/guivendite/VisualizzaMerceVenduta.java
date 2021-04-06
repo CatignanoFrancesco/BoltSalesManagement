@@ -238,7 +238,7 @@ public class VisualizzaMerceVenduta extends JDialog {
 			gbc_modificaButton.insets = new Insets(0, 0, 5, 1);
 			gbc_modificaButton.gridx = ++x;
 			gbc_modificaButton.gridy = i+1;
-			modificaButton[i].addActionListener(new GestoreButton((ContainerVendite)gestoreVendite, null, thisDialog, ((Integer)codiceVendita).toString(), codBullone[i].getText(), istanzaCorrente));
+			modificaButton[i].addActionListener(new GestoreButton((ContainerVendite)gestoreVendite, thisDialog, ((Integer)codiceVendita).toString(), codBullone[i].getText(), istanzaCorrente));
 			panel.add(modificaButton[i], gbc_modificaButton);
 			
 			// pulsante che permette di visualizzare tutte le informazioni sul bullone corrispondente
@@ -247,7 +247,7 @@ public class VisualizzaMerceVenduta extends JDialog {
 			gbc_infoButton.insets = new Insets(0, 0, 5, 20);
 			gbc_infoButton.gridx = ++x;
 			gbc_infoButton.gridy = i+1;
-			infoButton[i].addActionListener(new GestoreButton((ContainerVendite)gestoreVendite, gestoreBulloni, null, thisDialog, codBullone[i].getText(), istanzaCorrente));
+			infoButton[i].addActionListener(new GestoreButton((ContainerVendite)gestoreVendite, gestoreBulloni, thisDialog, codBullone[i].getText()));
 			panel.add(infoButton[i], gbc_infoButton);
 			
 			i++;
