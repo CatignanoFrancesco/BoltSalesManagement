@@ -1,8 +1,10 @@
 package gui.guibulloni;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
@@ -40,6 +42,11 @@ public class BodyBulloni extends JPanel implements ActionListener {
 	/*
 	 * Elementi visibili nel pannello
 	 */
+	JPanel headerPanel = new JPanel();	// Pannello contenente il pannello per la ricerca e l'intestazione
+	JPanel intestazionePanel = new JPanel();
+	JLabel lblCodice = new JLabel();
+	JLabel lblTipoBullone = new JLabel();
+	JLabel lblPrezzo = new JLabel();
 	JPanel pannelloRicerca = new JPanel();
 	JButton btnCercaPer = new JButton();
 	JButton btnVisualizzaTutto = new JButton();
@@ -73,7 +80,7 @@ public class BodyBulloni extends JPanel implements ActionListener {
 		/*
 		 * Creazione degli elementi
 		 */
-		this.creaPannelloRicerca();
+		this.creaHeaderPanel();
 		this.creaFooterPanel();
 		this.creaListaContainerPanel(this.visualizzaBulloni.getAll());
 	}
@@ -161,6 +168,26 @@ public class BodyBulloni extends JPanel implements ActionListener {
 	 */
 	
 	/**
+	 * Metodo per creare un header panel contenente due pannelli: uno per la ricerca, l'altro per l'intestazione.
+	 * Il layout utilizzato e' il border layout. In questo modo il primo pannello viene aggiunto a NORTH, l'altro a SOUTH.
+	 */
+	private void creaHeaderPanel() {
+		this.add(this.headerPanel, BorderLayout.NORTH);
+		
+		this.headerPanel.setLayout(new BorderLayout());
+		
+		/*
+		 * Pannello ricerca
+		 */
+		this.creaPannelloRicerca();
+		
+		/*
+		 * Pannello intestazione
+		 */
+		this.creaPannelloIntestazione();
+	}
+	
+	/**
 	 * Metodo per creare il pannello contenente il pulsante per effettuare una ricerca di bulloni.
 	 * 
 	 * Viene aggiunto, al pannello principale, un ulteriore pannello, posizionato in alto.
@@ -168,7 +195,7 @@ public class BodyBulloni extends JPanel implements ActionListener {
 	 * Quest'ultimo non e' subito visibile, ma appare solamente quando appaiono anche i risultati di ricerca, facendo scomparire il primo pulsante.
 	 */
 	private void creaPannelloRicerca() {
-		this.add(this.pannelloRicerca, BorderLayout.NORTH);
+		this.headerPanel.add(this.pannelloRicerca, BorderLayout.NORTH);
 		this.pannelloRicerca.setLayout(new BoxLayout(this.pannelloRicerca, BoxLayout.X_AXIS));	// Layout per il pannello di ricerca
 		
 		/*
@@ -185,6 +212,51 @@ public class BodyBulloni extends JPanel implements ActionListener {
 		this.pannelloRicerca.add(this.btnVisualizzaTutto);
 		this.btnVisualizzaTutto.addActionListener(this);
 		this.btnVisualizzaTutto.setVisible(false);
+	}
+	
+	
+	/**
+	 * Metodo per creare il pannello contenente l'intestazione.
+	 * Vengono aggiunte delle label con i nomi delle varie colonne e, grazie al GridBagLayout, vengono sistemate in modo da coincidere con il
+	 * layout dei SimpleInfoBullonePanel.
+	 */
+	private void creaPannelloIntestazione() {
+		this.headerPanel.add(this.intestazionePanel, BorderLayout.SOUTH);
+		
+		// Layout pannello
+		GridBagLayout gblForIntestazionePanel = new GridBagLayout();
+		gblForIntestazionePanel.columnWidths = new int[] {40, 30, 30, 30};
+		gblForIntestazionePanel.rowHeights = new int [] {0};
+		gblForIntestazionePanel.columnWeights = new double[] {0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gblForIntestazionePanel.rowWeights = new double[] {0.0};
+		this.intestazionePanel.setLayout(gblForIntestazionePanel);
+		
+		// Label per il codice
+		this.lblCodice.setText("Codice");
+		this.lblCodice.setForeground(Color.RED);
+		GridBagConstraints gbcForLblCodice = new GridBagConstraints();
+		gbcForLblCodice.gridx = 0;
+		gbcForLblCodice.gridy = 0;
+		gbcForLblCodice.insets = new Insets(5, 7, 5, 20);
+		this.intestazionePanel.add(this.lblCodice, gbcForLblCodice);
+		
+		// Label per il tipo di bullone
+		this.lblTipoBullone.setText("Tipo");
+		this.lblTipoBullone.setForeground(Color.RED);
+		GridBagConstraints gbcForLblTipoBullone = new GridBagConstraints();
+		gbcForLblTipoBullone.gridx = 1;
+		gbcForLblTipoBullone.gridy = 0;
+		gbcForLblTipoBullone.insets = new Insets(5, 0, 5, 112);
+		this.intestazionePanel.add(this.lblTipoBullone, gbcForLblTipoBullone);
+		
+		// Label per il prezzo
+		this.lblPrezzo.setText("Prezzo");
+		this.lblPrezzo.setForeground(Color.RED);
+		GridBagConstraints gbcForLblPrezzo = new GridBagConstraints();
+		gbcForLblPrezzo.gridx = 2;
+		gbcForLblPrezzo.gridy = 0;
+		gbcForLblPrezzo.insets = new Insets(5, 2, 5, 20);
+		this.intestazionePanel.add(this.lblPrezzo, gbcForLblPrezzo);
 	}
 	
 	
