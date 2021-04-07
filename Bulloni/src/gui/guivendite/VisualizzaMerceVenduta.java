@@ -217,7 +217,7 @@ public class VisualizzaMerceVenduta extends JDialog {
 			panel.add(quantita[i], gbc_quantita);
 			
 			// stampo il prezzo totale di vendita di un certo bullone
-			prezzoTotale[i] = new JLabel(((Double)m.getPrezzoBulloni()).toString());
+			prezzoTotale[i] = new JLabel(((Float)(((Double)m.getPrezzoBulloni()).floatValue())).toString());
 			GridBagConstraints gbc_prezzoTotale = new GridBagConstraints();
 			gbc_prezzoTotale.insets = new Insets(0, 0, 5, 1);
 			gbc_prezzoTotale.gridx = ++x;
@@ -225,7 +225,7 @@ public class VisualizzaMerceVenduta extends JDialog {
 			panel.add(prezzoTotale[i], gbc_prezzoTotale);
 			
 			// stampo il prezzo di un singolo certo bullone al momento della vendita
-			prezzoVendita[i] = new JLabel(((Double)m.getPrezzoVenditaBullone()).toString());
+			prezzoVendita[i] = new JLabel(((Float)(((Double)m.getPrezzoVenditaBullone()).floatValue())).toString());
 			GridBagConstraints gbc_prezzoVendita = new GridBagConstraints();
 			gbc_prezzoVendita.insets = new Insets(0, 0, 5, 1);
 			gbc_prezzoVendita.gridx = ++x;

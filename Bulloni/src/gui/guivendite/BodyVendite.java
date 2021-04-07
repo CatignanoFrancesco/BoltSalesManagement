@@ -339,6 +339,7 @@ public class BodyVendite extends JPanel {
 				gbc_matricolaImpLabel.gridy = i+1;
 				panel.add(matricolaImpLabel[i], gbc_matricolaImpLabel);
 				
+				// stampo la data di vendita nella lista
 				dataVenditaLabel[i] = new JLabel(vendita.getData().toLocalDate().toString());
 				GridBagConstraints gbc_dataVenditaLabel = new GridBagConstraints();
 				gbc_dataVenditaLabel.insets = new Insets(0, 0, 5 ,1);
@@ -355,7 +356,7 @@ public class BodyVendite extends JPanel {
 				panel.add(quantitaTotLabel[i], gbc_quantitaTotLabel);
 				
 				// stampo il prezzo totale della merce venduta nella lista
-				prezzoTotLabel[i] = new JLabel(((Double)vendita.getPrezzoVenditaTotale()).toString());
+				prezzoTotLabel[i] = new JLabel(((Float)(((Double)vendita.getPrezzoVenditaTotale()).floatValue())).toString());
 				GridBagConstraints gbc_prezzoTotLabel = new GridBagConstraints();
 				gbc_prezzoTotLabel.insets = new Insets(0, 0, 5, 1);
 				gbc_prezzoTotLabel.gridx = ++posizioneX;
