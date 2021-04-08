@@ -7,6 +7,7 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -30,7 +31,6 @@ public class BodyHome extends JPanel {
 	public BodyHome() {
 
 		this.setLayout(new GridBagLayout());
-		this.setBackground(Color.green);
 
 		// aggiungo i diversi bottoni
 		this.addButtons();
@@ -49,32 +49,36 @@ public class BodyHome extends JPanel {
 	private void addButtons() {
 
 		// setto i paramentri principali del layout
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.insets = new Insets(10, 5, 10, 5);// distanza fra i diversi elementi del pannello
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.insets = new Insets(50, 15, 50, 15);// distanza fra i diversi elementi del pannello
+		gbc.weightx = 1;
 
 		// aggiungo il bottone per visualizzare i dipendenti
 		btnDipendenti = new JButton("vedi dipendenti");
+		btnDipendenti.setFont(new Font("verdana", Font.BOLD, 20));
 		gbc.gridx = 0;
-		gbc.gridy = 0;
+		gbc.gridy = 1;
 		this.add(btnDipendenti, gbc);
 
 		// aggiungo il bottone per visualizzare i bulloni
 		btnBulloni = new JButton("vedi bulloni");
+		btnBulloni.setFont(new Font("verdana", Font.BOLD, 20));
 		gbc.gridx = 1;
-		gbc.gridy = 0;
+		gbc.gridy = 1;
 		this.add(btnBulloni, gbc);
 
 		// aggiungo il bottone per visualizzare le vendite
 		btnVendite = new JButton("vedi vendite");
+		btnVendite.setFont(new Font("verdana", Font.BOLD, 20));
 		gbc.gridx = 2;
-		gbc.gridy = 0;
+		gbc.gridy = 1;
 		this.add(btnVendite, gbc);
 
 		// aggiungo il bottone exit
 		btnExit = new JButton("exit");
-		gbc.fill = GridBagConstraints.NONE;
+		btnExit.setFont(new Font("verdana", Font.BOLD, 20));
 		gbc.gridx = 1;
-		gbc.gridy = 2;
+		gbc.gridy = 3;
 		this.add(btnExit, gbc);
 	}
 

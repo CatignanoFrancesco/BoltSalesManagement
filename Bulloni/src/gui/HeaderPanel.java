@@ -6,14 +6,20 @@
 
 package gui;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 public class HeaderPanel extends JPanel {
 	
@@ -28,7 +34,11 @@ public class HeaderPanel extends JPanel {
 	public HeaderPanel() {
 		
 		this.setLayout(new GridBagLayout());
+		
 		this.addElement();
+		
+		this.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.gray));//setto un bordo per una resa grafica migliore
+		
 		this.triggerButtons();
 		
 		this.revalidate();
@@ -48,6 +58,9 @@ public class HeaderPanel extends JPanel {
 		
 		//aggiungo il bottone back
 		btnBack = new JButton("back");
+		btnBack.setFont(new Font("verdana", Font.BOLD, 22));
+		btnBack.setMargin(new Insets(0, 2, 0, 2));
+		btnBack.setVerticalAlignment(JButton.CENTER);
 		btnBack.setVisible(false);//si rendera visibile dinamicamente quando vengono visualizzate apposite schemate
 		gbc.anchor = GridBagConstraints.EAST;
 		gbc.gridx = 0;
@@ -56,12 +69,13 @@ public class HeaderPanel extends JPanel {
 		
 		//aggiungo la label del titolo di ogni schemata
 		lblScreenTitle = new JLabel("HOME");
+		lblScreenTitle.setFont(new Font("verdana", Font.BOLD, 25));
 		gbc.gridx = 1;
 		gbc.weightx = 1;
 		gbc.anchor = GridBagConstraints.CENTER;
 		this.add(lblScreenTitle,gbc);
 		
-		//aggiungo una componente per migliorare il layout
+		//aggiungo una componente di offset per migliorare il layout
 		gbc.gridx = 2;
 		gbc.weightx = 0;
 		gbc.anchor = GridBagConstraints.WEST;
