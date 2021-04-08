@@ -16,6 +16,7 @@ import databaseSQL.exception.DatabaseSQLException;
 import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
 import gestori.gestoreImpiegati.exception.MsgExceptionGestoreImpiegato;
 import utility.Data;
+import persona.Impiegato;
 
 /**
  * @author Francolino Flavio Domenico
@@ -28,8 +29,10 @@ import persona.ImpiegatoBulloni;
 import persona.exception.ExceptionAnagraficaErrata;
 import persona.exception.ExceptionImpiegato;
 import persona.exception.MsgExceptionImpiegato;
+import persona.interfacceFunzionaliImpiegato.InserimentoImpiegato;
+import persona.interfacceFunzionaliImpiegato.ModificaImpiegato;
 
-public class GestoreImpiegatiDb {
+public class GestoreImpiegatiDb implements InserimentoImpiegato, ModificaImpiegato{
 
 	private static final String NOME_TABELLA_IMPIEGATI = "Impiegato";
 
@@ -66,7 +69,7 @@ public class GestoreImpiegatiDb {
 				impiegati.add(i);// aggiungo l'impiegato al set locale
 
 			} catch (ExceptionAnagraficaErrata | ExceptionImpiegato e) {
-				//questo blocco try/catch è statto messo perche richiesto dal costruttore d'impiegato
+				//questo blocco try/catch è statto messo perche' richiesto dal costruttore d'impiegato
 				//ma non ha effetiva funzionalità poiche i dati sul db sarannp per forza corretti poiche controllati al
 				//momento dell'input
 				
@@ -135,18 +138,19 @@ public class GestoreImpiegatiDb {
 	 * @param impiegato l'impiegato che si vuole aggiungere
 	 * @throws ExceptionImpiegato
 	 */
-	public void aggiungiImpiegatoDB(ImpiegatoBulloni impiegato)
+	@Override
+	public void aggiungiImpiegato(Impiegato impiegato)
 			throws SQLException, DatabaseSQLException, ExceptionImpiegato {
 
 		impiegato.setID(this.impiegati.size());// setto l'id impiegato al valore successivo dell'ultimo impiegato
 												// presente nel db
 
-		this.impiegati.add(impiegato);
+		this.impiegati.add((ImpiegatoBulloni) impiegato);
 
 		String[] valoriCampiTabella = { ((Integer) impiegato.getID()).toString(), impiegato.getNome(),
 				impiegato.getCognome(), impiegato.getDataNascita().toSqlDate().toString(),
 				String.valueOf(impiegato.getSesso()), ((Float) impiegato.getStipendioMensile()).toString(),
-				((Integer) impiegato.getBulloniVendibiliAnnualmente()).toString(),
+				((Integer) ((ImpiegatoBulloni) impiegato).getBulloniVendibiliAnnualmente()).toString(),
 				((Integer) impiegato.getGiornateLavorativeAnnuali()).toString(),
 				(impiegato.getIsLicenziato() == true) ? "t" : "f" };
 
@@ -165,7 +169,8 @@ public class GestoreImpiegatiDb {
 	 * @throws SQLException
 	 * @throws ExceptionImpiegato
 	 */
-	public void aggiornaImpiegatoDB(int id, int gionateLavorativeAnnuali, float stipendio)
+	@Override
+	public void promuoviImpiegato(int id, int gionateLavorativeAnnuali, float stipendio)
 			throws ExceptionGestoreImpiegato, SQLException, DatabaseSQLException, ExceptionImpiegato {
 
 		boolean flag = false;// flag per indicare se si Ã¨ trovato l'impiegato richiesto o meno
@@ -221,7 +226,8 @@ public class GestoreImpiegatiDb {
 	 * @throws SQLException
 	 * @throws ExceptionImpiegato
 	 */
-	public void licenziaImpiegatoDB(int id)
+	@Override
+	public void licenziaImpiegato(int id)
 			throws ExceptionGestoreImpiegato, SQLException, DatabaseSQLException, ExceptionImpiegato {
 
 		boolean flag = false;// flag per indicare se si Ã¨ trovato l'impiegato richiesto o meno
