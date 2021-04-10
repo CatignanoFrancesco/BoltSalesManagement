@@ -18,10 +18,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import gestori.gestoreImpiegati.ContainerImpiegato;
 import gestori.gestoreImpiegati.GestoreImpiegatiDb;
 import gestori.gestorevendite.ContainerVendite;
 import gestori.gestorevendite.InserimentoVendite;
 import gestori.gestorevendite.exception.GestoreVenditaException;
+import gestori.gestoribulloni.ContainerBulloni;
 import gestori.gestoribulloni.GestoreBulloni;
 import vendita.MerceVenduta;
 import vendita.Vendita;
@@ -89,11 +91,11 @@ public class BodyVendite extends JPanel {
 	 * 
 	 * @param mainMenu finestra principale nella quale questo pannello è situato
 	 */
-	public BodyVendite(JFrame mainMenu, ContainerVendite gestoreVendite, GestoreBulloni gestoreBulloni, GestoreImpiegatiDb gestoreImpiegati) {
+	public BodyVendite(JFrame mainMenu, ContainerVendite gestoreVendite, ContainerBulloni gestoreBulloni, ContainerImpiegato gestoreImpiegati) {
 		this.mainMenu = mainMenu;
 		this.gestoreVendite = gestoreVendite;
-		this.gestoreBulloni = gestoreBulloni;
-		this.gestoreImpiegati = gestoreImpiegati;
+		this.gestoreBulloni = (GestoreBulloni) gestoreBulloni;
+		this.gestoreImpiegati = (GestoreImpiegatiDb) gestoreImpiegati;
 		inizializza();
 		createAggiungiVenditaButton();
 		createCercaPerButton();

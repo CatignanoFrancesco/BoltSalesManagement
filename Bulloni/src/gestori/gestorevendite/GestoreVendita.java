@@ -35,7 +35,7 @@ public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendit
 	private ContainerBulloni gb;
 	
 	// gestore degli impiegati che si interfaccia con la parte del database che riguarda gli impiegati
-	private GestoreImpiegatiDb gi;
+	private ContainerImpiegato gi;
 	
 	/** Set contenente oggetti VenditaBulloni prelevati dal database */
 	private Set<Vendita<MerceVenduta>> vendite = new HashSet<Vendita<MerceVenduta>>();
@@ -72,7 +72,7 @@ public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendit
 	 * @throws DatabaseSQLException
 	 * @throws SQLException
 	 */
-	public GestoreVendita(ContainerBulloni gb, GestoreImpiegatiDb gi) throws GestoreVenditaException, VenditaException, ExceptionGestoreImpiegato, GestoreBulloniException, DatabaseSQLException, SQLException {
+	public GestoreVendita(ContainerBulloni gb, ContainerImpiegato gi) throws GestoreVenditaException, VenditaException, ExceptionGestoreImpiegato, GestoreBulloniException, DatabaseSQLException, SQLException {
 		
 		boolean eccezioneGestori = false;
 		String msgErrore = MsgErroreGestoreVendita.INTESTAZIONE;

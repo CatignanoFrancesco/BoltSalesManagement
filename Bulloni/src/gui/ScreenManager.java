@@ -12,10 +12,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import databaseSQL.exception.DatabaseSQLException;
+import gestori.gestoreImpiegati.ContainerImpiegato;
 import gestori.gestoreImpiegati.GestoreImpiegatiDb;
 import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
+import gestori.gestorevendite.ContainerVendite;
 import gestori.gestorevendite.GestoreVendita;
 import gestori.gestorevendite.exception.GestoreVenditaException;
+import gestori.gestoribulloni.ContainerBulloni;
 import gestori.gestoribulloni.GestoreBulloni;
 import gestori.gestoribulloni.exception.GestoreBulloniException;
 import gui.guibulloni.BodyBulloni;
@@ -31,9 +34,9 @@ import vendita.exception.VenditaException;
  */
 public class ScreenManager extends JPanel {
 	
-	private static GestoreImpiegatiDb gi;
-	private static GestoreBulloni gb;
-	private static GestoreVendita gv;
+	private static ContainerImpiegato gi;
+	private static ContainerBulloni gb;
+	private static ContainerVendite gv;
 
 	private static HeaderPanel header;
 	private static JPanel body;// corpo delle schermata che cambiera dinamicamente asseconda delle bottone

@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.swing.text.StyledEditorKit.BoldAction;
-
 import databaseSQL.DatabaseSQL;
 import databaseSQL.Query;
 import databaseSQL.exception.DatabaseSQLException;
@@ -28,11 +26,8 @@ import persona.Impiegato;
 import persona.ImpiegatoBulloni;
 import persona.exception.ExceptionAnagraficaErrata;
 import persona.exception.ExceptionImpiegato;
-import persona.exception.MsgExceptionImpiegato;
-import persona.interfacceFunzionaliImpiegato.InserimentoImpiegato;
-import persona.interfacceFunzionaliImpiegato.ModificaImpiegato;
 
-public class GestoreImpiegatiDb implements InserimentoImpiegato, ModificaImpiegato{
+public class GestoreImpiegatiDb implements ContainerImpiegato{
 
 	private static final String NOME_TABELLA_IMPIEGATI = "Impiegato";
 
@@ -89,7 +84,7 @@ public class GestoreImpiegatiDb implements InserimentoImpiegato, ModificaImpiega
 	 * @return returnSetImpiegati clone del set locale di impiegati letti dal db o
 	 *         che sono stati aggiunti in locale
 	 */
-	public Set<ImpiegatoBulloni> getSetImpiegati() {
+	public Set<ImpiegatoBulloni> getSetImpiegatiCompleto() {
 
 		Set<ImpiegatoBulloni> returnSetImpiegati = new HashSet<ImpiegatoBulloni>();// set nel quale clonare gli
 																					// impiegati da restituire
@@ -104,6 +99,10 @@ public class GestoreImpiegatiDb implements InserimentoImpiegato, ModificaImpiega
 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public ImpiegatoBulloni getImpiegatoByID(int id) throws ExceptionGestoreImpiegato {
 
 		boolean flag = false;// flag per segnalare se viene trovato il dipendente cercato
@@ -282,6 +281,31 @@ public class GestoreImpiegatiDb implements InserimentoImpiegato, ModificaImpiega
 			ret = false;
 
 		return ret;
+	}
+	
+
+	/**
+	 * questo metodo serve per rendere disponibili i solo impiegati assunti letti dal db a
+	 * tutte le classi che hanno bisogno di accedere ai medesimi impiegati letti
+	 * 
+	 * @return returnSetImpiegati clone del set locale dei soli impiegati assunti letti dal db o
+	 *         che sono stati aggiunti in locale
+	 */
+	public Set<ImpiegatoBulloni> getSetImpiegatiAssunti() {
+
+		Set<ImpiegatoBulloni> returnSetImpiegati = new HashSet<ImpiegatoBulloni>();// set nel quale clonare gli
+																					// impiegati da restituire
+
+		for (ImpiegatoBulloni i : this.impiegati) {
+			
+			if(i.getIsLicenziato() == false)
+
+				returnSetImpiegati.add((ImpiegatoBulloni) i.clone());
+
+		}
+
+		return returnSetImpiegati;
+
 	}
 
 }
