@@ -119,12 +119,19 @@ public class ModificaVenditaBullone extends JDialog {
 				try {
 					int nuovoNumeroBulloni = Integer.parseUnsignedInt(textField.getText());
 					
-					gestoreVendite.updateNumeroBulloniVendutiByCodici(codiceVendita, codiceBullone, nuovoNumeroBulloni);
+					int risultato = JOptionPane.showConfirmDialog(finestraCorrente, "Salvare le modifiche?", "Salvataggio", JOptionPane.YES_NO_OPTION);
 					
-					istanzaCorrente.printListaVendite(((VisualizzazioneVendite)gestoreVendite).getVendite());
-					
-					((VisualizzaMerceVenduta)mainJDialog).printMerceVenduta(((VisualizzazioneVendite)gestoreVendite).getVenditaByCodice(codiceVendita).getMerceVenduta());
-					dispose();
+					// se risultato e' 0, significa che e' stato selezionato si
+					if (risultato == 0) {
+						
+						gestoreVendite.updateNumeroBulloniVendutiByCodici(codiceVendita, codiceBullone, nuovoNumeroBulloni);
+						
+						istanzaCorrente.printListaVendite(((VisualizzazioneVendite)gestoreVendite).getVendite());
+						
+						((VisualizzaMerceVenduta)mainJDialog).printMerceVenduta(((VisualizzazioneVendite)gestoreVendite).getVenditaByCodice(codiceVendita).getMerceVenduta());
+						dispose();
+					}
+				
 				}
 				catch (NumberFormatException t) {
 					JOptionPane.showMessageDialog(finestraCorrente, "Non e' stato inserito un numero (positivo e senza virgola/punto).", "Exception", JOptionPane.ERROR_MESSAGE);

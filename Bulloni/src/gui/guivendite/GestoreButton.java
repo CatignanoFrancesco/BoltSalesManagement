@@ -282,24 +282,29 @@ public class GestoreButton implements ActionListener {
 	 */
 	public void eventoElimina() {
 		
-		try {
-			int numero = Integer.parseUnsignedInt(codice);
-			
-			((EliminazioneVendite)gestoreVendite).rimuoviVenditaByCodice(numero);
-			
-			istanzaCorrente.printListaVendite(((VisualizzazioneVendite)gestoreVendite).getVendite());
-		} 
-		catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(finestraJFrame, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-		} 
-		catch (GestoreVenditaException e) {
-			istanzaCorrente.printListaVendite(new HashSet<Vendita<MerceVenduta>>());
-		} 
-		catch (DatabaseSQLException e) {
-			JOptionPane.showMessageDialog(finestraJFrame, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-		} 
-		catch (SQLException e) {
-			JOptionPane.showMessageDialog(finestraJFrame, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+		int risultato = JOptionPane.showConfirmDialog(finestraJFrame, "Sei sicuro di voler eliminare?", "Eliminazione", JOptionPane.YES_NO_OPTION);
+		
+		// se risultato e' 0, significa che e' stato selezionato si
+		if (risultato == 0) {
+			try {
+				int numero = Integer.parseUnsignedInt(codice);
+				
+				((EliminazioneVendite)gestoreVendite).rimuoviVenditaByCodice(numero);
+				
+				istanzaCorrente.printListaVendite(((VisualizzazioneVendite)gestoreVendite).getVendite());
+			} 
+			catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(finestraJFrame, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+			} 
+			catch (GestoreVenditaException e) {
+				istanzaCorrente.printListaVendite(new HashSet<Vendita<MerceVenduta>>());
+			} 
+			catch (DatabaseSQLException e) {
+				JOptionPane.showMessageDialog(finestraJFrame, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+			} 
+			catch (SQLException e) {
+				JOptionPane.showMessageDialog(finestraJFrame, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 	
