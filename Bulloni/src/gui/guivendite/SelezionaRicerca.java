@@ -234,7 +234,7 @@ public class SelezionaRicerca extends JDialog {
 		// menu combobox èer scegliere il giorno del mese
 		comboBoxGiorno = new JComboBox<Integer>();
 		comboBoxGiorno.setBounds(135, 205, 60, 26);
-		comboBoxGiorno.setModel(new DefaultComboBoxModel<Integer>(new Integer[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31}));
+		comboBoxGiorno.setModel(new DefaultComboBoxModel<Integer>(new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31}));
 		getContentPane().add(comboBoxGiorno);
 		
 		// label corrispondente al giorno del mese
@@ -245,7 +245,7 @@ public class SelezionaRicerca extends JDialog {
 		
 		// menu combobox per scegliere il mese dell'anno
 		comboBoxMese = new JComboBox<Integer>();
-		comboBoxMese.setModel(new DefaultComboBoxModel<Integer>(new Integer[]{0,1,2,3,4,5,6,7,8,9,10,11,12}));
+		comboBoxMese.setModel(new DefaultComboBoxModel<Integer>(new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12}));
 		comboBoxMese.setBounds(212, 205, 60, 26);
 		getContentPane().add(comboBoxMese);
 		
@@ -260,7 +260,6 @@ public class SelezionaRicerca extends JDialog {
 		for (int i = LocalDate.now().getYear(); i >= 1930; i--) {
 			listaAnni.add(i);
 		}
-		listaAnni.add(0, 0);
 		
 		// menu combobox per scegliere l'anno
 		comboBoxAnno = new JComboBox<Integer>();
@@ -285,31 +284,24 @@ public class SelezionaRicerca extends JDialog {
 				Integer mese = (Integer)comboBoxMese.getSelectedItem();
 				Integer anno = (Integer)comboBoxAnno.getSelectedItem();
 				
-				// utilizzo il gestore vendite per cercare un vendita con la data inserita;
-				// se non è stato inserito nulla verrà segnalato l'errore
-				if ((giorno != 0) && (mese != 0) && (anno != 0)) {
-					try {
-						Data dataVendita = new Data(giorno, mese, anno);
-						
-						Set<Vendita<MerceVenduta>> vendite = new HashSet<Vendita<MerceVenduta>>();
-						vendite.addAll(gestoreVendite.getVenditeByData(dataVendita));
-						
-						istanzaCorrente.printListaVendite(vendite);
-						
-						mainJFrame.setEnabled(true);
-						dispose();
-					}
-					catch (DateTimeException t) {
-						JOptionPane.showMessageDialog(finestraCorrente, "Data inserita non valida.", "Errore", JOptionPane.ERROR_MESSAGE);
-					} 
-					catch (GestoreVenditaException t) {
-						JOptionPane.showMessageDialog(finestraCorrente, "Nessuna vendita salvata in questa data.", "Attenzione", JOptionPane.ERROR_MESSAGE);
-					}
+				// utilizzo il gestore vendite per cercare un vendita con la data inserita
+				try {
+					Data dataVendita = new Data(giorno, mese, anno);
+					
+					Set<Vendita<MerceVenduta>> vendite = new HashSet<Vendita<MerceVenduta>>();
+					vendite.addAll(gestoreVendite.getVenditeByData(dataVendita));
+					
+					istanzaCorrente.printListaVendite(vendite);
+					
+					mainJFrame.setEnabled(true);
+					dispose();
 				}
-				else {
-					JOptionPane.showMessageDialog(finestraCorrente, "E' necessario selezionare una data reale.", "Attenzione", JOptionPane.ERROR_MESSAGE);
+				catch (DateTimeException t) {
+					JOptionPane.showMessageDialog(finestraCorrente, "Data inserita non valida.", "Errore", JOptionPane.ERROR_MESSAGE);
+				} 
+				catch (GestoreVenditaException t) {
+					JOptionPane.showMessageDialog(finestraCorrente, "Nessuna vendita salvata in questa data.", "Attenzione", JOptionPane.ERROR_MESSAGE);
 				}
-				
 			}
 		});
 		getContentPane().add(cercaPerDataVenditaButton);

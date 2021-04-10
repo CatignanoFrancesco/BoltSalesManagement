@@ -32,7 +32,7 @@ import gestori.gestorevendite.exception.*;
 public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendite, ModificaVendite, EliminazioneVendite, ContainerVendite {
 	
 	// gestore dei bulloni che si interfaccia con la parte del database che riguarda i bulloni
-	private GestoreBulloni gb;
+	private ContainerBulloni gb;
 	
 	// gestore degli impiegati che si interfaccia con la parte del database che riguarda gli impiegati
 	private GestoreImpiegatiDb gi;
@@ -72,7 +72,7 @@ public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendit
 	 * @throws DatabaseSQLException
 	 * @throws SQLException
 	 */
-	public GestoreVendita(GestoreBulloni gb, GestoreImpiegatiDb gi) throws GestoreVenditaException, VenditaException, ExceptionGestoreImpiegato, GestoreBulloniException, DatabaseSQLException, SQLException {
+	public GestoreVendita(ContainerBulloni gb, GestoreImpiegatiDb gi) throws GestoreVenditaException, VenditaException, ExceptionGestoreImpiegato, GestoreBulloniException, DatabaseSQLException, SQLException {
 		
 		boolean eccezioneGestori = false;
 		String msgErrore = MsgErroreGestoreVendita.INTESTAZIONE;
