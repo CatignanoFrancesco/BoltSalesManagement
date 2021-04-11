@@ -21,6 +21,7 @@ import gestori.gestorevendite.exception.GestoreVenditaException;
 import gestori.gestoribulloni.ContainerBulloni;
 import gestori.gestoribulloni.GestoreBulloni;
 import gestori.gestoribulloni.exception.GestoreBulloniException;
+import gui.guiImpiegati.BodyImpiegati;
 import gui.guibulloni.BodyBulloni;
 import gui.guivendite.BodyVendite;
 import vendita.exception.VenditaException;
@@ -85,7 +86,7 @@ public class ScreenManager extends JPanel {
 		// aggiungo il corpo che visualizza la home
 		body.add(ScreenName.HOME.toString(), new BodyHome());
 		// aggiungo il corpo che visualizza gli impiegati
-		// body.add(ScreenName.HOME.toString(), new BodyImpiegati());
+		body.add(ScreenName.IMPIEGATI.toString(), new BodyImpiegati());
 		// aggiungo il corpo che visualizza i bulloni
 		body.add(ScreenName.BULLONI.toString(), new BodyBulloni(parentWindow, gb));
 		// aggiungo il corpo che visualizza le vendite
@@ -162,10 +163,37 @@ public class ScreenManager extends JPanel {
 			
 			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 		}
-		
-		
-		
-		
+
 	}
+
+	/**
+	 * questo metodo ritorna il gestore impiegato locale
+	 * 
+	 * @return il gestore impiegato locale
+	 */
+	public static ContainerImpiegato getGi() {
+		return gi;
+	}
+
+	/**
+	 * questo metodo ritorna il gestore bulloni locale
+	 * 
+	 * @return il gestore bulloni locale
+	 */
+	public static ContainerBulloni getGb() {
+		return gb;
+	}
+
+	/**
+	 * questo metodo ritorna il gestore vendite locale
+	 * 
+	 * @return il gestore vendite locale
+	 */
+	public static ContainerVendite getGv() {
+		return gv;
+	}
+
+	
+	
 
 }
