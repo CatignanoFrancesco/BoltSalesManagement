@@ -44,7 +44,7 @@ class BodyImpiegatoBtnListener implements ActionListener {
 		
 		case BTN_DETTAGLI:
 			
-			//code dettagli
+			new DettagliImpiegatoWindow(this.pannello.getImpiegato());
 			break;
 			
 		case BTN_PROMUOVI:

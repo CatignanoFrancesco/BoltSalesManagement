@@ -97,7 +97,7 @@ class PannelloImpiegato extends JPanel {
 		// impiegato con dimensioni predefinite per un migliore allineamento
 		this.lblCodice = new JLabel("codice");
 		this.lblCodice.setForeground(Color.red);
-		this.lblCodice.setFont(new Font("verdana", Font.BOLD, 20));
+		this.lblCodice.setFont(new Font("verdana", Font.BOLD, 15));
 		this.lblCodice.setMaximumSize(this.dim);
 		this.lblCodice.setMinimumSize(this.dim);
 		this.lblCodice.setPreferredSize(this.dim);
@@ -108,7 +108,7 @@ class PannelloImpiegato extends JPanel {
 		// impiegato con dimensioni predefinite per un migliore allineamento
 		this.lblNome = new JLabel("nome");
 		this.lblNome.setForeground(Color.red);
-		this.lblNome.setFont(new Font("verdana", Font.BOLD, 20));
+		this.lblNome.setFont(new Font("verdana", Font.BOLD, 15));
 		this.lblNome.setMaximumSize(this.dim);
 		this.lblNome.setMinimumSize(this.dim);
 		this.lblNome.setPreferredSize(this.dim);
@@ -118,7 +118,7 @@ class PannelloImpiegato extends JPanel {
 		// aggiungo l'etichetta per visualizzare l'intestazione del campo cognome dell
 		// impiegato con dimensioni predefinite per un migliore allineamento
 		this.lblCognome = new JLabel("cognome");
-		this.lblCognome.setFont(new Font("verdana", Font.BOLD, 20));
+		this.lblCognome.setFont(new Font("verdana", Font.BOLD, 15));
 		this.lblCognome.setForeground(Color.red);
 		this.lblCognome.setMaximumSize(this.dim);
 		this.lblCognome.setMinimumSize(this.dim);
@@ -127,32 +127,10 @@ class PannelloImpiegato extends JPanel {
 		this.add(this.lblCognome, gbc);
 
 		// aggiungo una compoente di offset per un migliore allineamento
-		Dimension offsetDimension = new Dimension((int) (this.dim.getWidth() * 3), (int) (this.dim.getHeight() * 3));// per
-																														// 3
-																														// poiche
-																														// l'intestazione
-																														// non
-																														// presenta
-																														// i
-																														// bottoni
-																														// quindi
-																														// devo
-																														// accupare
-																														// lo
-																														// stesso
-																														// spazio
-																														// che
-																														// occupano
-																														// i
-																														// 3
-																														// bottoni
-																														// di
-																														// un
-																														// pannello
-																														// che
-																														// visualizza
-																														// un
-																														// impiegato
+		Dimension offsetDimension = new Dimension((int) (this.dim.getWidth() * 3), (int) (this.dim.getHeight() * 3));// per 3 poiche l'intestazione non presenta
+																													// i bottoni quindi devo accupare lo stesso
+																													// spazio che occupano i 3 bottoni di
+																													// un pannello che visualizza un impiegato
 		JPanel offsetPanel = new JPanel();
 		offsetPanel.setMinimumSize(offsetDimension);
 		offsetPanel.setMaximumSize(offsetDimension);
