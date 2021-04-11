@@ -49,7 +49,7 @@ class BodyImpiegatoBtnListener implements ActionListener {
 			
 		case BTN_PROMUOVI:
 			
-			//code promuovi
+			new PromuoviImpiegatoWindow(this.pannello.getImpiegato());
 			break;
 			
 		case BTN_LICENZIA:
