@@ -46,6 +46,7 @@ public class ScreenManager extends JPanel {
 	private static JFrame parentWindow;// riferimento alla JFrame padre
 										// che servir� per realizzare un effetto focus all'aprirsi di nuove finestre
 
+
 	/**
 	 * costruttore che inizalizza il layout del pannello, aggiunge gli elementi da
 	 * visualizzare e inizializza il parentWindow
@@ -164,6 +165,16 @@ public class ScreenManager extends JPanel {
 			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 		}
 
+	}
+	
+	/**
+	 * metodo da utilizare per ottenere il jframe principale affinche ulteriori finestre si possono aprire
+	 * centralmente ad essa o effettuare operazione che richiedono sapere la finestra principale
+	 * @return
+	 */
+	public static JFrame getParentWindow() {
+		
+		return parentWindow;
 	}
 
 	/**

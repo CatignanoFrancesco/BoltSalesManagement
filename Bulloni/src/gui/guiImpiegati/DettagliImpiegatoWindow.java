@@ -12,6 +12,7 @@ import javax.swing.JDialog;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
+import gui.ScreenManager;
 import persona.Impiegato;
 import persona.ImpiegatoBulloni;
 
@@ -42,6 +43,8 @@ public class DettagliImpiegatoWindow extends JDialog {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		this.setResizable(false);
+		
+		this.setLocationRelativeTo(ScreenManager.getParentWindow());
 		
 		this.setLayout(new BorderLayout());
 		

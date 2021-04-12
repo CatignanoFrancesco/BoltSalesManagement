@@ -6,14 +6,20 @@ package gui.guiImpiegati;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
+import gui.ScreenManager;
 import persona.Impiegato;
+import persona.exception.ExceptionImpiegato;
 
 /**
  * @author Francolino Flavio Domenico
@@ -22,7 +28,7 @@ import persona.Impiegato;
  *         nuovi valori per promuovre un impiegato
  *
  */
-public class PromuoviImpiegatoWindow extends JDialog {
+class PromuoviImpiegatoWindow extends JDialog {
 
 	// attributi relativi all'aquisizione del nuovo stipedio
 	private static JLabel lblStipendio;
@@ -47,6 +53,8 @@ public class PromuoviImpiegatoWindow extends JDialog {
 		this.setResizable(false);
 
 		this.setModal(true);
+		
+		this.setLocationRelativeTo(ScreenManager.getParentWindow());
 
 		this.setLayout(new GridBagLayout());
 
@@ -122,9 +130,36 @@ public class PromuoviImpiegatoWindow extends JDialog {
 
 	/**
 	 * questo metodo si occupa di prendere i nuovi valori immessi dall'utente ed
-	 * effettuare la modifica
+	 * effettuare la modifica sul db
 	 */
 	private void promuoviImpiegato() {
+		
+		//leggo lo stipendio
+		Double valoreStipendioMensile = (Double) spnStipendio.getValue();
+		float stipendioMensile = valoreStipendioMensile.floatValue();
+		
+		//leggo le giornate
+		int giornateLavorativeAnnuali = (int) spnGiornate.getValue();
+		
+		//effettua la modifica sill'impiegato visualizzato sul pannello e sul db
+		try {
+			
+			this.impiegato.promuovi(stipendioMensile, giornateLavorativeAnnuali);
+			
+			ScreenManager.getGi().promuoviImpiegato(this.impiegato.getID(), giornateLavorativeAnnuali, stipendioMensile);
+			
+		} catch (ExceptionImpiegato e) {
+			
+			JOptionPane.showMessageDialog(ScreenManager.getParentWindow(), e.getMessage(), "exception", JOptionPane.ERROR_MESSAGE);
+			
+		} catch (ExceptionGestoreImpiegato e) {
+			
+			JOptionPane.showMessageDialog(ScreenManager.getParentWindow(), e.getMessage(), "exception", JOptionPane.ERROR_MESSAGE);
+			
+		} catch (Exception e) {
+			
+			JOptionPane.showMessageDialog(ScreenManager.getParentWindow(), e.getMessage(), "exception", JOptionPane.ERROR_MESSAGE);
+		}
 
 	}
 
@@ -132,6 +167,20 @@ public class PromuoviImpiegatoWindow extends JDialog {
 	 * questo metodo si occupa di triggerare i bottoni presenti nella finestra
 	 */
 	private void triggerButton() {
+		
+		btnInvia.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				promuoviImpiegato();
+				
+				JOptionPane.showMessageDialog(ScreenManager.getParentWindow(), "promozione avvenuta con successo");
+				
+				dispose();
+				
+			}
+		});
 
 	}
 
