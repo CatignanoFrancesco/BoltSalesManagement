@@ -20,11 +20,13 @@ import javax.swing.ScrollPaneConstants;
 
 import gestori.gestoreImpiegati.ContainerImpiegato;
 import gestori.gestoreImpiegati.GestoreImpiegatiDb;
+import gestori.gestoreImpiegati.VisualizzazioneImpiegato;
 import gestori.gestorevendite.ContainerVendite;
 import gestori.gestorevendite.InserimentoVendite;
 import gestori.gestorevendite.exception.GestoreVenditaException;
 import gestori.gestoribulloni.ContainerBulloni;
 import gestori.gestoribulloni.GestoreBulloni;
+import gestori.gestoribulloni.VisualizzaBulloni;
 import vendita.MerceVenduta;
 import vendita.Vendita;
 
@@ -77,10 +79,10 @@ public class BodyVendite extends JPanel {
 	private ContainerVendite gestoreVendite;
 	
 	/** gestore dei bulloni */
-	private GestoreBulloni gestoreBulloni;
+	private VisualizzaBulloni gestoreBulloni;
 	
 	/** gestore degli impiegati con interfaccia di visualizzazione */
-	private GestoreImpiegatiDb gestoreImpiegati;
+	private VisualizzazioneImpiegato gestoreImpiegati;
 	
 	/** oltre questa soglia, il pannello contenente la lista cambierà tipo di layout, in modo da attivare la scrollbar senza problemi di layout */
 	private static final int SOGLIA_MASSIMA_LISTA_VENDITE = 17;
@@ -380,7 +382,7 @@ public class BodyVendite extends JPanel {
 				gbc_infoImpiegatoButton.insets = new Insets(0, 0, 5, 5);
 				gbc_infoImpiegatoButton.gridx = ++posizioneX;
 				gbc_infoImpiegatoButton.gridy = i+1;
-				infoImpiegatoButton[i].addActionListener(new GestoreButton(gestoreVendite, mainMenu, matricolaImpLabel[i].getText()));
+				infoImpiegatoButton[i].addActionListener(new GestoreButton(gestoreImpiegati, mainMenu, matricolaImpLabel[i].getText()));
 				panel.add(infoImpiegatoButton[i], gbc_infoImpiegatoButton);
 				
 				// pulsante che permette di eliminare questa vendita dal set originale, dal database e dalla lista

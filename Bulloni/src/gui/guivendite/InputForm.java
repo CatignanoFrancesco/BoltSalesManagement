@@ -29,12 +29,11 @@ import javax.swing.border.TitledBorder;
 
 import bulloni.Bullone;
 import databaseSQL.exception.DatabaseSQLException;
-import gestori.gestoreImpiegati.GestoreImpiegatiDb;
+import gestori.gestoreImpiegati.VisualizzazioneImpiegato;
 import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
 import gestori.gestorevendite.InserimentoVendite;
 import gestori.gestorevendite.VisualizzazioneVendite;
 import gestori.gestorevendite.exception.GestoreVenditaException;
-import gestori.gestoribulloni.GestoreBulloni;
 import gestori.gestoribulloni.VisualizzaBulloni;
 import gestori.gestoribulloni.exception.GestoreBulloniException;
 import persona.ImpiegatoBulloni;
@@ -101,7 +100,7 @@ public class InputForm extends JDialog {
 	private InserimentoVendite gestoreVendite;
 
 	/** gestore degli impiegati con interfaccia di visualizzazione */
-	private GestoreImpiegatiDb gestoreImpiegati;
+	private VisualizzazioneImpiegato gestoreImpiegati;
 	
 	/** gestore dei bulloni con interfaccia di visualizzazione */
 	private VisualizzaBulloni gestoreBulloni;
@@ -119,11 +118,11 @@ public class InputForm extends JDialog {
 	 * @param gestoreImpiegati gestore contenente tutti gli impiegati presi dal database
 	 * @param gestoreBulloni gestore contenente tutti i bulloni presi dal database
 	 */
-	public InputForm(InserimentoVendite gestoreVendite, GestoreImpiegatiDb gestoreImpiegati, GestoreBulloni gestoreBulloni, BodyVendite istanzaCorrente) {
+	public InputForm(InserimentoVendite gestoreVendite, VisualizzazioneImpiegato gestoreImpiegati, VisualizzaBulloni gestoreBulloni, BodyVendite istanzaCorrente) {
 		
 		this.gestoreVendite = gestoreVendite;
 		this.gestoreImpiegati = gestoreImpiegati;
-		this.gestoreBulloni = (VisualizzaBulloni)gestoreBulloni;
+		this.gestoreBulloni = gestoreBulloni;
 		this.istanzaCorrente = istanzaCorrente;
 		
 		inizializza();

@@ -247,7 +247,7 @@ public class VisualizzaMerceVenduta extends JDialog {
 			gbc_infoButton.insets = new Insets(0, 0, 5, 20);
 			gbc_infoButton.gridx = ++x;
 			gbc_infoButton.gridy = i+1;
-			infoButton[i].addActionListener(new GestoreButton((ContainerVendite)gestoreVendite, gestoreBulloni, thisDialog, codBullone[i].getText()));
+			infoButton[i].addActionListener(new GestoreButton(gestoreBulloni, thisDialog, codBullone[i].getText()));
 			panel.add(infoButton[i], gbc_infoButton);
 			
 			i++;

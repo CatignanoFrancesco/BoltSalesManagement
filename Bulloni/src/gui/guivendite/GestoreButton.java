@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import databaseSQL.exception.DatabaseSQLException;
+import gestori.gestoreImpiegati.VisualizzazioneImpiegato;
+import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
 import gestori.gestorevendite.ContainerVendite;
 import gestori.gestorevendite.EliminazioneVendite;
 import gestori.gestorevendite.ModificaVendite;
@@ -18,6 +20,7 @@ import gestori.gestorevendite.VisualizzazioneVendite;
 import gestori.gestorevendite.exception.GestoreVenditaException;
 import gestori.gestoribulloni.VisualizzaBulloni;
 import gestori.gestoribulloni.exception.GestoreBulloniException;
+import gui.guiImpiegati.DettagliImpiegatoWindow;
 import gui.guibulloni.InfoBulloneFrame;
 import vendita.MerceVenduta;
 import vendita.Vendita;
@@ -31,6 +34,26 @@ import vendita.Vendita;
  * pulsanti di quelle due liste vendite
  */
 public class GestoreButton implements ActionListener {
+	
+	// COSTANTI
+	
+	/** costante che rappresenta il costruttore GestoreButton per il button "Info merce" */
+	private final static int INFO_MERCE = 0;
+	/** costante che rappresenta il costruttore GestoreButton per il button "Impiegato" */
+	private final static int IMPIEGATO = 1;
+	/** costante che rappresenta il costruttore GestoreButton per il button "Elimina" */
+	private final static int ELIMINA = 2;
+	/** costante che rappresenta il costruttore GestoreButton per il button "Modifica" */
+	private final static int MODIFICA = 3;
+	/** costante che rappresenta il costruttore GestoreButton per il button "Bullone" */
+	private final static int BULLONE = 4;
+	
+	
+	// VARIABILI
+	
+	/** questa variabile sara' impostata con la costante relativa al costruttore usato, 
+	 * e serve per un controllo all'interno del metodo actionPerformed */
+	private int buttonCorrente;
 
 	/** la finestra JFrame che dovrà essere bloccata quando una nuova finestra si apre */
 	private JFrame finestraJFrame;
@@ -52,26 +75,30 @@ public class GestoreButton implements ActionListener {
 	/** il gestore dei bulloni con interfaccia di visualizzazione, contenente quindi solo metodi per la visualizzazione */
 	private VisualizzaBulloni gestoreBulloni;
 	
+	/** il gestore degli impiegati con interfaccia di visualizzazione, contenente quindi solo metodi per la visualizzazione */
+	private VisualizzazioneImpiegato gestoreImpiegati;
+	
 	/** istanza corrente del body vendite */
 	private BodyVendite istanzaCorrente;
 	
 	
 	
 	/**
-	 * Costruttore della classe GestoreButton
+	 * Costruttore della classe GestoreButton per il button "Impiegato"
 	 * 
-	 * @param gestoreVendite gestore contenente tutte le vendite prese da database
+	 * @param gestoreImpiegati gestore contenente tutti gli impiegati presi dal database
 	 * @param finestraJFrame finestra grafica padre
 	 * @param codice codice della tupla nella quale si clicca il pulsante
 	 */
-	public GestoreButton(ContainerVendite gestoreVendite, JFrame finestraJFrame, String codice) {
-		this.gestoreVendite = gestoreVendite;
+	public GestoreButton(VisualizzazioneImpiegato gestoreImpiegati, JFrame finestraJFrame, String codice) {
+		this.gestoreImpiegati = gestoreImpiegati;
 		this.finestraJFrame = finestraJFrame;
 		this.codice = codice;
+		this.buttonCorrente = IMPIEGATO;
 	}
 	
 	/**
-	 * Costruttore della classe GestoreButton con istanza corrente di BodyVendite
+	 * Costruttore della classe GestoreButton per il button "Elimina"
 	 * 
 	 * @param gestoreVendite gestore contenente tutte le vendite prese da database
 	 * @param finestraJFrame finestra grafica padre
@@ -83,12 +110,13 @@ public class GestoreButton implements ActionListener {
 		this.finestraJFrame = finestraJFrame;
 		this.codice = codice;
 		this.istanzaCorrente = istanzaCorrente;
+		this.buttonCorrente = ELIMINA;
 	}
 	
 	
 	
 	/**
-	 * Costruttore della classe GestoreButton con istanza corrente di BodyVendite, gestoreBulloni e finestra JFrame
+	 * Costruttore della classe GestoreButton per il button "Info merce"
 	 * 
 	 * @param gestoreVendite gestore contenente tutte le vendite prese da database
 	 * @param gestoreBulloni gestore contenente tutti i bulloni presi dal database
@@ -102,64 +130,29 @@ public class GestoreButton implements ActionListener {
 		this.finestraJFrame = finestraJFrame;
 		this.codice = codice;
 		this.istanzaCorrente = istanzaCorrente;
+		this.buttonCorrente = INFO_MERCE;
 	}
 	
 	
-	/**
-	 * Costruttore della classe GestoreButton con istanza corrente di BodyVendite, gestoreBulloni e finestra JDialog
-	 * 
-	 * @param gestoreVendite gestore contenente tutte le vendite prese da database
-	 * @param gestoreBulloni gestore contenente tutti i bulloni presi dal database
-	 * @param finestraJDialog finestra grafica JDialog
-	 * @param codice codice della tupla nella quale si clicca il pulsante
-	 * @param istanzaCorrente istanza corrente del body vendite 
-	 */
-	public GestoreButton(ContainerVendite gestoreVendite, VisualizzaBulloni gestoreBulloni, JDialog finestraJDialog, String codice, BodyVendite istanzaCorrente) {
-		this.gestoreVendite = gestoreVendite;
-		this.gestoreBulloni = gestoreBulloni;
-		this.finestraJDialog = finestraJDialog;
-		this.codice = codice;
-		this.istanzaCorrente = istanzaCorrente;
-	}
-	
 	
 	/**
-	 * Costruttore della classe GestoreButton con gestoreBulloni e finestra JDialog
+	 * Costruttore della classe GestoreButton per il button "Bullone"
 	 * 
-	 * @param gestoreVendite gestore contenente tutte le vendite prese da database
 	 * @param gestoreBulloni gestore contenente tutti i bulloni presi dal database
 	 * @param finestraJDialog finestra grafica JDialog
 	 * @param codice codice della tupla nella quale si clicca il pulsante
 	 */
-	public GestoreButton(ContainerVendite gestoreVendite, VisualizzaBulloni gestoreBulloni, JDialog finestraJDialog, String codice) {
-		this.gestoreVendite = gestoreVendite;
+	public GestoreButton(VisualizzaBulloni gestoreBulloni, JDialog finestraJDialog, String codice) {
 		this.gestoreBulloni = gestoreBulloni;
 		this.finestraJDialog = finestraJDialog;
 		this.codice = codice;
+		this.buttonCorrente = BULLONE;
 	}
 	
 	
 	
 	/**
-	 * Costruttore della classe GestoreButton con istanza corrente di BodyVendite, secondo codice e finestra JFrame
-	 * 
-	 * @param gestoreVendite gestore contenente tutte le vendite prese da database
-	 * @param finestraJFrame finestra grafica padre
-	 * @param codice codice della tupla nella quale si clicca il pulsante
-	 * @param secondoCodice secondo codice della tupla nella quale si clicca il pulsante
-	 * @param istanzaCorrente istanza corrente del body vendite 
-	 */
-	public GestoreButton(ContainerVendite gestoreVendite, JFrame finestraJFrame, String codice, String secondoCodice, BodyVendite istanzaCorrente) {
-		this.gestoreVendite = gestoreVendite;
-		this.finestraJFrame = finestraJFrame;
-		this.codice = codice;
-		this.secondoCodice = secondoCodice;
-		this.istanzaCorrente = istanzaCorrente;
-	}
-	
-	
-	/**
-	 * Costruttore della classe GestoreButton con istanza corrente di BodyVendite, secondo codice e finestra JDialog
+	 * Costruttore della classe GestoreButton per il button "Modifica"
 	 * 
 	 * @param gestoreVendite gestore contenente tutte le vendite prese da database
 	 * @param finestraJDialog finestra grafica JDialog
@@ -173,6 +166,7 @@ public class GestoreButton implements ActionListener {
 		this.codice = codice;
 		this.secondoCodice = secondoCodice;
 		this.istanzaCorrente = istanzaCorrente;
+		this.buttonCorrente = MODIFICA;
 	}
 	
 	
@@ -185,28 +179,31 @@ public class GestoreButton implements ActionListener {
 		
 		if (e.getActionCommand().equals("Info merce")) {
 			
-			if ((this.gestoreBulloni != null) && (this.istanzaCorrente != null))
+			if (this.buttonCorrente == INFO_MERCE)
 				eventoInfoMerce();
 			
 		}
 		else if (e.getActionCommand().equals("Impiegato")) {
-			// creare la finestra di visualizzazione impiegato
+			
+			if (this.buttonCorrente == IMPIEGATO) {
+				eventoImpiegato();
+			}
 		}
 		else if (e.getActionCommand().equals("Elimina")) {
 			
-			if (this.istanzaCorrente != null)
+			if (this.buttonCorrente == ELIMINA)
 				eventoElimina();
 			
 		}
 		else if (e.getActionCommand().equals("Modifica")) {
 			
-			if ((this.secondoCodice != null) && (this.istanzaCorrente != null) && (this.finestraJDialog != null))
+			if (this.buttonCorrente == MODIFICA)
 				eventoModifica();
 			
 		}
 		else if (e.getActionCommand().equals("Bullone")) {
 			
-			if ((this.gestoreBulloni != null) && (this.finestraJDialog != null))
+			if (this.buttonCorrente == BULLONE)
 				eventoBullone();
 			
 		}
@@ -261,7 +258,8 @@ public class GestoreButton implements ActionListener {
 	 */
 	public void eventoBullone() {
 		try {
-			InfoBulloneFrame ibf = new InfoBulloneFrame(gestoreBulloni.getInfoBulloneByCodice(Integer.parseInt(codice)));
+			int codiceBullone = Integer.parseInt(codice);
+			InfoBulloneFrame ibf = new InfoBulloneFrame(gestoreBulloni.getInfoBulloneByCodice(codiceBullone));
 			ibf.setVisible(true);
 		} 
 		catch (NumberFormatException t) {
@@ -293,17 +291,17 @@ public class GestoreButton implements ActionListener {
 				
 				istanzaCorrente.printListaVendite(((VisualizzazioneVendite)gestoreVendite).getVendite());
 			} 
-			catch (NumberFormatException e) {
-				JOptionPane.showMessageDialog(finestraJFrame, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+			catch (NumberFormatException t) {
+				JOptionPane.showMessageDialog(finestraJFrame, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 			} 
-			catch (GestoreVenditaException e) {
+			catch (GestoreVenditaException t) {
 				istanzaCorrente.printListaVendite(new HashSet<Vendita<MerceVenduta>>());
 			} 
-			catch (DatabaseSQLException e) {
-				JOptionPane.showMessageDialog(finestraJFrame, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+			catch (DatabaseSQLException t) {
+				JOptionPane.showMessageDialog(finestraJFrame, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 			} 
-			catch (SQLException e) {
-				JOptionPane.showMessageDialog(finestraJFrame, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+			catch (SQLException t) {
+				JOptionPane.showMessageDialog(finestraJFrame, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -315,7 +313,17 @@ public class GestoreButton implements ActionListener {
 	 */
 	public void eventoImpiegato() {
 		
-		/*DettagliImpiegatoWindow diw = new DettagliImpiegatoWindow() */
+		try {
+			int matricolaImpiegato = Integer.parseInt(codice);
+			@SuppressWarnings("unused")
+			DettagliImpiegatoWindow diw = new DettagliImpiegatoWindow(gestoreImpiegati.getImpiegatoByID(matricolaImpiegato));
+		} 
+		catch (NumberFormatException t) {
+			JOptionPane.showMessageDialog(finestraJFrame, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+		}
+		catch (ExceptionGestoreImpiegato t) {
+			JOptionPane.showMessageDialog(finestraJFrame, t.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 }
