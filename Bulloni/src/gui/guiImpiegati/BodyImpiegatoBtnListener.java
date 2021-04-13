@@ -85,7 +85,7 @@ class BodyImpiegatoBtnListener implements ActionListener {
 
 		default:// BTN_AGGIUNGI
 
-			// code aggiungiu
+			this.aggiungi();
 			break;
 		}
 
@@ -98,9 +98,9 @@ class BodyImpiegatoBtnListener implements ActionListener {
 
 			try {
 
-				ScreenManager.getGi().licenziaImpiegato(this.pannello.getImpiegato().getID());
+				ScreenManager.getGi().licenziaImpiegato(this.pannello.getImpiegato().getID());//effettuo la modicfica sul db
 
-				bodyImpiegati.rimuoviPannelloImpiegato(this.pannello);
+				bodyImpiegati.rimuoviPannelloImpiegato(this.pannello);//rimuovo il panello grafico che lo visualizza
 
 			} catch (ExceptionGestoreImpiegato | SQLException | DatabaseSQLException | ExceptionImpiegato e) {
 
@@ -116,6 +116,11 @@ class BodyImpiegatoBtnListener implements ActionListener {
 			
 		}
 
+	}
+	
+	private void aggiungi() {
+		
+		new AggiungiImpiegatoWindows();
 	}
 
 }

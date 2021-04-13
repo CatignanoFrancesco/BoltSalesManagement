@@ -223,5 +223,17 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 		
 		return super.toString() + "\nBulloni vendibili annualmente: " + this.getBulloniVendibiliAnnualmente() + "\n";
 	}
+	
+	/**
+	 * metodo per ottenere il numeri minimo di bulloni vendibili annaulemente
+	 * 
+	 * @return il valore della costante MIN_BULLONI_VENDIBILI_ANNUALMENTE
+	 */
+	public static int getMinBulloniVendibiliAnnualmente() {
+		
+		return MIN_BULLONI_VENDIBILI_ANNUALMENTE;
+	}
+	
+	
 
 }

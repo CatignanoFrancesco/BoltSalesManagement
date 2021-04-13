@@ -150,6 +150,9 @@ public class BodyImpiegati extends JPanel {
 		
 		btnListener = new BodyImpiegatoBtnListener(null, this);
 		
+		btnAggiungi.addActionListener(btnListener);
+		btnAggiungi.setActionCommand(BodyImpiegatoBtnListener.BTN_AGGIUNGI);
+		
 		
 	}
 
