@@ -164,7 +164,7 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 	 */
 	public int getBulloniVendibiliAnnualmente() {
 
-		return bulloniVendibiliAnnualmente;
+		return this.bulloniVendibiliAnnualmente;
 	}
 
 	/**

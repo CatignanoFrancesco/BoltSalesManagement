@@ -82,7 +82,7 @@ class PromuoviImpiegatoWindow extends JDialog {
 
 		//aggiungo la label stipendio
 		this.lblStipendio = new JLabel("stipendio mesile (" + (impiegato.getStipendioMensile() + 1) + "-"
-				+ impiegato.getMaxStipendioMensile() + ") : ");// indico il minimo stipendio assegnabile al medesimo
+				+ Impiegato.getMaxStipendioMensile() + ") : ");// indico il minimo stipendio assegnabile al medesimo
 																// impiegato
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -90,7 +90,7 @@ class PromuoviImpiegatoWindow extends JDialog {
 
 		//aggiungo lo spinner per far inserire lo stipendio
 		SpinnerNumberModel spnModelStipendio = new SpinnerNumberModel(this.impiegato.getStipendioMensile() + 50,
-				this.impiegato.getStipendioMensile(), this.impiegato.getMaxStipendioMensile(), 50);// al di sotto
+				this.impiegato.getStipendioMensile(), Impiegato.getMaxStipendioMensile(), 50);// al di sotto
 																									// del'attuale
 																									// stipendio non si
 																									// puo scendere
@@ -102,7 +102,7 @@ class PromuoviImpiegatoWindow extends JDialog {
 		
 		//aggiungo la label giornate
 		this.lblGiornate = new JLabel("giornate lavorative annuali (" + impiegato.getGiornateLavorativeAnnuali()
-				+ "-" + impiegato.getMaxGiornateLavorativeAnnuali() + ") : ");// indico le minime gionate assegnabili al
+				+ "-" + Impiegato.getMaxGiornateLavorativeAnnuali() + ") : ");// indico le minime gionate assegnabili al
 																				// medesimo impiegato
 		gbc.gridx = 0;
 		gbc.gridy = 1;
@@ -110,7 +110,7 @@ class PromuoviImpiegatoWindow extends JDialog {
 
 		//aggiungo lo spinner per far inserire le nuove giornate
 		SpinnerNumberModel spnModelGiornate = new SpinnerNumberModel(this.impiegato.getGiornateLavorativeAnnuali() + 5,
-				this.impiegato.getGiornateLavorativeAnnuali(), this.impiegato.getMaxGiornateLavorativeAnnuali(), 5);// al di sotto delle attuali
+				this.impiegato.getGiornateLavorativeAnnuali(), Impiegato.getMaxGiornateLavorativeAnnuali(), 5);// al di sotto delle attuali
 																													// giornate non si puo scendere
 		this.spnGiornate = new JSpinner(spnModelGiornate);
 		gbc.gridx = 1;

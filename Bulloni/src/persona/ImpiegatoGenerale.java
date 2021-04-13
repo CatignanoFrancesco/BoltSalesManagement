@@ -16,11 +16,11 @@ import utility.Data;
  */
 public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Cloneable {
 
-	private static final int MIN_GIORNATE_LAVORATIVE_ANNUALI = 144;// si suppone che ogni impiegato debba lavorare
+	static final int MIN_GIORNATE_LAVORATIVE_ANNUALI = 144;// si suppone che ogni impiegato debba lavorare
 																	// almeno 3 volte a settimana
-	private static final int MAX_GIORNATE_LAVORATIVE_ANNUALI = 365;
-	private static final int MIN_STIPENDIO_MENSILE = 1000;
-	private static final int MAX_STIPENDIO_MENSILE = 2000;
+	static final int MAX_GIORNATE_LAVORATIVE_ANNUALI = 365;
+	static final int MIN_STIPENDIO_MENSILE = 1000;
+	static final int MAX_STIPENDIO_MENSILE = 2000;
 
 	private int id = -1;
 	private int giornateLavorativeAnnuali;
@@ -341,42 +341,6 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 		}
 
 		return o;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getMaxGiornateLavorativeAnnuali() {
-		
-		return MAX_GIORNATE_LAVORATIVE_ANNUALI;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getMinGiornateLavorativeAnnuali() {
-
-		return MIN_GIORNATE_LAVORATIVE_ANNUALI;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getMaxStipendioMensile() {
-		
-		return MAX_STIPENDIO_MENSILE;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getMinStipendioMensile() {
-		
-		return MIN_STIPENDIO_MENSILE;
 	}
 	
 }

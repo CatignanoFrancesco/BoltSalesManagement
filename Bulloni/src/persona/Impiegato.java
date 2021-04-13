@@ -105,27 +105,39 @@ public interface Impiegato extends Persona {
 	 * 
 	 * @return il valore della costante MIN_GIORNATE_LAVORATIVE_ANNUALI
 	 */
-	public int getMaxGiornateLavorativeAnnuali();
+	public static int getMaxGiornateLavorativeAnnuali() {
+		
+		return ImpiegatoGenerale.MAX_GIORNATE_LAVORATIVE_ANNUALI;
+	}
 	
 	/**
 	 * ritorna il valore della costante MIN_GIORNATE_LAVORATIVE_ANNUALI
 	 * 
 	 * @return il valore della costante MIN_GIORNATE_LAVORATIVE_ANNUALI
 	 */
-	public int getMinGiornateLavorativeAnnuali();
+	public static int getMinGiornateLavorativeAnnuali() {
+		
+		return ImpiegatoGenerale.MIN_GIORNATE_LAVORATIVE_ANNUALI;
+	}
 	
 	/**
 	 * ritorna il valore della costante MAX_STIPENDIO_MENSILE
 	 * 
 	 * @return il valore della costante MAX_STIPENDIO_MENSILE
 	 */
-	public int getMaxStipendioMensile();
+	public static int getMaxStipendioMensile() {
+		
+		return ImpiegatoGenerale.MAX_STIPENDIO_MENSILE;
+	}
 	
 	/**
 	 * ritorna il valore della costante MIN_STIPENDIO_MENSILE
 	 * 
 	 * @return il valore della costante MIN_STIPENDIO_MENSILE
 	 */
-	public int getMinStipendioMensile();
+	public static int getMinStipendioMensile() {
+		
+		return ImpiegatoGenerale.MIN_STIPENDIO_MENSILE;
+	}
 
 }
