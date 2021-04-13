@@ -125,7 +125,7 @@ public interface Impiegato extends Persona {
 	 * 
 	 * @return il valore della costante MAX_STIPENDIO_MENSILE
 	 */
-	public static int getMaxStipendioMensile() {
+	public static float getMaxStipendioMensile() {
 		
 		return ImpiegatoGenerale.MAX_STIPENDIO_MENSILE;
 	}
@@ -135,7 +135,7 @@ public interface Impiegato extends Persona {
 	 * 
 	 * @return il valore della costante MIN_STIPENDIO_MENSILE
 	 */
-	public static int getMinStipendioMensile() {
+	public static float getMinStipendioMensile() {
 		
 		return ImpiegatoGenerale.MIN_STIPENDIO_MENSILE;
 	}

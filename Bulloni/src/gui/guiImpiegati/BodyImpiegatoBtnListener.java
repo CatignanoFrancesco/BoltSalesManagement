@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import databaseSQL.exception.DatabaseSQLException;
 import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
 import gui.ScreenManager;
+import persona.Impiegato;
 import persona.exception.ExceptionImpiegato;
 
 /**
@@ -32,7 +33,7 @@ class BodyImpiegatoBtnListener implements ActionListener {
 
 	private PannelloImpiegato pannello;// pannelloImpiegato in cui è stato cliccato un bottone
 
-	private BodyImpiegati bodyImpiegati;// BodyImpiegato in cui è stato cliccato un bottone o nel quale aggiungere dei
+	private static BodyImpiegati bodyImpiegati;// BodyImpiegato in cui è stato cliccato un bottone o nel quale aggiungere dei
 										// pannelli Impiegati
 
 	/**
@@ -120,7 +121,11 @@ class BodyImpiegatoBtnListener implements ActionListener {
 	
 	private void aggiungi() {
 		
-		new AggiungiImpiegatoWindows();
+		AggiungiImpiegatoWindows ai = new AggiungiImpiegatoWindows();//aggiungo l'impiegato al db
+		
+		Impiegato i = ai.getImpiegato();
+		
+		bodyImpiegati.aggiungiPannelloImpiegato(new PannelloImpiegato(i, this.bodyImpiegati));//aggiungo il pannello che visualizza il nuovo impiegato
 	}
 
 }
