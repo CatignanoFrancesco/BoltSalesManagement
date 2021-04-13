@@ -59,7 +59,7 @@ public class GestoreImpiegatiDb implements ContainerImpiegato{
 						rs.getInt(CampiTabellaImpiegati.giornateLavorativeAnnuali.toString()),
 						rs.getFloat(CampiTabellaImpiegati.stipendioMensile.toString()),
 						rs.getInt(CampiTabellaImpiegati.bulloniVendibiliAnnualmente.toString()),
-						(rs.getString(CampiTabellaImpiegati.eliminato.toString()) == "T") ? true : false);
+						(rs.getString(CampiTabellaImpiegati.eliminato.toString()).equals("T")) ? true : false);
 
 				impiegati.add(i);// aggiungo l'impiegato al set locale
 
