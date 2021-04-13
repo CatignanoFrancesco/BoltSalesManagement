@@ -15,6 +15,7 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import persona.Impiegato;
 
@@ -43,6 +44,8 @@ class PannelloImpiegato extends JPanel {
 	private Impiegato impiegato;// impiegato da visualizzare
 
 	private BodyImpiegatoBtnListener btnListener;// ascoltatore click bottoni
+	
+	private static BodyImpiegati parentContainer;//jpanel nel quale viene visualizzare il determinato pannello
 
 	/**
 	 * costruttore per instaziare il pannello d'intestazione della lista d'impiegati
@@ -62,9 +65,11 @@ class PannelloImpiegato extends JPanel {
 	 * 
 	 * @param impiegato l'impiegato da visualizzare
 	 */
-	public PannelloImpiegato(Impiegato impiegato) {
+	public PannelloImpiegato(Impiegato impiegato, BodyImpiegati parentPanel) {
 
 		this.impiegato = impiegato;
+		
+		PannelloImpiegato.parentContainer = parentPanel;
 
 		this.setLayout(new GridBagLayout());
 
@@ -216,8 +221,13 @@ class PannelloImpiegato extends JPanel {
 	 * metodo usate per triggerare i pulsanti presenti sul pannello
 	 */
 	private void triggerButtons() {
+		
+		if(this.getParent() instanceof BodyImpiegati)
+			System.out.println("yesa");
 
-		this.btnListener = new BodyImpiegatoBtnListener(this);
+		this.btnListener = new BodyImpiegatoBtnListener(this, parentContainer);
+		
+		
 
 		// triggero il bottone per visualizzare i dettagli dell'impiegato
 		btnDettagli.addActionListener(this.btnListener);

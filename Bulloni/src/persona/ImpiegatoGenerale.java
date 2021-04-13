@@ -46,6 +46,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	 * @param id                        id dell'impiegato
 	 * @param giornateLavorativeAnnuali giornate lavorative annuali dell'impiegato
 	 * @param stipendioMensile          stipendio mensile dell'impiegato
+	 * @param isLicenziato				attributo dei impiegato che segnala se è assunto o meno
 	 * @throws ExceptionImpiegato        sollevata per errori riguardanti i valori
 	 *                                   di attributi propri di impiegato
 	 * @throws ExceptionAnagraficaErrata sollevata per errori riguardatni i valori

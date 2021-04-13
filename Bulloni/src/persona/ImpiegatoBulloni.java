@@ -117,6 +117,7 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 	 * @param stipendioMensile            stipendio mensile impiegato
 	 * @param bulloniVendibiliAnnualmente massimo di bulloni vendibili annualmente
 	 *                                    da un impiegato
+	 * @param isAssunto					  segnale se un impiegato risulta assunto o meno
 	 * @exception ExceptionAnagraficaErrata sollevata per errori di valore di
 	 *                                      attributi proprio dell'anagrafica
 	 * @exception ExceptionImpiegato        sollevata per errori di valore di
@@ -219,7 +220,7 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 	 */
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
+		
 		return super.toString() + "\nBulloni vendibili annualmente: " + this.getBulloniVendibiliAnnualmente() + "\n";
 	}
 

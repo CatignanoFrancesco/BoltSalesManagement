@@ -5,6 +5,7 @@ package gui.guiImpiegati;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -100,13 +101,13 @@ public class BodyImpiegati extends JPanel {
 	private void riempiLista() {
 		
 		
-		Set<ImpiegatoBulloni> setI = new TreeSet<ImpiegatoBulloni>();
+		Set<ImpiegatoBulloni> setI = new HashSet<ImpiegatoBulloni>();
 		
 		setI = ScreenManager.getGi().getSetImpiegatiAssunti();
 		
 		for(Impiegato i : setI) {
 			
-			aggiungiPannelloImpiegato(new PannelloImpiegato(i));
+			this.aggiungiPannelloImpiegato(new PannelloImpiegato(i, this));
 		
 		}
 		
@@ -120,10 +121,12 @@ public class BodyImpiegati extends JPanel {
 	 * 
 	 * @param p il pannello da rimuovere
 	 */
-	private static void rimuoviPannelloImpiegato(PannelloImpiegato p) {
+	void rimuoviPannelloImpiegato(PannelloImpiegato p) {
 		
-		listaImpiegati.remove(p);
+		listaImpiegati.remove(p);	
 		
+		this.revalidate();
+		this.repaint();
 	}
 	
 	/**
@@ -132,19 +135,20 @@ public class BodyImpiegati extends JPanel {
 	 * 
 	 * @param p il pannello da aggiungere
 	 */
-	private static void aggiungiPannelloImpiegato(PannelloImpiegato p) {
+	void aggiungiPannelloImpiegato(PannelloImpiegato p) {
 		
 		listaImpiegati.add(p);
+		
+		this.revalidate();
+		this.repaint();
 	}
 		
-		
-	
-	
-	
 	/**
 	 * questo metodo si occupa di triggerare i bottoni presenti nella schermata
 	 */
 	private void triggerButton() {
+		
+		btnListener = new BodyImpiegatoBtnListener(null, this);
 		
 		
 	}
