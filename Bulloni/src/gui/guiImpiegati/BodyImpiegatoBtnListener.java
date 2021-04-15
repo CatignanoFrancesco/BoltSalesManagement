@@ -125,7 +125,9 @@ class BodyImpiegatoBtnListener implements ActionListener {
 		
 		Impiegato i = ai.getImpiegato();
 		
-		bodyImpiegati.aggiungiPannelloImpiegato(new PannelloImpiegato(i, this.bodyImpiegati));//aggiungo il pannello che visualizza il nuovo impiegato
+		if (i != null)//se  è stato effetivamengte creato l'impiegato e non si è uscito dalla finestra premendo la x
+			
+			bodyImpiegati.aggiungiPannelloImpiegato(new PannelloImpiegato(i, this.bodyImpiegati));//aggiungo il pannello che visualizza il nuovo impiegato
 	}
 
 }

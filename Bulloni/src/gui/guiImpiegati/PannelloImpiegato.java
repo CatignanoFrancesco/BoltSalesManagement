@@ -221,9 +221,6 @@ class PannelloImpiegato extends JPanel {
 	 * metodo usate per triggerare i pulsanti presenti sul pannello
 	 */
 	private void triggerButtons() {
-		
-		if(this.getParent() instanceof BodyImpiegati)
-			System.out.println("yesa");
 
 		this.btnListener = new BodyImpiegatoBtnListener(this, parentContainer);
 		

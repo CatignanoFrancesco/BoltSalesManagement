@@ -183,6 +183,8 @@ public class AggiungiImpiegatoWindows extends JDialog {
 		gbc.gridx = 1;
 		gbc.gridy = 4;
 		this.add(spnStipendioMensile, gbc);
+		
+
 
 		// aggiungo la label per le giornate
 		lblGionrateLavorativeAnnuali = new JLabel("GIORNATE ANNUALI (" + Impiegato.getMinGiornateLavorativeAnnuali()
@@ -299,88 +301,84 @@ public class AggiungiImpiegatoWindows extends JDialog {
 
 	}
 	
+	
 	/**
 	 * questo metodo si occupa di leggere i dati inseriti dall'utente e instanziare
 	 * il nuovo Impiegato aggiungendolo al db
 	 */
-	private void aggiungiImpiegato() {
+	public void aggiungiImpiegato() {
 
-		// leggo il nome
-		String nome = this.txtfNome.getText();
+		try {
 
-		// leggo il cognome
-		String cognome = this.txtfCognome.getText();
+			// leggo il nome
+			String nome = this.txtfNome.getText();
 
-		// leggo il sesso
-		char sesso = (char) this.cmbSesso.getSelectedItem();
+			// leggo il cognome
+			String cognome = this.txtfCognome.getText();
 
-		// leggo la data di nascita
-		LocalDate data = this.dtaPickDataNascita.getDate();
-		Data dataNascita = new Data(data.getDayOfMonth(), data.getMonthValue(), data.getYear());
+			// leggo il sesso
+			char sesso = (char) this.cmbSesso.getSelectedItem();
 
-		// leggo lo stipendio
-		Double valoreStipendioMensile = (Double) spnStipendioMensile.getValue();
-		float stipendioMensile = valoreStipendioMensile.floatValue();
-		
-		// leggo le giornate
-		int giornateLavorativeAnnuali = (int) spnGIornateLavorativeAnnuali.getValue();
-		
-		// leggo i bulloni
-		int bulloniVendibiliAnnualmente = 0;
-		if (spnBulloniVendibiliAnnualmente != null) {// l'utente ha scelto d'inserire manualmente il numero di bulloni
-														// vendibili
+			// leggo la data di nascita
+			LocalDate data = this.dtaPickDataNascita.getDate();
+			Data dataNascita = new Data(data.getDayOfMonth(), data.getMonthValue(), data.getYear());
 
-			bulloniVendibiliAnnualmente = (int) spnBulloniVendibiliAnnualmente.getValue();
-		}
+			// leggo lo stipendio
+			Double valoreStipendioMensile = (Double) spnStipendioMensile.getValue();
+			float stipendioMensile = valoreStipendioMensile.floatValue();
 
-		// instazio l'impiegato e l'aggiungo al db
-		if (bulloniVendibiliAnnualmente == 0) {// l'utente ha deciso di usare il valore di default
+			// leggo le giornate
+			int giornateLavorativeAnnuali = (int) spnGIornateLavorativeAnnuali.getValue();
 
-			try {
+			// leggo i bulloni
+			int bulloniVendibiliAnnualmente = 0;
+			if (spnBulloniVendibiliAnnualmente != null) {// l'utente ha scelto d'inserire manualmente il numero di
+															// bulloni
+															// vendibili
 
-				this.impiegato = new ImpiegatoBulloni(nome, cognome, sesso, dataNascita, giornateLavorativeAnnuali,
-						stipendioMensile);
-				
-				ScreenManager.getGi().aggiungiImpiegato(this.impiegato);//aggiungo al db
-				
-				JOptionPane.showMessageDialog(ScreenManager.getParentWindow(), "operazione avvenuta con successo");
-				
-				this.dispose();
-
-			} catch (ExceptionAnagraficaErrata | ExceptionImpiegato e) {
-
-				JOptionPane.showMessageDialog(ScreenManager.getParentWindow(), e.getMessage(), "exception",
-						JOptionPane.ERROR_MESSAGE);
-				
-			} catch (SQLException | DatabaseSQLException e) {
-				
-				JOptionPane.showMessageDialog(ScreenManager.getParentWindow(), e.getMessage(), "exception",
-						JOptionPane.ERROR_MESSAGE);
+				bulloniVendibiliAnnualmente = (int) spnBulloniVendibiliAnnualmente.getValue();
 			}
 
-		} else {// l'utente ha deciso d'inserire manualmente i bulloni vendibili annualmente
-
-			try {
+			// instazio l'impiegato e l'aggiungo al db
+			if (bulloniVendibiliAnnualmente == 0) {// l'utente ha deciso di usare il valore di default
 
 				this.impiegato = new ImpiegatoBulloni(nome, cognome, sesso, dataNascita, giornateLavorativeAnnuali,
-						stipendioMensile, bulloniVendibiliAnnualmente);
-				
-				ScreenManager.getGi().aggiungiImpiegato(this.impiegato);//aggiungo al db
-				
+						stipendioMensile);// chiamo il cotruttore che permette di assegnare bulloni in maniera
+											// arbitraria
+
+				ScreenManager.getGi().aggiungiImpiegato(this.impiegato);// aggiungo al db
+
 				JOptionPane.showMessageDialog(ScreenManager.getParentWindow(), "operazione avvenuta con successo");
-				
+
 				this.dispose();
 
-			} catch (ExceptionAnagraficaErrata | ExceptionImpiegato e) {
+			} else {
 
-				JOptionPane.showMessageDialog(ScreenManager.getParentWindow(), e.getMessage(), "exception",
-						JOptionPane.ERROR_MESSAGE);
-				
-			} catch (SQLException | DatabaseSQLException e) {
-				
-				JOptionPane.showMessageDialog(ScreenManager.getParentWindow(), e.getMessage(), "exception",
-						JOptionPane.ERROR_MESSAGE);
-			} 
+				this.impiegato = new ImpiegatoBulloni(nome, cognome, sesso, dataNascita, giornateLavorativeAnnuali,
+						stipendioMensile, bulloniVendibiliAnnualmente);// chiamo il cotruttore calcola in automatico i
+																		// bulloni vendibili annaulmente
+
+				ScreenManager.getGi().aggiungiImpiegato(this.impiegato);// aggiungo al db
+
+				JOptionPane.showMessageDialog(ScreenManager.getParentWindow(), "operazione avvenuta con successo");
+
+				this.dispose();
+			}
+
+		} catch (ExceptionAnagraficaErrata | ExceptionImpiegato e) {
+
+			JOptionPane.showMessageDialog(ScreenManager.getParentWindow(), e.getMessage(), "exception",
+					JOptionPane.ERROR_MESSAGE);
+
+		} catch (SQLException | DatabaseSQLException e) {
+
+			JOptionPane.showMessageDialog(ScreenManager.getParentWindow(), e.getMessage(), "exception",
+					JOptionPane.ERROR_MESSAGE);
+
+		} catch (Exception e) {
+
+			JOptionPane.showMessageDialog(ScreenManager.getParentWindow(), e.getMessage(), "exception",
+					JOptionPane.ERROR_MESSAGE);
 
 		}
 
