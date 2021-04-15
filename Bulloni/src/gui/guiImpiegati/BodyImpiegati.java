@@ -3,6 +3,7 @@
  */
 package gui.guiImpiegati;
 
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.HashSet;
@@ -11,6 +12,7 @@ import java.util.TreeSet;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -30,6 +32,8 @@ public class BodyImpiegati extends JPanel {
 	private static PannelloImpiegato intestazioneLista;
 	private static JPanel listaImpiegati;// pannello per la visualizzazione degli impiegati
 	private static JScrollPane scroolPaneListaImpiegati;
+	
+	private static JLabel lblListaVuota;
 
 	private static JButton btnAggiungi;
 	private static BodyImpiegatoBtnListener btnListener;
@@ -55,30 +59,21 @@ public class BodyImpiegati extends JPanel {
 		GridBagConstraints gbc = new GridBagConstraints();
 		
 		
-		//aggiungo l'intestazione della lista
-		intestazioneLista = new PannelloImpiegato();
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridheight = 1;
-		gbc.weightx = 0;
-		gbc.weighty = 0;
-		gbc.anchor = GridBagConstraints.NORTH;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		this.add(intestazioneLista, gbc);
 		
-		//aggiungo i diversi pannelli che visualizzano un impiegato
-		listaImpiegati = new JPanel();
-		listaImpiegati.setLayout(new BoxLayout(listaImpiegati, BoxLayout.PAGE_AXIS));
-		this.riempiLista();
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		gbc.gridheight = 2;
-		gbc.weightx = 2;
-		gbc.weighty = 1;
-		gbc.anchor = GridBagConstraints.CENTER;
-		gbc.fill = GridBagConstraints.BOTH;
-		scroolPaneListaImpiegati = new JScrollPane(listaImpiegati);
-		this.add(scroolPaneListaImpiegati, gbc);
+		if (ScreenManager.getGi().getSetImpiegatiAssunti().isEmpty()) {// non ci sono impiegati da visualizzare
+
+			lblListaVuota = new JLabel("non sono presenti Impiegati assunti");
+			lblListaVuota.setFont(new Font("verdana", Font.BOLD, 25));
+			gbc.gridx = 0;
+			gbc.gridy = 0;
+			gbc.gridheight = 2;
+			gbc.fill = GridBagConstraints.BOTH;
+			this.add(lblListaVuota, gbc);
+			
+		} else {
+
+			this.aggiungiLista();
+		}
 		
 		//aggiungo il bottone per l'aggiunta di un nuovo impiegato
 		btnAggiungi = new JButton("+ aggiungi");
@@ -93,6 +88,36 @@ public class BodyImpiegati extends JPanel {
 		gbc.anchor = GridBagConstraints.PAGE_END;
 		this.add(btnAggiungi, gbc);
 
+	}
+	
+	void aggiungiLista() {
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+		
+		// aggiungo l'intestazione della lista
+		intestazioneLista = new PannelloImpiegato();
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridheight = 1;
+		gbc.weightx = 0;
+		gbc.weighty = 0;
+		gbc.anchor = GridBagConstraints.NORTH;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		this.add(intestazioneLista, gbc);
+
+		// aggiungo i diversi pannelli che visualizzano un impiegato
+		listaImpiegati = new JPanel();
+		listaImpiegati.setLayout(new BoxLayout(listaImpiegati, BoxLayout.PAGE_AXIS));
+		this.riempiLista();
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.gridheight = 2;
+		gbc.weightx = 2;
+		gbc.weighty = 1;
+		gbc.anchor = GridBagConstraints.CENTER;
+		gbc.fill = GridBagConstraints.BOTH;
+		scroolPaneListaImpiegati = new JScrollPane(listaImpiegati);
+		this.add(scroolPaneListaImpiegati, gbc);
 	}
 	
 	/**
