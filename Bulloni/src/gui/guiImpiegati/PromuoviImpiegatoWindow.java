@@ -134,19 +134,22 @@ class PromuoviImpiegatoWindow extends JDialog {
 	 */
 	private void promuoviImpiegato() {
 		
-		//leggo lo stipendio
-		Double valoreStipendioMensile = (Double) spnStipendio.getValue();
-		float stipendioMensile = valoreStipendioMensile.floatValue();
-		
-		//leggo le giornate
-		int giornateLavorativeAnnuali = (int) spnGiornate.getValue();
-		
-		//effettua la modifica sill'impiegato visualizzato sul pannello e sul db
 		try {
 			
-			this.impiegato.promuovi(stipendioMensile, giornateLavorativeAnnuali);
+			//leggo lo stipendio
+			Double valoreStipendioMensile = (Double) spnStipendio.getValue();
+			float stipendioMensile = valoreStipendioMensile.floatValue();
+			
+			//leggo le giornate
+			int giornateLavorativeAnnuali = (int) spnGiornate.getValue();
+			
+			this.impiegato.promuovi(stipendioMensile, giornateLavorativeAnnuali);//effettuo la modifica sul db
 			
 			ScreenManager.getGi().promuoviImpiegato(this.impiegato.getID(), giornateLavorativeAnnuali, stipendioMensile);
+			
+			JOptionPane.showMessageDialog(ScreenManager.getParentWindow(), "promozione avvenuta con successo");
+			
+			dispose();
 			
 		} catch (ExceptionImpiegato e) {
 			
@@ -174,10 +177,6 @@ class PromuoviImpiegatoWindow extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				
 				promuoviImpiegato();
-				
-				JOptionPane.showMessageDialog(ScreenManager.getParentWindow(), "promozione avvenuta con successo");
-				
-				dispose();
 				
 			}
 		});
