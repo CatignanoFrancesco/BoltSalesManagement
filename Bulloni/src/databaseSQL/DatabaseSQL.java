@@ -67,8 +67,10 @@ public class DatabaseSQL {
 	 * Sarà utilizzato solo all'interno dei principali metodi di questa classe
 	 * 
 	 * @return un oggetto Connection già creato e inizializzato
+	 * @throws DatabaseSQLException
+	 * @throws SQLException
 	 */
-	private static Connection apriConnessione() throws DatabaseSQLException {
+	private static Connection apriConnessione() throws DatabaseSQLException, SQLException {
 		return Connessione.getConnection();
 	}
 	
@@ -76,6 +78,9 @@ public class DatabaseSQL {
 	/**
 	 * Metodo che chiude la connessione aperta dal metodo apriConnessione.
 	 * Deve lavorare sullo stesso oggetto Connection di apriConnessione, anche mediante alias
+	 *
+	 * @throws SQLException
+	 * @throws DatabaseSQLException
 	 */
 	public static void chiudiConnessione() throws SQLException, DatabaseSQLException {
 		Connessione.closeConnection();
