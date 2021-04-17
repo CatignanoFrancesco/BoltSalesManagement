@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
  *         della gui
  *
  */
-public class ScrennManagerBtnClickListener implements ActionListener {
+public class ScreenManagerBtnClickListener implements ActionListener {
 
 	public final static String BTN_BACK = "back";
 	public final static String BTN_IMPIEGATI = "vediImepiegati";

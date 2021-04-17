@@ -92,6 +92,9 @@ class BodyImpiegatoBtnListener implements ActionListener {
 
 	}
 
+	/**
+	 * questo metodo si occupa d'implementare le funzionalità asscociate al bottone licenzia
+	 */
 	private void licenzia() {
 
 		if (JOptionPane.showConfirmDialog(ScreenManager.getParentWindow(),
@@ -119,15 +122,33 @@ class BodyImpiegatoBtnListener implements ActionListener {
 
 	}
 	
+	/**
+	 * questo metodo si occupa d'implementare le funzionalità asscociate al bottone licenzia
+	 */
 	private void aggiungi() {
 		
 		AggiungiImpiegatoWindows ai = new AggiungiImpiegatoWindows();//aggiungo l'impiegato al db
 		
 		Impiegato i = ai.getImpiegato();
 		
-		if (i != null)//se  è stato effetivamengte creato l'impiegato e non si è uscito dalla finestra premendo la x
+		if (i != null) {//se  è stato effetivamengte creato l'impiegato e non si è uscito dalla finestra premendo la x
 			
-			bodyImpiegati.aggiungiPannelloImpiegato(new PannelloImpiegato(i, this.bodyImpiegati));//aggiungo il pannello che visualizza il nuovo impiegato
+			if(bodyImpiegati.getListaImpiegati() != null) {//se lista risulta istanziate poiche visualizza gia alcuni impiegati
+			
+				bodyImpiegati.aggiungiPannelloImpiegato(new PannelloImpiegato(i, this.bodyImpiegati));//aggiungo il pannello che visualizza il nuovo impiegato
+			
+			} else {//devo visualizzare il primo impiegato creato
+				
+				bodyImpiegati.remove(BodyImpiegati.getlblListaVuota());//rimuovo la label che visualizza il messagio che non ci sono impiegati
+				
+				bodyImpiegati.aggiungiLista();//istanzio la lista
+				
+				bodyImpiegati.aggiungiPannelloImpiegato(new PannelloImpiegato(i, this.bodyImpiegati));//aggiungo il pannello che visualizza il nuovo impiegato
+				
+				bodyImpiegati.revalidate();
+				bodyImpiegati.repaint();
+			}
+	
+		}
 	}
-
 }

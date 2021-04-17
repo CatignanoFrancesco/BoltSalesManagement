@@ -90,6 +90,10 @@ public class BodyImpiegati extends JPanel {
 
 	}
 	
+	/**
+	 * questo metodo serve per aggiungere le componenenti grafice utili
+	 * alla visualizzazione della lista d'impiegati assunti presenti sul db
+	 */
 	void aggiungiLista() {
 		
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -179,6 +183,28 @@ public class BodyImpiegati extends JPanel {
 		btnAggiungi.setActionCommand(BodyImpiegatoBtnListener.BTN_AGGIUNGI);
 		
 		
+	}
+	
+	/**
+	 * questo metodo server per far ritornare il JPanel che visualizza
+	 * la lista d'impiegati
+	 * 
+	 * @return listaImpiegati il pannello che visualizza la lista degli impiegati assunti presenti sul db
+	 */
+	static JPanel getListaImpiegati() {
+		
+		return listaImpiegati;
+	}
+	
+	/**
+	 * questo metodo server per far ritornare la label che visualizza
+	 * il messaggio che non ci siano impiegati
+	 * 
+	 * @return lblListaVuota la label che visualizza il messaggio
+	 */
+	static JLabel getlblListaVuota() {
+		
+		return lblListaVuota;
 	}
 
 }

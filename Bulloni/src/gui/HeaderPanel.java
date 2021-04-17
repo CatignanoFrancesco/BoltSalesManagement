@@ -106,8 +106,8 @@ public class HeaderPanel extends JPanel {
 	
 	private void triggerButtons() {
 		
-		btnBack.addActionListener(new ScrennManagerBtnClickListener());
-		btnBack.setActionCommand(ScrennManagerBtnClickListener.BTN_BACK);
+		btnBack.addActionListener(new ScreenManagerBtnClickListener());
+		btnBack.setActionCommand(ScreenManagerBtnClickListener.BTN_BACK);
 	}
 
 }

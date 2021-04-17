@@ -87,17 +87,17 @@ public class BodyHome extends JPanel {
 	 */
 	private void triggerButtons() {
 
-		btnDipendenti.addActionListener(new ScrennManagerBtnClickListener());
-		btnDipendenti.setActionCommand(ScrennManagerBtnClickListener.BTN_IMPIEGATI);
+		btnDipendenti.addActionListener(new ScreenManagerBtnClickListener());
+		btnDipendenti.setActionCommand(ScreenManagerBtnClickListener.BTN_IMPIEGATI);
 
-		btnBulloni.addActionListener(new ScrennManagerBtnClickListener());
-		btnBulloni.setActionCommand(ScrennManagerBtnClickListener.BTN_BULLONI);
+		btnBulloni.addActionListener(new ScreenManagerBtnClickListener());
+		btnBulloni.setActionCommand(ScreenManagerBtnClickListener.BTN_BULLONI);
 
-		btnVendite.addActionListener(new ScrennManagerBtnClickListener());
-		btnVendite.setActionCommand(ScrennManagerBtnClickListener.BTN_VENDITE);
+		btnVendite.addActionListener(new ScreenManagerBtnClickListener());
+		btnVendite.setActionCommand(ScreenManagerBtnClickListener.BTN_VENDITE);
 
-		btnExit.addActionListener(new ScrennManagerBtnClickListener());
-		btnExit.setActionCommand(ScrennManagerBtnClickListener.BTN_EXIT);
+		btnExit.addActionListener(new ScreenManagerBtnClickListener());
+		btnExit.setActionCommand(ScreenManagerBtnClickListener.BTN_EXIT);
 	}
 
 }
