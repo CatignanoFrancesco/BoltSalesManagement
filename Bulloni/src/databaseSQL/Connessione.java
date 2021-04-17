@@ -57,7 +57,7 @@ class Connessione {
 	 * @return la connessione creata in formato Connection
 	 * @throws DatabaseSQLException 
 	 */
-	public static Connection getConnection() throws DatabaseSQLException {
+	public static Connection getConnection() throws DatabaseSQLException, SQLException {
 		
 		/*
 		 * se l'oggetto connection è null, questo metodo non avrà alcun problema e non servono ulteriori pre-controlli;
@@ -65,15 +65,10 @@ class Connessione {
 		 * correttamente prima di essere riaperta, nel caso non fosse così, si solleva un'eccezione
 		 */
 		if (connection != null) {
-			try {
-				
-				if (!connection.isClosed())
-					throw new DatabaseSQLException(MsgErrore.ERRORE_APERTURA_CONN_APERTA, new DatabaseSQLException());
-				
-			}
-			catch (SQLException e) {
-				System.out.println(e.getMessage());
-			}
+			
+			if (!connection.isClosed())
+				throw new DatabaseSQLException(MsgErrore.ERRORE_APERTURA_CONN_APERTA, new DatabaseSQLException());
+			
 		}
 			
 		
@@ -94,15 +89,13 @@ class Connessione {
 			
 			if (errMsg.equals("Unknown database '" + DB_NOME + "'")) {
 				
-				try {
-					// crea automaticamente il database e ne riempie 3 tabelle con qualche tupla standard
-					DBCreazioneAutomatica.eseguiDBCreazioneAutomatica(URL, USERNAME, PASSWORD, DB_NOME, TIMEZONE);
+				// crea automaticamente il database e ne riempie 3 tabelle con qualche tupla standard
+				DBCreazioneAutomatica.eseguiDBCreazioneAutomatica(URL, USERNAME, PASSWORD, DB_NOME, TIMEZONE);
 					
-				}
-				catch (SQLException t) {
-					System.out.println(t.getMessage());
-				}
 			}
+			else
+				throw new SQLException("La connessione al database e' fallita.", new SQLException());
+			
 			
 		} catch (ClassNotFoundException e) {
 			System.out.println(e.getMessage());
