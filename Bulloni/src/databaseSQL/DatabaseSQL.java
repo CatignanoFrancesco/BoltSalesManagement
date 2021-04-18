@@ -77,13 +77,24 @@ public class DatabaseSQL {
 	
 	/**
 	 * Metodo che chiude la connessione aperta dal metodo apriConnessione.
-	 * Deve lavorare sullo stesso oggetto Connection di apriConnessione, anche mediante alias
+	 * Lavora sullo stesso oggetto Connection di apriConnessione, mediante alias
 	 *
 	 * @throws SQLException
 	 * @throws DatabaseSQLException
 	 */
 	public static void chiudiConnessione() throws SQLException, DatabaseSQLException {
 		Connessione.closeConnection();
+	}
+	
+	
+	/**
+	 * Metodo che permette di impostare una nuova password per la connessione.
+	 * Lavora sullo stesso oggetto Connection di apriConnessione e chiudiConnessione, mediante alias
+	 * 
+	 * @param newPassword nuova password
+	 */
+	public static void setPassword(String newPassword) {
+		Connessione.setPassword(newPassword);
 	}
 	
 	

@@ -22,7 +22,7 @@ class Connessione {
 	private static final String USERNAME = "root";
 	
 	/** Password per connettersi al DBMS */
-	private static final String PASSWORD = "pass";
+	private static String PASSWORD = "pass";
 	
 	/** Indirizzo del server */
 	private static final String HOST = "localhost";
@@ -118,6 +118,16 @@ class Connessione {
 		}
 		connection.close();
 		
+	}
+	
+	
+	/**
+	 * Metodo che permette di impostare una nuova password per la connessione
+	 * 
+	 * @param newPassword nuova password
+	 */
+	public static void setPassword(String newPassword) {
+		PASSWORD = newPassword;
 	}
 
 }
