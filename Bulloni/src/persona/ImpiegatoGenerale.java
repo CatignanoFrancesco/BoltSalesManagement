@@ -256,7 +256,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 
 			throw new ExceptionImpiegato(MsgExceptionImpiegato.ID_GIA_ASSEGNATO, new ExceptionImpiegato());
 		
-		else if (id <= 0)
+		else if (id < 0)
 			
 			throw new ExceptionImpiegato(MsgExceptionImpiegato.ID_NON_VALIDO, new ExceptionImpiegato());
 		
