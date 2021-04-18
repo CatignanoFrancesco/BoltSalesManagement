@@ -97,14 +97,21 @@ class BodyImpiegatoBtnListener implements ActionListener {
 	 */
 	private void licenzia() {
 
-		if (JOptionPane.showConfirmDialog(ScreenManager.getParentWindow(),
-				"sicuro di voler licenziare questo impiegato") == 0) {
+		int conferma = JOptionPane.showConfirmDialog(ScreenManager.getParentWindow(), "sicuro di voler licenziare questo impiegato");
+		
+		if (conferma == 0) {
 
 			try {
 
 				ScreenManager.getGi().licenziaImpiegato(this.pannello.getImpiegato().getID());//effettuo la modicfica sul db
 
 				bodyImpiegati.rimuoviPannelloImpiegato(this.pannello);//rimuovo il panello grafico che lo visualizza
+				
+				if(BodyImpiegati.getListaImpiegati().getComponentCount() == 0) {//se l'impiegato licenziato era l'unico visualzzato
+					
+					bodyImpiegati.rimuoviLista();//nascondo la lista e faccio visualizzare il messaggio che non ci sono impiegati
+					
+				}
 
 			} catch (ExceptionGestoreImpiegato | SQLException | DatabaseSQLException | ExceptionImpiegato e) {
 
@@ -133,15 +140,16 @@ class BodyImpiegatoBtnListener implements ActionListener {
 		
 		if (i != null) {//se  è stato effetivamengte creato l'impiegato e non si è uscito dalla finestra premendo la x
 			
-			if(bodyImpiegati.getListaImpiegati() != null) {//se lista risulta istanziate poiche visualizza gia alcuni impiegati
+			if(BodyImpiegati.getListaImpiegati().isVisible()) {//se lista risulta visibile poiche visualizza gia alcuni impiegati
 			
-				bodyImpiegati.aggiungiPannelloImpiegato(new PannelloImpiegato(i, this.bodyImpiegati));//aggiungo il pannello che visualizza il nuovo impiegato
+				bodyImpiegati.aggiungiPannelloImpiegato(new PannelloImpiegato(i, bodyImpiegati));//aggiungo il pannello che visualizza il nuovo impiegato
 			
 			} else {//devo visualizzare il primo impiegato creato
 				
-				bodyImpiegati.remove(BodyImpiegati.getlblListaVuota());//rimuovo la label che visualizza il messagio che non ci sono impiegati
+				bodyImpiegati.aggiungiLista();//visualizzo la lista
 				
-				bodyImpiegati.aggiungiLista();//istanzio la lista la quale verra gia rimpieta con l'impiegato creato
+				bodyImpiegati.aggiungiPannelloImpiegato(new PannelloImpiegato(i, bodyImpiegati));//aggiungo il pannello che visualizza il nuovo impiegato/
+				
 			}
 	
 		}
