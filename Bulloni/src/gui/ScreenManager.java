@@ -159,7 +159,7 @@ public class ScreenManager extends JPanel {
 
 			} catch (DatabaseSQLException | SQLException e) {// problemi di connessione
 
-				JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(parentWindow, e.getMessage() + "\npassword errata o server irraggiungibile", "Exception", JOptionPane.ERROR_MESSAGE);
 				this.istanziaGestori();// faccio reinserire la password
 
 			} catch (GestoreVenditaException | VenditaException e) {
