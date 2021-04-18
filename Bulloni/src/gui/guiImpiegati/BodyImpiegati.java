@@ -122,6 +122,9 @@ public class BodyImpiegati extends JPanel {
 		gbc.fill = GridBagConstraints.BOTH;
 		scroolPaneListaImpiegati = new JScrollPane(listaImpiegati);
 		this.add(scroolPaneListaImpiegati, gbc);
+		
+		this.revalidate();
+		this.repaint();
 	}
 	
 	/**

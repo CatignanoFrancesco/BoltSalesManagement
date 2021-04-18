@@ -141,12 +141,7 @@ class BodyImpiegatoBtnListener implements ActionListener {
 				
 				bodyImpiegati.remove(BodyImpiegati.getlblListaVuota());//rimuovo la label che visualizza il messagio che non ci sono impiegati
 				
-				bodyImpiegati.aggiungiLista();//istanzio la lista
-				
-				bodyImpiegati.aggiungiPannelloImpiegato(new PannelloImpiegato(i, this.bodyImpiegati));//aggiungo il pannello che visualizza il nuovo impiegato
-				
-				bodyImpiegati.revalidate();
-				bodyImpiegati.repaint();
+				bodyImpiegati.aggiungiLista();//istanzio la lista la quale verra gia rimpieta con l'impiegato creato
 			}
 	
 		}
