@@ -39,7 +39,7 @@ public class MainWindow extends JFrame {
 	 * @throws SQLException 
 	 * @throws DatabaseSQLException 
 	 */
-	private MainWindow() throws DatabaseSQLException, SQLException {
+	private MainWindow() {
 
 		setTitle("bulloni");
 
@@ -47,6 +47,7 @@ public class MainWindow extends JFrame {
 		this.setPreferredSize(minDimensione);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new GridBagLayout());
+		this.setResizable(false);
 
 		screen = new ScreenManager(this);
 		gbc.fill = GridBagConstraints.BOTH;
@@ -72,13 +73,8 @@ public class MainWindow extends JFrame {
 		
 		MainWindow window = null;
 
-		try {
-			 window = new MainWindow();
+		window = new MainWindow();
 			 
-		} catch (DatabaseSQLException | SQLException e) {
-			
-			JOptionPane.showMessageDialog(window, e.getMessage(), "exception", JOptionPane.ERROR_MESSAGE);
-		}
 
 	}
 

@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import databaseSQL.DatabaseSQL;
 import databaseSQL.exception.DatabaseSQLException;
 import gestori.gestoreImpiegati.ContainerImpiegato;
 import gestori.gestoreImpiegati.GestoreImpiegatiDb;
@@ -55,7 +56,7 @@ public class ScreenManager extends JPanel {
 	 * @throws SQLException 
 	 * @throws DatabaseSQLException 
 	 */
-	public ScreenManager(JFrame parentContainer) throws DatabaseSQLException, SQLException {
+	public ScreenManager(JFrame parentContainer){
 		
 		this.istanziaGestori();
 
@@ -74,7 +75,7 @@ public class ScreenManager extends JPanel {
 	 * @throws SQLException 
 	 * @throws DatabaseSQLException 
 	 */
-	private void addComponent() throws DatabaseSQLException, SQLException {
+	private void addComponent() {
 
 		// aggiungo l'header
 		header = new HeaderPanel();
@@ -131,38 +132,48 @@ public class ScreenManager extends JPanel {
 	}
 	
 	/**
-	*questo metodo instanzia semplicemente i diversi gestori che verranno passate ai diversi pannelli
-	*affinche si possano visulizzare i dati
-	**/
+	 * questo metodo instanzia semplicemente i diversi gestori che verranno passate
+	 * ai diversi pannelli affinche si possano visulizzare i dati
+	 **/
 	private void istanziaGestori() {
-		
-		try {
-			gi = new GestoreImpiegatiDb();
-			gb = new GestoreBulloni();
-			gv = new GestoreVendita(gb, gi);
-		} catch (SQLException e) {
-			
-			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-		} 
-		catch (DatabaseSQLException e) {
-			
-			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-		}
-		catch (GestoreVenditaException e) {
-			
-			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-		} 
-		catch (VenditaException e) {
-			
-			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-		} 
-		catch (ExceptionGestoreImpiegato e) {
-			
-			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-		} 
-		catch (GestoreBulloniException e) {
-			
-			JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+
+		String passwordDB = JOptionPane.showInputDialog(this.parentWindow, "inserire la password del dbms", "password");// faccio inserire la password
+																														// per connettersi al db
+
+		if (passwordDB == null) {// l'utente ha premuto la x
+
+			JOptionPane.showMessageDialog(parentWindow, "software concluso", "software concluso",
+					JOptionPane.INFORMATION_MESSAGE);
+			System.exit(0);
+
+		} else {
+
+			DatabaseSQL.setPassword(passwordDB);// setto la password
+
+			//istanzio i gestori
+			try {
+
+				gi = new GestoreImpiegatiDb();
+				gb = new GestoreBulloni();
+				gv = new GestoreVendita(gb, gi);
+
+			} catch (DatabaseSQLException | SQLException e) {// problemi di connessione
+
+				JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+				this.istanziaGestori();// faccio reinserire la password
+
+			} catch (GestoreVenditaException | VenditaException e) {
+
+				JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+
+			} catch (ExceptionGestoreImpiegato e) {
+
+				JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+			} catch (GestoreBulloniException e) {
+
+				JOptionPane.showMessageDialog(parentWindow, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+
+			}
 		}
 
 	}
