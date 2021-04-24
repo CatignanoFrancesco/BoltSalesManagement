@@ -9,13 +9,10 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.net.CookieHandler;
 
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import persona.Impiegato;
 
@@ -27,6 +24,11 @@ import persona.Impiegato;
  *
  */
 class PannelloImpiegato extends JPanel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	Dimension dim = new Dimension(90, 25);// dimensione predefinita per le componenti del pannello
 											// usata per migliorare l'allineamento

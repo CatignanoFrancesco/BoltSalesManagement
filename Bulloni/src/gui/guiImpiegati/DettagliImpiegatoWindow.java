@@ -10,7 +10,6 @@ import java.awt.Insets;
 
 import javax.swing.JDialog;
 import javax.swing.JTextArea;
-import javax.swing.border.Border;
 
 import gui.ScreenManager;
 import persona.Impiegato;
@@ -25,6 +24,11 @@ import persona.ImpiegatoBulloni;
 public class DettagliImpiegatoWindow extends JDialog {
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private JTextArea txtaDettagli;//text area che visualizzera i dettagli di un impiegato
 	
 	private Impiegato impiegato;//impiegato di cui visualizzare i dettagli

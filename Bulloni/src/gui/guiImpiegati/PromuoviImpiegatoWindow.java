@@ -30,6 +30,10 @@ import persona.exception.ExceptionImpiegato;
  */
 class PromuoviImpiegatoWindow extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// attributi relativi all'aquisizione del nuovo stipedio
 	private static JLabel lblStipendio;
 	private JSpinner spnStipendio;
@@ -81,7 +85,7 @@ class PromuoviImpiegatoWindow extends JDialog {
 		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
 
 		//aggiungo la label stipendio
-		this.lblStipendio = new JLabel("stipendio mesile (" + (impiegato.getStipendioMensile() + 1) + "-"
+		lblStipendio = new JLabel("stipendio mesile (" + (impiegato.getStipendioMensile() + 1) + "-"
 				+ Impiegato.getMaxStipendioMensile() + ") : ");// indico il minimo stipendio assegnabile al medesimo
 																// impiegato
 		gbc.gridx = 0;
@@ -101,7 +105,7 @@ class PromuoviImpiegatoWindow extends JDialog {
 
 		
 		//aggiungo la label giornate
-		this.lblGiornate = new JLabel("giornate lavorative annuali (" + impiegato.getGiornateLavorativeAnnuali()
+		lblGiornate = new JLabel("giornate lavorative annuali (" + impiegato.getGiornateLavorativeAnnuali()
 				+ "-" + Impiegato.getMaxGiornateLavorativeAnnuali() + ") : ");// indico le minime gionate assegnabili al
 																				// medesimo impiegato
 		gbc.gridx = 0;

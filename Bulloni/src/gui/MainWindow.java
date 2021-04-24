@@ -6,15 +6,12 @@
  */
 package gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.sql.SQLException;
 
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 import databaseSQL.exception.DatabaseSQLException;
 

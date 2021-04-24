@@ -8,7 +8,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -29,6 +28,10 @@ import persona.ImpiegatoBulloni;
  */
 public class BodyImpiegati extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static PannelloImpiegato intestazioneLista;
 	private static JPanel listaImpiegati;// pannello per la visualizzazione degli impiegati
 	private static JScrollPane scroolPaneListaImpiegati;

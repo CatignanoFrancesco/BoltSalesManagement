@@ -10,7 +10,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -21,9 +20,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-
-import com.github.lgooddatepicker.components.DatePicker;
-import com.github.lgooddatepicker.components.DatePickerSettings;
 
 import databaseSQL.exception.DatabaseSQLException;
 import gui.ScreenManager;
@@ -42,6 +38,11 @@ import utility.Data;;
  */
 public class AggiungiImpiegatoWindows extends JDialog {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static GridBagConstraints gbc = new GridBagConstraints();//proprieta layout
 
 	// componenti relativi all'aquisizione del nome
@@ -54,7 +55,9 @@ public class AggiungiImpiegatoWindows extends JDialog {
 
 	// componenti relativi all'aquisizione della data di nascita
 	private static JLabel lblDataNascita;
-	private DatePicker dtaPickDataNascita;
+	private JComboBox<Integer> cmbBoxGiornoNascita = new JComboBox<Integer>();
+	private JComboBox<String> cmbBoxMeseNascita = new JComboBox<String>();
+	private JComboBox<Integer> cmbBoxAnnoNascita = new JComboBox<Integer>();
 
 	// componenti relativi all'aquisizione del sesso
 	private static JLabel lblSesso;
@@ -112,6 +115,7 @@ public class AggiungiImpiegatoWindows extends JDialog {
 		gbc.insets = new Insets(10, 10, 10, 10);
 		gbc.weightx = 1;
 		gbc.weighty = 1;
+		gbc.gridwidth = 1;
 		gbc.fill = GridBagConstraints.BOTH;
 
 		// aggiungo la label per il nome
@@ -124,40 +128,63 @@ public class AggiungiImpiegatoWindows extends JDialog {
 		this.txtfNome = new JTextField(10);
 		gbc.gridx = 1;
 		gbc.gridy = 0;
+		gbc.gridwidth = 3;
 		this.add(this.txtfNome, gbc);
 
 		// aggiungo la label per il cognome
 		lblCognome = new JLabel("COGNOME : ");
 		gbc.gridx = 0;
 		gbc.gridy = 1;
+		gbc.gridwidth = 1;
 		this.add(lblCognome, gbc);
 
 		// aggiungo il text field per il cognome
 		this.txtfCognome = new JTextField(10);
 		gbc.gridx = 1;
 		gbc.gridy = 1;
+		gbc.gridwidth = 3;
 		this.add(this.txtfCognome, gbc);
 
 		// aggiungo la label per la data di nascita
-		lblNome = new JLabel("DATA DI NASCITA : ");
+		lblDataNascita = new JLabel("DATA DI NASCITA : ");
 		gbc.gridx = 0;
 		gbc.gridy = 2;
+		gbc.gridwidth = 1;
 		this.add(lblNome, gbc);
-
-		// aggiungo il data picker per la data di nascita
-		DatePickerSettings dtaPickSetting = new DatePickerSettings();
-		dtaPickSetting.setFormatForDatesCommonEra("dd-MM-yyyy");
-		this.dtaPickDataNascita = new DatePicker(dtaPickSetting);
-		this.dtaPickDataNascita.setDateToToday();
-		//this.dtaPickDataNascita.inpu
+		
+		//aggiungo la comboBox giorno nascita
+		this.cmbBoxGiornoNascita.setMaximumRowCount(15);
+		this.cmbBoxGiornoNascita.setModel(new DefaultComboBoxModel<Integer>(new Integer[] {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31}));
 		gbc.gridx = 1;
 		gbc.gridy = 2;
-		this.add(this.dtaPickDataNascita, gbc);
+		gbc.gridwidth = 1;
+		this.add(this.cmbBoxGiornoNascita, gbc);
+		
+		//aggiungo la comboBox mese nascita
+		this.cmbBoxMeseNascita.setMaximumRowCount(6);
+		this.cmbBoxMeseNascita.setModel(new DefaultComboBoxModel<String>(new String[] {"Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"}));
+		gbc.gridx = 2;
+		gbc.gridy = 2;
+		gbc.gridwidth = 1;
+		this.add(this.cmbBoxMeseNascita, gbc);
+		
+		//aggiungo la comboBox anno nascita
+		final int MAX_ANNO =  Data.getDataAttuale().getAnno(), MIN_ANNO = 1970;//limiti di anni inseribili
+		this.cmbBoxAnnoNascita.setMaximumRowCount(10);
+		this.cmbBoxAnnoNascita.setModel(new DefaultComboBoxModel<Integer>());
+		for(Integer i=MAX_ANNO; i>=MIN_ANNO; i--) {
+			this.cmbBoxAnnoNascita.addItem(i);
+		}
+		gbc.gridx = 3;
+		gbc.gridy = 2;
+		gbc.gridwidth = 1;
+		this.add(this.cmbBoxAnnoNascita, gbc);
 
 		// aggiungo la label per il sesso
 		lblSesso = new JLabel("SESSO : ");
 		gbc.gridx = 0;
 		gbc.gridy = 3;
+		gbc.gridwidth = 1;
 		this.add(lblSesso, gbc);
 
 		// aggiungo la comboBox per il sesso
@@ -165,6 +192,7 @@ public class AggiungiImpiegatoWindows extends JDialog {
 		this.cmbSesso.setBackground(Color.white);
 		gbc.gridx = 1;
 		gbc.gridy = 3;
+		gbc.gridwidth = 3;
 		this.add(cmbSesso, gbc);
 
 		// aggiungo la label per lo stipendio
@@ -172,6 +200,7 @@ public class AggiungiImpiegatoWindows extends JDialog {
 				+ Impiegato.getMaxStipendioMensile() + ") : ");
 		gbc.gridx = 0;
 		gbc.gridy = 4;
+		gbc.gridwidth = 1;
 		this.add(lblStipendioMensile, gbc);
 
 		// aggiungo lo spinner per lo stipendio
@@ -182,6 +211,7 @@ public class AggiungiImpiegatoWindows extends JDialog {
 		spnStipendioMensile = new JSpinner(spnModelStipendio);
 		gbc.gridx = 1;
 		gbc.gridy = 4;
+		gbc.gridwidth = 3;
 		this.add(spnStipendioMensile, gbc);
 		
 
@@ -191,6 +221,7 @@ public class AggiungiImpiegatoWindows extends JDialog {
 				+ "-" + Impiegato.getMaxGiornateLavorativeAnnuali() + ") : ");
 		gbc.gridx = 0;
 		gbc.gridy = 5;
+		gbc.gridwidth = 1;
 		this.add(lblGionrateLavorativeAnnuali, gbc);
 
 		// aggiungo lo spinner per le giornate
@@ -200,25 +231,28 @@ public class AggiungiImpiegatoWindows extends JDialog {
 		spnGIornateLavorativeAnnuali = new JSpinner(spnModelGiornate);
 		gbc.gridx = 1;
 		gbc.gridy = 5;
+		gbc.gridwidth = 3;
 		this.add(spnGIornateLavorativeAnnuali, gbc);
 
 		// aggiungo la label per i bulloni
 		lblBulloniVendibiliAnnualmente = new JLabel("BULLONI VENDIBILI ANNUALMENTE : ");
 		gbc.gridx = 0;
 		gbc.gridy = 6;
+		gbc.gridwidth = 1;
 		this.add(lblBulloniVendibiliAnnualmente, gbc);
 		
 		//aggiungo il componente d'input per i bulloni
 		cmbTipoInserimentoBulloni = new JComboBox<String>(new DefaultComboBoxModel<String>(new String[] { "Default (in base alla giornate)", "Manuale" }));
 		gbc.gridx = 1;
 		gbc.gridy = 6;
+		gbc.gridwidth = 3;
 		this.add(cmbTipoInserimentoBulloni, gbc);
 		this.setTipoInserimento();//individuo il tipo d'inserimento scelto
 
 		// aggiungo il bottone per confermare l'inserimento
 		btnInvia = new JButton("inserisci");
 		gbc.fill = GridBagConstraints.NONE;
-		gbc.gridx = 1;
+		gbc.gridx = 3;
 		gbc.gridy = 7;
 		this.add(btnInvia, gbc);
 
@@ -254,7 +288,7 @@ public class AggiungiImpiegatoWindows extends JDialog {
 	 */
 	private void cambiaTipoInserimento() {
 
-		this.lblBulloniVendibiliAnnualmente
+		lblBulloniVendibiliAnnualmente
 				.setText("BULLONI VENDIBILI ANNUALMENTE (" + ImpiegatoBulloni.getMinBulloniVendibiliAnnualmente() + "-"
 						+ (ImpiegatoBulloni.getBulloniVendibiliGiornalmente()
 								* ((int) this.spnGIornateLavorativeAnnuali.getValue()))
@@ -273,6 +307,7 @@ public class AggiungiImpiegatoWindows extends JDialog {
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridx = 1;
 		gbc.gridy = 6;
+		gbc.gridwidth = 3;
 		this.add(this.spnBulloniVendibiliAnnualmente, gbc);
 
 		// rivalido il tutto
@@ -320,8 +355,8 @@ public class AggiungiImpiegatoWindows extends JDialog {
 			char sesso = (char) this.cmbSesso.getSelectedItem();
 
 			// leggo la data di nascita
-			LocalDate data = this.dtaPickDataNascita.getDate();
-			Data dataNascita = new Data(data.getDayOfMonth(), data.getMonthValue(), data.getYear());
+			//int giornoNascita = 
+			Data dataNascita = new Data((Integer)this.cmbBoxGiornoNascita.getSelectedItem(), this.cmbBoxMeseNascita.getSelectedIndex() + 1, (Integer)this.cmbBoxAnnoNascita.getSelectedItem());
 
 			// leggo lo stipendio
 			Double valoreStipendioMensile = (Double) spnStipendioMensile.getValue();
@@ -393,6 +428,5 @@ public class AggiungiImpiegatoWindows extends JDialog {
 		
 		return this.impiegato;
 	}
-
-
+	
 }

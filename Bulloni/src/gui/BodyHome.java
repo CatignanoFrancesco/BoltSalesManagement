@@ -6,7 +6,6 @@
 
 package gui;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,6 +15,11 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class BodyHome extends JPanel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	GridBagConstraints gbc = new GridBagConstraints();// server per settare il layout degli elementi
 

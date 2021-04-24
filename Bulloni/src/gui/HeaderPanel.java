@@ -7,9 +7,7 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -19,10 +17,13 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 public class HeaderPanel extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static JLabel lblScreenTitle;
 	private static JButton btnBack;
 	
@@ -91,7 +92,7 @@ public class HeaderPanel extends JPanel {
 	 */
 	public void setVisibleBtnBack(boolean visible) {
 		
-		this.btnBack.setVisible(visible);
+		btnBack.setVisible(visible);
 	}
 	
 	/**
@@ -101,7 +102,7 @@ public class HeaderPanel extends JPanel {
 	 */
 	public void setScreenTitleText(String screenTitleText) {
 		
-		this.lblScreenTitle.setText(screenTitleText);
+		lblScreenTitle.setText(screenTitleText);
 	}
 	
 	private void triggerButtons() {

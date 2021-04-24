@@ -36,6 +36,10 @@ import vendita.exception.VenditaException;
  */
 public class ScreenManager extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static ContainerImpiegato gi;
 	private static ContainerBulloni gb;
 	private static ContainerVendite gv;
@@ -137,7 +141,7 @@ public class ScreenManager extends JPanel {
 	 **/
 	private void istanziaGestori() {
 
-		String passwordDB = JOptionPane.showInputDialog(this.parentWindow, "inserire la password del dbms", "password");// faccio inserire la password
+		String passwordDB = JOptionPane.showInputDialog(parentWindow, "inserire la password del dbms", "password");// faccio inserire la password
 																														// per connettersi al db
 
 		if (passwordDB == null) {// l'utente ha premuto la x

@@ -45,7 +45,7 @@ class BodyImpiegatoBtnListener implements ActionListener {
 	public BodyImpiegatoBtnListener(PannelloImpiegato pannello, BodyImpiegati bodyImpiegati) {
 
 		this.pannello = pannello;
-		this.bodyImpiegati = bodyImpiegati;
+		BodyImpiegatoBtnListener.bodyImpiegati = bodyImpiegati;
 	}
 //	
 //	/**
