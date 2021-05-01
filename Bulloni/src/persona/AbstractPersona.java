@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package persona;
 
 import java.util.regex.Pattern;
@@ -13,7 +11,7 @@ import utility.Data;
  * @author Francolino Flavio Domenico
  * 
  *         implementazione dell'interfaccia Persona tramite la classe astratta
- *         persona riutilizzabile per progetti futuri che comprendono oggetti di
+ *         persona riutilizzabile per proggetti futuri che comprendono oggetti di
  *         tipo persona
  *
  */
@@ -29,7 +27,7 @@ abstract class AbstractPersona implements Persona {
 
 	
 	/**
-	 * costruttore da usare per instanziare oggetti che prendereanno valori da altre instanze
+	 * costruttore da usare per isstanziare oggetti che prenderanno valori da altre isstanze
 	 * della stesso tipo
 	 */
 	public AbstractPersona() {};
@@ -42,7 +40,7 @@ abstract class AbstractPersona implements Persona {
 	 * @param cognome     cognome da assegnare alla persona
 	 * @param sesso       sesso da assegnare alla persona
 	 * @param dataNascita dataNascita da assegnare alla persona
-	 * @throws ExceptionAnagraficaErrata sollevata per dati errati su attributi anagrafici
+	 * @throws ExceptionAnagraficaErrata sollevata per valori errati su attributi anagrafici
 	 */
 	public AbstractPersona(String nome, String cognome, char sesso, Data dataNascita) throws ExceptionAnagraficaErrata {
 
@@ -70,7 +68,7 @@ abstract class AbstractPersona implements Persona {
 			msgExcpetion = MsgExceptionAnagraficaErrata.DATA_NASCITA_FUTURA;
 		}
 
-		if (flagEccezione != true) {//non rilevato errori quindi potenziali eccezzioni
+		if (flagEccezione != true) {// ho rilevato errori quindi potenziali eccezzioni
 
 			this.nome = nome;
 			this.cognome = cognome;

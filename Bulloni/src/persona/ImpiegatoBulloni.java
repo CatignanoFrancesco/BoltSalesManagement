@@ -18,19 +18,20 @@ import utility.Data;
 public class ImpiegatoBulloni extends ImpiegatoGenerale {
 
 	private static final int BULLONI_VENDIBILI_GIORNALMENTE = 500;
-	private static final int MIN_BULLONI_VENDIBILI_ANNUALMENTE = 365;// si suppone che ogni impiegato deve vendere
-																		// almeno 365 bulloni l'anno (1 al di circa)
-																		// se si sceglie di assegnare i bulloni in
-																		// maniera arbitraria
+	private static final int MIN_BULLONI_VENDIBILI_ANNUALMENTE = 365;// se si sceglie di assegnare i bulloni in
+																	// maniera arbitraria
+																	// si suppone che ogni impiegato deve vendere
+																	// almeno 365 bulloni l'anno (1 al di circa)
+																		
 
 	private int bulloniVendibiliAnnualmente;// settabili arbitrariamente o in base al fatto che ogni impiegato ne puo
-											// vendere al massimo 500 al di
+											// vendere al massimo 500 al di(BULLONI_VENDIBILI_GIORNALMENTE*this.giornateLAvorativeAnnuali)
 											// ad ogno modo non sara possibile assegnare piu di n bulloni
 											// con n=BULLONI_VENDIBILI_GIORNALMENTE*this.giornateLAvorativeAnnuali
 	
 	
 	/**
-	 * costruttore da usare qundo devo instanziare in impiegato che prendere i valori da un altro impiegato
+	 * costruttore da usare quando devo isstanziare in impiegato che prendera i valori da un altro impiegato
 	 */
 	public ImpiegatoBulloni() {
 		
@@ -40,7 +41,7 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 	
 	/**
 	 * costruttore che setta il numero di bulloni vendibili annualmente in maniera
-	 * arbitraria tramite il parametro apposito, da usare quando s'instanzia un impiegato con dati fatti inserire dall'utente
+	 * arbitraria tramite il parametro apposito, da usare quando si istanzia un impiegato con dati fatti inserire dall'utente
 	 * poiche l'id viene assegnata in maniera automatica dal software
 	 * 
 	 * @param nome                        nome impiegato
@@ -80,8 +81,8 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 
 	/**
 	 * costruttore che setta il numero di bulloni vendibili annualmente in base alle
-	 * giornate lavorative dell'impiegato, da usare quando si instanzia un impiegato con dati presi dall'utente
-	 * poiche l'id viene assegnato automatcamente dal software e l'attributo isAssunto avr√† dei volori di defoult
+	 * giornate lavorative dell'impiegato, da usare quando si istanzia un impiegato con dati presi dall'utente
+	 * poiche l'id viene assegnato automatcamente dal software e l'attributo isAssunto avra'† dei volori di defoult
 	 * 
 	 * @param nome                      nome impiegato
 	 * @param cognome                   cognome impiegato
@@ -106,7 +107,7 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 
 	/**
 	 * costruttore che setta il numero di bulloni vendibili annualmente in maniera
-	 * arbitraria tramite il parametro apposito, da usare quando s'instanzia un impiegato con dati letti dal db
+	 * arbitraria tramite il parametro apposito, da usare quando si istanzia un impiegato con dati letti dal db
 	 * 
 	 * @param nome                        nome impiegato
 	 * @param cognome                     cognome impiegato
@@ -157,7 +158,7 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 	}
 
 	/**
-	 * ritorna il numero di bulloni vendibili da un impiegato che vende bulloni
+	 * ritorna il numero di bulloni vendibili in un anno da un impiegato
 	 * 
 	 * @return bulloniVendibiliAnnaulemente il numero di bulloni vendibili nell'arco
 	 *         di un anno da un impiegato che vende bulloni
@@ -216,7 +217,7 @@ public class ImpiegatoBulloni extends ImpiegatoGenerale {
 
 	/**
 	 * converte l'oggetto impiegatoBulloni in stringa
-	 * @return l'impiegato bulloni convertito
+	 * @return l'impiegato bulloni convertito in stringa
 	 */
 	@Override
 	public String toString() {

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package persona;
 
 import persona.exception.ExceptionAnagraficaErrata;
@@ -25,11 +22,11 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	private int id = -1;
 	private int giornateLavorativeAnnuali;
 	private float stipendioMensile;
-	private boolean isLicenziato = false;// alla crazione di un instanza Impiegato si presuppone che sia anche stato
+	private boolean isLicenziato = false;// alla crazione di un istanza Impiegato si presuppone che sia anche stato
 										// assunto
 	
 	/**
-	 * costruttore da usare qundo devo instanziare in impiegato che prendere i valori da un altro impiegato
+	 * costruttore da usare qundo devo istanziare in impiegato che prende i valori da un altro impiegato
 	 */
 	public ImpiegatoGenerale() {
 		
@@ -37,7 +34,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	};
 
 	/**
-	 * costruttore di classe da usare per instanziare dipendenti con dati presi dal db
+	 * costruttore di classe da usare per istanziare dipendenti con dati presi dal db
 	 * 
 	 * @param nome                      nome dell'impiegato
 	 * @param cognome                   cognome dell'impiegato
@@ -46,7 +43,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	 * @param id                        id dell'impiegato
 	 * @param giornateLavorativeAnnuali giornate lavorative annuali dell'impiegato
 	 * @param stipendioMensile          stipendio mensile dell'impiegato
-	 * @param isLicenziato				attributo dei impiegato che segnala se Ë assunto o meno
+	 * @param isLicenziato				attributo  che segnala se Ë assunto o meno
 	 * @throws ExceptionImpiegato        sollevata per errori riguardanti i valori
 	 *                                   di attributi propri di impiegato
 	 * @throws ExceptionAnagraficaErrata sollevata per errori riguardatni i valori
@@ -93,7 +90,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	
 	/**
 	 * costruttore di classe da usare se si fa inserire un nuovo dipendente all'utente
-	 * poiche il campo id verr√† assegnato automaticamente dal software e l'attributo isAssunto avr√† dei volori di defoult
+	 * poiche il campo id verra' assegnato automaticamente dal software e l'attributo isAssunto avra'† dei volori di defoult
 	 * 
 	 * @param nome                      nome dell'impiegato
 	 * @param cognome                   cognome dell'impiegato
@@ -184,7 +181,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 			flagException = true;
 			msgException = MsgExceptionImpiegato.IMPIEGATO_LICENZIATO;
 
-		} else if (stipendioMensile <= this.stipendioMensile) {// il nuovo stipendio √® minore uguale dello stipendio
+		} else if (stipendioMensile <= this.stipendioMensile) {// il nuovo stipendio e' minore uguale dello stipendio
 																// attuale
 
 			flagException = true;
@@ -225,7 +222,7 @@ public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Clo
 	@Override
 	public void licenzia() throws ExceptionImpiegato {
 
-		if (this.isLicenziato == true) {// se l'impiegato risulta gia licenziato
+		if (this.isLicenziato == true) {// se l'impiegato risulta gia' licenziato
 	
 			throw new ExceptionImpiegato(MsgExceptionImpiegato.IMPIEGATO_GIA_LICENZIATO, new ExceptionImpiegato());
 			

@@ -42,7 +42,7 @@ public interface Persona {
 	 * setta nuovi valori per il nome di una persona
 	 * 
 	 * @param nome il nuovo nome da assegnare alla persona
-	 * @throws ExceptionAnagraficaErrata sollevata in caso di nome nonvalido
+	 * @throws ExceptionAnagraficaErrata sollevata in caso di nome non valido
 	 */
 	public void setNome(String nome) throws ExceptionAnagraficaErrata;
 
@@ -73,7 +73,7 @@ public interface Persona {
 
 	/**
 	 * converte un oggetto AbstractPersona in stringa
-	 * @return un oggetto persona convertiro in stringa
+	 * @return un oggetto persona convertito in stringa
 	 */
 	@Override
 	public String toString();
