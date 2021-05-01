@@ -162,7 +162,7 @@ class PannelloImpiegato extends JPanel {
 		gbc.gridheight = 1;
 		gbc.gridwidth = 1;
 		gbc.gridy = 0;
-		gbc.insets = new Insets(0, 5, 0, 5);
+		gbc.insets = new Insets(5, 5, 0, 5);
 
 		// aggiungo l'etichetta per visualizzare il codice dell impiegato con dimensioni
 		// predefinite per un migliore allineamento

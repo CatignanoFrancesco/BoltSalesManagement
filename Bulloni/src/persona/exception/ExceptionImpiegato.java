@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package persona.exception;
 
 /**
@@ -21,7 +19,6 @@ public class ExceptionImpiegato extends Exception {
 	 * costruttore
 	 */
 	public ExceptionImpiegato() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -33,7 +30,6 @@ public class ExceptionImpiegato extends Exception {
 	 */
 	public ExceptionImpiegato(String message, Throwable cause) {
 		super(message, cause);
-		// TODO Auto-generated constructor stub
 	}
 
 }

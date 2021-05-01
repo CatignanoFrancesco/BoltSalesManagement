@@ -22,7 +22,6 @@ public class ExceptionAnagraficaErrata extends Exception {
 	 * costruttore
 	 */
 	public ExceptionAnagraficaErrata() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -34,7 +33,6 @@ public class ExceptionAnagraficaErrata extends Exception {
 	 */
 	public ExceptionAnagraficaErrata(String message, Throwable cause) {
 		super(message, cause);
-		// TODO Auto-generated constructor stub
 	}
 
 }

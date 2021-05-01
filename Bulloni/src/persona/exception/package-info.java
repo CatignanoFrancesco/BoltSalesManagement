@@ -1,10 +1,7 @@
 /**
- * 
- */
-/**
  * @author Francolino Flavio Domenico
  * 
- * questo packahe conterrà tutte le classi utili alla gestione di eccezzioni personalizzate riguardanti in impiegato o una persona in genere
+ * questo package conterrà tutte le classi utili alla gestione di eccezzioni personalizzate riguardanti un impiegato o una persona in generale
  *
  */
 package persona.exception;
