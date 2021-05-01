@@ -46,8 +46,7 @@ public class BodyHome extends JPanel {
 	}
 
 	/**
-	 * metodo per aggiungere i diversi bottoni alla home
-	 * btnDipendenti,btnVendite,btnBulloni,btnExit
+	 * metodo per aggiungere le diverse componenti grafiche alla home
 	 * 
 	 */
 	private void addButtons() {

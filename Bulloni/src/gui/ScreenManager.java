@@ -30,7 +30,7 @@ import vendita.exception.VenditaException;
 /**
  * @author Francolino Flavio Domenico
  * 
- *         questa classe implementa il pannello della mainWindows che gestisce
+ *         questa classe gestisce
  *         le diverse schermate del software
  *
  */
@@ -49,7 +49,7 @@ public class ScreenManager extends JPanel {
 								// cliccato
 
 	private static JFrame parentWindow;// riferimento alla JFrame padre
-										// che servir� per realizzare un effetto focus all'aprirsi di nuove finestre
+										// che servira' per realizzare un effetto focus all'aprirsi di nuove finestre
 
 
 	/**
@@ -76,6 +76,7 @@ public class ScreenManager extends JPanel {
 	/**
 	 * metodo per aggiungere i diversi body che cambieranno dinamicamente al click
 	 * su un determinato bottone
+	 * 
 	 * @throws SQLException 
 	 * @throws DatabaseSQLException 
 	 */
@@ -122,7 +123,7 @@ public class ScreenManager extends JPanel {
 			header.setScreenTitleText("HOME");// setto il titolo della schemata su home
 
 			layout.show(parentCardLayout, nameScreen.toString());// switcho il pannello per mostrare il pannello
-																		// della home
+																// della home
 
 		} else {
 
@@ -136,13 +137,13 @@ public class ScreenManager extends JPanel {
 	}
 	
 	/**
-	 * questo metodo instanzia semplicemente i diversi gestori che verranno passate
+	 * questo metodo istanzia semplicemente i diversi gestori che verranno passate
 	 * ai diversi pannelli affinche si possano visulizzare i dati
 	 **/
 	private void istanziaGestori() {
 
 		String passwordDB = JOptionPane.showInputDialog(parentWindow, "inserire la password del dbms", "password");// faccio inserire la password
-																														// per connettersi al db
+																													// per connettersi al db
 
 		if (passwordDB == null) {// l'utente ha premuto la x
 
@@ -185,7 +186,8 @@ public class ScreenManager extends JPanel {
 	/**
 	 * metodo da utilizare per ottenere il jframe principale affinche ulteriori finestre si possono aprire
 	 * centralmente ad essa o effettuare operazione che richiedono sapere la finestra principale
-	 * @return
+	 * 
+	 * @return parentWindos il jFrame principale
 	 */
 	public static JFrame getParentWindow() {
 		

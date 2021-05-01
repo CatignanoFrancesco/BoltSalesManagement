@@ -19,11 +19,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class HeaderPanel extends JPanel {
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
+	
 	private static JLabel lblScreenTitle;
 	private static JButton btnBack;
 	
@@ -47,7 +45,7 @@ public class HeaderPanel extends JPanel {
 	}
 	
 	/**
-	 * questo metodo aggiunge all'header i singolo elementi btnBack e lblScreenTitile 
+	 * questo metodo aggiunge all'header le singole componenti grafice dell'header 
 	 * settando loro le posizioni
 	 */
 	private void addElement() {
@@ -88,6 +86,7 @@ public class HeaderPanel extends JPanel {
 	 * 
 	 * questo metodo serve per dinacimizzare la visualiazzazione del bottone di back
 	 * asseconda delle schemata che viene visualizzata dal software
+	 * 
 	 * @param visible la visibilita del bottone
 	 */
 	public void setVisibleBtnBack(boolean visible) {
@@ -105,6 +104,9 @@ public class HeaderPanel extends JPanel {
 		lblScreenTitle.setText(screenTitleText);
 	}
 	
+	/**
+	 * metodo per triggerare i bottono presenti sull'header
+	 */
 	private void triggerButtons() {
 		
 		btnBack.addActionListener(new ScreenManagerBtnClickListener());

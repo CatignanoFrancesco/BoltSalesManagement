@@ -33,6 +33,7 @@ public class MainWindow extends JFrame {
 	/**
 	 * costruttore che inizilizza valori quali layout e dimensione delle finestra
 	 * corrente
+	 * 
 	 * @throws SQLException 
 	 * @throws DatabaseSQLException 
 	 */
