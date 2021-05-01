@@ -28,12 +28,10 @@ import persona.ImpiegatoBulloni;
  */
 public class BodyImpiegati extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	
 	private static PannelloImpiegato intestazioneLista;
-	private static JPanel listaImpiegati;// pannello per la visualizzazione degli impiegati
+	private static JPanel listaImpiegati;// pannello per la visualizzazione della lista degli impiegati
 	private static JScrollPane scroolPaneListaImpiegati;
 	
 	private static JLabel lblListaVuota;
@@ -41,6 +39,9 @@ public class BodyImpiegati extends JPanel {
 	private static JButton btnAggiungi;
 	private static BodyImpiegatoBtnListener btnListener;
 
+	/**
+	 * costruttore
+	 */
 	public BodyImpiegati() {
 
 		this.setLayout(new GridBagLayout());
@@ -61,7 +62,7 @@ public class BodyImpiegati extends JPanel {
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		
-		//aggiungo la abel per visualizzare un eventuale messaggio di assenza d'impiegati
+		//aggiungo la label per visualizzare un eventuale messaggio di assenza d'impiegati
 		lblListaVuota = new JLabel("non sono presenti Impiegati assunti");
 		lblListaVuota.setFont(new Font("verdana", Font.BOLD, 25));
 		gbc.gridx = 0;
@@ -81,7 +82,7 @@ public class BodyImpiegati extends JPanel {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		this.add(intestazioneLista, gbc);
 
-		// aggiungo i diversi pannelli che visualizzano un impiegato
+		// aggiungo i diversi pannelli che visualizzano i diversi impiegati
 		listaImpiegati = new JPanel();
 		listaImpiegati.setLayout(new BoxLayout(listaImpiegati, BoxLayout.PAGE_AXIS));
 		this.riempiLista();
@@ -121,7 +122,7 @@ public class BodyImpiegati extends JPanel {
 	}
 	
 	/**
-	 * questo metodo serve per visulizzare le componenenti grafice utili
+	 * questo metodo serve per visulizzare le componenenti grafice(intestazione + lista) utili
 	 * alla visualizzazione della lista d'impiegati assunti presenti sul db
 	 */
 	void aggiungiLista() {
@@ -132,7 +133,7 @@ public class BodyImpiegati extends JPanel {
 		
 		intestazioneLista.setVisible(true);//visualizzo l'intestazione
 		
-		lblListaVuota.setVisible(false);//nascondoil messaggio
+		lblListaVuota.setVisible(false);//nascondo il messaggio
 		
 		this.revalidate();
 		this.repaint();
@@ -181,8 +182,8 @@ public class BodyImpiegati extends JPanel {
 	}
 	
 	/**
-	 * questo metodo si occuopa di rimuovere un determinato pannello dalla schemata
-	 * che visualizzata i diversi impiegati assunti
+	 * questo metodo si occuopa di rimuovere un determinato pannello dalla schermata
+	 * che visualizza i diversi impiegati assunti
 	 * 
 	 * @param p il pannello da rimuovere
 	 */
@@ -195,10 +196,10 @@ public class BodyImpiegati extends JPanel {
 	}
 	
 	/**
-	 * questo metodo si occuopa di aggiunger un determinato pannello nella schemata
-	 * che visualizzata i diversi impiegati assunti
+	 * questo metodo si occuopa di aggiungere un determinato pannello nella schermata
+	 * che visualizza i diversi impiegati assunti
 	 * 
-	 * @param p il pannello da aggiungere
+	 * @param p il pannelloImpiegato da aggiungere
 	 */
 	void aggiungiPannelloImpiegato(PannelloImpiegato p) {
 		
@@ -222,7 +223,7 @@ public class BodyImpiegati extends JPanel {
 	}
 	
 	/**
-	 * questo metodo server per far ritornare il JPanel che visualizza
+	 * questo metodo serve per far ritornare il JPanel che visualizza
 	 * la lista d'impiegati
 	 * 
 	 * @return listaImpiegati il pannello che visualizza la lista degli impiegati assunti presenti sul db
@@ -233,10 +234,10 @@ public class BodyImpiegati extends JPanel {
 	}
 	
 	/**
-	 * questo metodo server per far ritornare la label che visualizza
-	 * il messaggio che non ci siano impiegati
+	 * questo metodo serve per far ritornare la label che visualizza
+	 * il messaggio che non ci sono impiegati
 	 * 
-	 * @return lblListaVuota la label che visualizza il messaggio
+	 * @return lblListaVuota la label che visualizza il messaggio che non ci sono impiegati
 	 */
 	static JLabel getlblListaVuota() {
 		

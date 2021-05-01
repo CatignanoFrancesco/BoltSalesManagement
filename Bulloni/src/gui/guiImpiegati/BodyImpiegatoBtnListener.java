@@ -24,8 +24,8 @@ import persona.exception.ExceptionImpiegato;
  */
 class BodyImpiegatoBtnListener implements ActionListener {
 
-	// action command assegnabili ai bottoni presenti sulla schemata che visuaizza
-	// gli impiegati
+	// action command assegnabili ai bottoni 
+	// presenti sulla schemata che visuaizza gli impiegati
 	public static final String BTN_AGGIUNGI = "aggiungiImpiegato";
 	public static final String BTN_DETTAGLI = "dettagliImpiegato";
 	public static final String BTN_PROMUOVI = "promuoviImpiegato";
@@ -37,27 +37,16 @@ class BodyImpiegatoBtnListener implements ActionListener {
 										// pannelli Impiegati
 
 	/**
-	 * costruttore che inizializza il pannello di cui rilevare il click su un
+	 * costruttore che inizializza il pannelloImpiegati  di cui rilevare il click su un
 	 * bottone
 	 * 
-	 * @param pannello il pannello di cui rilevare il click su un bottone
+	 * @param pannello il pannelloImpiegato di cui rilevare il click su un bottone
 	 */
 	public BodyImpiegatoBtnListener(PannelloImpiegato pannello, BodyImpiegati bodyImpiegati) {
 
 		this.pannello = pannello;
 		BodyImpiegatoBtnListener.bodyImpiegati = bodyImpiegati;
 	}
-//	
-//	/**
-//	 * costruttore che inizializza il bodyImpiegati di cui rilevare il click su un bottone
-//	 * 
-//	 * @param bodyImpiegati bodyImpiegato di cui rilevare il click su un bottone
-//	 */
-//	public BodyImpiegatoBtnListener(BodyImpiegati bodyImpiegati){
-//		
-//
-//		this.bodyImpiegati = bodyImpiegati;
-//	}
 
 	/**
 	 * {@inheritDoc}
@@ -93,7 +82,7 @@ class BodyImpiegatoBtnListener implements ActionListener {
 	}
 
 	/**
-	 * questo metodo si occupa d'implementare le funzionalità asscociate al bottone licenzia
+	 * questo metodo si occupa d'implementare le funzionalità associate al bottone licenzia
 	 */
 	private void licenzia() {
 
@@ -130,7 +119,7 @@ class BodyImpiegatoBtnListener implements ActionListener {
 	}
 	
 	/**
-	 * questo metodo si occupa d'implementare le funzionalità asscociate al bottone licenzia
+	 * questo metodo si occupa d'implementare le funzionalità associate al bottone aggiungi
 	 */
 	private void aggiungi() {
 		

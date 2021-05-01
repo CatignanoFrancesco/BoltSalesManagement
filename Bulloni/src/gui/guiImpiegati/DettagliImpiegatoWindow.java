@@ -22,11 +22,7 @@ import persona.ImpiegatoBulloni;
  *
  */
 public class DettagliImpiegatoWindow extends JDialog {
-	
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	private JTextArea txtaDettagli;//text area che visualizzera i dettagli di un impiegato

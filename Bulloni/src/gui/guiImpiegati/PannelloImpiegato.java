@@ -25,9 +25,6 @@ import persona.Impiegato;
  */
 class PannelloImpiegato extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	Dimension dim = new Dimension(90, 25);// dimensione predefinita per le componenti del pannello
@@ -100,8 +97,8 @@ class PannelloImpiegato extends JPanel {
 		gbc.gridy = 0;
 		gbc.insets = new Insets(0, 5, 0, 5);
 
-		// aggiungo l'etichetta per visualizzare l'intestazione del campo codice dell
-		// impiegato con dimensioni predefinite per un migliore allineamento
+		// aggiungo l'etichetta per visualizzare l'intestazione del campo codice 
+		// dell'impiegato con dimensioni predefinite per un migliore allineamento
 		this.lblCodice = new JLabel("codice");
 		this.lblCodice.setForeground(Color.red);
 		this.lblCodice.setFont(new Font("verdana", Font.BOLD, 15));
@@ -111,8 +108,8 @@ class PannelloImpiegato extends JPanel {
 		gbc.gridx = 0;
 		this.add(this.lblCodice, gbc);
 
-		// aggiungo l'etichetta per visualizzare l'intestazione del campo nome dell
-		// impiegato con dimensioni predefinite per un migliore allineamento
+		// aggiungo l'etichetta per visualizzare l'intestazione del campo nome 
+		// dell impiegato con dimensioni predefinite per un migliore allineamento
 		this.lblNome = new JLabel("nome");
 		this.lblNome.setForeground(Color.red);
 		this.lblNome.setFont(new Font("verdana", Font.BOLD, 15));
@@ -122,8 +119,8 @@ class PannelloImpiegato extends JPanel {
 		gbc.gridx = 1;
 		this.add(this.lblNome, gbc);
 
-		// aggiungo l'etichetta per visualizzare l'intestazione del campo cognome dell
-		// impiegato con dimensioni predefinite per un migliore allineamento
+		// aggiungo l'etichetta per visualizzare l'intestazione del campo cognome 
+		// dell'impiegato con dimensioni predefinite per un migliore allineamento
 		this.lblCognome = new JLabel("cognome");
 		this.lblCognome.setFont(new Font("verdana", Font.BOLD, 15));
 		this.lblCognome.setForeground(Color.red);
@@ -210,7 +207,7 @@ class PannelloImpiegato extends JPanel {
 	}
 
 	/**
-	 * metodo per ritornare l'impiegato visualizzate nel pannello
+	 * metodo per ritornare l'impiegato visualizzato nel pannello
 	 * 
 	 * @return l'impiegato visualizzato
 	 */
@@ -220,7 +217,7 @@ class PannelloImpiegato extends JPanel {
 	}
 
 	/**
-	 * metodo usate per triggerare i pulsanti presenti sul pannello
+	 * questo metodo permette di triggerare i pulsanti presenti sul pannello
 	 */
 	private void triggerButtons() {
 

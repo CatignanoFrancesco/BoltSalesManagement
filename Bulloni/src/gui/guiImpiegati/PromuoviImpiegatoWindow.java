@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gui.guiImpiegati;
 
 import java.awt.GridBagConstraints;
@@ -30,10 +27,8 @@ import persona.exception.ExceptionImpiegato;
  */
 class PromuoviImpiegatoWindow extends JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	
 	// attributi relativi all'aquisizione del nuovo stipedio
 	private static JLabel lblStipendio;
 	private JSpinner spnStipendio;
@@ -46,6 +41,11 @@ class PromuoviImpiegatoWindow extends JDialog {
 
 	private Impiegato impiegato;// impiegato da promuovere
 
+	/**
+	 * costruttore che inizializza alcune proprieta base della gui 
+	 * 
+	 * @param impiegato l'impiegato da promuovere
+	 */
 	public PromuoviImpiegatoWindow(Impiegato impiegato) {
 
 		this.impiegato = impiegato;
@@ -73,7 +73,7 @@ class PromuoviImpiegatoWindow extends JDialog {
 	}
 
 	/**
-	 * questo metodo si occupa di aggiungere alla finestra le componenti necessarie
+	 * questo metodo si occupa di aggiungere alla finestra le componenti  grafiche necessarie
 	 * all'aquisizione dei dati
 	 */
 	private void aggiungiElementi() {
@@ -95,9 +95,9 @@ class PromuoviImpiegatoWindow extends JDialog {
 		//aggiungo lo spinner per far inserire lo stipendio
 		SpinnerNumberModel spnModelStipendio = new SpinnerNumberModel(this.impiegato.getStipendioMensile() + 50,
 				this.impiegato.getStipendioMensile(), Impiegato.getMaxStipendioMensile(), 50);// al di sotto
-																									// del'attuale
-																									// stipendio non si
-																									// puo scendere
+																								// del'attuale
+																								// stipendio non si
+																								// puo scendere
 		this.spnStipendio = new JSpinner(spnModelStipendio);
 		gbc.gridx = 1;
 		gbc.gridy = 0;
@@ -122,7 +122,7 @@ class PromuoviImpiegatoWindow extends JDialog {
 		this.add(spnGiornate, gbc);
 
 		
-		//aggiungo il bottone per dare conforma dei dati
+		//aggiungo il bottone per dare conferma dei dati
 		btnInvia = new JButton("invia");
 		gbc.gridx = 1;
 		gbc.gridy = 2;

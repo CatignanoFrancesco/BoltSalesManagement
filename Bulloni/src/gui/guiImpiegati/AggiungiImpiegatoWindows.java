@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gui.guiImpiegati;
 
 import java.awt.Color;
@@ -38,10 +35,7 @@ import utility.Data;;
  */
 public class AggiungiImpiegatoWindows extends JDialog {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	static final long serialVersionUID = 1L;
 
 	private static GridBagConstraints gbc = new GridBagConstraints();//proprieta layout
 
@@ -77,10 +71,13 @@ public class AggiungiImpiegatoWindows extends JDialog {
 	private JComboBox<String> cmbTipoInserimentoBulloni;// servira per fa decidere all'utente se usare i valori di
 														// default o inserirli manualmente
 
-	private static JButton btnInvia;// bottone per confermare la creazione
+	private static JButton btnInvia;// bottone per confermare l'aggiunta
 
 	Impiegato impiegato;// impiegato da aggiungere
 
+	/**
+	 * costruttore per inizializzare le proprieta' base della finestra di aggiunta
+	 */
 	public AggiungiImpiegatoWindows() {
 
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -111,7 +108,6 @@ public class AggiungiImpiegatoWindows extends JDialog {
 	private void aggiungiElementi() {
 
 		// setto le proprieta base del layout
-		//GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(10, 10, 10, 10);
 		gbc.weightx = 1;
 		gbc.weighty = 1;
@@ -150,7 +146,7 @@ public class AggiungiImpiegatoWindows extends JDialog {
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		gbc.gridwidth = 1;
-		this.add(lblNome, gbc);
+		this.add(lblDataNascita, gbc);
 		
 		//aggiungo la comboBox giorno nascita
 		this.cmbBoxGiornoNascita.setMaximumRowCount(15);
@@ -169,7 +165,7 @@ public class AggiungiImpiegatoWindows extends JDialog {
 		this.add(this.cmbBoxMeseNascita, gbc);
 		
 		//aggiungo la comboBox anno nascita
-		final int MAX_ANNO =  Data.getDataAttuale().getAnno(), MIN_ANNO = 1970;//limiti di anni inseribili
+		final int MAX_ANNO =  Data.getDataAttuale().getAnno(), MIN_ANNO = 1970;//limite di anni inseribili
 		this.cmbBoxAnnoNascita.setMaximumRowCount(10);
 		this.cmbBoxAnnoNascita.setModel(new DefaultComboBoxModel<Integer>());
 		for(Integer i=MAX_ANNO; i>=MIN_ANNO; i--) {
@@ -338,7 +334,7 @@ public class AggiungiImpiegatoWindows extends JDialog {
 	
 	
 	/**
-	 * questo metodo si occupa di leggere i dati inseriti dall'utente e instanziare
+	 * questo metodo si occupa di leggere i dati inseriti dall'utente e istanziare
 	 * il nuovo Impiegato aggiungendolo al db
 	 */
 	public void aggiungiImpiegato() {
@@ -368,13 +364,13 @@ public class AggiungiImpiegatoWindows extends JDialog {
 			// leggo i bulloni
 			int bulloniVendibiliAnnualmente = 0;
 			if (spnBulloniVendibiliAnnualmente != null) {// l'utente ha scelto d'inserire manualmente il numero di
-															// bulloni
-															// vendibili
+														// bulloni vendibili
 
 				bulloniVendibiliAnnualmente = (int) spnBulloniVendibiliAnnualmente.getValue();
 			}
+			
 
-			// instazio l'impiegato e l'aggiungo al db
+			// istazio l'impiegato e l'aggiungo al db
 			if (bulloniVendibiliAnnualmente == 0) {// l'utente ha deciso di usare il valore di default
 
 				this.impiegato = new ImpiegatoBulloni(nome, cognome, sesso, dataNascita, giornateLavorativeAnnuali,
@@ -390,7 +386,7 @@ public class AggiungiImpiegatoWindows extends JDialog {
 			} else {
 
 				this.impiegato = new ImpiegatoBulloni(nome, cognome, sesso, dataNascita, giornateLavorativeAnnuali,
-						stipendioMensile, bulloniVendibiliAnnualmente);// chiamo il cotruttore calcola in automatico i
+						stipendioMensile, bulloniVendibiliAnnualmente);// chiamo il cotruttore che calcola in automatico i
 																		// bulloni vendibili annaulmente
 
 				ScreenManager.getGi().aggiungiImpiegato(this.impiegato);// aggiungo al db
@@ -420,9 +416,10 @@ public class AggiungiImpiegatoWindows extends JDialog {
 	}
 	
 	/**
-	 * questo metodo ritorna l'impiegato creata affinche si possa aggiungere il nuovo
+	 * questo metodo ritorna l'impiegato creato affinche si possa aggiungere il nuovo
 	 * pannello che lo visualizzera
-	 * @return
+	 * 
+	 * @return impiegato l'impiegato che è stato creato
 	 */
 	public Impiegato getImpiegato() {
 		
