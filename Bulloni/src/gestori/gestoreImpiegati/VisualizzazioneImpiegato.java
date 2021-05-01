@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gestori.gestoreImpiegati;
 
 import java.util.Set;
@@ -24,21 +21,21 @@ public interface VisualizzazioneImpiegato {
 	public ImpiegatoBulloni getImpiegatoByID(int id) throws ExceptionGestoreImpiegato;
 	
 	/**
-	 * metodo usato per controllare se ci sono o meno dati da visualizzare/leggere/modificare
+	 * metodo usato per controllare se ci sono o meno dati da visualizzare
 	 * 
 	 * @return true se non ci sono dati da visualizzare/leggere, false altrimenti
 	 */
 	public boolean localSetIsEmpty();
 	
 	/**
-	 * metodo per ottenere tutti gli impiegati (assunti e non) da visualizzare/leggere/modificare
-	 * @return il set di impiegati assunti che è possibile leggere/modificare
+	 * metodo per ottenere tutti gli impiegati (assunti e non) da visualizzare
+	 * @return il set di impiegati assunti che è possibile visualizzare
 	 */
 	public Set<ImpiegatoBulloni> getSetImpiegatiCompleto();
 	
 	/**
-	 * metodo per ottenere i soli impiegati assunti da visualizzare/leggere/modificare
-	 * @return il set di impiegati che è possibile leggere/modificare
+	 * metodo per ottenere i soli impiegati assunti da visualizzare
+	 * @return il set di impiegati che è possibile visualizzare
 	 */
 	public Set<ImpiegatoBulloni> getSetImpiegatiAssunti();
 

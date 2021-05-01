@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package gestori.gestoreImpiegati;
 
 import java.sql.ResultSet;
@@ -50,7 +48,7 @@ public class GestoreImpiegatiDb implements ContainerImpiegato{
 
 			try {
 
-				// instanzio in impiegato per ogni tupla letta dal db
+				// istanzio in impiegato per ogni tupla letta dal db
 				ImpiegatoBulloni i = new ImpiegatoBulloni(rs.getString(CampiTabellaImpiegati.nome.toString()),
 						rs.getString(CampiTabellaImpiegati.cognome.toString()),
 						rs.getString(CampiTabellaImpiegati.sesso.toString()).charAt(0),
@@ -67,8 +65,6 @@ public class GestoreImpiegatiDb implements ContainerImpiegato{
 				//questo blocco try/catch è statto messo perche' richiesto dal costruttore d'impiegato
 				//ma non ha effetiva funzionalità poiche i dati sul db sarannp per forza corretti poiche controllati al
 				//momento dell'input
-				
-				System.err.println(e.getMessage());
 				
 			}
 
@@ -219,7 +215,7 @@ public class GestoreImpiegatiDb implements ContainerImpiegato{
 	 * false) dell'impiegato con il determinato id passatoli
 	 * 
 	 * @param id id dell'impiegato da aggiornare
-	 * @throws ExceptionGestoreImpiegato sollevata se Ã¨ impossibe aggiornare il
+	 * @throws ExceptionGestoreImpiegato sollevata se e' impossibe aggiornare il
 	 *                                   valore dell'attributo eliminato
 	 * @throws DatabaseSQLException
 	 * @throws SQLException
@@ -229,7 +225,7 @@ public class GestoreImpiegatiDb implements ContainerImpiegato{
 	public void licenziaImpiegato(int id)
 			throws ExceptionGestoreImpiegato, SQLException, DatabaseSQLException, ExceptionImpiegato {
 
-		boolean flag = false;// flag per indicare se si Ã¨ trovato l'impiegato richiesto o meno
+		boolean flag = false;// flag per indicare se si e' trovato l'impiegato richiesto o meno
 
 		if (id < 0)
 
@@ -263,7 +259,7 @@ public class GestoreImpiegatiDb implements ContainerImpiegato{
 	}
 
 	/**
-	 * questo metodo server per dire se il set locale d'impiegati risulta vuoto o
+	 * questo metodo serve per dire se il set locale d'impiegati risulta vuoto o
 	 * meno
 	 * 
 	 * @return true se il set locale e' vuoto, false altrimenti
@@ -285,7 +281,7 @@ public class GestoreImpiegatiDb implements ContainerImpiegato{
 	
 
 	/**
-	 * questo metodo serve per rendere disponibili i solo impiegati assunti letti dal db a
+	 * questo metodo serve per rendere disponibili i solo impiegati  letti dal db che risultano assunti a
 	 * tutte le classi che hanno bisogno di accedere ai medesimi impiegati letti
 	 * 
 	 * @return returnSetImpiegati clone del set locale dei soli impiegati assunti letti dal db o
