@@ -147,13 +147,13 @@ public class GestoreBulloni implements ContainerBulloni {
 		boolean trovato = false;
 		
 		for(Bullone b : this.bulloni) {
-			if(b.getCodice() == codice) {
+			if(b.getCodice()==codice && !b.isEliminato()) {
 				trovato = true;
 				return (Bullone) b.clone();
 			}
 		}
 		
-		if( trovato==false ) {
+		if(trovato==false) {
 			throw new GestoreBulloniException(MsgErrore.BULLONE_NON_TROVATO, new GestoreBulloniException());
 		}
 		return null;
@@ -167,7 +167,7 @@ public class GestoreBulloni implements ContainerBulloni {
 		Set<Bullone> bulloni = new HashSet<Bullone>();
 		
 		for(Bullone b : this.bulloni) {
-			if(b.getDataProduzione().getAnno()==anno) {
+			if(b.getDataProduzione().getAnno()==anno && !b.isEliminato()) {
 				bulloni.add(b);
 			}
 		}
