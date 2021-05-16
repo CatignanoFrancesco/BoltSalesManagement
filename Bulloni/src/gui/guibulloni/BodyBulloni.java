@@ -35,6 +35,7 @@ public class BodyBulloni extends JPanel implements ActionListener {
 	
 	private static final int MAX_WIDTH = 750;
 	private static final int MAX_HEIGHT = 650;
+	private static final int MIN_BULLONI_VISIBLE = 15;
 	
 	private JFrame mainFrame;
 	private VisualizzaBulloni visualizzaBulloni;	// Interfaccia di visualizzazione
@@ -339,6 +340,10 @@ public class BodyBulloni extends JPanel implements ActionListener {
 	 * @throws GestoreBulloniException 
 	 */
 	private void mostraBulloni(Set<Bullone> bulloni) throws GestoreBulloniException {
+		if(this.visualizzaBulloni.getBulloniDisponibili().size() > MIN_BULLONI_VISIBLE ) {
+			scrollPane.setViewportView(this.listaContainerPanel);
+		}
+		
 		int posY = 0;
 		for(Bullone b : bulloni) {
 			GridBagConstraints gbc = new GridBagConstraints();
