@@ -282,16 +282,21 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 	 */
 	@Override
 	public String[] getInfo() {
+		/* 
+		 * I valori double vengono convertiti in float in modo che vengano mostrati correttamente
+		 * es. double: 1.20000000000000000002
+		 *	   float: 1.20
+		 */
 		String tipo = this.getClass().getSimpleName();
 		String codice = Integer.toString(this.codice);
 		String dataProduzione = this.dataProduzione.toFormattedDate();
 		String luogoProduzione = this.luogoProduzione;
-		String peso = Double.toString(this.peso);
-		String prezzo = (Double.toString(this.prezzo).length()==3) ? Double.toString(this.prezzo) + "0" : Double.toString(this.prezzo);
+		String peso = Float.toString((float)this.peso);
+		String prezzo = Float.toString((float)this.prezzo).length()==3 ? Float.toString((float)this.prezzo) + "0" : Float.toString((float)this.prezzo);	// per una migliore visualizzazione, al prezzo viene concatenato lo 0 ai centesimi
 		String materiale = this.materiale.toString();
-		String lunghezza = Double.toString(this.lunghezza);
-		String diametroVite = Double.toString(this.diametroVite);
-		String diametroDado = Double.toString(this.diametroDado);
+		String lunghezza = Float.toString((float)this.lunghezza);
+		String diametroVite = Float.toString((float)this.diametroVite);
+		String diametroDado = Float.toString((float)this.diametroDado);
 		String innesto = this.innesto.toString();
 		
 		String[] info = new String[] {tipo, codice, dataProduzione, luogoProduzione, peso, prezzo, materiale, lunghezza, diametroVite, diametroDado, innesto};
