@@ -83,7 +83,7 @@ public class BodyBulloni extends JPanel implements ActionListener {
 		 */
 		this.creaHeaderPanel();
 		this.creaFooterPanel();
-		this.creaListaContainerPanel(this.visualizzaBulloni.getAll());
+		this.creaListaContainerPanel(this.visualizzaBulloni.getBulloniDisponibili());
 	}
 	
 	
@@ -111,7 +111,7 @@ public class BodyBulloni extends JPanel implements ActionListener {
 	 */
 	public void refresh() {
 		this.listaContainerPanel.removeAll();
-		this.creaListaContainerPanel(this.visualizzaBulloni.getAll());
+		this.creaListaContainerPanel(this.visualizzaBulloni.getBulloniDisponibili());
 		this.btnVisualizzaTutto.setVisible(false);
 	}
 	
@@ -247,7 +247,7 @@ public class BodyBulloni extends JPanel implements ActionListener {
 		GridBagConstraints gbcForLblTipoBullone = new GridBagConstraints();
 		gbcForLblTipoBullone.gridx = 1;
 		gbcForLblTipoBullone.gridy = 0;
-		gbcForLblTipoBullone.insets = new Insets(5, 0, 5, 112);
+		gbcForLblTipoBullone.insets = new Insets(5, 0, 5, 110);
 		this.intestazionePanel.add(this.lblTipoBullone, gbcForLblTipoBullone);
 		
 		// Label per il prezzo
@@ -351,9 +351,7 @@ public class BodyBulloni extends JPanel implements ActionListener {
 			gbc.gridx = 0;
 			gbc.gridy = posY;
 			
-			if(b.isEliminato()==false) {
-				this.listaContainerPanel.add(new SimpleInfoBullonePanel(this.mainFrame, this, b.getCodice(), this.visualizzaBulloni.getInfoBulloneByCodice(b.getCodice()), (ModificaBulloni)this.visualizzaBulloni), gbc);
-			}
+			this.listaContainerPanel.add(new SimpleInfoBullonePanel(this.mainFrame, this, b.getCodice(), this.visualizzaBulloni.getInfoBulloneByCodice(b.getCodice()), (ModificaBulloni)this.visualizzaBulloni), gbc);
 			
 			posY++;
 		}
