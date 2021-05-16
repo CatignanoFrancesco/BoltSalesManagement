@@ -55,7 +55,7 @@ public class BodyBulloni extends JPanel implements ActionListener {
 	JButton btnAggiungiBullone = new JButton();
 	JScrollPane scrollPane = new JScrollPane();	// Contiene il pannello con la barra di scorrimento
 	JPanel listaContainerPanel = new JPanel();	// Pannello contenente la lista di bulloni
-	JLabel lblMancanzaBulloni = new JLabel();	// Label per informare l'utente della mancanza di bulloni
+	JLabel lblMancanzaBulloni = new JLabel("Non sono presenti bulloni. Aggiungine uno!");	// Label per informare l'utente della mancanza di bulloni
 
 	
 	/*
@@ -314,12 +314,12 @@ public class BodyBulloni extends JPanel implements ActionListener {
 		
 		// Controllo sulla presenza dei bulloni
 		try {
-			if(visualizzaBulloni.isEmpty()) {
+			if(bulloni.isEmpty() || bulloni==null) {
 				this.btnCercaPer.setVisible(false);
-				this.lblMancanzaBulloni.setText("Non sono presenti bulloni. Aggiungine uno!");
 				GridBagConstraints gbcForLblMancanzaBulloni = new GridBagConstraints();
 				gbcForLblMancanzaBulloni.anchor = GridBagConstraints.CENTER;
 				this.listaContainerPanel.add(lblMancanzaBulloni, gbcForLblMancanzaBulloni);
+				this.lblMancanzaBulloni.setVisible(true);
 			} else {
 				this.lblMancanzaBulloni.setVisible(false);
 				this.btnCercaPer.setVisible(true);

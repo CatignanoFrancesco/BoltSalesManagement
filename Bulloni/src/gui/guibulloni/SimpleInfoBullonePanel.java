@@ -176,7 +176,7 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 		GridBagConstraints gbcForlblPrezzo = new GridBagConstraints();
 		gbcForlblPrezzo.gridx = 4;
 		gbcForlblPrezzo.gridy = 0;
-		gbcForlblPrezzo.insets = new Insets(5, 0, 5, 330);
+		gbcForlblPrezzo.insets = new Insets(5, 0, 5, 320);
 		this.add(this.lblPrezzo, gbcForlblPrezzo);
 	}
 	
