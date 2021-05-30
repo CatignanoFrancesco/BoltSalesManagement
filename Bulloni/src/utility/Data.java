@@ -7,10 +7,9 @@ import java.sql.Date;
 
 /**
  * 
- * @author Catignano Francesco
+ * Questa classe modella il tipo Data a partire da tipi gia' esistenti.
  * 
- * Questa classe modella il tipo Data a partire da tipi già esistenti.
- *
+ * @author Catignano Francesco
  */
 public class Data implements Cloneable, Comparable<Data> {
 	public static final int GENNAIO = 1;
@@ -29,19 +28,21 @@ public class Data implements Cloneable, Comparable<Data> {
 	private LocalDate localdate;
 	
 	
-	// COSTRUTTORI
+	/* 
+	 * -------------
+	 *  COSTRUTTORI
+	 * -------------
+	 */
 	/**
 	 * Costruisce il tipo data partendo da un giorno del mese, un mese e un anno.
-	 * E' buona norma chiamare il costruttore all'interno del blocco try-catch in modo da evitare eventuali
-	 * arresti del programma in caso di data errata.
+	 * E' buona norma chiamare il costruttore all'interno del blocco try-catch in modo da evitare eventuali arresti del programma in caso di data errata.
 	 * @param giornoDelMese Il giorno del mese.
-	 * @param mese Il mese dell'anno. Può ricevere il parametro sia esplicitamente, che sotto forma di costante.
+	 * @param mese Il mese dell'anno. Puo' ricevere il parametro sia esplicitamente, che sotto forma di costante.
 	 * @param anno
 	 */
 	public Data(int giornoDelMese, int mese, int anno) {
 		this.localdate = LocalDate.of(anno, mese, giornoDelMese);
 	}
-	
 	
 	/**
 	 * Costruisce il tipo data partendo da un tipo java.sql.Date.
@@ -53,8 +54,11 @@ public class Data implements Cloneable, Comparable<Data> {
 	}
 	
 	
-	
-	// OPERAZIONI
+	/* 
+	 * -----------------
+	 *  METODI PUBBLICI
+	 * -----------------
+	 */
 	/**
 	 * Questo metodo restituisce l'anno.
 	 * @return L'anno.
@@ -62,7 +66,6 @@ public class Data implements Cloneable, Comparable<Data> {
 	public int getAnno() {
 		return this.localdate.getYear();
 	}
-	
 	
 	/**
 	 * Questo metodo restituisce il mese.
@@ -72,7 +75,6 @@ public class Data implements Cloneable, Comparable<Data> {
 		return this.localdate.getMonthValue();
 	}
 	
-	
 	/**
 	 * Questo metodo restituisce il giorno del mese.
 	 * @return Il giorno del mese.
@@ -80,7 +82,6 @@ public class Data implements Cloneable, Comparable<Data> {
 	public int getGiorno() {
 		return this.localdate.getDayOfMonth();
 	}
-	
 	
 	/**
 	 * Restituisce un oggetto di tipo data avvalorato con il giorno, il mese e l'anno corrispondenti alla data attuale.
@@ -92,7 +93,6 @@ public class Data implements Cloneable, Comparable<Data> {
 		return new Data(ldDataAttuale.getDayOfMonth(), ldDataAttuale.getMonthValue(), ldDataAttuale.getYear());
 	}
 	
-	
 	/**
 	 * Restituisce la data nel tipo LocalDate.
 	 * @return localdate La data nel tipo LocalDate.
@@ -101,15 +101,13 @@ public class Data implements Cloneable, Comparable<Data> {
 		return this.localdate;
 	}
 	
-	
 	/**
-	 * Restituisce la data nel tipo java.sql.Date. È utile soprattutto quando bisogna memorizzare la data in un Database.
+	 * Restituisce la data nel tipo java.sql.Date. E' utile soprattutto quando bisogna memorizzare la data in un Database.
 	 * @return La data nel tipo java.sql.Date
 	 */
 	public Date toSqlDate() {
 		return Date.valueOf(localdate);
 	}
-	
 	
 	/**
 	 * Restituisce la data sotto forma di stringa seguendo il pattern dd/MM/yyyy.
@@ -120,11 +118,10 @@ public class Data implements Cloneable, Comparable<Data> {
 		return this.localdate.format(formatter);
 	}
 	
-	
 	/**
 	 * Permette la modifica della data.
 	 * @param giornoDelMese Il giorno del mese.
-	 * @param mese Il mese (può essere ricevuto sia esplicitamente, che sotto forma di costante).
+	 * @param mese Il mese (puo' essere ricevuto sia esplicitamente, che sotto forma di costante).
 	 * @param anno L'anno.
 	 */
 	public void set(int giornoDelMese, int mese, int anno) {
@@ -135,7 +132,6 @@ public class Data implements Cloneable, Comparable<Data> {
 			System.err.println(e.getMessage());
 		}
 	}
-	
 	
 	/**
 	 * Permette di modificare la data nel tipo localdate, partendo da una data nel tipo java.sql.Date
@@ -149,7 +145,6 @@ public class Data implements Cloneable, Comparable<Data> {
 			System.err.println(e.getMessage());
 		}
 	}
-	
 	
 	/**
 	 * Metodo per confrontare due date.
@@ -169,7 +164,6 @@ public class Data implements Cloneable, Comparable<Data> {
 		}
 		return 0;
 	}
-	
 	
 	@Override
 	/**
@@ -199,7 +193,6 @@ public class Data implements Cloneable, Comparable<Data> {
 			return false;
 		}
 	}
-	
 	
 	/**
 	 * Clona l'istanza di un oggetto. Utile per evitare che la restituzione di un oggetto privato di tipo Data, ne permetta la modifica.
