@@ -20,8 +20,7 @@ public interface VisualizzaBulloni {
 	public Set<Bullone> getAll();
 	
 	/**
-	 * Questo metodo si occupa di cercare un bullone nel set a partire dal codice ricevuto in input e restituire un array di stringhe contenente le informazioni
-	 * generali del bullone, gia' pronte per essere visualizzate.
+	 * Questo metodo si occupa di cercare un bullone nel set a partire dal codice ricevuto in input e restituire un array di stringhe contenente le informazioni generali del bullone, gia' pronte per essere visualizzate.
 	 * Le informazioni seguono quest'ordine:
 	 * - tipo (la classe a cui appartiene);
 	 * - codice;
@@ -49,11 +48,8 @@ public interface VisualizzaBulloni {
 	
 	/**
 	 * Restituisce una copia del bullone, partendo da un codice ricevuto in input.
-	 * Effettua una ricerca nel set confrontando il codice ricevuto in input con il codice
-	 * di ogni bullone presente nel set. Se trova il bullone, lo restituisce,
-	 * altrimenti viene sollevata un'eccezione.
-	 * Viene restituito un clone, in modo tale da evitare modifiche accidentali al bullone presente nel set,
-	 * senza che questa modifica sia sincronizzata con il database.
+	 * Effettua una ricerca nel set confrontando il codice ricevuto in input con il codice di ogni bullone presente nel set. Se trova il bullone, lo restituisce, altrimenti viene sollevata un'eccezione.
+	 * Viene restituito un clone, in modo tale da evitare modifiche accidentali al bullone presente nel set, senza che questa modifica sia sincronizzata con il database.
 	 * @param codice Il codice del bullone da cercare.
 	 * @return b Il clone del bullone trovato.
 	 * @throws GestoreBulloniException L'eccezione sollevata se il bullone non e' stato trovato.
@@ -62,11 +58,8 @@ public interface VisualizzaBulloni {
 	
 	/**
 	 * Restituisce una copia del bullone, partendo da un codice ricevuto in input.
-	 * Effettua una ricerca nel set confrontando il codice ricevuto in input con il codice
-	 * di ogni bullone presente nel set. Se trova il bullone, e questo non è stato eliminato, lo restituisce,
-	 * altrimenti viene sollevata un'eccezione.
-	 * Viene restituito un clone, in modo tale da evitare modifiche accidentali al bullone presente nel set,
-	 * senza che questa modifica sia sincronizzata con il database.
+	 * Effettua una ricerca nel set confrontando il codice ricevuto in input con il codice di ogni bullone presente nel set. Se trova il bullone, e questo non è stato eliminato, lo restituisce, altrimenti viene sollevata un'eccezione.
+	 * Viene restituito un clone, in modo tale da evitare modifiche accidentali al bullone presente nel set, senza che questa modifica sia sincronizzata con il database.
 	 * @param codice Il codice del bullone da cercare.
 	 * @return b Il clone del bullone trovato.
 	 * @throws GestoreBulloniException L'eccezione sollevata se il bullone non e' stato trovato.

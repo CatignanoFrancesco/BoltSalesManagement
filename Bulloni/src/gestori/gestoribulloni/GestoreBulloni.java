@@ -27,12 +27,10 @@ import databaseSQL.exception.DatabaseSQLException;
 
 /**
  * Classe per la gestione dei bulloni di qualsiasi tipo.
- * All'interno ci saranno tutti i metodi per gestire un set di bulloni (di qualsiasi tipo) e per farlo interfacciare con il database SQL,
- * inserendo i dati all'interno delle tabelle o selezionarli. Sarà anche possibile modificare gli attributi dei bulloni e sincronizzare
- * le modifiche con il database.
+ * All'interno ci sono tutti i metodi per gestire un set di bulloni (di qualsiasi tipo) e per farlo interfacciare con il database SQL, inserendo i dati all'interno delle tabelle o selezionarli.
+ * E' anche possibile modificare gli attributi dei bulloni e sincronizzare le modifiche con il database.
  *  
  * @author Catignano Francesco
- *
  */
 public class GestoreBulloni implements ContainerBulloni {
 	private Set<Bullone> bulloni = new HashSet<Bullone>();	// Set di bulloni
@@ -41,11 +39,14 @@ public class GestoreBulloni implements ContainerBulloni {
 	private static final String NOME_TABELLA_BULLONE_GRANO = "Bullone_grano";	// Nome della tabella specifica per eseguire le insert, le query e le modifiche.
 	
 	
-	// COSTRUTTORE
+	/*
+	 * -------------
+	 *  COSTRUTTORE
+	 * -------------
+	 */
 	/**
 	 * Costruisce un gestore per i bulloni.
-	 * Prende singolarmente i dati dal database e costruisce un oggetto specifico di tipo Bullone a partire dal
-	 * risultato della query. Successivamente aggiunge l'oggetto costruito all'interno del set di bulloni.
+	 * Prende singolarmente i dati dal database e costruisce un oggetto specifico di tipo Bullone a partire dal risultato della query. Successivamente aggiunge l'oggetto costruito all'interno del set di bulloni.
 	 */
 	public GestoreBulloni() throws DatabaseSQLException, SQLException {
 		/*
@@ -64,7 +65,7 @@ public class GestoreBulloni implements ContainerBulloni {
 		while(rs.next()) {
 			bulloni.add(costruisciBulloneGrano(rs));
 		}
-		DatabaseSQL.chiudiConnessione();	// Chiusura della connessione al db (l'apertura è fatta automaticamente al momento della chiamata ad una select
+		DatabaseSQL.chiudiConnessione();	// Chiusura della connessione al db (l'apertura e' fatta automaticamente al momento della chiamata ad una select
 		// Viene assegnato all'attributo codBulloneAutomatico un valore non esistente nel set di bulloni.
 		codBulloneAutomatico = this.getMaxCodiceBullone() + 1;
 	}
@@ -72,9 +73,9 @@ public class GestoreBulloni implements ContainerBulloni {
 	
 	
 	/*
-	 * ------------------------------------------
-	 * 				METODI PUBBLICI
-	 * ------------------------------------------
+	 * -----------------
+	 *  METODI PUBBLICI
+	 * -----------------
 	 */
 	/**{@inheritDoc}
 	 *
@@ -108,7 +109,6 @@ public class GestoreBulloni implements ContainerBulloni {
 		}
 	}
 	
-	
 	/**{@inheritDoc}
 	 *
 	 */
@@ -122,7 +122,6 @@ public class GestoreBulloni implements ContainerBulloni {
 		
 		return bulloniCopy;
 	}
-	
 	
 	/**{@inheritDoc}
 	 * 
@@ -138,8 +137,7 @@ public class GestoreBulloni implements ContainerBulloni {
 		
 		return bulloniDisponibili;
 	}
-	
-	
+
 	/**{@inheritDoc}
 	 * 
 	 */
@@ -159,7 +157,6 @@ public class GestoreBulloni implements ContainerBulloni {
 		return null;
 	}
 	
-	
 	/**{@inheritDoc}
 	 * 
 	 */
@@ -173,7 +170,6 @@ public class GestoreBulloni implements ContainerBulloni {
 		
 		throw new GestoreBulloniException(MsgErrore.BULLONE_NON_TROVATO, new GestoreBulloniException());	// se non e' stato trovato nessun bullone disponibile, viene sollevata un'eccezione
 	}
-	
 	
 	/**{@inheritDoc}
 	 * 
@@ -194,14 +190,12 @@ public class GestoreBulloni implements ContainerBulloni {
 		}
 	}
 	
-	
 	/**{@inheritDoc}
 	 *
 	 */
 	public String[] getInfoBulloneByCodice(int codice) throws GestoreBulloniException {
 		return this.getBulloneByCodice(codice).getInfo();
 	}
-	
 	
 	/**{@inheritDoc}
 	 * 
@@ -225,7 +219,6 @@ public class GestoreBulloni implements ContainerBulloni {
 		}
 	}
 	
-	
 	/**{@inheritDoc}
 	 * 
 	 */
@@ -247,14 +240,12 @@ public class GestoreBulloni implements ContainerBulloni {
 		}
 	}
 	
-	
 	/**{@inheritDoc}
 	 * 
 	 */
 	public boolean isEmpty() {
 		return this.bulloni.isEmpty();
 	}
-	
 	
 	/**{@inheritDoc}
 	 * 
@@ -264,11 +255,10 @@ public class GestoreBulloni implements ContainerBulloni {
 	}
 	
 	
-	
 	/*
-	 * ------------------------------------------
-	 * 				METODI PRIVATI
-	 * ------------------------------------------
+	 * ----------------
+	 * 	METODI PRIVATI
+	 * ----------------
 	 */
 	/**
 	 * A partire dal risultato di una query, costruisce un oggetto Bullone di tipo grano.
@@ -295,13 +285,11 @@ public class GestoreBulloni implements ContainerBulloni {
 		return null;
 	}
 
-	
 	/**
-	 * Restituisce il massimo tra i codici dei bulloni presenti nel set.
+	 * Restituisce il valore massimo tra i codici dei bulloni presenti nel set.
 	 * Questo metodo servira' per evitare che dopo il riempimento del set di bulloni, il valore dell'attributo "codBulloneAutomatico"
 	 * contenga un valore corrispondente ad un codice gia' presente nel set. In questo modo viene evitato il sollevamento
-	 * di qualche eccezione relativa all'inserimento nel database di un bullone con un codice gia' presente (con il conseguente rifiuto
-	 * della insert).
+	 * di qualche eccezione relativa all'inserimento nel database di un bullone con un codice gia' presente (con il conseguente rifiuto della insert).
 	 * La ricerca del codice avente valore massimo avviene mediante una ricerca lineare all'interno del set, confrontando il codice
 	 * con un valore massimo provvisorio, che verra' aggiornato quando viene trovato un codice il cui valore e' superiore.
 	 * @return max Il codice del bullone avente valore massimo.

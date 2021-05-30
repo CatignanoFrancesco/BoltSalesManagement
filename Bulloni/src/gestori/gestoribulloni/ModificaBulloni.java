@@ -8,8 +8,8 @@ import gestori.gestoribulloni.exception.GestoreBulloniException;
 
 /**
  * Interfaccia contenente tutti i metodi per la modifica e la rimozione dei bulloni.
+ * 
  * @author Catignano Francesco
- *
  */
 public interface ModificaBulloni {
 	
@@ -31,8 +31,7 @@ public interface ModificaBulloni {
 	/**
 	 * Questo metodo permette di "rimuovere" un bullone dal set di bulloni e dal database.
 	 * In realta' viene solamente portato a "true" il valore dell'attributo "eliminato" in bullone. In questo modo non vengono eliminate tutte
-	 * le informazioni sui bulloni che potrebbero servire alle altre classi, ma sono rese inaccessibili alcune operazioni di modifica.
-	 * L'azione di eliminazione e' irreversibile.
+	 * le informazioni sui bulloni che potrebbero servire alle altre classi, ma sono rese inaccessibili tutte le operazioni di modifica.
 	 * La ricerca del bullone richiesto avviene mediante il codice ricevuto come parametro. Se la ricerca non da alcun risultato, viene sollevata
 	 * un'eccezione. 
 	 * @param codice Il codice del bullone da cercare.

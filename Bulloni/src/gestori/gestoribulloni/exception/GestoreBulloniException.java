@@ -1,10 +1,9 @@
 package gestori.gestoribulloni.exception;
 
 /**
- * Modella le eccezioni sollevate dai metodi presenti nella classe
- * GestoreBulloni.
+ * Modella le eccezioni sollevate dai metodi presenti nella classe GestoreBulloni.
+ * 
  * @author Catignano Francesco
- *
  */
 public class GestoreBulloniException extends Exception {
 

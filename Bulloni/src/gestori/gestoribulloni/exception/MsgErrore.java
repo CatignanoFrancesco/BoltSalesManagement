@@ -2,8 +2,8 @@ package gestori.gestoribulloni.exception;
 
 /**
  * Contiene tutti i messaggi d'errore che riguardano l'eccezione sollevata.
+ * 
  * @author Catignano Francesco
- *
  */
 public class MsgErrore {
 	/**
