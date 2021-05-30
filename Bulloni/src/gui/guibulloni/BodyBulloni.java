@@ -94,7 +94,7 @@ public class BodyBulloni extends JPanel implements ActionListener {
 	 */
 	
 	/**
-	 * Metodo per "ricaricare" il pannello e mostrare tutti gli elementi.
+	 * Metodo per "ricaricare" il pannello e mostrare tutti gli elementi ricevuti come parametro.
 	 * Utile, ad esempio, per mostrare tutta la lista, ad eccezione di un bullone che e' stato rimosso, oppure per mostrare i risultati di una ricerca.
 	 * 
 	 * @param bulloni. I bulloni che devono essere mostrati dopo il refresh della pagina
@@ -106,8 +106,8 @@ public class BodyBulloni extends JPanel implements ActionListener {
 	
 	
 	/**
-	 * Variante aparametrica del metodo refresh().
-	 * Il metodo si occupa da solo di rimediare l'intero set di bulloni e di mostrarlo.
+	 * Metodo per "ricaricare" il pannello e mostrare tutti gli elementi.
+	 * Il metodo si occupa da solo di rimediare l'intero set di bulloni da mostrare.
 	 */
 	public void refresh() {
 		this.listaContainerPanel.removeAll();
@@ -194,6 +194,7 @@ public class BodyBulloni extends JPanel implements ActionListener {
 	 * Viene aggiunto, al pannello principale, un ulteriore pannello, posizionato in alto.
 	 * Questo pannello contiene due pulsanti: uno per effettuare la ricerca e uno per far riapparire tutta la lista originale, dopo che sono apparsi i risultati di ricerca.
 	 * Quest'ultimo non e' subito visibile, ma appare solamente quando appaiono anche i risultati di ricerca, facendo scomparire il primo pulsante.
+	 * I layout utilizzati sono: BorderLayout per il pannello contenente i bottoni per la ricerca e BoxLayout per posizionare gli elementi presenti in pannelloRicerca.
 	 */
 	private void creaPannelloRicerca() {
 		this.headerPanel.add(this.pannelloRicerca, BorderLayout.NORTH);
@@ -220,6 +221,7 @@ public class BodyBulloni extends JPanel implements ActionListener {
 	 * Metodo per creare il pannello contenente l'intestazione.
 	 * Vengono aggiunte delle label con i nomi delle varie colonne e, grazie al GridBagLayout, vengono sistemate in modo da coincidere con il
 	 * layout dei SimpleInfoBullonePanel.
+	 * I layout utilizzati sono: BorderLayout per il posizionamento del pannello di intestazione e GridBagLayout per il posizionamento degli elementi interni al pannello di intestazione.
 	 */
 	private void creaPannelloIntestazione() {
 		this.headerPanel.add(this.intestazionePanel, BorderLayout.SOUTH);
@@ -264,6 +266,7 @@ public class BodyBulloni extends JPanel implements ActionListener {
 	/**
 	 * Metodo per la creazione del footer panel.
 	 * Viene creato un pannello posizionato in basso e contiene solo il pulsante "Aggiungi un bullone".
+	 * Il layout utilizzato e': BorderLayout.
 	 */
 	private void creaFooterPanel() {
 		this.add(this.footerPanel, BorderLayout.SOUTH);
@@ -284,7 +287,7 @@ public class BodyBulloni extends JPanel implements ActionListener {
 	 * piu' flessibile (GridBagLayout) per lo scopo.
 	 * Viene effettuato un controllo sulla presenza o meno dei bulloni nel set; se non sono presenti, viene aggiunta una label che informa l'utente della mancanza
 	 * di bulloni, mentre il tasto per effettuare la ricerca scompare. In caso contrario, viene chiamato il metodo che si occupa di mostrare i bulloni.
-	 * 
+	 * I layout utilizzati sono: BorderLayout per il posizionamento del pannello di scroll e GridBagLayout per gli elementi contenuti in listaContainerPanel.
 	 * @param bulloni Il set di bulloni da mostrare
 	 */
 	private void creaListaContainerPanel(Set<Bullone> bulloni) {

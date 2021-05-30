@@ -10,6 +10,11 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Questa classe contiene tutti i metodi e tutte le impostazioni per un layout di una finestra il cui compito e' quello di mostrare le informazioni di un bullone.
+ * 
+ * @author Catignano Francesco
+ */
 public class InfoBulloneFrame extends JDialog {
 	private static final long serialVersionUID = 1L;
 	
@@ -81,7 +86,7 @@ public class InfoBulloneFrame extends JDialog {
 	 */
 	
 	/**
-	 * Questo metodo si occupa di creare il pannello per il titolo e di impostarne il layout.
+	 * Questo metodo si occupa di creare il pannello per il titolo e di impostarne il layout (che in questo caso e' BorderLayout).
 	 */
 	private void creaTitlePanel() {
 		this.getContentPane().add(this.titlePanel, BorderLayout.NORTH);
@@ -94,7 +99,7 @@ public class InfoBulloneFrame extends JDialog {
 	
 	/**
 	 * Questo metodo si occupa di creare e impostare il layout contenente le informazioni sul bullone.
-	 * Il layout utilizzato e' il GridBagLayout.
+	 * I layout utilizzati sono: BorderLayout per il posizionamento di infoPanel e GridBagLayout per il posizionamento degli elementi all'interno di infoPanel.
 	 */
 	private void creaInfoPanel() {
 		/*

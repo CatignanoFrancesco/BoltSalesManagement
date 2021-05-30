@@ -23,10 +23,9 @@ import gestori.gestoribulloni.ModificaBulloni;
 import gestori.gestoribulloni.exception.GestoreBulloniException;
 
 /**
- * Questa classe contiene tutti i metodi e tutte le impostazioni per un layout di una finestra il cui compito e' quello di modificare
- * un bullone.
+ * Questa classe contiene tutti i metodi e tutte le impostazioni per un layout di una finestra il cui compito e' quello di modificare un bullone.
+ * 
  * @author Catignano Francesco
- *
  */
 public class ModificaBulloneFrame extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -139,6 +138,7 @@ public class ModificaBulloneFrame extends JDialog implements ActionListener {
 	
 	/**
 	 * Metodo per creare il form di modifica del bullone. Viene usato il GridBagLayout per posizionare gli elementi.
+	 * I layout utilizzati sono: BorderLayout per il posizionamento di formPanel e GridBagLayout per il posizionamento degli elementi all'interno di formPanel.
 	 */
 	private void creaFormPanel() {
 		this.getContentPane().add(this.formPanel, BorderLayout.CENTER);
@@ -189,7 +189,7 @@ public class ModificaBulloneFrame extends JDialog implements ActionListener {
 	
 	/**
 	 * Metodo per creare il footer panel, contenente il bottone per salvare le modifiche.
-	 * Usa il BorderLayout per posizionare il pannello in baddo e aggiungere il pulsante.
+	 * Usa il BorderLayout per posizionare il pannello in basso e aggiungere il pulsante.
 	 */
 	private void creaFooterPanel() {
 		this.getContentPane().add(this.footerPanel, BorderLayout.SOUTH);

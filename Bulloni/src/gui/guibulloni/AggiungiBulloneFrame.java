@@ -183,7 +183,8 @@ public class AggiungiBulloneFrame extends JDialog implements ActionListener {
 	 */
 	
 	/**
-	 * Metodo per creare ed impostare il layout al pannello contenente il titolo della finestra
+	 * Metodo per creare ed impostare il layout al pannello contenente il titolo della finestra.
+	 * Il layout utilizzato e': BorderLayout.
 	 */
 	private void creaTitlePanel() {
 		this.getContentPane().add(this.titlePanel, BorderLayout.NORTH);
@@ -194,7 +195,8 @@ public class AggiungiBulloneFrame extends JDialog implements ActionListener {
 	
 	
 	/**
-	 * Metodo per creare il pannello posizionato in basso, contenente il bottone per aggiungere effettivamente il bottone
+	 * Metodo per creare il pannello posizionato in basso, contenente il bottone per aggiungere effettivamente il bottone.
+	 * Il layout utilizzato e': BorderLayout.
 	 */
 	private void creaFooterPanel() {
 		this.getContentPane().add(this.footerPanel, BorderLayout.SOUTH);
@@ -206,6 +208,7 @@ public class AggiungiBulloneFrame extends JDialog implements ActionListener {
 	
 	/**
 	 * Metodo per creare il pannello contenente gli elementi da compilare per costruire un nuovo bullone.
+	 * I layout utilizzati sono: BorderLayout per il pannello contenente il form e GridBagLayout per gli elementi del form.
 	 */
 	private void creaFormPanel() {
 		/*

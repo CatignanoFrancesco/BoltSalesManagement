@@ -20,9 +20,8 @@ import gestori.gestoribulloni.exception.GestoreBulloniException;
 
 /**
  * Pannello che corrisponde ad una singola riga nella lista di bulloni.
- * In questa classe sono presenti tutte le etichette per riassumere in maniera generale le informazioni su uno specifico bullone (es. codice, tipo e prezzo)
- * e i bottoni per la manipolazione (informazioni aggiuntive, modifica ed eliminazione). L'utilizzo di un singolo pannello per ogni bullone permette di creare
- * una migliore associazione tra il singolo bullone e le varie etichette e pulsanti.
+ * In questa classe sono presenti tutte le etichette per riassumere in maniera generale le informazioni su uno specifico bullone (es. codice, tipo e prezzo) e i bottoni per la manipolazione (informazioni aggiuntive, modifica ed eliminazione).
+ * L'utilizzo di un singolo pannello per ogni bullone permette di creare una migliore associazione tra il singolo bullone e le varie etichette e pulsanti.
  * 
  * @author Catignano Francesco
  */
@@ -56,6 +55,7 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 	 * Costruisce il pannello contenente le informazioni principali di un bullone, insieme a tutti i bottoni per l'interazione con essi.
 	 * Un singolo pannello costituisce una riga della lista presente nella classe BodyPanel.
 	 * Le informazioni del bullone sono prese da un'interfaccia software che contiene tutti i metodi per visualizzarle.
+	 * Il layout utilizzato e' il GridBagLayout.
 	 * @param mainFrame La finestra principale da cui deriva.
 	 * @param mainPanel Il pannello principale da cui deriva.
 	 * @param codBullone Il codice del bullone a cui il pannello fa riferimento. La sua funzione principale e' quella di permettere l'utilizzo dei metodi che usano i codici dei bulloni.
@@ -147,6 +147,7 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 	 * - il codice del bullone;
 	 * - il tipo di bullone (grano, ecc.);
 	 * - il prezzo.
+	 * Il layout utilizzato e': GridBagLayout.
 	 */
 	private void creaInfoBulloni() {
 		/*
@@ -187,6 +188,7 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 	 * - mostrare maggiori informazioni sui bulloni;
 	 * - permettere la modifica di un bullone;
 	 * - eliminare il bullone.
+	 * Il layout utilizzato e': GridBagLayout.
 	 */
 	private void creaBottoni() {
 		/*

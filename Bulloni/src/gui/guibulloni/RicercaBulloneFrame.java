@@ -56,6 +56,7 @@ public class RicercaBulloneFrame extends JDialog implements ActionListener {
 	
 	/**
 	 * Costruisce una finestra per effettuare la ricerca dei bulloni.
+	 * Viene usato il GridBagLayout.
 	 * @param finestraPrincipale La finestra principale.
 	 * @param pannelloPrincipale Il pannello principale.
 	 * @param visualBulloni L'interfaccia di visualizzazione dei bulloni.
