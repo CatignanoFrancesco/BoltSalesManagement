@@ -2,10 +2,9 @@ package bulloni.exception;
 
 
 /**
- * Modella le eccezioni sollevate dai metodi presenti in Bullone quando non vengono
- * soddisfatti alcuni requisiti.
+ * Modella le eccezioni sollevate dai metodi presenti in Bullone quando non vengono soddisfatti alcuni requisiti.
+ * 
  * @author Catignano Francesco
- *
  */
 public class BulloneException extends Exception {
 	

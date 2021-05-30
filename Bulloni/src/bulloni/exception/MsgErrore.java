@@ -2,8 +2,8 @@ package bulloni.exception;
 
 /**
  * In questa classe sono contenuti i messaggi d'errore relativi alle eccezioni sollevate.
+ * 
  * @author Catignano Francesco
- *
  */
 public class MsgErrore {
 	/**
