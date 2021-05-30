@@ -10,9 +10,8 @@ import bulloni.exception.MsgErrore;
 
 
 /**
- * La seguente classe astratta implementa i metodi comuni a tutte le classi concrete.
- * Contiene anche i controlli sui valori ammessi dagli attributi al momento della creazione
- * di un oggetto di tipo Bullone.
+ * La seguente classe astratta modella un tipo generico di bullone, implementando i metodi comuni a tutte le classi relative ai bulloni.
+ * 
  * @author Catignano Francesco
  *
  */
@@ -34,17 +33,11 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 	private static Data MAX_DATA = Data.getDataAttuale();
 	private static final double MIN_PESO = 1.5;	// Espresso in grammi
 	private static final double MAX_PESO = 15.0;
-	private static final double MIN_PREZZO = 0.5;
+	private static final double MIN_PREZZO = 0.5;	// Espresso in euro
 	private static final double MAX_PREZZO = 2.5;
-	/**
-	 * Lunghezza minima della vite espressa in mm.
-	 */
-	private static final double MIN_LUNGHEZZA = 15;
+	private static final double MIN_LUNGHEZZA = 15;	// Lunghezza della vite espressa in mm
 	private static final double MAX_LUNGHEZZA = 200;
-	/**
-	 * Dimensione minima del diametro della vite di un bullone espressa in mm.
-	 */
-	private static final double MIN_DIAMETRO_VITE = 4;
+	private static final double MIN_DIAMETRO_VITE = 4;	// Diametro della vite espresso in mm
 	private static final double MAX_DIAMETRO_VITE = 10;
 	
 	private int codice;	// Il codice identificativo del bullone
@@ -58,14 +51,18 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 	private double diametroDado;
 	private Innesto innesto;	// L'innesto del bullone (a croce, esagonale...)
 	/**
-	 * Questo attributo serve per controllare che il bullone sia disponibile o meno a modifiche (se e' eliminato oppure no).
+	 * Questo attributo serve per controllare la disponibilita' del bullone a modifiche (se e' eliminato oppure no).
 	 * Si preferisce all'eliminazione vera e propria dell'oggetto perchè in questo modo sara' comunque possibile accedere
 	 * alle informazioni del bullone senza pero' modificarne il suo stato.
 	 */
 	private boolean eliminato = false;
 	
 	
-	// COSTRUTTORE
+	/*
+	 * -------------
+	 *  COSTRUTTORE
+	 * -------------
+	 */
 	/**
 	 * Costruisce un bullone a partire dai parametri forniti in input.
 	 * @param codice Il codice identificativo del bullone.
@@ -84,7 +81,7 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 		this.codice = codice;	// Il codice non ha bisogno di controllo, poichè sono ammessi tutti i valori.
 		
 		// Se la data non e' corretta, viene sollevata un'eccezione.
-		if( dataCorretta(dataProduzione) ) {
+		if(dataCorretta(dataProduzione)) {
 			this.dataProduzione = (Data) dataProduzione.clone();	 // Viene assegnato un clone per evitare modifiche.
 		} else {
 			throw new BulloneException(MsgErrore.DATA_NON_VALIDA, new BulloneException());
@@ -98,14 +95,14 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 		}
 		
 		// Se il peso non e' corretto, viene sollevata un'eccezione.
-		if( pesoCorretto(peso) ) {
+		if(pesoCorretto(peso)) {
 			this.peso = peso;
 		} else {
 			throw new BulloneException(MsgErrore.PESO_NON_VALIDO, new BulloneException());
 		}
 		
 		// Se il prezzo non e' corretto viene sollevata un'eccezione.
-		if( prezzoCorretto(prezzo) ) {
+		if(prezzoCorretto(prezzo)) {
 			this.prezzo = prezzo;
 		} else {
 			throw new BulloneException(MsgErrore.PREZZO_NON_VALIDO, new BulloneException());
@@ -114,14 +111,14 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 		this.materiale = materiale;
 		
 		// Se la lunghezza non e' corretta, viene sollevata un'eccezione.
-		if( lunghezzaCorretta(lunghezza) ) {
+		if(lunghezzaCorretta(lunghezza)) {
 			this.lunghezza = lunghezza;
 		} else {
 			throw new BulloneException(MsgErrore.LUNGHEZZA_NON_VALIDA, new BulloneException());
 		}
 		
 		// Se il diametro della vite non e' corretto, viene sollevata un'eccezione, altrimenti vengono inizializzati sia i valori relativi al diametro della vite che al diametro del dado.
-		if( diametroViteCorretto(diametroVite) ) {
+		if(diametroViteCorretto(diametroVite)) {
 			this.diametroVite = diametroVite;
 			/*
 			 * Al diametro della vite e' aggiunta la differenza tra il diametro della vite e del dado.
@@ -136,48 +133,47 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 	}
 
 	
-	
-	// OPERAZIONI
+	/*
+	 * -----------------
+	 *  METODI PUBBLICI
+	 * -----------------
+	 */
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public int getCodice() {
 		return this.codice;
 	}
 	
-	
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public Data getDataProduzione() {
 		return (Data) this.dataProduzione.clone();
 	}
 	
-	
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public String getLuogoProduzione() {
 		return this.luogoProduzione;
 	}
 	
-	
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public double getPeso() {
 		return this.peso;
 	}
 	
-	
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public void setPrezzo(double prezzo) throws BulloneException {
 		// Se il bullone non e' stato eliminato, si puo' procedere alla modifica, altrimenti viene sollevata un'eccezione.
 		if( eliminato==false ) {
@@ -193,94 +189,82 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 		
 	}
 	
-	
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public double getPrezzo() {
 		return this.prezzo;
 	}
 	
-	
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public Materiale getMateriale() {
 		return this.materiale;
 	}
 	
-	
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public double getLunghezza() {
 		return this.lunghezza;
 	}
 	
-	
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public double getDiametroVite() {
 		return this.diametroVite;
 	}
 	
-	
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public double getDiametroDado() {
 		return this.diametroDado;
 	}
 	
-	
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public Innesto getInnesto() {
 		return this.innesto;
 	}
 	
-	
-	/**
-	 * Restituisce il tipo di testa del bullone (piatta, tonda...).
-	 * In questo caso il metodo restituisce valore null perchè è possibile che alcuni tipi
-	 * di bulloni possano non avere la testa (ad esempio il bullone grano).
-	 */
 	@Override
+	/**{@inheritDoc}
+	 * 
+	 */
 	public String getTesta() {
 		return null;
 	}
 	
-	
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public boolean isEliminato() {
 		return this.eliminato;
 	}
 	
-	
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public void elimina() {
 		this.eliminato = true;
 	}
 	
-	
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public String[] getInfo() {
 		/* 
 		 * I valori double vengono convertiti in float in modo che vengano mostrati correttamente
@@ -303,11 +287,10 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 		return info;
 	}
 	
-	
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public boolean equals(Object obj) {
 		// Controllo del riferimento
 		if( this==obj ) {
@@ -331,11 +314,10 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 		}
 	}
 	
-	
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -345,11 +327,10 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 		return result;
 	}
 	
-	
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public String toString() {
 		String info = "Codice: " + this.codice + "\n" + 
 					  "Data di produzione: " + this.dataProduzione.toFormattedDate() + "\n" +
@@ -365,11 +346,10 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 		return info;
 	}
 	
-	
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public Object clone() {
 		Object o = null;
 		
@@ -384,6 +364,11 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 	}
 	
 	
+	/*
+	 * ----------------
+	 *  METODI PRIVATI
+	 * ----------------
+	 */
 	/**
 	 * Operazione a servizio del costruttore per controllare se la data di produzione di un bullone rientra nel range prestabilito.
 	 * @param data La data da controllare.
@@ -392,7 +377,6 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 	private boolean dataCorretta(Data data) {
 		return data.compareTo(MIN_DATA)>=0 && data.compareTo(MAX_DATA)<0;
 	}
-	
 	
 	/**
 	 * Operazione a servizio del costruttore per controllare che la il luogo di produzione di un bullone sia corretto.
@@ -419,7 +403,6 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 		return true;
 	}
 	
-	
 	/**
 	 * Operazione a servizio del costruttore per controllare se il peso di un bullone rientra nel range prestabilito.
 	 * @param peso Il peso del bullone da controllare.
@@ -428,7 +411,6 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 	private boolean pesoCorretto(double peso) {
 		return peso>=MIN_PESO && peso<=MAX_PESO;
 	}
-	
 	
 	/**
 	 * Operazione a servizio del costruttore o dell'operazione setPrezzo() per controllare se il prezzo di un bullone
@@ -440,7 +422,6 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 		return prezzo>=MIN_PREZZO && prezzo<=MAX_PREZZO;
 	}
 	
-	
 	/**
 	 * Operazione a servizio del costruttore per controllare se la lunghezza della vite di un bullone
 	 * rientra nel range prestabilito.
@@ -450,7 +431,6 @@ public abstract class AbstractBullone implements Bullone, Cloneable {
 	private boolean lunghezzaCorretta(double lunghezza) {
 		return lunghezza>=MIN_LUNGHEZZA && lunghezza<=MAX_LUNGHEZZA;
 	}
-	
 	
 	/**
 	 * Operazione a servizio del costruttore per controllare se il diametro della vite di un bullone rientra nel range prestabilito.

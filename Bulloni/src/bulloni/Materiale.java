@@ -2,8 +2,9 @@ package bulloni;
 
 /**
  * Tipo enumerativo per rappresentare il materiale di un bullone.
- * @author Catignano Francesco
  * Qui sono rappresentati i più diffusi.
+ * 
+ * @author Catignano Francesco
  */
 public enum Materiale {
 	ACCIAIO,

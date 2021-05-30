@@ -51,7 +51,7 @@ public interface Bullone {
 	public double getPrezzo();
 	
 	/**
-	 * Restituisce il materiale con cui è stato costruito il bullone.
+	 * Restituisce il materiale con cui e' stato costruito il bullone.
 	 * @return materiale Il materiale del bullone.
 	 */
 	public Materiale getMateriale();
@@ -81,8 +81,9 @@ public interface Bullone {
 	public Innesto getInnesto();
 	
 	/**
-	 * Restituisce il tipo di testa del bullone (quando disponibile).
-	 * @return testa Il tipo di testa del bullone.
+	 * Restituisce il tipo di testa del bullone (piatta, tonda...).
+	 * In questo caso il metodo restituisce valore null perche' e' possibile che alcuni tipi
+	 * di bulloni possano non avere la testa (ad esempio il bullone grano).
 	 */
 	public String getTesta();
 	
@@ -119,7 +120,7 @@ public interface Bullone {
 	
 	/**
 	 * Confronta due oggetti e restituisce un valore che indica se sono uguali o meno.
-	 * Il confronto si baserà sul codice del bullone.
+	 * Il confronto si basera' sul codice del bullone.
 	 * @param obj L'oggetto da confrontare con il bullone.
 	 * @return true se i due oggetti sono uguali, flase altrimenti.
 	 */

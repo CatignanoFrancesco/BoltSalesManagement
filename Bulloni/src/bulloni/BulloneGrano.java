@@ -6,12 +6,16 @@ import utility.Data;
 
 /**
  * Classe concreta per il bullone di tipo "grano".
+ * 
  * @author Catignano Francesco
- *
  */
 public class BulloneGrano extends AbstractBullone {
 	
-	// COSTRUTTORE
+	/*
+	 * -------------
+	 *  COSTRUTTORE
+	 * -------------
+	 */
 	/**{@inheritDoc}
 	 * 
 	 */
@@ -20,11 +24,15 @@ public class BulloneGrano extends AbstractBullone {
 	}
 	
 	
-	// OPERAZIONI
+	/*
+	 * -----------------
+	 *  METODI PUBBLICI
+	 * -----------------
+	 */
+	@Override
 	/**{@inheritDoc}
 	 * 
 	 */
-	@Override
 	public String toString() {
 		return "Classe: " + this.getClass().getSimpleName() + "\n" + super.toString();
 	}
