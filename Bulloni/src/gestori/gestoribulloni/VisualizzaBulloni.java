@@ -50,7 +50,7 @@ public interface VisualizzaBulloni {
 	/**
 	 * Restituisce una copia del bullone, partendo da un codice ricevuto in input.
 	 * Effettua una ricerca nel set confrontando il codice ricevuto in input con il codice
-	 * di ogni bullone presente nel set. Se trova il bullone, e questo non è stato eliminato, lo restituisce,
+	 * di ogni bullone presente nel set. Se trova il bullone, lo restituisce,
 	 * altrimenti viene sollevata un'eccezione.
 	 * Viene restituito un clone, in modo tale da evitare modifiche accidentali al bullone presente nel set,
 	 * senza che questa modifica sia sincronizzata con il database.
@@ -59,6 +59,19 @@ public interface VisualizzaBulloni {
 	 * @throws GestoreBulloniException L'eccezione sollevata se il bullone non e' stato trovato.
 	 */
 	public Bullone getBulloneByCodice(int codice) throws GestoreBulloniException;
+	
+	/**
+	 * Restituisce una copia del bullone, partendo da un codice ricevuto in input.
+	 * Effettua una ricerca nel set confrontando il codice ricevuto in input con il codice
+	 * di ogni bullone presente nel set. Se trova il bullone, e questo non è stato eliminato, lo restituisce,
+	 * altrimenti viene sollevata un'eccezione.
+	 * Viene restituito un clone, in modo tale da evitare modifiche accidentali al bullone presente nel set,
+	 * senza che questa modifica sia sincronizzata con il database.
+	 * @param codice Il codice del bullone da cercare.
+	 * @return b Il clone del bullone trovato.
+	 * @throws GestoreBulloniException L'eccezione sollevata se il bullone non e' stato trovato.
+	 */
+	public Bullone getBulloneDisponibileByCodice(int codice) throws GestoreBulloniException;
 	
 	/**
 	 * Restituisce un set di bulloni il cui anno di produzione coincide con l'anno ricevuto come parametro. Vengono restituiti solo bulloni NON eliminati.

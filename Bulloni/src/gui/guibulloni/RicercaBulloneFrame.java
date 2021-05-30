@@ -101,7 +101,7 @@ public class RicercaBulloneFrame extends JDialog implements ActionListener {
 			try {
 				int codice = Integer.valueOf(this.txtFieldCercaPerCodice.getText());
 				Set<Bullone> bulloniTrovati = new HashSet<Bullone>();
-				bulloniTrovati.add(visualizzaBulloni.getBulloneByCodice(codice));
+				bulloniTrovati.add(visualizzaBulloni.getBulloneDisponibileByCodice(codice));
 				mainPanel.setBtnCercaPerVisible(false);
 				mainPanel.setBtnVisualizzaTuttoVisible(true);
 				mainPanel.refresh(bulloniTrovati);

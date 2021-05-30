@@ -147,7 +147,7 @@ public class GestoreBulloni implements ContainerBulloni {
 		boolean trovato = false;
 		
 		for(Bullone b : this.bulloni) {
-			if(b.getCodice()==codice && !b.isEliminato()) {
+			if(b.getCodice()==codice) {
 				trovato = true;
 				return (Bullone) b.clone();
 			}
@@ -157,6 +157,21 @@ public class GestoreBulloni implements ContainerBulloni {
 			throw new GestoreBulloniException(MsgErrore.BULLONE_NON_TROVATO, new GestoreBulloniException());
 		}
 		return null;
+	}
+	
+	
+	/**{@inheritDoc}
+	 * 
+	 */
+	public Bullone getBulloneDisponibileByCodice(int codice) throws GestoreBulloniException {
+		
+		Bullone b = this.getBulloneByCodice(codice);
+		
+		if(!b.isEliminato()) {
+			return b;
+		}
+		
+		throw new GestoreBulloniException(MsgErrore.BULLONE_NON_TROVATO, new GestoreBulloniException());	// se non e' stato trovato nessun bullone disponibile, viene sollevata un'eccezione
 	}
 	
 	
