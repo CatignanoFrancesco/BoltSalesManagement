@@ -122,12 +122,9 @@ class SimpleInfoBullonePanel extends JPanel implements ActionListener {
 				catch(GestoreBulloniException ex) {
 					System.err.println(ex.getMessage());	// In questo caso l'errore non va comunicato all'utente poiche' il bullone che si sta cercando di eliminare sicuramente esiste.
 				}
-				catch(DatabaseSQLException ex) {
+				catch(DatabaseSQLException | SQLException ex) {
 					// Errore mostrato all'utente
-					JOptionPane.showConfirmDialog(this.mainFrame, ex.getMessage(), "Errore di connessione!", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
-				}
-				catch(SQLException ex) {
-					ex.printStackTrace();
+					JOptionPane.showConfirmDialog(this.mainFrame, ex.getMessage(), "Errore di connessione!", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
 				}
 				
 				this.mainPanel.refresh();	// Refresh del pannello

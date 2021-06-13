@@ -223,21 +223,10 @@ public class GestoreBulloni implements ContainerBulloni {
 	 * 
 	 */
 	public void rimuoviBulloneByCodice(int codice) throws GestoreBulloniException, DatabaseSQLException, SQLException {
-		boolean trovato = false;	// Vale true se il bullone e' stato trovato.
-		
-		for(Bullone b : this.bulloni) {
-			if(b.getCodice()==codice) {
-				trovato = true;
-				b.elimina();	// Elimina il bullone
-				
-				// Update nel DB
-				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_BULLONI, CampiTabellaBullone.eliminato.toString(), "T", CampiTabellaBullone.codice.toString(), ((Integer)b.getCodice()).toString()));
-			}
-		}
-		
-		if(trovato==false) {
-			throw new GestoreBulloniException(MsgErrore.BULLONE_NON_TROVATO, new GestoreBulloniException());
-		}
+		Bullone b = this.getBulloneDisponibileByCodice(codice);
+		// Update nel DB
+		DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_BULLONI, CampiTabellaBullone.eliminato.toString(), "T", CampiTabellaBullone.codice.toString(), ((Integer)b.getCodice()).toString()));
+		b.elimina();	// Eliminazione del bullone in locale
 	}
 	
 	/**{@inheritDoc}
