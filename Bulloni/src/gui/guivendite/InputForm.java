@@ -387,7 +387,8 @@ public class InputForm extends JDialog {
 	
 	/**
 	 * Metodo che crea il pulsante per aggiungere la vendita creata;
-	 * Controlla che tutti i campi siano stati compilati correttamente e che la vendita sia fattibile
+	 * Controlla che tutti i campi della finestra siano stati compilati correttamente e che la vendita 
+	 * sia fattibile, ne ottiene i valori e li usa per creare l'oggetto vendita e salvarlo
 	 */
 	public void createAggiungiVenditaButton() {
 		

@@ -61,18 +61,32 @@ public class BodyVendite extends JPanel {
 	private static final int HEIGHT_SCROLLPANE = 507;
 	
 	// oggetti per creare l'interfaccia grafica
+	
+	/**  pannello scorrevole che conterrà un panello con layout di tipo griglia */
 	private JScrollPane scrollPane;
+	/** pannello con layout di tipo griglia, che conterrà le vendite */
 	private JPanel panel;
+	/** label corrispondente all'intestazione della tabella riguardante i codici delle vendite */
 	private JLabel codiceLabel;
+	/** label corrispondente all'intestazione della tabella riguardante le matricole degli impiegati */
 	private JLabel impiegatoLabel;
+	/** label corrispondente all'intestazione della tabella riguardante la data di effettuazione della vendita */
 	private JLabel dataLabel;
+	/** label corrispondente all'intestazione della tabella riguardante la quantita' totale dei bulloni venduti */
 	private JLabel quantitaTotaleBulloniLabel;
+	/** label corrispondente all'intestazione della tabella riguardante il prezzo totale dei bulloni venduti, ovvero il conto finale */
 	private JLabel prezzoTotaleBulloniLabel;
+	/** label corrispondente all'intestazione della tabella riguardante la merce venduta */
 	private JLabel merceVendutaLabel;
+	/** pulsante che apre la finestra per aggiungere una nuova vendita */
 	private JButton aggiungiVenditaButton;
+	/** pulsante che apre la finestra per la ricerca di vendite */
 	private JButton cercaPerButton;
+	/** pulsante che ristampa la lista completa delle vendite, utile dopo una ricerca di vendite specifiche */
 	private JButton visualizzaTuttoButton;
+	/** istanza corrente della classe BodyVendite */
 	private BodyVendite istanzaCorrente = this;
+	/** istanza corrente della classe JFrame principale sulla quale è posizionato questa classe JPanel */
 	private JFrame mainMenu;
 	
 	/** gestore delle vendite con interfaccia generale contenente tutti i metodi */
@@ -246,7 +260,7 @@ public class BodyVendite extends JPanel {
 	
 	
 	/**
-	 * Metodo che crea il pulsante per ristampare tutta la lista completa di vendite, utile dopo una ricerca
+	 * Metodo che crea il pulsante per ristampare tutta la lista completa di vendite, utile dopo una ricerca di vendite
 	 */
 	public void creareVisualizzaTuttoButton() {
 		
@@ -312,14 +326,15 @@ public class BodyVendite extends JPanel {
 				scrollPane.setColumnHeaderView(panel);
 			
 			// oggetti componenti della lista di vendite
-			JLabel[] codLabel = new JLabel[DIMENSIONE];
-			JLabel[] matricolaImpLabel = new JLabel[DIMENSIONE];
-			JLabel[] dataVenditaLabel = new JLabel[DIMENSIONE];
-			JLabel[] quantitaTotLabel = new JLabel[DIMENSIONE];
-			JLabel[] prezzoTotLabel = new JLabel[DIMENSIONE];
-			JButton[] visualButton = new JButton[DIMENSIONE];
-			JButton[] infoImpiegatoButton = new JButton[DIMENSIONE];
-			JButton[] deleteButton = new JButton[DIMENSIONE];
+	
+			JLabel[] codLabel = new JLabel[DIMENSIONE]; 				// codice vendita
+			JLabel[] matricolaImpLabel = new JLabel[DIMENSIONE];		// matricola impiegato
+			JLabel[] dataVenditaLabel = new JLabel[DIMENSIONE];			// data vendita
+			JLabel[] quantitaTotLabel = new JLabel[DIMENSIONE];			// quantita totale di bulloni venduti
+			JLabel[] prezzoTotLabel = new JLabel[DIMENSIONE];			// prezzo totale dei bulloni venduti
+			JButton[] visualButton = new JButton[DIMENSIONE];			// pulsante per visualizzare tutte le info sulla merce venduta
+			JButton[] infoImpiegatoButton = new JButton[DIMENSIONE];	// pulsante per visualizzare tutte le info sull'impiegato che ha effettuato la vendita
+			JButton[] deleteButton = new JButton[DIMENSIONE];			// pulsante per eliminare una vendita
 			int posizioneX = 0;
 			int i = 0;
 			
