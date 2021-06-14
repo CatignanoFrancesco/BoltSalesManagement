@@ -63,24 +63,44 @@ public class InputForm extends JDialog {
 	private static final int HEIGHT = 404;
 	
 	// oggetti per creare l'interfaccia grafica
+	
+	/** contiene il codice della vendita */
 	private JTextField codiceVenditaTextField;
+	/** contiene le matricole dgli impiegati assunti */
 	private Integer[] matricoleImpiegato;
+	/** contiene un messaggio informativo per l'utente in cima alla finestra */
 	private JLabel headerLabel;
+	/** label corrispondente al text field contenete il codice della vendita */
 	private JLabel codiceVenditaLabel;
+	/** label corrispondente alla data di vendita */
 	private JLabel dataVenditaLabel;
+	/** combo box contenente i giorni da 1 a 31 */
 	private JComboBox<Integer> giornoComboBox;
+	/** label corrispondente alla combo box per il giorno del mese */
 	private JLabel giornoLabel;
+	/** combo box contenente i mesi da 1 a 12 */
 	private JComboBox<Integer> meseComboBox;
+	/** label corrispondente alla combo box per il mese */
 	private JLabel meseLabel;
+	/** combo box contenente gli anni dal 1930 all'anno corrente  */
 	private JComboBox<Integer> annoComboBox;
+	/** label corrispondente alla combo box per l'anno */
 	private JLabel annoLabel;
+	/** label corrispondente alla combo box della matricola impiegato */
 	private JLabel impiegatoLabel;
+	/** combo box contenente la matricola dell'impiegato che effettua la vendita */
 	private JComboBox<Integer> impiegatoComboBox;
+	/** label corrispondente ai bulloni da vendere */
 	private JLabel bulloniLabel;
+	/** pulsante per aggiungere la nuova vendita creata */
 	private JButton aggiungiVenditaButton;
+	/**  pannello scorrevole che conterrà un panello con layout di tipo griglia */
 	private JScrollPane scrollPane;
+	/** pannello con layout di tipo griglia, che conterrà i bulloni da scegliere per la vendita */
 	private JPanel panel;
+	/** istanza corrente della classe BodyVendite */
 	private BodyVendite istanzaCorrente;
+	/** istanza della finestra corrente */
 	private JDialog finestraCorrente = this;
 	
 	/** conterrà i codici dei bulloni */
