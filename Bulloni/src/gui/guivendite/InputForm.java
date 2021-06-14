@@ -246,7 +246,7 @@ public class InputForm extends JDialog {
 	public void createFormMatricolaImpiegato() {
 		
 		// recupero gli impiegati dal gestore corrispondente
-		Set<ImpiegatoBulloni> impiegati = gestoreImpiegati.getSetImpiegatiCompleto();
+		Set<ImpiegatoBulloni> impiegati = gestoreImpiegati.getSetImpiegatiAssunti();
 		
 		matricoleImpiegato = new Integer[impiegati.size()];
 		int i = 0;
