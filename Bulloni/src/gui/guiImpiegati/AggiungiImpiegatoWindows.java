@@ -165,7 +165,7 @@ public class AggiungiImpiegatoWindows extends JDialog {
 		this.add(this.cmbBoxMeseNascita, gbc);
 		
 		//aggiungo la comboBox anno nascita
-		final int MAX_ANNO =  Data.getDataAttuale().getAnno(), MIN_ANNO = 1970;//limite di anni inseribili
+		final int MAX_ANNO =  (Data.getDataAttuale().getAnno() - 18), MIN_ANNO = 1970;//limite di anni inseribili
 		this.cmbBoxAnnoNascita.setMaximumRowCount(10);
 		this.cmbBoxAnnoNascita.setModel(new DefaultComboBoxModel<Integer>());
 		for(Integer i=MAX_ANNO; i>=MIN_ANNO; i--) {
