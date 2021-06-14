@@ -43,24 +43,43 @@ public class SelezionaRicerca extends JDialog {
 	/** lunghezza della finestra */
 	private static final int HEIGHT = 297;
 	
+	// oggetti per creare l'interfaccia grafica
+	
+	/** istanza corrente della classe JFrame principale */
 	private JFrame mainJFrame;
+	/** istanza corrente della classe BodyVendite */
 	private BodyVendite istanzaCorrente;
+	/** label corrispondente al codice della vendita da inserire per la ricerca */
 	private JLabel codiceVenditaLabel;
+	/** label corrispondente alla matricola dell'impiegato da inserire per la ricerca */
 	private JLabel matricolaImpiegatoLabel;
+	/** label corrispondente alla data della vendita da inserire per la ricerca */
 	private JLabel dataVenditaLabel;
+	/** pulsante per avviare la ricerca per codice vendita */
 	private JButton cercaPerCodiceVenditaButton;
+	/** pulsante per avviare la ricerca per matricola impiegato */
 	private JButton cercaPerMatricolaImpiegatoButton;
+	/** pulsante per avviare la ricerca per data di vendita */
 	private JButton cercaPerDataVenditaButton;
+	/** text field in cui inserire il codice di vendita da cercare */
 	private JTextField codiceVenditaTextField;
+	/** text field in cui inserire la matricola dell'impiegato di cui cercare le vendite */
 	private JTextField matricolaImpiegatoTextField;
+	/** combo box contenente i giorni del mese da 1 a 31 */
 	private JComboBox<Integer> comboBoxGiorno;
+	/** combo box contenente i mesi da 1 a 12 */
 	private JComboBox<Integer> comboBoxMese;
+	/** combo box contenente gli anni dal 1930 all'anno corrente  */
 	private JComboBox<Integer> comboBoxAnno;
+	/** label corrispondente alla combo box del giorno */
 	private JLabel giornoLabel;
+	/** label corrispondente alla combo box del mese */
 	private JLabel meseLabel;
+	/** label corrispondente alla combo box dell'anno */
 	private JLabel annoLabel;
+	/** istanza corrente di questa finestra JDialog */
 	private JDialog finestraCorrente = this;
-	/** titolo della finestra grafica */
+	/** titolo della finestra corrente */
 	private final String titoloFinestra = "Ricerca per...";
 	
 	/** gestore delle vendite con interfaccia contenente i metodi di visualizzazione */

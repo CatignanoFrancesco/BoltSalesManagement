@@ -44,12 +44,20 @@ public class VisualizzaMerceVenduta extends JDialog {
 	private static final int HEIGHT_SCROLLPANE = 280;
 	
 	// oggetti per creare l'interfaccia grafica
+	
+	/** istanza corrente di questa finestra JDialog */
 	private JDialog thisDialog = this;
+	/** pannello scorrevole che conterrà un panello con layout di tipo griglia */
 	private JScrollPane scrollPane;
+	/** pannello con layout di tipo griglia, per contenere la lista di merce venduta */
 	private JPanel panel;
+	/** label corrispondente all'intestazione della tabella riguardante i codici dei bulloni */
 	private JLabel codiceBulloneLabel;
+	/** label corrispondente all'intestazione della tabella riguardante la quantita di bulloni venduti */
 	private JLabel quantitaBulloniLabel;
+	/** label corrispondente all'intestazione della tabella riguardante il prezzo dei bulloni venduti per quantita' */
 	private JLabel prezzoPerQuantitaLabel;
+	/** label corrispondente all'intestazione della tabella riguardante il prezzo di vendita dei singoli bulloni */
 	private JLabel prezzoDiVenditaBulloneLabel;
 	/** titolo della finestra grafica */
 	private final String titoloFinestra = "Merce venduta";
@@ -82,6 +90,7 @@ public class VisualizzaMerceVenduta extends JDialog {
 	 * @param merce set di merce venduta nella vendita selezionata
 	 */
 	public VisualizzaMerceVenduta(ModificaVendite gestoreVendite, VisualizzaBulloni gestoreBulloni, int codiceVendita, Set<MerceVenduta> merce, BodyVendite istanzaCorrente) {
+		
 		this.gestoreVendite = gestoreVendite;
 		this.gestoreBulloni = gestoreBulloni;
 		this.codiceVendita = codiceVendita;
@@ -186,12 +195,12 @@ public class VisualizzaMerceVenduta extends JDialog {
 			scrollPane.setColumnHeaderView(panel);
 		
 		// oggetti componenti della lista di merce venduta
-		JLabel[] codBullone = new JLabel[DIMENSIONE];
-		JLabel[] quantita = new JLabel[DIMENSIONE];
-		JLabel[] prezzoTotale = new JLabel[DIMENSIONE];
-		JLabel[] prezzoVendita = new JLabel[DIMENSIONE];
-		JButton[] modificaButton = new JButton[DIMENSIONE];
-		JButton[] infoButton = new JButton[DIMENSIONE];
+		JLabel[] codBullone = new JLabel[DIMENSIONE];		 // codice bullone
+		JLabel[] quantita = new JLabel[DIMENSIONE];			 // quantita' bulloni venduti
+		JLabel[] prezzoTotale = new JLabel[DIMENSIONE];		 // prezzo totale dei bulloni venduti
+		JLabel[] prezzoVendita = new JLabel[DIMENSIONE];	 // prezzo di vendita del singolo bullone
+		JButton[] modificaButton = new JButton[DIMENSIONE];	 // pulsante per la modifica della merce venduta
+		JButton[] infoButton = new JButton[DIMENSIONE];		 // pulsante per la visualizzazione delle informazioni complete sul bullone venduto
 		
 		int x = 0; // indice per posizionare gli elementi nella griglia
 		int i = 0; // contatore per la merce
