@@ -35,12 +35,19 @@ public class ModificaVenditaBullone extends JDialog {
 	/** lunghezza della finestra */
 	private static final int HEIGHT = 126;
 	
+	// oggetti per creare l'interfaccia grafica
+	
+	/** istanza corrente della finestra VisualizzaMerceVenduta dalla quale viene chiamata questa finestra */
 	private JDialog mainJDialog;
+	/** conterrà il nuovo numero di bulloni inserito dall'utente per la modifica */
 	private JTextField textField;
+	/** messaggio che informa l'utente sull'utilizzo della finestra */
 	private JLabel messaggioPrincipale;
+	/** pulsante per salvare la modifica */
 	private JButton modificaButton;
+	/** istanza della finestra corrente */
 	private JDialog finestraCorrente = this;
-	/** titolo della finestra grafica */
+	/** titolo della finestra corrente */
 	private final String titoloFinestra = "Modifica";
 	
 	/** gestore delle vendite con interfaccia contenente i metodi di modifica */
@@ -105,6 +112,7 @@ public class ModificaVenditaBullone extends JDialog {
 		messaggioPrincipale.setBounds(10, 5, 350, 13);
 		getContentPane().add(messaggioPrincipale);
 		
+		// conterrà il nuovo numero di bulloni inserito dall'utente per la modifica 
 		textField = new JTextField();
 		textField.setBounds(110, 28, 220, 25);
 		getContentPane().add(textField);
@@ -119,9 +127,10 @@ public class ModificaVenditaBullone extends JDialog {
 				try {
 					int nuovoNumeroBulloni = Integer.parseUnsignedInt(textField.getText());
 					
+					// richiesta di conferma modifiche
 					int risultato = JOptionPane.showConfirmDialog(finestraCorrente, "Salvare le modifiche?", "Salvataggio", JOptionPane.YES_NO_OPTION);
 					
-					// se risultato e' 0, significa che e' stato selezionato si
+					// se risultato e' 0, significa che e' stato selezionato SI nella precendente richiesta di conferma
 					if (risultato == 0) {
 						
 						gestoreVendite.updateNumeroBulloniVendutiByCodici(codiceVendita, codiceBullone, nuovoNumeroBulloni);

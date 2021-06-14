@@ -5,6 +5,7 @@
  * 
  * Classi contenute:
  * BodyVendite
+ * GestoreButton
  * InputForm
  * VisualizzaMerceVenduta
  * SelezionaRicerca
