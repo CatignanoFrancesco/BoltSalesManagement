@@ -2,10 +2,11 @@
 package persona.exception;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         eccezzione personalizzate sollevate quando non si rispettano dei
- *         valori per gli attributi della classe Impiegatogenerale
+ * eccezzione personalizzate sollevate quando non si rispettano dei
+ * valori per gli attributi della classe Impiegatogenerale
+ * 
+ * @author Francolino Flavio domenico
  *
  */
 public class ExceptionImpiegato extends Exception {

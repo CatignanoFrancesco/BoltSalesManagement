@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 /**
  * questo package contiene tutte le classe e/o sotto Package utili alla creazione e visualizzazione dell'interfaccia Grafica
  *

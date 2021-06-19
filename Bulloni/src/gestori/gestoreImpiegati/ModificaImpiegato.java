@@ -10,10 +10,11 @@ import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
 import persona.exception.ExceptionImpiegato;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         intrefaccia contente tutti i metodi relativi alla modifica di un
- *         impiegato
+ * intrefaccia contente tutti i metodi relativi alla modifica di un
+ * impiegato
+ *         
+ *  @author Francolino Flavio domenico
  *
  */
 public interface ModificaImpiegato {

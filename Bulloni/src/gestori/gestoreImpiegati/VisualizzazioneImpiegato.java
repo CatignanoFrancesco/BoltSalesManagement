@@ -6,9 +6,10 @@ import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
 import persona.ImpiegatoBulloni;
 
 /**
- * @author Francolino Flavio Domenico
  * 
  * interfaccia contenente tutti i metodi utili alla visualazzazione di uno o piu impiegati
+ * 
+ * @author Francolino Flavio domenico
  *
  */
 public interface VisualizzazioneImpiegato {

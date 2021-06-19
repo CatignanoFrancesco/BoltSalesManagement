@@ -16,10 +16,11 @@ import persona.Impiegato;
 import persona.exception.ExceptionImpiegato;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         classe che implementa l'action listener da assegnare ai bottoni
- *         presenti sulla schemata che visualizza gli impiegati
+ * classe che implementa l'action listener da assegnare ai bottoni
+ * presenti sulla schemata che visualizza gli impiegati
+ * 
+ * @author Francolino Flavio domenico
  *
  */
 class BodyImpiegatoBtnListener implements ActionListener {

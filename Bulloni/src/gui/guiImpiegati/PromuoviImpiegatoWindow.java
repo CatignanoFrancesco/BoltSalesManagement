@@ -19,10 +19,11 @@ import persona.Impiegato;
 import persona.exception.ExceptionImpiegato;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         questa classe implementa la finestra relativa all'aquisizione dei
- *         nuovi valori per promuovre un impiegato
+ * questa classe implementa la finestra relativa all'aquisizione dei
+ * nuovi valori per promuovre un impiegato
+ * 
+ * @author Francolino Flavio domenico
  *
  */
 class PromuoviImpiegatoWindow extends JDialog {

@@ -3,10 +3,11 @@ package persona;
 import persona.exception.ExceptionImpiegato;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         interfaccia contenente le principali oprazione comuni ad un impiegato
- *         di qualunque tipo
+ * interfaccia contenente le principali oprazione comuni ad un impiegato
+ * di qualunque tipo
+ * 
+ * @author Francolino Flavio domenico
  *
  */
 public interface Impiegato extends Persona {

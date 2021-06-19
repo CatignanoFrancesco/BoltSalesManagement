@@ -7,10 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         questa classe si occupa di triggerare i pulsanti della schemata home
- *         della gui
+ * questa classe si occupa di triggerare i pulsanti della schemata home
+ * della gui
+ * 
+ * @author Francolino Flavio domenico
  *
  */
 public class ScreenManagerBtnClickListener implements ActionListener {

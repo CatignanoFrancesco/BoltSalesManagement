@@ -4,11 +4,12 @@
 package gestori.gestoreImpiegati.exception;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         questa classe contine tutti i possibili messaggi usabili da classi
- *         che sollevano eccezione ti tipo personalizzato rigurardanti il
- *         gestoreImpiegati
+ * questa classe contine tutti i possibili messaggi usabili da classi
+ * che sollevano eccezione ti tipo personalizzato rigurardanti il
+ * gestoreImpiegati
+ *         
+ * @author Francolino Flavio domenico
  *
  */
 public class MsgExceptionGestoreImpiegato {

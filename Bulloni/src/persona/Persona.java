@@ -4,9 +4,10 @@ import persona.exception.ExceptionAnagraficaErrata;
 import utility.Data;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         operazioni comuni a tutti gli oggetti derivanti da persona
+ * operazioni comuni a tutti gli oggetti derivanti da persona
+ * 
+ *  @author Francolino Flavio domenico
  */
 public interface Persona {
 

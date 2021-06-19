@@ -4,9 +4,9 @@
 package gestori.gestoreImpiegati.exception;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         eccezzione personalizzate sollevate dal GestoreImpiegati
+ * eccezzione personalizzate sollevate dal GestoreImpiegati
+ * @author Francolino Flavio domenico
  *
  */
 public class ExceptionGestoreImpiegato extends Exception {

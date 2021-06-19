@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package gui;
 
 import java.awt.BorderLayout;
@@ -28,10 +26,11 @@ import gui.guivendite.BodyVendite;
 import vendita.exception.VenditaException;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         questa classe gestisce
- *         le diverse schermate del software
+ * questa classe gestisce
+ * le diverse schermate del software
+ *         
+ * @author Francolino Flavio domenico
  *
  */
 public class ScreenManager extends JPanel {

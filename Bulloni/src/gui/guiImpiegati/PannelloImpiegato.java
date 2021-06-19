@@ -17,10 +17,11 @@ import javax.swing.JPanel;
 import persona.Impiegato;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         classe per implementare il pannello per la visualizzazione di un
- *         impiegato
+ * classe per implementare il pannello per la visualizzazione di un
+ * impiegato
+ * 
+ * @author Francolino Flavio domenico
  *
  */
 class PannelloImpiegato extends JPanel {

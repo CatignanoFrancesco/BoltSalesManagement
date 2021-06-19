@@ -15,9 +15,9 @@ import utility.Data;
 import persona.Impiegato;
 
 /**
- * @author Francolino Flavio Domenico
- * 
  * classe per gestire la lettura/scrittura di un impiegato dal/sul db
+ * 
+ * @author Francolino Flavio domenico
  *
  */
 

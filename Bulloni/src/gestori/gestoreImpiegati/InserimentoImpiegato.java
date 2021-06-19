@@ -10,10 +10,10 @@ import persona.Impiegato;
 import persona.exception.ExceptionImpiegato;
 
 /**
- * @author Francolino Flavio Domenico
  * 
  * interfaccia contenenete tutti i metodi relativi all'inserimento di un impiegato
  *
+ * @author Francolino Flavio domenico
  */
 public interface InserimentoImpiegato {
 	

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gui.guiImpiegati;
 
 import java.awt.Font;
@@ -20,10 +17,11 @@ import persona.Impiegato;
 import persona.ImpiegatoBulloni;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         questa classe implementa la visualizzazione della lista d'impiegati
- *         assunti disponibili
+ * questa classe implementa la visualizzazione della lista d'impiegati
+ * assunti disponibili
+ * 
+ * @author Francolino Flavio domenico
  *
  */
 public class BodyImpiegati extends JPanel {

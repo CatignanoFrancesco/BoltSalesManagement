@@ -16,10 +16,9 @@ import persona.Impiegato;
 import persona.ImpiegatoBulloni;
 
 /**
- * @author Francolino Flavio Domenico
- * 
  * questa classe implementa la finestra relativa alla visualizzazione dei dettagli di un impiegato
  *
+ * @author Francolino Flavio domenico
  */
 public class DettagliImpiegatoWindow extends JDialog {
 

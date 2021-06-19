@@ -6,9 +6,10 @@ import persona.exception.MsgExceptionImpiegato;
 import utility.Data;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         classe per implementare l'interfaccia Impiegato
+ * classe per implementare l'interfaccia Impiegato
+ * 
+ * @author Francolino Flavio domenico
  *
  */
 public class ImpiegatoGenerale extends AbstractPersona implements Impiegato, Cloneable {

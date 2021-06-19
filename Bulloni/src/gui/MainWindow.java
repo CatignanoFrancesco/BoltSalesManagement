@@ -1,8 +1,9 @@
 /**
- * @author Francolino Flavio Domenico
  * 
  * questa classe implementa il JFrame principale delle gui
  * e ha il metodo partente del software
+ * 
+ * @author Francolino Flavio domenico
  */
 package gui;
 

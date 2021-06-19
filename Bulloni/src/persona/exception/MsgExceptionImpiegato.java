@@ -1,11 +1,12 @@
 package persona.exception;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         questa classe contiene tutti i possibili messaggi usabili da classi
- *         che sollevano eccezione ti tipo personalizzato rigurardanti valori
- *         non validi per attributi di Impiegato
+ * questa classe contiene tutti i possibili messaggi usabili da classi
+ * che sollevano eccezione ti tipo personalizzato rigurardanti valori
+ * non validi per attributi di Impiegato
+ * 
+ * @author Francolino Flavio domenico
  * 
  */
 

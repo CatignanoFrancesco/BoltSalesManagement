@@ -4,10 +4,11 @@
 package persona.exception;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         eccezzione personalizzate sollevate quando non si rispettano dei
- *         valori per gli attributi della classe AbstractPersona
+ * eccezzione personalizzate sollevate quando non si rispettano dei
+ * valori per gli attributi della classe AbstractPersona
+ * 
+ *  @author Francolino Flavio domenico
  *
  */
 public class ExceptionAnagraficaErrata extends Exception {

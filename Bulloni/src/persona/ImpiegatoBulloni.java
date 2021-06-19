@@ -9,10 +9,11 @@ import persona.exception.MsgExceptionImpiegato;
 import utility.Data;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         classe derivata da impiegato generale che contine gli attributi e le
- *         operazioni uniche per un impiegato che vende sollo bulloni
+ * classe derivata da impiegato generale che contine gli attributi e le
+ * operazioni uniche per un impiegato che vende sollo bulloni
+ *         
+ * @author Francolino Flavio domenico
  *
  */
 public class ImpiegatoBulloni extends ImpiegatoGenerale {

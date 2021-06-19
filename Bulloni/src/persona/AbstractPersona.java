@@ -8,11 +8,12 @@ import persona.exception.MsgExceptionAnagraficaErrata;
 import utility.Data;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         implementazione dell'interfaccia Persona tramite la classe astratta
- *         persona riutilizzabile per proggetti futuri che comprendono oggetti di
- *         tipo persona
+ * implementazione dell'interfaccia Persona tramite la classe astratta
+ * persona riutilizzabile per proggetti futuri che comprendono oggetti di
+ * tipo persona
+ *         
+ * @author Francolino Flavio domenico
  *
  */
 abstract class AbstractPersona implements Persona {

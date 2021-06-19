@@ -1,7 +1,8 @@
 /**
- * @author Francolino Flavio Domenico
  * 
- *classe che implementa il corpo della schemata home della gui
+ * classe che implementa il corpo della schemata home della gui
+ *
+ * @author Francolino Flavio domenico
  */
 
 package gui;

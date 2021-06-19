@@ -1,7 +1,8 @@
 /**
- * @author Francolino Flavio Domenico
  * 
  * questa classe implementa il JPanel che funge da header della gui del software
+ * 
+ * @author Francolino Flavio domenico
  */
 
 package gui;

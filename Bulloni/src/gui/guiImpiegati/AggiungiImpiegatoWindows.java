@@ -27,10 +27,11 @@ import persona.exception.ExceptionImpiegato;
 import utility.Data;;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         questa classe implementa la fiestra grafica utile alla
- *         creazione/inserimento di un nuovo impiegato
+ * questa classe implementa la fiestra grafica utile alla
+ * creazione/inserimento di un nuovo impiegato
+ * 
+ * @author Francolino Flavio domenico
  *
  */
 public class AggiungiImpiegatoWindows extends JDialog {

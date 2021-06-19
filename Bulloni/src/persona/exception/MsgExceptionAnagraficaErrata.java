@@ -1,11 +1,12 @@
 package persona.exception;
 
 /**
- * @author Francolino Flavio Domenico
  * 
- *         questa classe contine tutti i possibili messaggi usabili da classi
- *         che sollevano eccezione ti tipo personalizzato rigurardanti un
- *         angrafica errata di una persona
+ * questa classe contine tutti i possibili messaggi usabili da classi
+ * che sollevano eccezione ti tipo personalizzato rigurardanti un
+ * angrafica errata di una persona
+ *         
+ * @author Francolino Flavio domenico
  *
  */
 public class MsgExceptionAnagraficaErrata {

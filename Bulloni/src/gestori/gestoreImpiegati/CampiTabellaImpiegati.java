@@ -4,9 +4,10 @@
 package gestori.gestoreImpiegati;
 
 /**
- * @author Francolino Flavio domenico
  * 
  * questa enumerazione contiene i nome dei campi della tabella impiegati del db
+ * 
+ * @author Francolino Flavio domenico
  *
  */
 enum CampiTabellaImpiegati {
