@@ -130,7 +130,7 @@ public class GestoreBulloni implements ContainerBulloni {
 		Set<Bullone> bulloniDisponibili = new HashSet<Bullone>();
 		
 		for(Bullone b : this.bulloni) {
-			if(!b.isEliminato()) {
+			if(b.isEliminato()==false) {
 				bulloniDisponibili.add((Bullone)b.clone());
 			}
 		}
@@ -223,10 +223,22 @@ public class GestoreBulloni implements ContainerBulloni {
 	 * 
 	 */
 	public void rimuoviBulloneByCodice(int codice) throws GestoreBulloniException, DatabaseSQLException, SQLException {
-		Bullone b = this.getBulloneDisponibileByCodice(codice);
-		// Update nel DB
-		DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_BULLONI, CampiTabellaBullone.eliminato.toString(), "T", CampiTabellaBullone.codice.toString(), ((Integer)b.getCodice()).toString()));
-		b.elimina();	// Eliminazione del bullone in locale
+		boolean trovato = false;	// Vale true se il bullone e' stato trovato
+		
+		// Ricerca ed eliminazione
+		for(Bullone b : this.bulloni) {
+			if(b.getCodice() == codice) {
+				trovato = true;
+				
+				// Update nel DB
+				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_BULLONI, CampiTabellaBullone.eliminato.toString(), "T", CampiTabellaBullone.codice.toString(), ((Integer)b.getCodice()).toString()));
+				b.elimina();	// Eliminazione del bullone in locale
+			}
+		}
+		
+		if(trovato==false) {
+			throw new GestoreBulloniException(MsgErrore.BULLONE_NON_TROVATO, new GestoreBulloniException());
+		}
 	}
 	
 	/**{@inheritDoc}
