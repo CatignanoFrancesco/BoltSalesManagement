@@ -103,16 +103,16 @@ public class RicercaBulloneFrame extends JDialog implements ActionListener {
 				int codice = Integer.valueOf(this.txtFieldCercaPerCodice.getText());
 				Set<Bullone> bulloniTrovati = new HashSet<Bullone>();
 				bulloniTrovati.add(visualizzaBulloni.getBulloneDisponibileByCodice(codice));
+				mainPanel.refresh(bulloniTrovati);
 				mainPanel.setBtnCercaPerVisible(false);
 				mainPanel.setBtnVisualizzaTuttoVisible(true);
-				mainPanel.refresh(bulloniTrovati);
 				this.dispose();
 			}
 			catch(NumberFormatException ex) {
 				JOptionPane.showMessageDialog(this, "Inserisci un numero!", "Errore ricerca!", JOptionPane.ERROR_MESSAGE);
 			}
 			catch(GestoreBulloniException ex) {
-				JOptionPane.showMessageDialog(this, ex.getMessage(), "Errore ricerca!", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Bullone non trovato!", "Errore ricerca!", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		
