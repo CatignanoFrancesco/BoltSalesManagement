@@ -1,5 +1,4 @@
 /**
- * @author GiannettaGerardo
  * 
  * Package contenete le classi java per creare e gestire una vendita.
  * 
@@ -15,5 +14,7 @@
  *                              
  * MerceVenduta 				(classe associativa tra VenditaBulloni e Bullone)
  *                              [Dipende fortemente dall'Interfaccia Bullone]
+ *                              
+ * @author GiannettaGerardo
  */
 package vendita;

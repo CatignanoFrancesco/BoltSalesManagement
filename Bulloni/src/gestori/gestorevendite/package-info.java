@@ -1,5 +1,4 @@
 /**
- * @author GiannettaGerardo
  *
  * Package contenente le classi java per combinare oggetti vendita e database, separando le dipendenze;
  * 
@@ -11,5 +10,7 @@
  * Enumerativi contenuti:
  * CampiTabellaVendita          (classe enumerativa contenete i campi della tabella Vendita nel database)
  * CampiTabellaMerceVenduta     (classe enumerativa contenete i campi della tabella MerceVenduta nel database)
+ * 
+ * @author GiannettaGerardo
  */
 package gestori.gestorevendite;
