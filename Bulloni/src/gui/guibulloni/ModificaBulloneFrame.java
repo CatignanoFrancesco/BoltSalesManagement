@@ -106,11 +106,8 @@ public class ModificaBulloneFrame extends JDialog implements ActionListener {
 					mainPanel.refresh();
 					this.dispose();
 				}
-				catch (GestoreBulloniException | BulloneException | DatabaseSQLException ex) {
+				catch (GestoreBulloniException | BulloneException | DatabaseSQLException | SQLException ex) {
 					JOptionPane.showMessageDialog(this, ex.getMessage(), "Errore salvataggio", JOptionPane.ERROR_MESSAGE);
-				}
-				catch(SQLException ex) {
-					ex.printStackTrace();
 				}
 			}
 		}

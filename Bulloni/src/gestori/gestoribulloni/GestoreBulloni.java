@@ -207,10 +207,9 @@ public class GestoreBulloni implements ContainerBulloni {
 		for(Bullone b : this.bulloni) {
 			if(b.getCodice() == codice) {
 				trovato = true;
-				b.setPrezzo(nuovoPrezzo);
-				
 				// Update nel DB
 				DatabaseSQL.update(Query.getSimpleUpdateByKey(NOME_TABELLA_BULLONI, CampiTabellaBullone.prezzo.toString(), ((Double)nuovoPrezzo).toString(), CampiTabellaBullone.codice.toString(), ((Integer)codice).toString()));
+				b.setPrezzo(nuovoPrezzo);
 			}
 		}
 		
