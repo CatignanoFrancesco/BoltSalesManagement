@@ -20,3 +20,22 @@ A destra di ogni riga della lista sono presenti tre tasti:
 - LICENZIA -> cliccando su di esso si potrà eliminare l'impiegato, in modo da non renderlo più visibile nell'interfaccia. Prima di eliminarlo, il programma chiede all'utente una  conferma sull'azione che sarà IRREVERSIBILE. Dopo la cancellazione non sarà possibile vendere o modificare l'impieagato, ma sarà possibile visualizzare le informazioni su di esso solamente dalla sezione "vendite" se ne ha effetivamente effettuatuato qualcuna.
 
 Infine, in basso è presente il tasto "Aggiungi", cliccandolo su di esso si aprirà una form per inserire un nuovo impiegato e alla conferma dei dati inseriti, cliccando "Invia" l'impiegato verrà aggiunta effettivamente alla schemata e nel db con un codice autogenerato dal software.
+
+
+### SEZIONE "VEDI VENDITE"
+In questa sezione, è possibile visualizzare una lista di tutte le vendite presenti nel database.
+A destra di ogni riga della lista delle vendite sono presenti tre tasti:
+- INFO MERCE -> cliccando su di esso, viene aperta una finestra contenente una lista con le informazioni sulla merce venduta in quella specifica vendita, ovvero informazioni sui bulloni venduti; a destra di ogni riga della lista di merce venduta sono presenti due tasti:
+  - MODIFICA -> permette di modificare le informazioni sulla merce venduta in una specifica vendita.
+  - BULLONE  -> visualizza tutte le informazioni sulla tipologia di bullone venduto.
+- IMPIEGATO  -> visualizza tutte le informazioni sull'impiegato che ha effettuato la vendita.
+- ELIMINA    -> elimina la vendita (viene chiesta la conferma prima di effettuare l'eliminazione **definitiva**)
+
+**Altri pulsanti** sulla finestra delle vendite:
+- CERCA PER  -> apre una finestra di ricerca con tipologie di ricerca possibili:
+  - PER VENDITA
+  - PER MATRICOLA IMPIEGATO
+  - PER DATA DI VENDITA
+  La ricerca sarà effettuata in base al pulsante cliccato e, anche se tutti i campi sono stati compilati, verrà preso in considerazione solo quello corrispondente al pulsante di ricerca cliccato.
+- VISUALIZZA TUTTO -> ristampa la lista completa di vendite. Utile dopo l'esecuzione di una ricerca.
+- AGGIUNGI VENDITA -> apre una finestra che permette di inserire una nuova vendita di bulloni
