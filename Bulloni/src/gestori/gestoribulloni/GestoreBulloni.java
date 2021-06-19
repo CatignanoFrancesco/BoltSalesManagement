@@ -83,10 +83,9 @@ public class GestoreBulloni implements ContainerBulloni {
 	public void newBulloneGrano(Bullone b) throws GestoreBulloniException, BulloneException, DatabaseSQLException, SQLException {
 		if(b!=null) {
 			
-			// Se il bullone esiste gia', ne viene cambiato il codice e viene inserito nel db
-			if(bulloni.add(b) == false) {
+			// Se il bullone esiste gia', ne viene cambiato il codice
+			if(bulloni.contains(b)) {
 				b = new BulloneGrano(codBulloneAutomatico, b.getDataProduzione(), b.getLuogoProduzione(), b.getPeso(), b.getPrezzo(), b.getMateriale(), b.getLunghezza(), b.getDiametroDado(), b.getInnesto());
-				bulloni.add(b);
 				codBulloneAutomatico++;
 			} else {
 				codBulloneAutomatico = this.getMaxCodiceBullone() + 1;	// Aggiornato nuovamente
@@ -103,6 +102,8 @@ public class GestoreBulloni implements ContainerBulloni {
 			DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_BULLONI, valoriTabellaBullone));
 			// Inserimento nella tabella specifica Bullone_grano
 			DatabaseSQL.insert(Query.getSimpleInsert(NOME_TABELLA_BULLONE_GRANO, valoriTabellaBulloneGrano));
+			// Inserimento nel set
+			bulloni.add(b);
 			
 		} else {
 			throw new GestoreBulloniException(MsgErrore.BULLONE_NULLO, new GestoreBulloniException());

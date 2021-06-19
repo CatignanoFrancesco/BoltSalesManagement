@@ -156,14 +156,10 @@ public class AggiungiBulloneFrame extends JDialog implements ActionListener {
 						mainPanel.refresh();
 						this.dispose();
 						
-					} catch (BulloneException ex) {
+					} catch (BulloneException | GestoreBulloniException ex) {
 						JOptionPane.showMessageDialog(this, ex.getMessage(), "Errore aggiunta bullone", JOptionPane.ERROR_MESSAGE);
-					} catch (GestoreBulloniException ex) {
+					} catch (DatabaseSQLException | SQLException ex) {
 						JOptionPane.showMessageDialog(this, ex.getMessage(), "Errore aggiunta bullone", JOptionPane.ERROR_MESSAGE);
-					} catch (DatabaseSQLException ex) {
-						JOptionPane.showMessageDialog(this, ex.getMessage(), "Errore aggiunta bullone", JOptionPane.ERROR_MESSAGE);
-					} catch (SQLException ex) {
-						ex.printStackTrace();
 					}
 				}
 				}	// end switch
