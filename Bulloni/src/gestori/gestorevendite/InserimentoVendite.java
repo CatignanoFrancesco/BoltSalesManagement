@@ -9,9 +9,11 @@ import vendita.MerceVenduta;
 import vendita.Vendita;
 
 /**
- * @author GiannettaGerardo
  * 
  * Interfaccia contenente i metodi che si occupano dell'inserimento nel GestoreVendita
+ * 
+ * @author GiannettaGerardo
+ * 
  */
 public interface InserimentoVendite {
 

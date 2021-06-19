@@ -7,9 +7,11 @@ import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
 import gestori.gestorevendite.exception.GestoreVenditaException;
 
 /**
- * @author GiannettaGerardo
  *
  * Interfaccia contenente i metodi che si occupano della modifica nel GestoreVendita
+ * 
+ * @author GiannettaGerardo
+ * 
  */
 public interface ModificaVendite {
 

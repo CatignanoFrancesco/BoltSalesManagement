@@ -1,9 +1,11 @@
 package gestori.gestorevendite.exception;
 
 /**
- * @author GiannettaGerardo
  * 
  * Classe che rappresenta l'eccezione che potrebbe sollevarsi nella classe GestoreVendita
+ * 
+ * @author GiannettaGerardo
+ * 
  */
 public class GestoreVenditaException extends Exception {
 

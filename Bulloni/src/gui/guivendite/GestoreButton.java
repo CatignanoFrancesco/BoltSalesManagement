@@ -26,12 +26,12 @@ import vendita.MerceVenduta;
 import vendita.Vendita;
 
 /**
- * @author GiannettaGerardo
- *
  * Classe che gestisce tutti i pulsanti delle liste che le interfacce grafiche mostrano;
  * questa classe avrà tanti costruttori diversi, quante sono le combinazioni di parametri
  * che servono ai vari pulsanti, questo perché questa classe serve solo a gestire quei
  * pulsanti di quelle due liste vendite
+ * 
+ * @author GiannettaGerardo
  */
 public class GestoreButton implements ActionListener {
 	

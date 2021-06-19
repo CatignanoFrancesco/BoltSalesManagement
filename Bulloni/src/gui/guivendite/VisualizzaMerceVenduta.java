@@ -18,8 +18,11 @@ import gestori.gestoribulloni.VisualizzaBulloni;
 import vendita.MerceVenduta;
 
 /**
+ * Classe che rappresenta una finestra grafica che permette di visualizzare
+ * tutti dettagli sulla merce venduta nella singola vendita, oltre che modificare
+ * la vendita
+ * 
  * @author GiannettaGerardo
- *
  */
 public class VisualizzaMerceVenduta extends JDialog {
 

@@ -1,10 +1,12 @@
 package gestori.gestorevendite.exception;
 
 /**
- * @author GiannettaGerardo
  *
  * Classe contenete i messaggi di errore da utilizzare nel sollevamento
  * dell'eccezione GestoreVenditaException
+ * 
+ * @author GiannettaGerardo
+ * 
  */
 public class MsgErroreGestoreVendita {
 

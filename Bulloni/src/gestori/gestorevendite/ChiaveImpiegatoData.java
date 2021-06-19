@@ -3,10 +3,12 @@ package gestori.gestorevendite;
 import utility.Data;
 
 /**
- * @author GiannettaGerardo
  *
  * Classe che permette di mappare facilmente le vendite effettuate da un impiegato in una certa data;
  * Verrà utilizzata per creare le chiavi di un HashMap nel GestoreVendita
+ * 
+ * @author GiannettaGerardo
+ * 
  */
 public class ChiaveImpiegatoData {
 

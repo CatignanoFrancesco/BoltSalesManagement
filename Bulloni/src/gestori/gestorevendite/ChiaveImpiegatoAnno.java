@@ -1,10 +1,12 @@
 package gestori.gestorevendite;
 
 /**
- * @author GiannettaGerardo
  *
  * Classe che permette di mappare facilmente le vendite effettuate da un impiegato in un certo anno;
  * Verrà utilizzata per creare le chiavi di un HashMap nel GestoreVendita
+ * 
+ * @author GiannettaGerardo
+ * 
  */
 public class ChiaveImpiegatoAnno {
 

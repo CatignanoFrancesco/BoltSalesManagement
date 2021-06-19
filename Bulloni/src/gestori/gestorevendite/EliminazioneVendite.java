@@ -6,9 +6,11 @@ import databaseSQL.exception.DatabaseSQLException;
 import gestori.gestorevendite.exception.GestoreVenditaException;
 
 /**
- * @author GiannettaGerardo
  * 
  * Interfaccia contenente i metodi che si occupano dell'eliminazione nel GestoreVendita
+ * 
+ * @author GiannettaGerardo
+ * 
  */
 public interface EliminazioneVendite {
 

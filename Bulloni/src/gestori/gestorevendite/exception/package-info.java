@@ -1,6 +1,5 @@
 /**
  * 
- * 
  * Package contente le classi utili a gestire le eccezzioni che si potrebbero sollevare
  * durante l'uso della classe GestoreVendita
  * 

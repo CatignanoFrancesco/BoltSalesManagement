@@ -7,12 +7,14 @@ import java.util.HashSet;
 import vendita.exception.*;
 
 /**
- * @author GiannettaGerardo
- * @param <MerceVenduta> classe associativa MerceVenduta per gesitire i bulloni venduti
  *
  * Classe che rappresenta una vendita di bulloni, effettuata da un responsabile vendita, ovvero
  * un Impiegato. Si avvala di una classe associativa, MerceVenduta, per gestire i bulloni e i 
  * relativi dati associati alla specifica vendita
+ * 
+ * @author GiannettaGerardo
+ * @param <MerceVenduta> classe associativa MerceVenduta per gesitire i bulloni venduti
+ * 
  */
 public class VenditaBulloni extends AbstractVendita<MerceVenduta> implements Vendita<MerceVenduta> {
 

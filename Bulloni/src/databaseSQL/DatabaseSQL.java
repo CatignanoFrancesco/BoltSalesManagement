@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 import databaseSQL.exception.*;
 
 /**
- * @author GiannettaGerardo
  * 
  * Classe che permette di eseguire su un database le principali operazioni:
  * 
@@ -25,6 +24,9 @@ import databaseSQL.exception.*;
  * molto semplici, quindi questa classe implementa anche un controllo su questi parametri
  * di input utilizzando espressioni regolari e sollevando eccezioni quando tali 
  * espressioni regolari sono violate
+ * 
+ * @author GiannettaGerardo
+ * 
  */
 public class DatabaseSQL {
 	

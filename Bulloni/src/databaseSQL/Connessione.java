@@ -8,10 +8,12 @@ import databaseSQL.exception.*;
 
 
 /**
- * @author GiannettaGerardo
  * 
  * Classe che mi permette di creare e restituire una connessione di tipo 
  * Connection ad un database e mi permette di chiudere la connessione creata
+ * 
+ * @author GiannettaGerardo
+ * 
  */
 class Connessione {
 	

@@ -1,9 +1,11 @@
 package databaseSQL.exception;
 
 /**
- * @author GiannettaGerardo
  * 
  * Classe che rappresenta l'eccezione che potrebbe sollevarsi nella classe DatabaseSQL
+ * 
+ * @author GiannettaGerardo
+ * 
  */
 public class DatabaseSQLException extends Exception {
 	

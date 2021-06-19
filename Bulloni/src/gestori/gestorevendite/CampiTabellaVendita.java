@@ -1,9 +1,11 @@
 package gestori.gestorevendite;
 
 /**
- * @author GiannettaGerardo
  * 
  * Enumerativo contenete i campi della tabella Vendita nel database
+ * 
+ * @author GiannettaGerardo
+ * 
  */
 public enum CampiTabellaVendita {
 	codVendita,

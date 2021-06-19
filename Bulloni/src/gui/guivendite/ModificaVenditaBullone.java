@@ -17,10 +17,10 @@ import gestori.gestorevendite.VisualizzazioneVendite;
 import gestori.gestorevendite.exception.GestoreVenditaException;
 
 /**
- * @author GiannettaGerardo
- *
  * Classe che rappresenta una finestra grafica che permette di modificare 
  * la merce venduta in una specifica vendita
+ * 
+ * @author GiannettaGerardo
  */
 public class ModificaVenditaBullone extends JDialog {
 

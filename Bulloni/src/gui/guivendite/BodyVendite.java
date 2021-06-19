@@ -31,12 +31,12 @@ import vendita.MerceVenduta;
 import vendita.Vendita;
 
 /**
- * @author GiannettaGerardo
- *
  * Classe principale per la gestione delle vendite;
  * Permette di visualizzare una lista completa di tutte le vendite, di visualizzarne i dettagli sulla merce venduta,
  * di modificare una vendita a partire dalla merce, di eliminare una vendita, di aggiungere una nuova vendita o di 
  * visualizzare tutti i dettagli riguardanti l'impiegato che ha effettuato la vendita o della singola merce nello specifico
+ * 
+ * @author GiannettaGerardo
  */
 public class BodyVendite extends JPanel {
 

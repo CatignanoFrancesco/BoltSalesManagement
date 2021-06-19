@@ -25,10 +25,10 @@ import vendita.MerceVenduta;
 import vendita.Vendita;
 
 /**
- * @author GiannettaGerardo
- * 
  * Classe che rappresenta una finestra grafica che permette di selezionare
  * una ricerca di vendite per codice vendita, matricola impiegato o data vendita
+ * 
+ * @author GiannettaGerardo
  */
 public class SelezionaRicerca extends JDialog {
 

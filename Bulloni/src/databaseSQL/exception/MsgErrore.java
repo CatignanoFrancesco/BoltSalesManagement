@@ -2,10 +2,11 @@ package databaseSQL.exception;
 
 
 /**
- * @author GiannettaGerardo
  *
- * Classe contenete i messaggi di errore da utilizzare nel sollevamento
- * dell'eccezione DatabaseSQLException
+ * Classe contenete i messaggi di errore da utilizzare nel sollevamento dell'eccezione DatabaseSQLException
+ * 
+ * @author GiannettaGerardo
+ * 
  */
 public class MsgErrore {
 	

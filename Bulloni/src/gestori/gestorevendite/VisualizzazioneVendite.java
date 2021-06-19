@@ -8,9 +8,11 @@ import vendita.MerceVenduta;
 import vendita.Vendita;
 
 /**
- * @author GiannettaGerardo
  *
  * Interfaccia contenente i metodi che si occupano della visualizzazione nel GestoreVendita
+ * 
+ * @author GiannettaGerardo
+ * 
  */
 public interface VisualizzazioneVendite {
 	

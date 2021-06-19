@@ -5,10 +5,12 @@ import java.util.Set;
 import vendita.exception.VenditaException;
 
 /**
- * @author GiannettaGerardo
- * @param <T> rappresenta la merce in vendita
  *
  * Interfaccia contenente tutte le operazioni disponibili per tutti i tipi di Vendite
+ * 
+ * @author GiannettaGerardo
+ * @param <T> rappresenta la merce in vendita
+ * 
  */
 public interface Vendita<T> {
 	

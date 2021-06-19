@@ -4,10 +4,12 @@ import bulloni.Bullone;
 import vendita.exception.*;
 
 /**
- * @author GiannettaGerardo
  *
  * Classe associativa tra VenditaBulloni e Bullone;
  * contiene i dettagli sulla merce venduta registrata nella vendita
+ * 
+ * @author GiannettaGerardo
+ * 
  */
 public class MerceVenduta implements Cloneable {
 	

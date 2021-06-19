@@ -2,6 +2,13 @@
  *
  * Package contenente le classi java per combinare oggetti vendita e database, separando le dipendenze;
  * 
+ * Interfacce contenute:
+ * ContainerVendite				(interfaccia che estende tutte le altre)
+ * ModificaVendite
+ * InserimentoVendite
+ * EliminazioneVendite
+ * VisualizzazioneVendite
+ * 
  * Classi contenute:
  * GestoreVendita               (contiene gli attributi e i metodi per mettere in relazione oggetti di tipo Vendita e database)
  * ChiaveImpiegatoData          (rappresenta la chiave per un HashMap contenuto nella classe GestoreVendita)

@@ -44,10 +44,10 @@ import vendita.VenditaBulloni;
 import vendita.exception.VenditaException;
 
 /**
- * @author GiannettaGerardo
- *
  * Classe che rappresenta una finestra grafica che permette di aggiungere 
  * una nuova vendita al gestore vendite tramite un form di input apposito
+ * 
+ * @author GiannettaGerardo
  */
 public class InputForm extends JDialog {
 

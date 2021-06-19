@@ -1,9 +1,11 @@
 package vendita.exception;
 
 /**
- * @author GiannettaGerardo
  *
  * Classe che rappresenta l'eccezione che potrebbe sollevarsi nella classe AbstractVendita e nelle sue derivate
+ * 
+ * @author GiannettaGerardo
+ * 
  */
 public class VenditaException extends Exception {
 	

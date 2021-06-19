@@ -3,10 +3,12 @@ package databaseSQL;
 import java.util.ArrayList;
 
 /**
- * @author GiannettaGerardo
  *
  * Classe che permette di creare e restituire query SQL tramite concatenazione di stringhe costanti e parametri in input.
  * La classe è pubblica e potrà essere usata da qualunque classe esterna che abbia bisogno di utilizzare query semplici.
+ * 
+ * @author GiannettaGerardo
+ * 
  */
 public class Query {
 	

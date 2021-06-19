@@ -22,12 +22,14 @@ import gestori.gestoreImpiegati.exception.ExceptionGestoreImpiegato;
 import gestori.gestorevendite.exception.*;
 
 /**
- * @author GiannettaGerardo
  *
  * Questa classe mette in relazione il package vendita con il database. Nel costruttore crea
  * un set di oggetti Vendita<MerceVenduta> tramite database e uso di altri costruttori,
  * inoltre permette l'inseriemento di una nuova vendita, l'aggiornamento e l'eliminazione di una 
  * vendita esistente, oltre che la ricerca e restituzione di oggetti vendita in base a specifici parametri
+ * 
+ * @author GiannettaGerardo
+ * 
  */
 public class GestoreVendita implements VisualizzazioneVendite, InserimentoVendite, ModificaVendite, EliminazioneVendite, ContainerVendite {
 	

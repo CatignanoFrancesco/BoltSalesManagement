@@ -1,10 +1,12 @@
 package vendita.exception;
 
 /**
- * @author GiannettaGerardo
  *
  * Classe contenete i messaggi di errore da utilizzare nel sollevamento
  * dell'eccezione VenditaException
+ * 
+ * @author GiannettaGerardo
+ * 
  */
 public class MsgErroreVendita {
 	

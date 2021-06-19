@@ -6,10 +6,12 @@ import vendita.exception.*;
 import java.time.LocalDate;;
 
 /**
+ * 
+ * Classe astratta rappresentante una vendita di merce generica, effettuata da un certo responsabile vendita
+ * 
  * @author GiannettaGerardo
  * @param <T> rappresenta la merce in vendita
- *
- * Classe astratta rappresentante una vendita di merce generica, effettuata da un certo responsabile vendita
+ * 
  */
 public abstract class AbstractVendita<T> implements Vendita<T> {
 
