@@ -1,6 +1,7 @@
-# CS_IT_2021_gruppo30
-Caso di studio appello Programmazione II 2020-2021 
+# BoltSalesManagement
+Un programma Java per Desktop con GUI relativo alla gestione e vendita di bulloni a livello industruale. Il sistema è nato da un caso di studio universitario per il corso di Programmazione II dell'anno 2020-2021.
 
+## Manuale d'uso
 ### SEZIONE "VEDI BULLONI"
 In questa sezione, è possibile visualizzare una lista di tutti i bulloni presenti nel database. Vengono mostrate alcune informazioni rapide come il codice, il tipo di bullone e il suo prezzo. A destra di ogni riga della lista sono presenti tre tasti: _Informazioni_, _Modifica_ e _Elimina_.
 - Selezionando _Informazioni_, viene aperta una finestra contenente tutte le informazioni complete sul bullone in questione (data e luogo di produzione, peso, diametro vite ecc.).
